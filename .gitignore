@@ -1,0 +1,11 @@
+node_modules
+.idea/
+dist/
+build/
+*.log
+.swp
+.eslintcache
+vezio-jobs-backups/
+vezio-core-dump.tar
+.coverage
+package-lock.json

@@ -1,0 +1,60 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "webextensions": true
+  },
+  "rules": {
+    "no-console": "error",
+    "no-underscore-dangle": "off",
+    "linebreak-style": 0,
+    "arrow-parens": [
+      "off"
+    ],
+    "react/jsx-filename-extension": "off",
+    "react/prop-types": "off",
+    "react/require-default-props": "off",
+    "class-methods-use-this": "off",
+    "no-else-return": "off",
+    "no-undef": "off",
+    "object-curly-spacing": "off",
+    "prefer-destructuring": "off",
+    "import/no-absolute-path": "off",
+    "import/extensions":"off",
+    "import/no-unresolved": "off",
+    "compat/compat": "off",
+    "consistent-return": "off",
+    "arrow-body-style": "off",
+    "import/prefer-default-export":"off",
+    "jsx-a11y/anchor-is-valid":"off",
+    "array-callback-return":"off",
+    "import/first": "off",
+    "react/jsx-no-bind":"off",
+    "max-len":"off",
+    "no-unused-vars": "off",
+    "comma-dangle": "off",
+    "generator-star-spacing": "off",
+    "import/no-extraneous-dependencies": "off",
+    "no-use-before-define": "off",
+    "no-multi-assign": "off",
+    "react/sort-comp": [
+      "error",
+      {
+        "order": [
+          "type-annotations",
+          "static-methods",
+          "lifecycle",
+          "everything-else",
+          "render"
+        ]
+      }
+    ],
+    "no-restricted-syntax": "off"
+  },
+  "overrides": {
+    "files": ["./client/react-app"],
+    "excludedFiles": ["*/CountriesConstants.js"]
+  }
+}
