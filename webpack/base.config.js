@@ -13,13 +13,17 @@ module.exports = {
   output: {
     path: build,
     filename: '[name].[chunkhash].js',
-    // publicPath: '/',
   },
   resolve: {
     modules: [
       app,
       'node_modules',
     ],
+  },
+
+  devServer: {
+    port: 3000,
+    historyApiFallback: true,
   },
 
   module: {

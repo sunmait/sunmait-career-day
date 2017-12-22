@@ -3,7 +3,11 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
+    "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-promise-middleware": "^5.0.0",
+    "redux-thunk": "^2.2.0",
     "superagent": "^3.8.2"
   },
   "engines": {
@@ -12,7 +16,8 @@
   "scripts": {
     "lint": "node_modules/eslint/bin/eslint.js  --cache --format=node_modules/eslint-formatter-pretty ./react-app --ignore-pattern=\"CountriesConstants.js\"",
     "build": "node_modules/webpack/bin/webpack.js --config webpack/dev.config.js --watch --progress",
-    "build-prod": "NODE_ENV=production node_modules/webpack/bin/webpack.js --config webpack/prod.config.js"
+    "build-prod": "NODE_ENV=production node_modules/webpack/bin/webpack.js --config webpack/prod.config.js",
+    "start-dev": "node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack/dev.config.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -42,6 +47,7 @@
     "sugarss": "^1.0.1",
     "uglifyjs-webpack-plugin": "^1.1.4",
     "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7",
     "webpack-merge": "^4.1.1"
   },
   "eslintConfig": {

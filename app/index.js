@@ -1,9 +1,10 @@
 import React from 'react';
 import {render} from 'react-dom';
+import Router from 'components/containers/Router.jsx';
 
 import 'assets/styles/main.less';
 
 render(
-  <div>Hello world!</div>,
+  <Router />,
   document.getElementById('main')
 );
