@@ -21,7 +21,7 @@
     "no-multiple-empty-lines": [2, {"max": 1}],
     "no-else-return": "off",
     "block-spacing": ["error", "never"],
-    "object-curly-spacing": "off",
+    "object-curly-spacing": ["error", "never"],
     "prefer-destructuring": "off",
     "import/no-absolute-path": "off",
     "import/extensions":"off",
