@@ -42,7 +42,7 @@
     "no-confusing-arrow": "off",
     "no-case-declarations": "off",
     "no-unused-vars": ["error", {"args": "none"}],
-    "comma-dangle": "off",
+    "comma-dangle": ["error", "always-multiline"],
     "generator-star-spacing": "off",
     "react/forbid-prop-types": ["error", { "forbid": "array" }],
     "import/no-extraneous-dependencies": "off",
