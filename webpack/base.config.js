@@ -10,11 +10,13 @@ const build = path.resolve('build', env);
 
 module.exports = {
   entry: app,
+  devtool: 'inline-source-map',
   output: {
     path: build,
     filename: '[name].[chunkhash].js',
   },
   resolve: {
+    extensions: [".ts", ".tsx", ".js"],
     modules: [
       app,
       'node_modules',
@@ -28,6 +30,16 @@ module.exports = {
 
   module: {
     rules: [
+      {
+        test: /\.tsx?$/,
+        loader: "awesome-typescript-loader",
+        exclude: /node_modules/
+      },
+      { 
+        enforce: "pre",
+        test: /\.js$/,
+        loader: "source-map-loader"
+      },
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,

@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "@types/react": "^16.0.34",
+    "@types/react-dom": "^16.0.3",
+    "@types/react-redux": "^5.0.14",
+    "@types/react-router": "^4.0.21",
+    "@types/react-router-dom": "^4.2.3",
+    "@types/redux": "^3.6.0",
+    "@types/superagent": "^3.5.7",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
@@ -17,9 +24,10 @@
     "lint": "node_modules/eslint/bin/eslint.js  --cache --format=node_modules/eslint-formatter-pretty ./react-app --ignore-pattern=\"CountriesConstants.js\"",
     "build": "node_modules/webpack/bin/webpack.js --config webpack/dev.config.js --watch --progress",
     "build-prod": "NODE_ENV=production node_modules/webpack/bin/webpack.js --config webpack/prod.config.js",
-    "start-dev": "node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack/dev.config.js"
+    "start-dev": "node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack/dev.config.js --port 3000 --open"
   },
   "devDependencies": {
+    "awesome-typescript-loader": "^3.4.1",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.2",
     "babel-loader": "^7.1.2",
@@ -42,9 +50,11 @@
     "less-loader": "^4.0.5",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.9",
+    "source-map-loader": "^0.2.3",
     "style-ext-html-webpack-plugin": "^3.4.5",
     "style-loader": "^0.19.1",
     "sugarss": "^1.0.1",
+    "typescript": "^2.6.2",
     "uglifyjs-webpack-plugin": "^1.1.4",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7",
