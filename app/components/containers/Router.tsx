@@ -1,22 +1,58 @@
 import * as React from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import {BrowserRouter as Router, Route, RouteProps, Switch, Redirect} from 'react-router-dom';
+import * as redux from 'redux';
+import {connect} from 'react-redux';
 import MainPageContainer from 'components/pages/MainPage/MainPageContainer';
-import store from 'redux/store';
+import LoginPageContainer from 'components/pages/login-page/LoginPageContainer';
+import {IAuthState} from 'redux/modules/auth/authReducer';
+import {IRootState} from 'redux/rootReducer';
+import {Dispatch} from 'redux/store';
 
-const AppComponent = () => {
+interface IPrivateRouteProps extends RouteProps {
+  auth: IAuthState;
+}
+
+const PrivateRoute = (props: IPrivateRouteProps) => {
+  const {component: Component, auth, ...rest} = props;
+
+  return (
+    <Route
+      {...rest}
+      render={props => {
+        if (auth.user) {
+          return <Component {...props} />;
+        }
+
+        return <Redirect to="/login" />;
+      }}
+    />
+  );
+};
+
+interface IAppProps {
+  auth: IAuthState;
+};
+
+const AppComponent = (props: IAppProps) => {
+  const {auth} = props;
+
   return (
     <Router>
-      <Provider store={store}>
-        <Switch>
-          <Route exact path="/main" component={MainPageContainer} />
-          <Route exact path="/about" component={() => <h1>About Page</h1>} />
+      <Switch>
+        <PrivateRoute exact auth={auth} path="/main" component={MainPageContainer} />
+        <Route exact path="/login" component={LoginPageContainer} />
 
-          <Redirect from="/" exact to="/main" />
-        </Switch>
-      </Provider>
+        <Redirect from="/" exact to="/main" />
+      </Switch>
     </Router>
   );
 };
 
-export default AppComponent;
+const mapStateToProps = (state: IRootState) => ({
+  auth: state.auth,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(AppComponent);

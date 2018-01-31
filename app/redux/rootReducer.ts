@@ -1,8 +1,11 @@
-import { combineReducers } from 'redux';
-import main from 'redux/modules/main/mainReducer';
+import {combineReducers} from 'redux';
+import auth, {IAuthState} from './modules/auth/authReducer';
+export interface IRootState {
+  auth: IAuthState;
+}
 
 const rootReducer = combineReducers({
-  main
+  auth,
 });
 
 export default rootReducer;
