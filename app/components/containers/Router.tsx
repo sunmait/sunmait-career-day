@@ -1,7 +1,7 @@
-import React from 'react';
-import {Provider} from 'react-redux';
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
-import MainPageContainer from 'components/pages/MainPage/MainPageContainer.jsx';
+import * as React from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import MainPageContainer from 'components/pages/MainPage/MainPageContainer';
 import store from 'redux/store';
 
 const AppComponent = () => {
