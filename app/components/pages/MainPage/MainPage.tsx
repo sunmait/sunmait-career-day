@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Button from 'material-ui/Button';
 
 interface IProps {};
 interface IState {};
@@ -12,7 +13,9 @@ class MainPage extends React.Component<IProps, IState> {
 
   render() {
     return (
-      <h1>Main Page</h1>
+      <div>
+        <h1>Main Page</h1>
+      </div>
     );
   }
 }

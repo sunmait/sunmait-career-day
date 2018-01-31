@@ -9,6 +9,8 @@
     "@types/redux-promise-middleware": "0.0.9",
     "@types/redux-thunk": "^2.1.0",
     "@types/superagent": "^3.5.7",
+    "material-ui": "^1.0.0-beta.31",
+    "material-ui-icons": "^1.0.0-beta.17",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
