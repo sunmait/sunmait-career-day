@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Button from 'material-ui/Button';
 
 interface IProps {}
 interface IState {}

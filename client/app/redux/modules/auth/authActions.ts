@@ -1,4 +1,3 @@
-
 import AUTH_ACTIONS from './authActionConstants';
 import {Dispatch} from 'redux/store';
 import {IUser} from './authReducer';

@@ -3,9 +3,8 @@ import IconButton from 'material-ui/IconButton';
 import Tooltip from 'material-ui/Tooltip';
 
 interface IControlledTooltipsProps {
-  classes: any;
   title: string;
-  tooltip: string;
+  tooltip: object;
 }
 
 interface IControlledTooltipsState {
@@ -20,14 +19,22 @@ class ControlledTooltips extends React.Component<IControlledTooltipsProps, ICont
     };
   }
 
+  public handleTooltipClose = () => {
+    this.setState({open: false});
+  }
+
+  public handleTooltipOpen = () => {
+    this.setState({open: true});
+  }
+
   public render() {
     return (
       <Tooltip
         id="tooltip-controlled"
         title={this.props.title}
         onClose={this.handleTooltipClose}
-        enterDelay={300}
-        leaveDelay={300}
+        enterDelay={200}
+        leaveDelay={200}
         onOpen={this.handleTooltipOpen}
         open={this.state.open}
         placement="bottom"
@@ -37,14 +44,6 @@ class ControlledTooltips extends React.Component<IControlledTooltipsProps, ICont
         </IconButton>
       </Tooltip>
     );
-  }
-
-  private handleTooltipClose = () => {
-    this.setState({open: false});
-  }
-
-  private handleTooltipOpen = () => {
-    this.setState({open: true});
   }
 }
 

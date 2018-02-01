@@ -14,7 +14,9 @@
       "redux/*": [ "redux/*" ],
       "components/*": [ "components/*" ],
       "types/*": [ "types/*" ]
-    } 
+    },
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": [
     "./app/**/*"

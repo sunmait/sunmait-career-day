@@ -14,10 +14,11 @@ const AllowedForUnitManager = (props: IDisabledForAuthorizedUserRouteProps) => {
     <Route
       {...rest}
       render={routeProps => {
-        if (isAuthAsManager(auth.user)) {
-          return <Component {...routeProps} />;
+        if (auth.user) {
+          if (isAuthAsManager(auth.user)) {
+            return <Component {...routeProps} />;
+          }
         }
-
         return <Redirect to="/main" />;
       }}
     />
