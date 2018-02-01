@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 import * as Redux from 'redux';
-import MainPage from 'components/pages/MainPage/MainPage';
+import MainPage from 'components/pages/main-page/MainPage';
 import {IRootState} from 'redux/rootReducer';
 import {Dispatch} from 'redux/store';
 
