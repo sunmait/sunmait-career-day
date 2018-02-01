@@ -7,7 +7,11 @@ import EmployeeList from './EmployeeList';
 
 const mapStateToProps = (state: IRootState) => ({
   user: state.auth.user,
+<<<<<<< HEAD
   employeesProfile: state.employees.profile,
+=======
+  employees: state.employees.profile,
+>>>>>>> d161a6f... manager page was added in route+additions to tslint config
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
