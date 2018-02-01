@@ -1,17 +1,18 @@
 import * as React from 'react';
 import Button from 'material-ui/Button';
 
-interface IProps {};
-interface IState {};
+interface IProps {}
+interface IState {}
 
 class MainPage extends React.Component<IProps, IState> {
+  public readonly state: IState = {};
+
   constructor(props: IProps) {
     super(props);
+    this.state = {};
   }
 
-  state: IState = {};
-
-  render() {
+  public render() {
     return (
       <div>
         <h1>Main Page</h1>

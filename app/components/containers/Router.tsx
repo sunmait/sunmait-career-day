@@ -12,7 +12,7 @@ import {Dispatch} from 'redux/store';
 
 interface IAppProps {
   auth: IAuthState;
-};
+}
 
 const AppComponent = (props: IAppProps) => {
   const {auth} = props;

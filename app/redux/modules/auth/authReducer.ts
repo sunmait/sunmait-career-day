@@ -10,10 +10,10 @@ export interface IAuthState {
 }
 
 const defaultState: IAuthState = {
-  user: null
+  user: null,
 };
 
-export default function (state: IAuthState = defaultState, {type, payload}: {type: string, payload: any}) {
+export default function(state: IAuthState = defaultState, {type, payload}: {type: string, payload: any}) {
   switch (type) {
     case AUTH_ACTIONS.LOGIN_AS_EMPLOYEE:
     case AUTH_ACTIONS.LOGIN_AS_UNIT_MANAGER:
@@ -26,4 +26,4 @@ export default function (state: IAuthState = defaultState, {type, payload}: {typ
 
 const handleLogin = (state: IAuthState, user: IUser) => {
   return {...state, user};
-}
+};

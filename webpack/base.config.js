@@ -16,7 +16,7 @@ module.exports = {
     filename: '[name].[chunkhash].js',
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js"],
+    extensions: ['.ts', '.tsx', '.js'],
     modules: [
       app,
       'node_modules',
@@ -32,13 +32,22 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: "awesome-typescript-loader",
-        exclude: /node_modules/
+        enforce: 'pre',
+        loader: 'tslint-loader',
+        options: {
+          configFile: 'tslint.json',
+          tsConfigFile: 'tsconfig.json',
+        },
       },
-      { 
-        enforce: "pre",
+      {
+        test: /\.tsx?$/,
+        loader: 'awesome-typescript-loader',
+        exclude: /node_modules/,
+      },
+      {
+        enforce: 'pre',
         test: /\.js$/,
-        loader: "source-map-loader"
+        loader: 'source-map-loader',
       },
       {
         test: /\.jsx?$/,
@@ -52,7 +61,7 @@ module.exports = {
           use: [
             {loader: 'css-loader', options: {minimize: true}},
             'postcss-loader',
-            'less-loader'
+            'less-loader',
           ],
         }),
       },
@@ -69,18 +78,18 @@ module.exports = {
       {
         test: /\.(png|jpg|gif)$/,
         loader: 'file-loader',
-      }
-    ]
+      },
+    ],
   },
 
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(app, 'index.html')
+      template: path.resolve(app, 'index.html'),
     }),
 
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
-      allChunks: true
+      allChunks: true,
     }),
 
     new webpack.optimize.CommonsChunkPlugin({
@@ -89,7 +98,7 @@ module.exports = {
       minChunks(module) {
         return module.context &&
           module.context.indexOf('node_modules') >= 0;
-      }
-    })
-  ]
+      },
+    }),
+  ],
 };

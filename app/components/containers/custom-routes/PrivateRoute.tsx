@@ -12,9 +12,9 @@ const PrivateRoute = (props: IPrivateRouteProps) => {
   return (
     <Route
       {...rest}
-      render={props => {
+      render={(routeProps) => {
         if (auth.user) {
-          return <Component {...props} />;
+          return <Component {...routeProps} />;
         }
 
         return <Redirect to="/login" />;

@@ -7,11 +7,11 @@ import * as authActions from 'redux/modules/auth/authActions';
 interface ILoginPageProps {
   loginAsEmployee: authActions.LoginAsEmployee;
   loginAsUnitManager: authActions.LoginAsUnitManager;
-};
-interface ILoginPageState {};
+}
+interface ILoginPageState {}
 
 export default class LoginPage extends React.Component<ILoginPageProps, ILoginPageState> {
-  render() {
+  public render() {
     return (
       <div>
         <Grid item md={12}>

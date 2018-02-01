@@ -10,5 +10,5 @@ render(
   <Provider store={store}>
     <Router />
   </Provider>,
-  document.getElementById('main') as HTMLElement
+  document.getElementById('main') as HTMLElement,
 );

@@ -1,0 +1,20 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "no-console": {
+      "severity": "warning",
+      "options": [
+        "debug",
+        "info",
+        "log",
+        "time",
+        "timeEnd",
+        "trace"
+      ]
+    },
+    "quotemark": [true, "single", "jsx-double"],
+    "no-empty-interface": false,
+    "ordered-imports": false,
+    "object-literal-sort-keys": false
+  }
+}
