@@ -1,4 +1,3 @@
-import {IAuthState} from './authReducer';
 import AUTH_ACTIONS from './authActionConstants';
 import {ROLES} from './authConstants';
 export interface IUser {
