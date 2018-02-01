@@ -2,15 +2,9 @@ import EMPLOYEES_LIST from './employeesActionConstants';
 
 export interface IEmployees {
   id: number;
-<<<<<<< HEAD
   photoUrl: string;
   fullName: string;
   archived: boolean;
-=======
-  avatar: string;
-  fullName: string;
-  isActive: boolean;
->>>>>>> d161a6f... manager page was added in route+additions to tslint config
 }
 
 export interface IEmployeesState {

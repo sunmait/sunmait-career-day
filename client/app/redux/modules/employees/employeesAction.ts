@@ -1,29 +1,16 @@
-<<<<<<< HEAD
-import * as request from 'superagent';
-=======
->>>>>>> d161a6f... manager page was added in route+additions to tslint config
+import * as  axios from 'axios';
 import EMPLOYEES_LIST from './employeesActionConstants';
 import {Dispatch} from 'redux/store';
+import {IEmployees} from './employeesReducer';
 
 export type GetEmployeesList = () => (dispatch: Dispatch) => void;
 export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => {
-<<<<<<< HEAD
-  request
-    .get('/api/employee')
-    .end((err, res) => {
-      if (err) {
-        console.log(err.message);
-      }
-
+  return axios.get('/api/employee')
+    .then((res: axios.AxiosResponse<IEmployees[]>) => {
       dispatch({
         type: EMPLOYEES_LIST.GET_EMPLOYEES_LIST,
-        payload: res.body,
+        payload: res.data,
       });
-    });
-=======
-  dispatch({
-    type: EMPLOYEES_LIST.GET_EMPLOYEES_LIST,
-    payload: null,
-  });
->>>>>>> d161a6f... manager page was added in route+additions to tslint config
+    })
+    .catch((err: axios.AxiosError) => console.error(err));
 };

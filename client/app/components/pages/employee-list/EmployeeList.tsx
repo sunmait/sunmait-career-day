@@ -25,7 +25,7 @@ const styles = (theme: Theme) => ({
 interface IEmployeeListProps {
   classes: any;
   user: IUser;
-  employeesProfile: IEmployees;
+  employeesProfile: IEmployees[];
   getEmployeesList: employeesAction.GetEmployeesList;
 }
 
