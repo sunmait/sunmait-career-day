@@ -2,7 +2,7 @@ node_modules
 .idea/
 dist/
 build/
-server/Sunmait.Boilerplate.API/public/
+server/API/public/
 *.log
 .swp
 .eslintcache

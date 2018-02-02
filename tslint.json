@@ -3,14 +3,7 @@
   "rules": {
     "no-console": {
       "severity": "warning",
-      "options": [
-        "debug",
-        "info",
-        "log",
-        "time",
-        "timeEnd",
-        "trace"
-      ]
+      "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
     },
     "quotemark": [true, "single", "jsx-double"],
     "no-empty-interface": false,
@@ -20,7 +13,12 @@
     "no-unused-expression": true,
     "indent": [true, "spaces", 2],
     "arrow-parens": [true, "ban-single-arg-parens"],
-    "variable-name": [true, "check-format", "allow-leading-underscore", "allow-pascal-case"]
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ]
   },
   "linterOptions": {
     "exclude": ["**/node_modules/**/*.ts"]

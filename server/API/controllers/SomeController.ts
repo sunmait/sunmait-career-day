@@ -12,7 +12,7 @@ import {
 } from 'inversify-express-utils';
 import { injectable, inject } from 'inversify';
 
-import { ISomeService } from './../../Sunmait.Boilerplate.Domain/Services/index';
+import { ISomeService } from './../../Domain/Services/index';
 
 @controller('/api/some')
 export class SomeController implements interfaces.Controller {

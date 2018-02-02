@@ -6,7 +6,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const env = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : 'development';
 
 const app = path.resolve('app/');
-const build = path.resolve('../server/Sunmait.Boilerplate.API/public', env);
+const build = path.resolve('../server/API/public', env);
 
 module.exports = {
   entry: app,
@@ -17,10 +17,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
-    modules: [
-      app,
-      'node_modules',
-    ],
+    modules: [app, 'node_modules'],
   },
 
   devServer: {
@@ -59,7 +56,7 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            {loader: 'css-loader', options: {minimize: true}},
+            { loader: 'css-loader', options: { minimize: true } },
             'postcss-loader',
             'less-loader',
           ],
@@ -70,7 +67,7 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            {loader: 'css-loader', options: {minimize: true}},
+            { loader: 'css-loader', options: { minimize: true } },
             'postcss-loader',
           ],
         }),
@@ -96,8 +93,7 @@ module.exports = {
       name: 'vendor',
       filename: 'vendor.[chunkhash].js',
       minChunks(module) {
-        return module.context &&
-          module.context.indexOf('node_modules') >= 0;
+        return module.context && module.context.indexOf('node_modules') >= 0;
       },
     }),
   ],
