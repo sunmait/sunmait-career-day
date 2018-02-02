@@ -1,0 +1,15 @@
+{
+  "name": "sunmait.boilerplate.domain",
+  "version": "0.0.0",
+  "description": "Sunmait.Boilerplate.Domain",
+  "main": "app.js",
+  "author": {
+    "name": "Pavel D"
+  },
+  "devDependencies": {
+    "@types/node": "^6.0.87"
+  },
+  "dependencies": {
+    "inversify": "^4.10.0"
+  }
+}

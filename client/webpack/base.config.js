@@ -6,7 +6,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const env = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : 'development';
 
 const app = path.resolve('app/');
-const build = path.resolve('build', env);
+const build = path.resolve('../server/Sunmait.Boilerplate.API/public', env);
 
 module.exports = {
   entry: app,
@@ -35,7 +35,7 @@ module.exports = {
         enforce: 'pre',
         loader: 'tslint-loader',
         options: {
-          configFile: 'tslint.json',
+          configFile: '../tslint.json',
           tsConfigFile: 'tsconfig.json',
         },
       },

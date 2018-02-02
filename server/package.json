@@ -1,0 +1,29 @@
+{
+    "name": "sunmait.boilerplate",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "precommit": "npm run lint",
+        "start": "npm run lint && npm-run-all --parallel watch:build watch:server --print-label",
+        "start-prod": "npm run lint && npm-run-all --parallel watch:build watch:server-prod --print-label",
+        "watch:build": "tsc --watch",
+        "watch:server": "NODE_ENV=development nodemon './Sunmait.Boilerplate.API/app.js' --watch './'",
+        "watch:server-prod": "NODE_ENV=production nodemon './Sunmait.Boilerplate.API/app.js' --watch './'",
+        "lint": "tslint -c ../tslint.json './**/*.ts'",
+        "pretty": "prettier --single-quote --tab-width 2 --write '**/*.ts'"
+    },
+    "description": "Sunmait.Boilerplate",
+    "author": {
+        "name": "Pavel D"
+    },
+    "main": "app.js",
+    "devDependencies": {
+        "husky": "^0.14.3",
+        "nodemon": "^1.14.11",
+        "npm-run-all": "^4.1.2",
+        "prettier": "^1.10.2",
+        "tslint": "^5.9.1",
+        "tslint-eslint-rules": "^4.1.1",
+        "typescript": "^2.7.1"
+    }
+}
