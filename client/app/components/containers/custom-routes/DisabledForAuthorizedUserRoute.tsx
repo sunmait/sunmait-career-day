@@ -12,7 +12,7 @@ const DisabledForAuthorizedUserRoute = (props: IDisabledForAuthorizedUserRoutePr
   return (
     <Route
       {...rest}
-      render={(routeProps) => {
+      render={routeProps => {
         if (!auth.user) {
           return <Component {...routeProps} />;
         }

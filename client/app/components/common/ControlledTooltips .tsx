@@ -1,9 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import IconButton from 'material-ui/IconButton';
 import Tooltip from 'material-ui/Tooltip';
 
 interface IControlledTooltipsProps {
   classes: any;
+  title: string;
+  tooltip: string;
 }
 
 interface IControlledTooltipsState {
@@ -13,16 +15,10 @@ interface IControlledTooltipsState {
 class ControlledTooltips extends React.Component<IControlledTooltipsProps, IControlledTooltipsState> {
   constructor(props: IControlledTooltipsProps) {
     super(props);
-    this.state  = {};
+    this.state = {
+      open: false,
+    };
   }
-
-  handleTooltipClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleTooltipOpen = () => {
-    this.setState({ open: true });
-  };
 
   public render() {
     return (
@@ -41,6 +37,14 @@ class ControlledTooltips extends React.Component<IControlledTooltipsProps, ICont
         </IconButton>
       </Tooltip>
     );
+  }
+
+  private handleTooltipClose = () => {
+    this.setState({open: false});
+  }
+
+  private handleTooltipOpen = () => {
+    this.setState({open: true});
   }
 }
 

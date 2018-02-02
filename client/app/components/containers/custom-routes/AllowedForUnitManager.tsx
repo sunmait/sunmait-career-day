@@ -13,7 +13,7 @@ const AllowedForUnitManager = (props: IDisabledForAuthorizedUserRouteProps) => {
   return (
     <Route
       {...rest}
-      render={(routeProps) => {
+      render={routeProps => {
         if (isAuthAsManager(auth.user)) {
           return <Component {...routeProps} />;
         }

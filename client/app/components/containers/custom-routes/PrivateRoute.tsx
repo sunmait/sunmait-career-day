@@ -13,7 +13,7 @@ const PrivateRoute = (props: IPrivateRouteProps) => {
   return (
     <Route
       {...rest}
-      render={(routeProps) => {
+      render={routeProps => {
         if (auth.user) {
           if (isAuthAsManager(auth.user)) {
             return <Redirect to="/employees" />;
