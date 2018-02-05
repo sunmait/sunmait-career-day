@@ -80,3 +80,4 @@ tests/cases/user/*//*.d.ts
 tests/baselines/reference/dt
 server/**/*.js
 server/**/*.js.map
+!server/migrations/**/*.js
