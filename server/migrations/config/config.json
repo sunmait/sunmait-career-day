@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "root",
+    "password": "131230",
+    "database": "sunmait_career_days_development",
+    "host": "localhost",
+    "port": 3306,
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "sunmait_career_days__test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "sunmait_career_days",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}

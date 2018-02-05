@@ -1,17 +1,13 @@
-interface IRepository<TEntity> {
-  findById(id: any): TEntity;
+export interface IRepository<T> {
+  findById(id: string): Promise<T>;
 
-  findAll(): TEntity[];
+  findAll(filter: any): Promise<T[]>;
 
-  find /*predicate*/(): TEntity[];
+  find(filter: any): Promise<T[]>;
 
-  insert(entity: TEntity): void;
+  create(entity: T): Promise<T>;
 
-  update(entity: TEntity): void;
+  update(entity: T): Promise<T>;
 
-  remove /*predicate*/(): void;
-
-  removeById(id: any): void;
-
-  // count, any and so on
+  remove(entity: T): Promise<boolean>;
 }

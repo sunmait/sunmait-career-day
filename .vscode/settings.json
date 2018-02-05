@@ -6,7 +6,7 @@
     "**/.hg": true,
     "**/CVS": true,
     "**/.DS_Store": true,
-    "server/**/*.js": true,
+    "server/**/*.js": { "when": "$(basename).ts" },
     "server/**/*.js.map": true
   },
   "editor.tabSize": 2,

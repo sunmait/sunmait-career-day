@@ -6,7 +6,15 @@
   "author": {
     "name": "pavel"
   },
+  "dependencies": {
+    "inversify": "^4.10.0",
+    "mysql2": "^1.5.1",
+    "reflect-metadata": "^0.1.12",
+    "sequelize": "^4.32.3"
+  },
   "devDependencies": {
-    "@types/node": "^6.0.87"
+    "@types/node": "^6.0.87",
+    "@types/sequelize": "^4.27.4",
+    "sequelize-typescript": "^0.6.2"
   }
 }

@@ -1,29 +1,31 @@
-class RepositoryBase<TEntity> implements IRepository<TEntity> {
-  // protected _dbContext: DbContextType; (or connection)
+import { injectable } from 'inversify';
+import { IRepository } from '../index';
+import { Model } from 'sequelize-typescript';
 
-  constructor(/*db context or connection object*/) {
-    // _dbContext = dbContext;
+@injectable()
+export class RepositoryBase<TEntity extends Model<any>> implements IRepository<TEntity> {
+  private _entityType: any;
+
+  constructor(entityType: any) {
+    this._entityType = entityType;
   }
 
-  public findById(id: any): TEntity {
-    throw new Error('Method not implemented.');
+  public async findById(id: string): Promise<TEntity> {
+    return this._entityType.findById(id);
   }
-  public findAll(): TEntity[] {
-    throw new Error('Method not implemented.');
+  public async findAll(filter: any): Promise<TEntity[]> {
+    return this._entityType.findAll(filter);
   }
-  public find(): TEntity[] {
-    throw new Error('Method not implemented.');
+  public async find(filter: any): Promise<TEntity[]> {
+    return this._entityType.find(filter);
   }
-  public insert(entity: TEntity): void {
-    throw new Error('Method not implemented.');
+  public async create(entity: TEntity): Promise<TEntity> {
+    return entity.save();
   }
-  public update(entity: TEntity): void {
-    throw new Error('Method not implemented.');
+  public async update(entity: TEntity): Promise<TEntity> {
+    return entity.save();
   }
-  public remove(): void {
-    throw new Error('Method not implemented.');
-  }
-  public removeById(id: any): void {
-    throw new Error('Method not implemented.');
+  public async remove(filter: any): Promise<boolean> {
+    return this._entityType.destroy(filter);
   }
 }

@@ -1,16 +1,6 @@
 ﻿import * as express from 'express';
-import {
-  controller,
-  httpDelete,
-  httpGet,
-  httpPost,
-  interfaces,
-  queryParam,
-  request,
-  requestParam,
-  response,
-} from 'inversify-express-utils';
-import { injectable, inject } from 'inversify';
+import { controller, httpGet, interfaces } from 'inversify-express-utils';
+import { inject } from 'inversify';
 
 import { ISomeService } from './../../Domain/Services/index';
 
