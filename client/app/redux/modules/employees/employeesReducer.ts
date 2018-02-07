@@ -7,25 +7,43 @@ export interface IEmployees {
   archived: boolean;
 }
 
+export interface ICareerDaysOfEmployee {
+  id: string;
+  Archived: boolean;
+  EmployeeExternalId: string;
+  UnitManagerExternalId: string;
+  InterviewDate: Date;
+  CreatedAt: Date;
+  UpdatedAt: Date;
+}
+
 export interface IEmployeesState {
-  profile: {} | IEmployees;
+  employees: {} | IEmployees;
+  careerDays: {} | ICareerDaysOfEmployee;
 }
 
 const defaultState: IEmployeesState = {
-  profile: {},
+  employees: {},
+  careerDays: {},
 };
 
 export default function(state: IEmployeesState = defaultState, {type, payload}: { type: string, payload: any }) {
   switch (type) {
-    case
-    EMPLOYEES_LIST.GET_EMPLOYEES_LIST:
+    case EMPLOYEES_LIST.GET_EMPLOYEES_LIST:
       return handleGetEmployeesList(state, payload);
+
+    case EMPLOYEES_LIST.GET_CAREER_DAYS:
+      return handleGetCareerDaysOfEmployee(state, payload);
 
     default:
       return state;
   }
 }
 
-function handleGetEmployeesList(state: IEmployeesState, profile: IEmployees) {
-  return {...state, profile};
+function handleGetEmployeesList(state: IEmployeesState, employees: IEmployees) {
+  return {...state, employees};
+}
+
+function handleGetCareerDaysOfEmployee(state: IEmployeesState, careerDays: ICareerDaysOfEmployee) {
+  return {...state, careerDays};
 }

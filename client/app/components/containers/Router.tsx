@@ -4,7 +4,9 @@ import * as redux from 'redux';
 import {connect} from 'react-redux';
 import PrivateRoute from './custom-routes/PrivateRoute';
 import DisabledForAuthorizedUserRoute from './custom-routes/DisabledForAuthorizedUserRoute';
-import AllowedForUnitManager from './custom-routes/AllowedForUnitManager';
+import AllowedForUnitManagerRoute from './custom-routes/AllowedForUnitManager';
+import ExistingEmployeeHistoryRoute from './custom-routes/ExistingEmployeeHistoryRoute';
+import EmployeeProfilePageContainer from 'components/pages/employee-career-days-page/EmployeeCareerDaysPageContainer';
 import MainPageContainer from 'components/pages/main-page/MainPageContainer';
 import EmployeeListContainer from 'components/pages/employee-list/EmployeeListContainer';
 import LoginPageContainer from 'components/pages/login-page/LoginPageContainer';
@@ -24,7 +26,13 @@ const AppComponent = (props: IAppProps) => {
       <Switch>
         <PrivateRoute exact auth={auth} path="/main" component={MainPageContainer} />
         <DisabledForAuthorizedUserRoute exact auth={auth} path="/login" component={LoginPageContainer} />
-        <AllowedForUnitManager auth={auth} path="/employees" component={EmployeeListContainer} />
+        <AllowedForUnitManagerRoute exact auth={auth} path="/employees" component={EmployeeListContainer} />
+        <ExistingEmployeeHistoryRoute
+          exact
+          auth={auth}
+          path="/employees/:userId"
+          component={EmployeeProfilePageContainer}
+        />
 
         <Redirect from="/" exact to="/main" />
       </Switch>

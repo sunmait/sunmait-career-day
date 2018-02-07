@@ -1,12 +1,13 @@
-import './EmployeesList.less';
+import 'assets/styles/backgrounds/greyBackground.less';
 
 import * as React from 'react';
+import {Link} from 'react-router-dom';
 import {IUser} from 'redux/modules/auth/authReducer';
 import {IEmployees} from 'redux/modules/employees/employeesReducer';
 import {Theme, withStyles} from 'material-ui/styles';
 import List, {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
 import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
+import Header from 'components/common/Header';
 import Archive from 'material-ui-icons/Archive';
 import TimeLine from 'material-ui-icons/Timeline';
 import Avatar from 'material-ui/Avatar';
@@ -25,7 +26,7 @@ const styles = (theme: Theme) => ({
 interface IEmployeeListProps {
   classes: any;
   user: IUser;
-  employeesProfile: IEmployees[];
+  employees: IEmployees[];
   getEmployeesList: employeesAction.GetEmployeesList;
 }
 
@@ -42,27 +43,29 @@ class EmployeeList extends React.Component<IEmployeeListProps, IEmployeeListStat
   }
 
   public renderEmployeeProfile = () => {
-    const employeesProfile: IEmployees[] = this.props.employeesProfile;
+    const employees: IEmployees[] = this.props.employees;
 
     return (
-      employeesProfile.map((item: IEmployees) => (
-        <ListItem key={item.id} dense button className={this.props.classes.listItem}>
-          <Avatar alt={item.fullName} src={item.photoUrl} />
-          <ListItemText primary={item.fullName} />
-          <ListItemSecondaryAction>
-            {item.archived ?
-              <ControlledTooltips
-                title="Archived"
-                tooltip={<Archive />}
-              />
-              :
-              <ControlledTooltips
-                title="In Progress"
-                tooltip={<TimeLine />}
-              />
-            }
-          </ListItemSecondaryAction>
-        </ListItem>
+      employees.map((item: IEmployees) => (
+        <Link key={item.id} to={`/employees/${item.id}`} style={{textDecoration: 'none'}}>
+          <ListItem dense button>
+            <Avatar alt={item.fullName} src={item.photoUrl} />
+            <ListItemText primary={item.fullName} />
+            <ListItemSecondaryAction>
+              {item.archived ?
+                <ControlledTooltips
+                  title="Archived"
+                  tooltip={<Archive />}
+                />
+                :
+                <ControlledTooltips
+                  title="In Progress"
+                  tooltip={<TimeLine />}
+                />
+              }
+            </ListItemSecondaryAction>
+          </ListItem>
+        </Link>
       ))
     );
   }
@@ -71,17 +74,15 @@ class EmployeeList extends React.Component<IEmployeeListProps, IEmployeeListStat
     const {classes} = this.props;
 
     return (
-      <div className="employees-list">
+      <div className="grey-background">
         <Grid item md={12} style={{padding: 15, backgroundColor: 'lightblue'}}>
-          <Typography type="display2" align="center" style={{marginBottom: 10}}>List Of Employees</Typography>
+          {Header('List Of Employees')}
         </Grid>
 
         <Grid container justify="center" spacing={0}>
           <div className={classes.root}>
             <List>
-              {this.props.employeesProfile.length > 0 &&
-              this.renderEmployeeProfile()
-              }
+              {this.props.employees.length > 0 && this.renderEmployeeProfile()}
             </List>
           </div>
         </Grid>

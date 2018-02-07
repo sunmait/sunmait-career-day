@@ -3,15 +3,14 @@ import {IRootState} from 'redux/rootReducer';
 import * as redux from 'redux';
 import {Dispatch} from 'redux/store';
 import * as employeesAction from 'redux/modules/employees/employeesAction';
-import EmployeeList from './EmployeeList';
+import EmployeeProfilePage from './EmployeeCareerDaysPage';
 
 const mapStateToProps = (state: IRootState) => ({
-  user: state.auth.user,
-  employees: state.employees.employees,
+  careerDays: state.employees.careerDays,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
-  getEmployeesList: employeesAction.getEmployeesList,
+  getCareerDayOfEmployee: employeesAction.getCareerDayOfEmployee,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmployeeList);
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeProfilePage);
