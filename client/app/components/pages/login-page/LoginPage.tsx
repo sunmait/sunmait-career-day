@@ -22,11 +22,23 @@ export default class LoginPage extends React.Component<ILoginPageProps, ILoginPa
 
         <Grid container justify="center" alignItems="center" spacing={8}>
           <Grid item>
-            <Button raised onClick={() => this.props.loginAsEmployee()}>Login as employee</Button>
+            <Button
+              id="login-as-employee-btn"
+              raised
+              onClick={() => this.props.loginAsEmployee()}
+            >
+              Login as employee
+            </Button>
           </Grid>
 
           <Grid item>
-            <Button raised onClick={() => this.props.loginAsUnitManager()}>Login as unit manager</Button>
+            <Button
+              id="login-as-unit-manager-btn"
+              raised
+              onClick={() => this.props.loginAsUnitManager()}
+            >
+              Login as unit manager
+            </Button>
           </Grid>
         </Grid>
       </div>
