@@ -17,7 +17,7 @@ export default class LoginPage extends React.Component<ILoginPageProps, ILoginPa
     return (
       <div>
         <Grid item md={12}>
-          {Header('login')}
+          <Header title="Login" />
         </Grid>
 
         <Grid container justify="center" alignItems="center" spacing={8}>

@@ -10,7 +10,7 @@ describe('authReducer', () => {
     expect(defaultState).toEqual({user: null});
   });
 
-  test('Should return correct type', () => {
+  test('Should return correct role of employee and full name', () => {
     const user = {
       role: ROLES.UNIT_MANAGER,
       fullName: 'Alex Denisenko',
@@ -20,6 +20,17 @@ describe('authReducer', () => {
     const managerState = authReducer(undefined, initAction);
 
     expect(managerState).toEqual({user: user});
+  });
 
+  test('Should return correct role of unit manager and full name', () => {
+    const user = {
+      role: ROLES.EMPLOYEE,
+      fullName: 'Alex Denisenko',
+    };
+
+    const initAction = {type: AUTH_ACTIONS.LOGIN_AS_EMPLOYEE, payload: user};
+    const managerState = authReducer(undefined, initAction);
+
+    expect(managerState).toEqual({user: user});
   });
 });

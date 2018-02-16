@@ -1,6 +1,8 @@
-import 'assets/styles/backgrounds/greyBackground.less';
+import 'assets/styles/backgrounds/defaultBackground.less';
 
 import * as React from 'react';
+
+import {match, Link} from 'react-router-dom';
 import * as moment from 'moment';
 import {Theme, withStyles} from 'material-ui/styles';
 import List, {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
@@ -12,23 +14,20 @@ import Button from 'material-ui/Button';
 import ControlledTooltips from 'components/common/ControlledTooltips ';
 import Header from 'components/common/Header';
 import * as employeesAction from 'redux/modules/employees/employeesAction';
-import {ICareerDaysOfEmployee} from 'redux/modules/employees/employeesReducer';
-import CareerDayPopup from 'components/pages/employee-career-days-page/caree-day-popup/CareerDayPopup';
+import {ICareerDaysOfEmployee, IUserID, IEmployees} from 'redux/modules/employees/employeesReducer';
+import CareerDayPopup from 'components/pages/employee-progress-page/caree-day-popup/CareerDayPopup';
 import IconStatus from 'components/common/IconStatus';
 
 const styles = (theme: Theme) => ({
   root: {
     width: '100%',
-    maxWidth: 730,
+    maxWidth: 750,
     backgroundColor: theme.palette.background.paper,
     marginTop: 20,
   },
-  profileHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
+  navigation: {
     marginTop: 20,
-  } as React.CSSProperties,
+  },
   options: {
     margin: 10,
   },
@@ -36,25 +35,32 @@ const styles = (theme: Theme) => ({
 
 interface IStylesProps {
   root: string;
-  profileHeader: string;
+  navigation: string;
   options: string;
 }
 
-interface IEmployeeCareerDaysProps {
+interface IMatchParams {
+  userId: string;
+}
+
+interface IEmployeeProgressProps {
   classes: IStylesProps;
   tooltip: JSX.Element;
   fullName: string;
   getCareerDayOfEmployee: employeesAction.GetCareerDaysOfEmployee;
   careerDays: ICareerDaysOfEmployee[];
+  employee: IEmployees[];
+  employeeFullName: IUserID;
   handleClosePopup: () => void;
+  match: match<IMatchParams>;
 }
 
-interface IEmployeeCareerDaysState {
+interface IEmployeeProgressState {
   isOpen: boolean;
 }
 
-class EmployeeProfilePage extends React.Component<IEmployeeCareerDaysProps, IEmployeeCareerDaysState> {
-  constructor(props: IEmployeeCareerDaysProps) {
+class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmployeeProgressState> {
+  constructor(props: IEmployeeProgressProps) {
     super(props);
     this.state = {
       isOpen: false,
@@ -62,7 +68,7 @@ class EmployeeProfilePage extends React.Component<IEmployeeCareerDaysProps, IEmp
   }
 
   public componentWillMount() {
-    this.props.getCareerDayOfEmployee();
+    this.props.getCareerDayOfEmployee(this.props.match.params.userId);
   }
 
   public togglePopupState = () => {
@@ -86,17 +92,19 @@ class EmployeeProfilePage extends React.Component<IEmployeeCareerDaysProps, IEmp
     return `${moment(item.CreatedAt).format(format)} - ${moment(item.InterviewDate).format(format)}`;
   }
 
-  public renderHistoryOfCareerDays = () => {
+  public renderHistoryOfProgress = () => {
     return (
       this.props.careerDays.map(item => (
-        <ListItem key={item.id} dense button>
-          {IconStatus(item.Archived)}
-          <ListItemText primary={this.getCurrentDate(item)} />
-          <ListItemSecondaryAction>
-            <Edit className={this.props.classes.options} />
-            <Delete className={this.props.classes.options} />
-          </ListItemSecondaryAction>
-        </ListItem>
+        <Link key={item.id} to={`/employees/${this.props.match.params.userId}/career-day/${item.id}`}>
+          <ListItem key={item.id} dense button>
+            {IconStatus(item.Archived)}
+            <ListItemText primary={this.getCurrentDate(item)} />
+            <ListItemSecondaryAction>
+              <Edit className={this.props.classes.options} />
+              <Delete className={this.props.classes.options} />
+            </ListItemSecondaryAction>
+          </ListItem>
+        </Link>
       ))
     );
   }
@@ -105,29 +113,31 @@ class EmployeeProfilePage extends React.Component<IEmployeeCareerDaysProps, IEmp
     const {classes} = this.props;
 
     return (
-      <div className="grey-background">
+      <div className="default-background">
         <Grid container justify="center">
           <Grid item xs={6}>
-            {Header('Career days of employee')}
-            <Grid item className={classes.profileHeader}>
+            <Header title="Employee's career days" />
+            <Grid container justify="space-between" className={classes.navigation}>
               <Grid item xs={7}>
-                <Typography noWrap type="headline">Full NameFull</Typography>
+                <Typography noWrap type="headline">{this.props.employeeFullName}</Typography>
               </Grid>
 
-              <ControlledTooltips
-                title="Employee already has active career day"
-                isDisabled={this.isActiveButton()}
-                tooltip={
-                  <Button
-                    disabled={this.isActiveButton()}
-                    raised
-                    color="primary"
-                    onClick={this.togglePopupState}
-                  >
-                    Add career day
-                  </Button>
-                }
-              />
+              <Grid item xs={5}>
+                <ControlledTooltips
+                  title="Employee already has active career day"
+                  isDisabled={this.isActiveButton()}
+                  tooltip={
+                    <Button
+                      disabled={this.isActiveButton()}
+                      raised
+                      color="primary"
+                      onClick={this.togglePopupState}
+                    >
+                      Add career day
+                    </Button>
+                  }
+                />
+              </Grid>
 
               {this.state.isOpen &&
               <CareerDayPopup handleClosePopup={this.togglePopupState} open={this.state.isOpen} />
@@ -137,7 +147,7 @@ class EmployeeProfilePage extends React.Component<IEmployeeCareerDaysProps, IEmp
             <Grid item>
               <div className={classes.root}>
                 <List>
-                  {this.props.careerDays && this.renderHistoryOfCareerDays()}
+                  {this.props.careerDays && this.renderHistoryOfProgress()}
                 </List>
               </div>
             </Grid>
@@ -148,4 +158,4 @@ class EmployeeProfilePage extends React.Component<IEmployeeCareerDaysProps, IEmp
   }
 }
 
-export default withStyles(styles)(EmployeeProfilePage);
+export default withStyles(styles)(EmployeeProgressPage);

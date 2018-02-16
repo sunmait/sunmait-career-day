@@ -1,9 +1,13 @@
 import * as React from 'react';
 import Typography from 'material-ui/Typography';
 
-const Header = (title: string) => {
+interface IProps {
+  title: string;
+}
+
+const Header = (props: IProps) => {
   return (
-    <Typography type="display2" align="center" style={{marginBottom: 10}}>{title}</Typography>
+    <Typography type="display2" align="center" style={{marginBottom: 10}}>{props.title}</Typography>
   );
 };
 

@@ -2,7 +2,7 @@ import AUTH_ACTIONS from 'redux/modules/auth/authActionConstants';
 import * as actions from 'redux/modules/auth/authActions';
 
 describe('authActions', () => {
-  test('Should login as employess', () => {
+  test('Should login as employees', () => {
     const dispatchSpy = jest.fn();
 
     actions.loginAsEmployee()(dispatchSpy);

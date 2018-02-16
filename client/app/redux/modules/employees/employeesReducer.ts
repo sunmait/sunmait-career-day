@@ -17,14 +17,24 @@ export interface ICareerDaysOfEmployee {
   UpdatedAt: Date;
 }
 
+export interface IEmployeeFullName {
+  employeeFullName: string;
+}
+
+export interface IUserID {
+  userId: string;
+}
+
 export interface IEmployeesState {
   employees: null | IEmployees[];
   careerDays: null | ICareerDaysOfEmployee[];
+  employeeFullName: null | IEmployeeFullName;
 }
 
 const defaultState: IEmployeesState = {
   employees: null,
   careerDays: null,
+  employeeFullName: null,
 };
 
 export default function(state: IEmployeesState = defaultState, {type, payload}: { type: string, payload: any }) {
@@ -44,6 +54,13 @@ function handleGetEmployeesList(state: IEmployeesState, employees: IEmployees) {
   return {...state, employees};
 }
 
-function handleGetCareerDaysOfEmployee(state: IEmployeesState, careerDays: ICareerDaysOfEmployee) {
-  return {...state, careerDays};
+function handleGetCareerDaysOfEmployee(
+  state: IEmployeesState,
+  payload: { careerDays: ICareerDaysOfEmployee } & IUserID) {
+
+  const currentId = parseInt(payload.userId, 10);
+  const currentNumberEmployee = state.employees.findIndex((item: IEmployees) => item.id === currentId);
+  const employeeFullName = state.employees[currentNumberEmployee].fullName;
+
+  return {...state, careerDays: payload.careerDays, employeeFullName};
 }

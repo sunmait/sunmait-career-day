@@ -4,11 +4,13 @@ import * as redux from 'redux';
 import {connect} from 'react-redux';
 import PrivateRoute from './custom-routes/PrivateRoute';
 import DisabledForAuthorizedUserRoute from './custom-routes/DisabledForAuthorizedUserRoute';
-import AllowedForUnitManagerRoute from './custom-routes/AllowedForUnitManager';
-import ExistingEmployeeHistoryRoute from './custom-routes/ExistingEmployeeHistoryRoute';
-import EmployeeCareerDaysPageContainer from 'components/pages/employee-career-days-page/EmployeeCareerDaysPageContainer';
+import AllowedForUnitManagerRoute from './custom-routes/AllowedForUnitManagerRoute';
+import EmployeeHistoryRoute from './custom-routes/EmployeeHistoryRoute';
+import ObjectivesOfEmployeesRoute from './custom-routes/ObjectivesOfEmployeesRoute';
+import EmployeeProgressPageContainer from 'components/pages/employee-progress-page/EmployeeProgressPageContainer';
 import MainPageContainer from 'components/pages/main-page/MainPageContainer';
-import EmployeeListContainer from 'components/pages/employee-list/EmployeeListContainer';
+import EmployeeCareerDayPage from 'components/pages/employee-career-day-page/EmployeeCareerDayPage';
+import EmployeesListPageContainer from 'components/pages/employee-list/EmployeeListContainer';
 import LoginPageContainer from 'components/pages/login-page/LoginPageContainer';
 import {IAuthState} from 'redux/modules/auth/authReducer';
 import {IRootState} from 'redux/rootReducer';
@@ -26,11 +28,18 @@ const AppComponent = (props: IAppProps) => {
       <Switch>
         <PrivateRoute exact auth={auth} path="/main" component={MainPageContainer} />
         <DisabledForAuthorizedUserRoute exact auth={auth} path="/login" component={LoginPageContainer} />
-        <AllowedForUnitManagerRoute exact auth={auth} path="/employees" component={EmployeeListContainer} />
-        <ExistingEmployeeHistoryRoute
+        <AllowedForUnitManagerRoute exact auth={auth} path="/employees" component={EmployeesListPageContainer} />
+        <EmployeeHistoryRoute
+          exact
           auth={auth}
           path="/employees/:userId"
-          component={EmployeeCareerDaysPageContainer}
+          component={EmployeeProgressPageContainer}
+        />
+        <ObjectivesOfEmployeesRoute
+          exact
+          auth={auth}
+          path="/employees/:userId/career-day/:careerId"
+          component={EmployeeCareerDayPage}
         />
 
         <Redirect from="/" exact to="/main" />

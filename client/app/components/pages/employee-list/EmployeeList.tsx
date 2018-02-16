@@ -1,4 +1,4 @@
-import 'assets/styles/backgrounds/greyBackground.less';
+import 'assets/styles/backgrounds/defaultBackground.less';
 
 import * as React from 'react';
 import {Link} from 'react-router-dom';
@@ -21,7 +21,6 @@ const styles = (theme: Theme) => ({
   },
   header: {
     padding: 15,
-    backgroundColor: 'lightblue',
   },
 });
 
@@ -71,7 +70,7 @@ class EmployeeList extends React.Component<IEmployeeListProps, IEmployeeListStat
     return (
       <div className="grey-background">
         <Grid item md={12} className={classes.header}>
-          {Header('List Of Employees')}
+          <Header title="List Of Employees" />
         </Grid>
 
         <Grid container justify="center" spacing={0}>
