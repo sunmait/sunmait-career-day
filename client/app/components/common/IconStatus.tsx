@@ -4,11 +4,11 @@ import Archive from 'material-ui-icons/Archive';
 import IconButton from 'material-ui/IconButton';
 import TimeLine from 'material-ui-icons/Timeline';
 
-interface IIconStatus {
+interface IIconStatusProps {
   isArchived: boolean;
 }
 
-const IconStatus = (props: IIconStatus) => {
+const IconStatus = (props: IIconStatusProps) => {
   return (
     props.isArchived ?
       <ControlledTooltips

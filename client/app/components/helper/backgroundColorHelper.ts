@@ -1,8 +1,8 @@
-interface ISetClassName {
+interface ISetClassNameProps {
   setClassName: void;
 }
 
-export default function setBackgroundHelper(): ISetClassName {
+export default function setBackgroundHelper(): ISetClassNameProps {
   const mainElement = document.querySelector('body');
 
   return {
