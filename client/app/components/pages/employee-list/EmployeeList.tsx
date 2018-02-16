@@ -9,7 +9,7 @@ import Header from 'components/common/Header';
 import Avatar from 'material-ui/Avatar';
 import IconStatus from 'components/common/IconStatus';
 import * as employeesAction from 'redux/modules/employees/employeesAction';
-import setBackgroundHelper from 'components/helper/setBackgroundHelper';
+import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -50,12 +50,18 @@ class EmployeeList extends React.Component<IEmployeeListProps, IEmployeeListStat
   public renderEmployeeProfile = () => {
     return (
       this.props.employees.map((item: IEmployees) => (
-        <Link key={item.id} to={`/employees/${item.id}`} style={{textDecoration: 'none'}}>
+        <Link
+          key={item.id}
+          to={{
+            pathname: `/employees/${item.id}`,
+            state: {employeeFullName: `${item.FirstName} ${item.LastName}`},
+          }}
+          style={{textDecoration: 'none'}}>
           <ListItem dense button>
-            <Avatar alt={item.fullName} src={item.photoUrl} />
-            <ListItemText primary={item.fullName} />
+            <Avatar alt={item.LastName} src={item.PhotoUrl} />
+            <ListItemText primary={`${item.FirstName} ${item.LastName}`} />
             <ListItemSecondaryAction>
-              {IconStatus(item.archived)}
+              <IconStatus isArchived={false} />
             </ListItemSecondaryAction>
           </ListItem>
         </Link>
@@ -66,7 +72,7 @@ class EmployeeList extends React.Component<IEmployeeListProps, IEmployeeListStat
   public render() {
     const {classes} = this.props;
 
-    setBackgroundHelper();
+    backgroundColorHelper();
 
     return (
       <div>

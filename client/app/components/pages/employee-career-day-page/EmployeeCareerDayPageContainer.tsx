@@ -7,8 +7,8 @@ import EmployeeCareerDayPage from './EmployeeCareerDayPage';
 
 const mapStateToProps = (state: IRootState) => ({
   user: state.auth.user,
-  employeeFullName: state.employees.employeeFullName,
   objectives: state.employees.objectives,
+  employeeFullName: state.employees.employeeFullName,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({

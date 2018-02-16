@@ -2,9 +2,11 @@ import EMPLOYEES_LIST from './employeesActionConstants';
 
 export interface IEmployees {
   id: number;
-  photoUrl: string;
-  fullName: string;
-  archived: boolean;
+  Roles: string;
+  LastName: string;
+  FirstName: string;
+  PhotoUrl: string;
+  AccessToken: string;
 }
 
 export interface ICareerDaysOfEmployee {
@@ -18,35 +20,28 @@ export interface ICareerDaysOfEmployee {
 }
 
 export interface IObjectives {
-  id: string;
-  Text: string;
-  CareerDayId: string;
-  StatusId: string;
+  id: number;
+  Title: string;
+  Description: string;
+  CareerDayId: number;
+  StatusId: number;
   Progress: number;
   CreatedAt: Date;
   UpdatedAt: Date;
 }
 
-export interface IEmployeeFullName {
-  employeeFullName: string;
-}
-
-export interface IUserID {
-  userId: string;
-}
-
 export interface IEmployeesState {
   employees: null | IEmployees[];
   careerDays: null | ICareerDaysOfEmployee[];
-  employeeFullName: null | IEmployeeFullName;
   objectives: null | IObjectives[];
+  employeeFullName: null | string;
 }
 
 const defaultState: IEmployeesState = {
   employees: null,
   careerDays: null,
-  employeeFullName: null,
   objectives: null,
+  employeeFullName: null,
 };
 
 export default function(state: IEmployeesState = defaultState, {type, payload}: { type: string, payload: any }) {
@@ -69,15 +64,10 @@ function handleGetEmployeesList(state: IEmployeesState, employees: IEmployees) {
   return {...state, employees};
 }
 
-function handleGetCareerDaysOfEmployee(
-  state: IEmployeesState,
-  payload: { careerDays: ICareerDaysOfEmployee } & IUserID) {
+function handleGetCareerDaysOfEmployee(state: IEmployeesState,
+                                       payload: { careerDays: ICareerDaysOfEmployee } & { employeeFullName: string }) {
 
-  const currentId = parseInt(payload.userId, 10);
-  const currentNumberEmployee = state.employees.findIndex((item: IEmployees) => item.id === currentId);
-  const employeeFullName = state.employees[currentNumberEmployee].fullName;
-
-  return {...state, careerDays: payload.careerDays, employeeFullName};
+  return {...state, careerDays: payload.careerDays, employeeFullName: payload.employeeFullName};
 }
 
 function handleGetObjectives(state: IEmployeesState, objectives: IObjectives) {

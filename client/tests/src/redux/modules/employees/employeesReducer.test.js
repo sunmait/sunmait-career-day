@@ -6,7 +6,7 @@ describe('employeesReducer', () => {
     const initAction = {type: '', payload: {}};
     const defaultState = employeesReducer(undefined, initAction);
 
-    expect(defaultState).toEqual({employees: null, careerDays: null, employeeFullName: null, objectives: null});
+    expect(defaultState).toEqual({employees: null, careerDays: null, objectives: null});
   });
 
   test('Should return list of employees', () => {
@@ -20,30 +20,26 @@ describe('employeesReducer', () => {
     const initAction = {type: EMPLOYEES_ACTION.GET_EMPLOYEES_LIST, payload: employees};
     const managerState = employeesReducer(undefined, initAction);
 
-    expect(managerState).toEqual({employees, careerDays: null, employeeFullName: null, objectives: null});
+    expect(managerState).toEqual({employees, careerDays: null, objectives: null});
   });
 
   test('Should return list of career day and employee full name', async () => {
-    const payload = {
-      careerDays: {
-        id: '1',
-        Archived: true,
-        EmployeeExternalId: '1',
-        UnitManagerExternalId: '1',
-        InterviewDate: new Date(),
-        CreatedAt: new Date(),
-        UpdatedAt: new Date(),
-      },
-      employeeFullName: 'Vasya Pupkin',
+    const careerDays = {
+      id: '1',
+      Archived: true,
+      EmployeeExternalId: '1',
+      UnitManagerExternalId: '1',
+      InterviewDate: new Date(),
+      CreatedAt: new Date(),
+      UpdatedAt: new Date(),
     };
 
-    const initAction = {type: EMPLOYEES_ACTION.GET_CAREER_DAYS, payload};
-    const  managerState = employeesReducer(undefined, initAction);
+    const initAction = {type: EMPLOYEES_ACTION.GET_CAREER_DAYS, payload: careerDays};
+    const managerState = employeesReducer(undefined, initAction);
 
     expect(managerState).toEqual({
-      careerDays: payload.careerDays,
+      careerDays,
       employees: null,
-      employeeFullName: payload.employeeFullName,
       objectives: null
     });
   });
@@ -62,6 +58,6 @@ describe('employeesReducer', () => {
     const initAction = {type: EMPLOYEES_ACTION.GET_OBJECTIVES, payload: objectives};
     const managerState = employeesReducer(undefined, initAction);
 
-    expect(managerState).toEqual({objectives, employees: null, careerDays: null, employeeFullName: null});
+    expect(managerState).toEqual({objectives, employees: null, careerDays: null});
   });
 });

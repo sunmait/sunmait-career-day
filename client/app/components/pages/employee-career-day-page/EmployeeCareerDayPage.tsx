@@ -8,10 +8,10 @@ import Edit from 'material-ui-icons/Edit';
 import Delete from 'material-ui-icons/Delete';
 import * as employeesAction from 'redux/modules/employees/employeesAction';
 import {IUser} from 'redux/modules/auth/authReducer';
-import {IEmployeeFullName, IObjectives} from 'redux/modules/employees/employeesReducer';
+import {IObjectives} from 'redux/modules/employees/employeesReducer';
 import List, {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
 import IconStatus from 'components/common/IconStatus';
-import setBackgroundHelper from 'components/helper/setBackgroundHelper';
+import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -40,8 +40,8 @@ interface IEmployeeCareerDayProps {
   tooltip: JSX.Element;
   getObjectives: employeesAction.GetObjectives;
   user: IUser;
-  employeeFullName: IEmployeeFullName;
   objectives: IObjectives[];
+  employeeFullName: string;
 }
 
 interface IEmployeeCareerDayState {
@@ -60,8 +60,9 @@ class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEm
     return (
       this.props.objectives.map(item => (
         <ListItem key={item.id} dense button>
-          {IconStatus(true)}
-          <ListItemText primary={item.Text} />
+          <IconStatus isArchived={false} />
+          <ListItemText primary={item.Title} />
+          <Typography>{item.Description}</Typography>
           <ListItemSecondaryAction>
             <Edit className={classes.options} />
             <Delete className={classes.options} />
@@ -74,7 +75,7 @@ class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEm
   public render() {
     const {classes} = this.props;
 
-    setBackgroundHelper();
+    backgroundColorHelper();
 
     return (
       <div>

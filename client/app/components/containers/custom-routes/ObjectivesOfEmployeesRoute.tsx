@@ -6,7 +6,7 @@ interface IObjectivesOfEmployeesRouteProps extends RouteProps {
   auth: IAuthState;
 }
 
-const ObjectivesOfEmployeesRoute = (props: IObjectivesOfEmployeesRouteProps) => {
+const ObjectivesOfEmployeesRouter = (props: IObjectivesOfEmployeesRouteProps) => {
   const {component: Component, auth, ...rest} = props;
 
   return (
@@ -22,4 +22,4 @@ const ObjectivesOfEmployeesRoute = (props: IObjectivesOfEmployeesRouteProps) => 
   );
 };
 
-export default ObjectivesOfEmployeesRoute;
+export default ObjectivesOfEmployeesRouter;

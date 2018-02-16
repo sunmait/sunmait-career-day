@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {match, Link} from 'react-router-dom';
+import {Link, match} from 'react-router-dom';
+import {Location} from 'history';
 import * as moment from 'moment';
 import {Theme, withStyles} from 'material-ui/styles';
 import List, {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
@@ -10,10 +11,10 @@ import Button from 'material-ui/Button';
 import ControlledTooltips from 'components/common/ControlledTooltips ';
 import Header from 'components/common/Header';
 import * as employeesAction from 'redux/modules/employees/employeesAction';
-import {ICareerDaysOfEmployee, IEmployeeFullName, IEmployees} from 'redux/modules/employees/employeesReducer';
+import {ICareerDaysOfEmployee, IEmployees} from 'redux/modules/employees/employeesReducer';
 import CareerDayPopup from 'components/pages/employee-progress-page/caree-day-popup/CareerDayPopup';
 import IconStatus from 'components/common/IconStatus';
-import setBackgroundHelper from 'components/helper/setBackgroundHelper';
+import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -49,13 +50,13 @@ interface IMatchParams {
 interface IEmployeeProgressProps {
   classes: IStylesProps;
   tooltip: JSX.Element;
-  fullName: string;
   getCareerDayOfEmployee: employeesAction.GetCareerDaysOfEmployee;
   careerDays: ICareerDaysOfEmployee[];
   employee: IEmployees[];
-  employeeFullName: IEmployeeFullName;
   handleClosePopup: () => void;
   match: match<IMatchParams>;
+  location: Location;
+  employeeFullName: string;
 }
 
 interface IEmployeeProgressState {
@@ -71,7 +72,11 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
   }
 
   public componentWillMount() {
-    this.props.getCareerDayOfEmployee(this.props.match.params.userId);
+    const employeeFullName = this.props.location.state ?
+      this.props.location.state.employeeFullName :
+      this.props.employeeFullName;
+
+    this.props.getCareerDayOfEmployee(employeeFullName);
   }
 
   public togglePopupState = () => {
@@ -104,7 +109,7 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
           className={classes.disableLinkStyle}
         >
           <ListItem key={item.id} dense button>
-            {IconStatus(item.Archived)}
+            <IconStatus isArchived={item.Archived} />
             <ListItemText primary={this.getCurrentDate(item)} />
             <ListItemSecondaryAction>
               <Delete className={classes.options} />
@@ -118,7 +123,7 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
   public render() {
     const {classes} = this.props;
 
-    setBackgroundHelper();
+    backgroundColorHelper();
 
     return (
       <div>
