@@ -10,7 +10,11 @@
     "watch:build": "tsc --watch",
     "watch:server": "cross-env NODE_ENV=development nodemon './API/app.js' --watch './'",
     "watch:server-prod": "cross-env NODE_ENV=production nodemon './API/app.js' --watch './'",
-    "lint": "tslint -c ../tslint.json './**/*.ts'"
+    "lint": "tslint -c ../tslint.json './**/*.ts'",
+    "seed": "cd ./migrations && ../node_modules/.bin/sequelize db:seed:all",
+    "seed:undo": "cd ./migrations && ../node_modules/.bin/sequelize db:seed:undo:all",
+    "migrate": "cd ./migrations && ../node_modules/.bin/sequelize db:migrate",
+    "migrate:undo": "cd ./migrations && ../node_modules/.bin/sequelize db:migrate:undo:all"
   },
   "description": "Sunmait.Boilerplate",
   "author": {

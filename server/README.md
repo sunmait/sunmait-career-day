@@ -17,31 +17,42 @@ Installation all dependencies:
 npm run install-all
 ```
 
-#### Creating tables and filling them with test data
+#### Creating tables and filling them with test data (Migrations)
 
-To create tables you need navigate to 'migrations' folder.
-
-There run
+Configuration file located in:
 
 ```sh
-../node_modules/.bin/sequelize db:migrate
+/migrations/config.example
+```
+create your own 'config.json' with your data.
+
+Next, to create tables you need run:
+
+```sh
+npm run migrate
 ```
 
-and then for filling tables with test data run
+and then for filling tables with test data run:
 
 ```sh
-../node_modules/.bin/sequelize db:seed:all
+npm run seed
 ```
 
-To undo this, run
+To undo migrate, run:
 
 ```sh
-../node_modules/.bin/sequelize db:migrate:undo:all
+npm run migrate:undo
+```
+
+for seed run:
+
+```sh
+npm run seed:undo
 ```
 
 #### Running server
 
-To start the server, in the 'server' folder, run
+To start the server run
 
 ```sh
 npm start

@@ -2,9 +2,9 @@
   "database": {
     "dialect": "mysql",
     "database": "sunmait_career_days_development",
-    "username": "root",
-    "password": "123",
+    "username": <YOUR USERNAME>,
+    "password": <YOUR PASSWORD>,
     "host": "localhost",
-    "port": 3306
+    "port": <YOUR PORT>
   }
 }
