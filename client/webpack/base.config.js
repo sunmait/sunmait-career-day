@@ -13,6 +13,7 @@ module.exports = {
   devtool: 'inline-source-map',
   output: {
     path: build,
+    publicPath: '/',
     filename: '[name].[chunkhash].js',
   },
   resolve: {
@@ -56,7 +57,7 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            { loader: 'css-loader', options: { minimize: true } },
+            {loader: 'css-loader', options: {minimize: true}},
             'postcss-loader',
             'less-loader',
           ],
@@ -67,7 +68,7 @@ module.exports = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            { loader: 'css-loader', options: { minimize: true } },
+            {loader: 'css-loader', options: {minimize: true}},
             'postcss-loader',
           ],
         }),

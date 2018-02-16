@@ -26,6 +26,6 @@ const IconStatus = (isArchived: boolean) => {
         }
       />
   );
-}
+};
 
 export default IconStatus;

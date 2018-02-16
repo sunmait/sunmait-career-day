@@ -7,7 +7,7 @@ interface IDisabledForAuthorizedUserRouteProps extends RouteProps {
   auth: IAuthState;
 }
 
-const ExistingEmployeeHistoryRoute = (props: IDisabledForAuthorizedUserRouteProps) => {
+const EmployeeHistoryRoute = (props: IDisabledForAuthorizedUserRouteProps) => {
   const {component: Component, auth, ...rest} = props;
 
   return (
@@ -25,4 +25,4 @@ const ExistingEmployeeHistoryRoute = (props: IDisabledForAuthorizedUserRouteProp
   );
 };
 
-export default ExistingEmployeeHistoryRoute;
+export default EmployeeHistoryRoute;

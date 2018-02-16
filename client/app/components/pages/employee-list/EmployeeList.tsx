@@ -1,5 +1,3 @@
-import 'assets/styles/backgrounds/greyBackground.less';
-
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {IUser} from 'redux/modules/auth/authReducer';
@@ -11,6 +9,7 @@ import Header from 'components/common/Header';
 import Avatar from 'material-ui/Avatar';
 import IconStatus from 'components/common/IconStatus';
 import * as employeesAction from 'redux/modules/employees/employeesAction';
+import setBackgroundHelper from 'components/helper/setBackgroundHelper';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -21,7 +20,6 @@ const styles = (theme: Theme) => ({
   },
   header: {
     padding: 15,
-    backgroundColor: 'lightblue',
   },
 });
 
@@ -68,18 +66,19 @@ class EmployeeList extends React.Component<IEmployeeListProps, IEmployeeListStat
   public render() {
     const {classes} = this.props;
 
-    return (
-      <div className="grey-background">
-        <Grid item md={12} className={classes.header}>
-          {Header('List Of Employees')}
-        </Grid>
+    setBackgroundHelper();
 
-        <Grid container justify="center" spacing={0}>
-          <div className={classes.root}>
+    return (
+      <div>
+        <Grid container spacing={0} justify="center">
+          <Grid item md={12} className={classes.header}>
+            <Header title="List Of Employees" />
+          </Grid>
+          <Grid item className={classes.root}>
             <List>
               {this.props.employees && this.renderEmployeeProfile()}
             </List>
-          </div>
+          </Grid>
         </Grid>
       </div>
     );
