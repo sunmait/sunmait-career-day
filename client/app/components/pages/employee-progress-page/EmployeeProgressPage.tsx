@@ -6,10 +6,6 @@ import List, {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import Delete from 'material-ui-icons/Delete';
-<<<<<<< HEAD
-import Edit from 'material-ui-icons/Edit';
-=======
->>>>>>> 20054c8... Fixed tests and created career day page for employee
 import Button from 'material-ui/Button';
 import ControlledTooltips from 'components/common/ControlledTooltips ';
 import Header from 'components/common/Header';
@@ -111,10 +107,6 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
             {IconStatus(item.Archived)}
             <ListItemText primary={this.getCurrentDate(item)} />
             <ListItemSecondaryAction>
-<<<<<<< HEAD
-              <Edit className={classes.options} />
-=======
->>>>>>> 20054c8... Fixed tests and created career day page for employee
               <Delete className={classes.options} />
             </ListItemSecondaryAction>
           </ListItem>

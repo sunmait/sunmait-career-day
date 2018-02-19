@@ -2,11 +2,11 @@ import * as React from 'react';
 import {Route, RouteProps, Redirect} from 'react-router-dom';
 import {IAuthState} from 'redux/modules/auth/authReducer';
 
-interface IExistingObjectivesOfEmployeesRouteProps extends RouteProps {
+interface IObjectivesOfEmployeesRouteProps extends RouteProps {
   auth: IAuthState;
 }
 
-const ExistingObjectivesOfEmployees = (props: IExistingObjectivesOfEmployeesRouteProps) => {
+const ObjectivesOfEmployeesRoute = (props: IObjectivesOfEmployeesRouteProps) => {
   const {component: Component, auth, ...rest} = props;
 
   return (
@@ -22,4 +22,4 @@ const ExistingObjectivesOfEmployees = (props: IExistingObjectivesOfEmployeesRout
   );
 };
 
-export default ExistingObjectivesOfEmployees;
+export default ObjectivesOfEmployeesRoute;
