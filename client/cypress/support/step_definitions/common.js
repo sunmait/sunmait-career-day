@@ -21,6 +21,12 @@ given('I logged in as {string}', (userRole) => {
   .click();
 });
 
+given('I click on {string} link', (linkText) => {
+    cy.get('a')
+    .contains(linkText)
+    .click();
+});
+
 when('I click on {string} button', (buttonText) => {
   cy.get('button')
     .contains(buttonText)
