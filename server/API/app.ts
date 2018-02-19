@@ -1,6 +1,7 @@
 ﻿import express = require('express');
 import path = require('path');
 import fs = require('fs');
+import bodyParser = require('body-parser');
 
 import 'reflect-metadata';
 import { Container } from 'inversify';
@@ -31,7 +32,8 @@ const dbContext = container.get<DbContext>('DbContext');
 const server = new InversifyExpressServer(container);
 
 server.setConfig(application => {
-  // register middlewares
+  application.use(bodyParser.urlencoded({ extended: false }));
+  application.use(bodyParser.json());
 });
 
 const app = server.build();

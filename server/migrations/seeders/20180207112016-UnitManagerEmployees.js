@@ -6,16 +6,16 @@ module.exports = {
       'UnitManagerEmployees',
       [
         {
-          UnitManagerExternalId: 'XQnGIMhxvR',
-          EmployeeExternalId: 'OX81b5kt2o',
+          UnitManagerExternalId: 4,
+          EmployeeExternalId: 1,
         },
         {
-          UnitManagerExternalId: 'XQnGIMhxvR',
-          EmployeeExternalId: '15asd8zxc',
+          UnitManagerExternalId: 4,
+          EmployeeExternalId: 2,
         },
         {
-          UnitManagerExternalId: 'XQnGIMhxvR',
-          EmployeeExternalId: 'PgZS0RYwZm',
+          UnitManagerExternalId: 4,
+          EmployeeExternalId: 3,
         },
       ],
       {},

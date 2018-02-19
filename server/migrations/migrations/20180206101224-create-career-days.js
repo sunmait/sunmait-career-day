@@ -3,17 +3,19 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('CareerDays', {
       id: {
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       Archived: {
         type: Sequelize.BOOLEAN,
       },
       EmployeeExternalId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       UnitManagerExternalId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
       },
       InterviewDate: {
         allowNull: false,

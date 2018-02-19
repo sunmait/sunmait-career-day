@@ -11,6 +11,8 @@ import {
   PrimaryKey,
   Unique,
   HasMany,
+  Default,
+  AutoIncrement,
 } from 'sequelize-typescript';
 import ObjectiveEntity from '../Entities/ObjectiveEntity';
 
@@ -19,12 +21,14 @@ export default class CareerDayEntity extends Model<CareerDayEntity> {
   @Unique
   @PrimaryKey
   @AllowNull(false)
-  @Column(DataType.STRING)
-  public id: string;
+  @AutoIncrement
+  @Column(DataType.INTEGER)
+  public id: number;
 
   @IsDate
   @IsAfter('2018-01-01')
   @AllowNull(false)
+  @Default(new Date())
   @CreatedAt
   @Column(DataType.DATE)
   public CreatedAt: Date;
@@ -32,10 +36,12 @@ export default class CareerDayEntity extends Model<CareerDayEntity> {
   @IsDate
   @IsAfter('2018-01-01')
   @AllowNull(false)
+  @Default(new Date())
   @UpdatedAt
   @Column(DataType.DATE)
   public UpdatedAt: Date;
 
+  @Default(false)
   @Column(DataType.BOOLEAN)
   public Archived: boolean;
 

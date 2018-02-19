@@ -6,7 +6,7 @@ import { RepositoryBase } from './RepositoryBase';
 @injectable()
 export class StatusRepository extends RepositoryBase<StatusEntity>
   implements IStatusRepository {
-  constructor() {
-    super(StatusEntity);
+  constructor(statusEntity: StatusEntity) {
+    super(statusEntity);
   }
 }

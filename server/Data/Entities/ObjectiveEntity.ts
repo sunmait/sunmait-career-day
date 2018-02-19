@@ -14,6 +14,7 @@ import {
   Min,
   ForeignKey,
   BelongsTo,
+  AutoIncrement,
 } from 'sequelize-typescript';
 
 import CareerDayEntity from './CareerDayEntity';
@@ -23,9 +24,10 @@ import StatusEntity from './StatusEntity';
 export default class ObjectiveEntity extends Model<ObjectiveEntity> {
   @Unique
   @PrimaryKey
+  @AutoIncrement
   @AllowNull(false)
-  @Column(DataType.STRING)
-  public id: string;
+  @Column(DataType.INTEGER)
+  public id: number;
 
   @IsDate
   @IsAfter('2018-01-01')
@@ -43,7 +45,11 @@ export default class ObjectiveEntity extends Model<ObjectiveEntity> {
 
   @AllowNull(false)
   @Column(DataType.STRING)
-  public Text: string;
+  public Title: string;
+
+  @AllowNull(false)
+  @Column(DataType.STRING)
+  public Description: string;
 
   @AllowNull(false)
   @ForeignKey(() => StatusEntity)

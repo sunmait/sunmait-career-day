@@ -6,15 +6,15 @@ module.exports = {
       'Statuses',
       [
         {
-          id: 'SMfEX1aMX4',
+          id: 1,
           Status: 'In Progress',
         },
         {
-          id: 'ogGrRJpbY8',
+          id: 2,
           Status: 'Active',
         },
         {
-          id: 'S0m10t12aO',
+          id: 3,
           Status: 'Done',
         },
       ],

@@ -3,18 +3,23 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Objectives', {
       id: {
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      Title: {
         type: Sequelize.STRING,
       },
-      Text: {
+      Description: {
         type: Sequelize.STRING,
       },
       CareerDayId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: { model: 'CareerDays', key: 'id' },
       },
       StatusId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: { model: 'Statuses', key: 'id' },
       },
       Progress: {

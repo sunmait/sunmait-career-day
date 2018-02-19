@@ -4,12 +4,12 @@ module.exports = {
     return queryInterface.createTable('UnitManagerEmployees', {
       UnitManagerExternalId: {
         primaryKey: true,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: { model: 'TestUsers', key: 'id' },
       },
       EmployeeExternalId: {
         primaryKey: true,
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         references: { model: 'TestUsers', key: 'id' },
       },
     });

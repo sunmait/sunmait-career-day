@@ -3,10 +3,11 @@ module.exports = (sequelize, DataTypes) => {
   var Objectives = sequelize.define(
     'Objectives',
     {
-      id: DataTypes.STRING,
-      Text: DataTypes.STRING,
-      CareerDayId: DataTypes.STRING,
-      StatusId: DataTypes.STRING,
+      id: DataTypes.INTEGER,
+      Title: DataTypes.STRING,
+      Description: DataTypes.STRING,
+      CareerDayId: DataTypes.INTEGER,
+      StatusId: DataTypes.INTEGER,
       Progress: DataTypes.DOUBLE,
       CreatedAt: DataTypes.DATE,
       UpdatedAt: DataTypes.DATE,

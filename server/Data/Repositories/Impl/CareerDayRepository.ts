@@ -6,7 +6,7 @@ import { RepositoryBase } from './RepositoryBase';
 @injectable()
 export class CareerDayRepository extends RepositoryBase<CareerDayEntity>
   implements ICareerDayRepository {
-  constructor() {
-    super(CareerDayEntity);
+  constructor(careerDayEntity: CareerDayEntity) {
+    super(careerDayEntity);
   }
 }

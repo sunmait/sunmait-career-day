@@ -6,7 +6,7 @@ import { RepositoryBase } from './RepositoryBase';
 @injectable()
 export class ObjectiveRepository extends RepositoryBase<ObjectiveEntity>
   implements IObjectiveRepository {
-  constructor() {
-    super(ObjectiveEntity);
+  constructor(objectiveEntity: ObjectiveEntity) {
+    super(objectiveEntity);
   }
 }

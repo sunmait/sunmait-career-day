@@ -11,18 +11,22 @@ import {
   IStatusRepository,
 } from '../../../Data/Repositories/index';
 
+import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
+import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
+import StatusEntity from '../../../Data/Entities/StatusEntity';
+
 import { DbContext } from '../../../Data/DbContext';
 export class DataInstaller extends InstallerBase {
   public install(): void {
     this.container
       .bind<ICareerDayRepository>('CareerDayRepository')
-      .to(CareerDayRepository);
+      .toConstantValue(new CareerDayRepository(CareerDayEntity));
     this.container
       .bind<IObjectiveRepository>('ObjectiveRepository')
-      .to(ObjectiveRepository);
+      .toConstantValue(new ObjectiveRepository(ObjectiveEntity));
     this.container
       .bind<IStatusRepository>('StatusRepository')
-      .to(StatusRepository);
+      .toConstantValue(new StatusRepository(StatusEntity));
     this.container
       .bind<DbContext>('DbContext')
       .to(DbContext)

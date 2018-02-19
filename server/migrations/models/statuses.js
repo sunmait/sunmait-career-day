@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   var Statuses = sequelize.define(
     'Statuses',
     {
-      id: DataTypes.STRING,
+      id: DataTypes.INTEGER,
       Status: DataTypes.STRING,
     },
     {

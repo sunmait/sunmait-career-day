@@ -3,10 +3,10 @@ module.exports = (sequelize, DataTypes) => {
   var CareerDays = sequelize.define(
     'CareerDays',
     {
-      id: DataTypes.STRING,
+      id: DataTypes.INTEGER,
       Archived: DataTypes.BOOLEAN,
-      EmployeeExternalId: DataTypes.STRING,
-      UnitManagerExternalId: DataTypes.STRING,
+      EmployeeExternalId: DataTypes.INTEGER,
+      UnitManagerExternalId: DataTypes.INTEGER,
       InterviewDate: DataTypes.DATE,
       CreatedAt: DataTypes.DATE,
       UpdatedAt: DataTypes.DATE,

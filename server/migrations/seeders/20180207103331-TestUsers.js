@@ -6,7 +6,7 @@ module.exports = {
       'TestUsers',
       [
         {
-          id: 'OX81b5kt2o',
+          id: 1,
           Roles: 'employee',
           LastName: 'Pupkin',
           FirstName: 'Vasya',
@@ -14,15 +14,15 @@ module.exports = {
           AccessToken: 'token',
         },
         {
-          id: '15asd8zxc',
-          Roles: 'employee',
+          id: 2,
+          Roles: 3,
           LastName: 'Pupkin',
           FirstName: 'Petya',
           PhotoUrl: 'https://vk.com/images/camera_200.png',
           AccessToken: 'token',
         },
         {
-          id: 'PgZS0RYwZm',
+          id: 3,
           Roles: 'employee',
           LastName: 'Tsvirko',
           FirstName: 'Alexandra',
@@ -31,7 +31,7 @@ module.exports = {
           AccessToken: 'token',
         },
         {
-          id: 'XQnGIMhxvR',
+          id: 4,
           Roles: 'manager',
           LastName: 'Stasivich',
           FirstName: 'Kirill',
