@@ -61,8 +61,11 @@ class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEm
       this.props.objectives.map(item => (
         <ListItem key={item.id} dense button>
           <IconStatus isArchived={false} />
-          <ListItemText primary={item.Title} />
-          <Typography>{item.Description}</Typography>
+          <ListItemText
+            style={{padding: '0 56px 0 16px'}}
+            primary={item.Title}
+            secondary={item.Description}
+          />
           <ListItemSecondaryAction>
             <Edit className={classes.options} />
             <Delete className={classes.options} />

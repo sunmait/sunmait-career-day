@@ -10,7 +10,7 @@ export interface IEmployees {
 }
 
 export interface ICareerDaysOfEmployee {
-  id: string;
+  id: number;
   Archived: boolean;
   EmployeeExternalId: string;
   UnitManagerExternalId: string;

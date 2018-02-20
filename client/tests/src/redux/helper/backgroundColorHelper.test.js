@@ -2,13 +2,10 @@ import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
 describe('Background color helper', () => {
   test('should set background color by className `default-background`', () => {
-    const dispatchSpy = jest.fn();
+    const body = document.querySelector('body');
 
-    const fakeElement = document.createElement('div');
-    fakeElement.setAttribute('id', 'main');
+    backgroundColorHelper();
 
-    dispatchSpy.mockReturnValue(fakeElement);
-
-    // backgroundColorHelper()(dispatchSpy);
+    expect(body.className).toEqual('default-background');
   });
 });

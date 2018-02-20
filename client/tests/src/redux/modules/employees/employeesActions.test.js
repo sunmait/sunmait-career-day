@@ -15,7 +15,7 @@ describe('employees action', () => {
         .then(() => {
           const urlArg = axios.get.mock.calls[0][0];
 
-          return expect(urlArg).toBe('/api/employee');
+          return expect(urlArg).toBe('/api/users/employees');
         });
     });
 
@@ -58,14 +58,14 @@ describe('employees action', () => {
   });
 
   describe('method getCareerDayOfEmployee', () => {
-    test('should sent GET request to `/api/careerDays`', () => {
+    test('should sent GET request to `/api/career-days/1`', () => {
       const dispatchSpy = jest.fn();
 
       return actions.getCareerDayOfEmployee()(dispatchSpy)
         .then(() => {
           const urlArg = axios.get.mock.calls[0][0];
 
-          return expect(urlArg).toBe('/api/careerDays/');
+          return expect(urlArg).toBe('/api/career-days/1');
         });
     });
 
