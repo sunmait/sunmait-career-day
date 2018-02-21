@@ -6,19 +6,22 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Edit from 'material-ui-icons/Edit';
 import Delete from 'material-ui-icons/Delete';
+import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails} from 'material-ui/ExpansionPanel';
 import * as employeesAction from 'redux/modules/employees/employeesAction';
 import {IUser} from 'redux/modules/auth/authReducer';
 import {IObjectives} from 'redux/modules/employees/employeesReducer';
-import List, {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
 import IconStatus from 'components/common/IconStatus';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
 const styles = (theme: Theme) => ({
   root: {
-    width: '100%',
-    maxWidth: 730,
-    backgroundColor: theme.palette.background.paper,
+    flexGrow: 1,
     marginTop: 20,
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+    flex: '1 0 0',
   },
   navigation: {
     marginTop: 20,
@@ -33,6 +36,7 @@ interface IStylesProps {
   root: string;
   options: string;
   navigation: string;
+  heading: string;
 }
 
 interface IEmployeeCareerDayProps {
@@ -59,18 +63,18 @@ class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEm
   public renderObjectives = (classes: IStylesProps) => {
     return (
       this.props.objectives.map(item => (
-        <ListItem key={item.id} dense button>
-          <IconStatus isArchived={false} />
-          <ListItemText
-            style={{padding: '0 56px 0 16px'}}
-            primary={item.Title}
-            secondary={item.Description}
-          />
-          <ListItemSecondaryAction>
+        <ExpansionPanel key={item.id}>
+          <ExpansionPanelSummary style={{display: 'flex'}}>
+            <IconStatus isArchived={false} />
+            <Typography className={classes.heading}>{item.Title}</Typography>
             <Edit className={classes.options} />
             <Delete className={classes.options} />
-          </ListItemSecondaryAction>
-        </ListItem>
+          </ExpansionPanelSummary>
+
+          <ExpansionPanelDetails>
+            <Typography>{item.Description}</Typography>
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
       ))
     );
   }
@@ -84,11 +88,11 @@ class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEm
       <div>
         <Grid container justify="center" spacing={0}>
           <Grid item xs={5}>
-            <Header title="Employee's career day" />
+            <Header title={`${this.props.employeeFullName} progress days`} />
             <Grid container justify="space-between" className={classes.navigation}>
 
               <Grid item xs={5}>
-                <Typography noWrap type="headline">{this.props.employeeFullName}</Typography>
+                <Typography noWrap type="headline"></Typography>
               </Grid>
 
               <Grid item>
@@ -116,9 +120,7 @@ class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEm
 
             <Grid container justify="center">
               <div className={classes.root}>
-                <List>
-                  {this.props.objectives && this.renderObjectives(classes)}
-                </List>
+                {this.props.objectives && this.renderObjectives(classes)}
               </div>
             </Grid>
           </Grid>

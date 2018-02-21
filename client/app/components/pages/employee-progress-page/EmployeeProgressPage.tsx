@@ -5,7 +5,6 @@ import * as moment from 'moment';
 import {Theme, withStyles} from 'material-ui/styles';
 import List, {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
 import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
 import Delete from 'material-ui-icons/Delete';
 import Button from 'material-ui/Button';
 import ControlledTooltips from 'components/common/ControlledTooltips ';
@@ -129,12 +128,8 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
       <div>
         <Grid container justify="center" spacing={0}>
           <Grid item xs={5}>
-            <Header title="Employee's progress days" />
+            <Header title = {`${this.props.employeeFullName} progress days`} />
             <Grid container justify="space-between" className={classes.navigation}>
-
-              <Grid item xs={7}>
-                <Typography noWrap type="headline">{this.props.employeeFullName}</Typography>
-              </Grid>
               <Grid item>
                 <ControlledTooltips
                   title="Employee already has active career day"
