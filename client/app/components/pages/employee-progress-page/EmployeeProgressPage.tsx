@@ -129,7 +129,7 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
       <div>
         <Grid container justify="center" spacing={0}>
           <Grid item xs={5}>
-            <Header title="Employee's career days" />
+            <Header title="Employee's progress days" />
             <Grid container justify="space-between" className={classes.navigation}>
 
               <Grid item xs={7}>

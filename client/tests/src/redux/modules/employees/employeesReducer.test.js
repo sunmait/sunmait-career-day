@@ -40,7 +40,7 @@ describe('employeesReducer', () => {
     };
 
     const initAction = {type: EMPLOYEES_ACTION.GET_CAREER_DAYS, payload};
-    const managerState = employeesReducer(undefined, initAction);
+    const managerState = employeesReducer(undefined, initAction)  ;
 
     expect(managerState).toEqual({
       careerDays: payload.careerDays,
