@@ -64,8 +64,9 @@ function handleGetEmployeesList(state: IEmployeesState, employees: IEmployees) {
   return {...state, employees};
 }
 
-function handleGetCareerDaysOfEmployee(state: IEmployeesState,
-                                       payload: { careerDays: ICareerDaysOfEmployee } & { employeeFullName: string }) {
+function handleGetCareerDaysOfEmployee(
+  state: IEmployeesState,
+  payload: { careerDays: ICareerDaysOfEmployee } & { employeeFullName: string }) {
 
   return {...state, careerDays: payload.careerDays, employeeFullName: payload.employeeFullName};
 }

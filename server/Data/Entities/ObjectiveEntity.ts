@@ -15,12 +15,13 @@ import {
   ForeignKey,
   BelongsTo,
   AutoIncrement,
+  Default,
 } from 'sequelize-typescript';
 
 import CareerDayEntity from './CareerDayEntity';
 import StatusEntity from './StatusEntity';
 
-@Table({ tableName: 'Objectives' })
+@Table({tableName: 'Objectives'})
 export default class ObjectiveEntity extends Model<ObjectiveEntity> {
   @Unique
   @PrimaryKey
@@ -53,18 +54,20 @@ export default class ObjectiveEntity extends Model<ObjectiveEntity> {
 
   @AllowNull(false)
   @ForeignKey(() => StatusEntity)
-  @Column(DataType.STRING)
-  public StatusId: string;
+  @Default(2)
+  @Column(DataType.INTEGER)
+  public StatusId: number;
 
   @Max(1)
   @Min(0)
+  @Default(0)
   @Column(DataType.DOUBLE)
   public Progress: number;
 
   @AllowNull(false)
   @ForeignKey(() => CareerDayEntity)
-  @Column(DataType.STRING)
-  public CareerDayId: string;
+  @Column(DataType.INTEGER)
+  public CareerDayId: number;
 
   @BelongsTo(() => StatusEntity)
   public Status: StatusEntity;

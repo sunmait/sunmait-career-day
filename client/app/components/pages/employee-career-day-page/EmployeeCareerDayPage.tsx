@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {match} from 'react-router-dom';
 import {Theme, withStyles} from 'material-ui/styles';
 import Header from 'components/common/Header';
 import Grid from 'material-ui/Grid';
@@ -44,6 +45,10 @@ interface IStylesProps {
   summary: string;
 }
 
+interface IMatchParams {
+  careerDayId: number;
+}
+
 interface IEmployeeCareerDayProps {
   classes: IStylesProps;
   tooltip: JSX.Element;
@@ -51,6 +56,7 @@ interface IEmployeeCareerDayProps {
   user: IUser;
   objectives: IObjectives[];
   employeeFullName: string;
+  match: match<IMatchParams>;
 }
 
 interface IEmployeeCareerDayState {
@@ -62,7 +68,7 @@ class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEm
   }
 
   public componentWillMount() {
-    this.props.getObjectives();
+    this.props.getObjectives(this.props.match.params.careerDayId);
   }
 
   public renderObjectives = (classes: IStylesProps) => {

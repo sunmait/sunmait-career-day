@@ -21,9 +21,9 @@ export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => 
     });
 };
 
-export type GetCareerDaysOfEmployee = (employeeFullName: string) => (dispatch: Dispatch) => void;
-export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employeeFullName: string) => (dispatch: Dispatch) => {
-  return axiosRequest.get(`/api/career-days/1`)
+export type GetCareerDaysOfEmployee = (employeeFullName: string, userId: number) => (dispatch: Dispatch) => void;
+export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employeeFullName: string, userId: number) => (dispatch: Dispatch) => {
+  return axiosRequest.get(`/api/career-days/${userId}`)
     .then((res: axios.AxiosResponse<ICareerDaysOfEmployee[]>) => {
       dispatch({
         type: EMPLOYEES_LIST.GET_CAREER_DAYS,
@@ -40,9 +40,9 @@ export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employeeFullName
     });
 };
 
-export type GetObjectives = () => (dispatch: Dispatch) => void;
-export const getObjectives: GetObjectives = () => (dispatch: Dispatch) => {
-  return axiosRequest.get(`/api/objectives/`)
+export type GetObjectives = (careerDayId: number) => (dispatch: Dispatch) => void;
+export const getObjectives: GetObjectives = (careerDayId: number) => (dispatch: Dispatch) => {
+  return axiosRequest.get(`/api/objectives/${careerDayId}`)
     .then((res: axios.AxiosResponse<IObjectives[]>) => {
       dispatch({
         type: EMPLOYEES_LIST.GET_OBJECTIVES,

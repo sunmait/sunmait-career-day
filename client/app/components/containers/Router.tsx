@@ -40,7 +40,7 @@ const AppComponent = (props: IAppProps) => {
         <ObjectivesOfEmployeesRoute
           exact
           auth={auth}
-          path="/employees/:userId/career-day/:careerId"
+          path="/employees/:userId/career-day/:careerDayId"
           component={EmployeeCareerDayPageContainer}
         />
 

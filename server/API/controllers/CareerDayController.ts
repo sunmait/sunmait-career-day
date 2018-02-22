@@ -42,7 +42,10 @@ export class CareerDayController implements interfaces.Controller {
    * req.body.
    */
   @httpPost('/')
-  private async add(@requestBody() body: any, @response() res: express.Response): Promise<void> {
+  private async add(
+    @requestBody() body: any,
+    @response() res: express.Response,
+  ): Promise<void> {
     res.json(await this._careerDayService.addCareerDay(body));
   }
 }

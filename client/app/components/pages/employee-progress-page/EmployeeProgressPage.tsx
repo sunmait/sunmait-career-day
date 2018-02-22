@@ -42,7 +42,7 @@ interface IStylesProps {
 }
 
 interface IMatchParams {
-  userId: string;
+  userId: number;
 }
 
 interface IEmployeeProgressProps {
@@ -74,7 +74,7 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
       this.props.location.state.employeeFullName :
       this.props.employeeFullName;
 
-    this.props.getCareerDayOfEmployee(employeeFullName);
+    this.props.getCareerDayOfEmployee(employeeFullName, this.props.match.params.userId);
   }
 
   public togglePopupState = () => {
