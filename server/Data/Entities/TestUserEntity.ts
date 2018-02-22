@@ -7,7 +7,7 @@ import {
   IsUrl,
 } from 'sequelize-typescript';
 
-@Table({ tableName: 'TestUsers' })
+@Table({tableName: 'TestUsers'})
 export default class TestUserEntity extends Model<TestUserEntity> {
   @PrimaryKey
   @Column(DataType.STRING)

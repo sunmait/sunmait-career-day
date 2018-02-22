@@ -1,7 +1,7 @@
-import { injectable } from 'inversify';
-import { IStatusRepository } from '../IStatusRepository';
+import {injectable} from 'inversify';
+import {IStatusRepository} from '../IStatusRepository';
 import StatusEntity from '../../Entities/StatusEntity';
-import { RepositoryBase } from './RepositoryBase';
+import {RepositoryBase} from './RepositoryBase';
 
 @injectable()
 export class StatusRepository extends RepositoryBase<StatusEntity>

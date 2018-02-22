@@ -1,6 +1,6 @@
-import { injectable } from 'inversify';
-import { IRepository } from '../index';
-import { Model } from 'sequelize-typescript';
+import {injectable} from 'inversify';
+import {IRepository} from '../index';
+import {Model} from 'sequelize-typescript';
 
 @injectable()
 export class RepositoryBase<TEntity extends Model<any>> implements IRepository<TEntity> {
@@ -10,7 +10,7 @@ export class RepositoryBase<TEntity extends Model<any>> implements IRepository<T
     this._entityType = entityType;
   }
 
-  public async findById(id: string): Promise<TEntity> {
+  public async findById(id: number): Promise<TEntity> {
     return this._entityType.findById(id);
   }
   public async findAll(filter: any): Promise<TEntity[]> {

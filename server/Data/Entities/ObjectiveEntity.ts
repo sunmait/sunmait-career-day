@@ -52,17 +52,17 @@ export default class ObjectiveEntity extends Model<ObjectiveEntity> {
   @Column(DataType.STRING)
   public Description: string;
 
-  @AllowNull(false)
-  @ForeignKey(() => StatusEntity)
-  @Default(2)
-  @Column(DataType.INTEGER)
-  public StatusId: number;
-
   @Max(1)
   @Min(0)
   @Default(0)
   @Column(DataType.DOUBLE)
   public Progress: number;
+
+  @AllowNull(false)
+  @ForeignKey(() => StatusEntity)
+  @Column(DataType.INTEGER)
+  @Default(2)
+  public StatusId: number;
 
   @AllowNull(false)
   @ForeignKey(() => CareerDayEntity)

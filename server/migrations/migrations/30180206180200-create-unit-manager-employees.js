@@ -5,12 +5,12 @@ module.exports = {
       UnitManagerExternalId: {
         primaryKey: true,
         type: Sequelize.INTEGER,
-        references: { model: 'TestUsers', key: 'id' },
+        references: {model: 'TestUsers', key: 'id'},
       },
       EmployeeExternalId: {
         primaryKey: true,
         type: Sequelize.INTEGER,
-        references: { model: 'TestUsers', key: 'id' },
+        references: {model: 'TestUsers', key: 'id'},
       },
     });
   },

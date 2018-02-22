@@ -4,13 +4,13 @@ import fs = require('fs');
 import bodyParser = require('body-parser');
 
 import 'reflect-metadata';
-import { Container } from 'inversify';
-import { InversifyExpressServer } from 'inversify-express-utils';
+import {Container} from 'inversify';
+import {InversifyExpressServer} from 'inversify-express-utils';
 
 import './controllers/index';
-import { AllInstaller } from './infrastructure/di/AllInstaller';
+import {AllInstaller} from './infrastructure/di/AllInstaller';
 
-import { DbContext } from '../Data/DbContext';
+import {DbContext} from '../Data/DbContext';
 
 // set up container
 const container = new Container();
@@ -32,7 +32,7 @@ const dbContext = container.get<DbContext>('DbContext');
 const server = new InversifyExpressServer(container);
 
 server.setConfig(application => {
-  application.use(bodyParser.urlencoded({ extended: false }));
+  application.use(bodyParser.urlencoded({extended: false}));
   application.use(bodyParser.json());
 });
 

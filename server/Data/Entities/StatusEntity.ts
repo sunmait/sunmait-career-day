@@ -9,7 +9,7 @@ import {
   AutoIncrement,
 } from 'sequelize-typescript';
 
-@Table({ tableName: 'Statuses' })
+@Table({tableName: 'Statuses'})
 export default class StatusEntity extends Model<StatusEntity> {
   @Unique
   @PrimaryKey

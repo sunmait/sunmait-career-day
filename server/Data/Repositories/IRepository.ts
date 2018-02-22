@@ -1,5 +1,5 @@
 export interface IRepository<T> {
-  findById(id: string): Promise<T>;
+  findById(id: number): Promise<T>;
 
   findAll(filter: any): Promise<T[]>;
 
@@ -9,5 +9,5 @@ export interface IRepository<T> {
 
   update(entity: T): Promise<T>;
 
-  remove(entity: T): Promise<boolean>;
+  remove(filter: any): Promise<boolean>;
 }

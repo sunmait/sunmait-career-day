@@ -16,7 +16,7 @@ import {
 } from 'sequelize-typescript';
 import ObjectiveEntity from '../Entities/ObjectiveEntity';
 
-@Table({ tableName: 'CareerDays' })
+@Table({tableName: 'CareerDays'})
 export default class CareerDayEntity extends Model<CareerDayEntity> {
   @Unique
   @PrimaryKey
@@ -46,12 +46,12 @@ export default class CareerDayEntity extends Model<CareerDayEntity> {
   public Archived: boolean;
 
   @AllowNull(false)
-  @Column(DataType.STRING)
-  public EmployeeExternalId: string;
+  @Column(DataType.INTEGER)
+  public EmployeeExternalId: number;
 
   @AllowNull(false)
-  @Column(DataType.STRING)
-  public UnitManagerExternalId: string;
+  @Column(DataType.INTEGER)
+  public UnitManagerExternalId: number;
 
   @IsDate
   @IsAfter('2018-01-01')
