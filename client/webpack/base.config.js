@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// require('../app/favicon.ico');
 
 const env = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : 'development';
 
@@ -75,7 +76,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|ico)$/,
-        loader: 'file-loader',
+        loader: 'file-loader?name=[name].[ext]',
       },
     ],
   },
@@ -83,6 +84,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(app, 'index.html'),
+      favicon: 'app/favicon.ico',
     }),
 
     new ExtractTextPlugin({

@@ -21,22 +21,27 @@ const styles = (theme: Theme) => ({
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
-    flex: '1 0 0',
+    marginLeft: 10,
   },
   navigation: {
     marginTop: 20,
-    padding: '0 20px 0 20px',
   },
-  options: {
+  alignIcons: {
     margin: 10,
   },
+  summary: {
+    display: 'flex',
+    alignItems: 'center',
+    flex: '1 0 0',
+  } as React.CSSProperties,
 });
 
 interface IStylesProps {
   root: string;
-  options: string;
+  alignIcons: string;
   navigation: string;
   heading: string;
+  summary: string;
 }
 
 interface IEmployeeCareerDayProps {
@@ -64,11 +69,16 @@ class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEm
     return (
       this.props.objectives.map(item => (
         <ExpansionPanel key={item.id}>
-          <ExpansionPanelSummary style={{display: 'flex'}}>
-            <IconStatus isArchived={false} />
-            <Typography className={classes.heading}>{item.Title}</Typography>
-            <Edit className={classes.options} />
-            <Delete className={classes.options} />
+          <ExpansionPanelSummary>
+            <div className={classes.summary}>
+              <IconStatus isArchived={false} />
+              <Typography className={classes.heading}>{item.Title}</Typography>
+            </div>
+
+            <div style={{padding: 0}}>
+              <Edit className={classes.alignIcons} />
+              <Delete className={classes.alignIcons} />
+            </div>
           </ExpansionPanelSummary>
 
           <ExpansionPanelDetails>
@@ -88,13 +98,8 @@ class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEm
       <div>
         <Grid container justify="center" spacing={0}>
           <Grid item xs={5}>
-            <Header title={`${this.props.employeeFullName} progress days`} />
-            <Grid container justify="space-between" className={classes.navigation}>
-
-              <Grid item xs={5}>
-                <Typography noWrap type="headline"></Typography>
-              </Grid>
-
+            <Header title={`${this.props.employeeFullName}'s career day`} />
+            <Grid container justify="flex-end" className={classes.navigation}>
               <Grid item>
                 <Grid container spacing={8}>
                   <Grid item>

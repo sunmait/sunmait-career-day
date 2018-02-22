@@ -3,7 +3,7 @@ import EMPLOYEES_LIST from './employeesActionConstants';
 import {Dispatch} from 'redux/store';
 import {IEmployees, ICareerDaysOfEmployee, IObjectives} from './employeesReducer';
 
-const axiosRequest: axios.AxiosInstance = axios;
+const axiosRequest: any = axios;
 
 export type GetEmployeesList = () => (dispatch: Dispatch) => void;
 export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => {

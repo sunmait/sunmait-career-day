@@ -18,13 +18,12 @@ import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 const styles = (theme: Theme) => ({
   root: {
     width: '100%',
-    maxWidth: 730,
+    maxWidth: 800,
     backgroundColor: theme.palette.background.paper,
     marginTop: 20,
   },
   navigation: {
     marginTop: 20,
-    padding: '0 20px 0 20px',
   },
   options: {
     margin: 10,
@@ -128,8 +127,8 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
       <div>
         <Grid container justify="center" spacing={0}>
           <Grid item xs={5}>
-            <Header title = {`${this.props.employeeFullName} progress days`} />
-            <Grid container justify="space-between" className={classes.navigation}>
+            <Header title={`${this.props.employeeFullName}'s progress days`} />
+            <Grid container justify="flex-end" className={classes.navigation}>
               <Grid item>
                 <ControlledTooltips
                   title="Employee already has active career day"
@@ -152,11 +151,11 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
             </Grid>
 
             <Grid container justify="center">
-              <div className={classes.root}>
+              <Grid item className={classes.root}>
                 <List>
                   {this.props.careerDays && this.renderHistoryOfProgress(classes)}
                 </List>
-              </div>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
