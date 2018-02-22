@@ -38,6 +38,9 @@ const styles = (theme: Theme) => ({
     alignItems: 'center',
     flex: '1 0 0',
   } as React.CSSProperties,
+  header: {
+    padding: 15,
+  },
 });
 
 interface IStylesProps {
@@ -46,6 +49,7 @@ interface IStylesProps {
   navigation: string;
   heading: string;
   summary: string;
+  header: string;
 }
 
 interface IMatchParams {
