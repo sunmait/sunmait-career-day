@@ -41,6 +41,9 @@ const styles = (theme: Theme) => ({
     textDecoration: 'none',
     color: 'black',
   },
+  header: {
+    padding: 15,
+  },
 });
 
 interface IStylesProps {
@@ -48,6 +51,7 @@ interface IStylesProps {
   navigation: string;
   options: string;
   disableLinkStyle: string;
+  header: string;
 }
 
 interface IMatchParams {
