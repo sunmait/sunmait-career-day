@@ -16,7 +16,7 @@ import {
   ICareerDayOfEmployee,
   IEmployee,
 } from 'redux/modules/employees/reducer';
-import { GetSelectedCareerDay } from 'redux/modules/employees/action';
+import { GetSelectedCareerDay } from 'redux/modules/employees/actions';
 import IconStatus from 'components/common/icon-status';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
@@ -41,9 +41,6 @@ const styles = (theme: Theme) => ({
     alignItems: 'center',
     flex: '1 0 0',
   } as React.CSSProperties,
-  header: {
-    padding: 15,
-  },
 });
 
 interface IStylesProps {
@@ -52,7 +49,6 @@ interface IStylesProps {
   navigation: string;
   heading: string;
   summary: string;
-  header: string;
 }
 
 interface IMatchParams {
@@ -69,7 +65,8 @@ interface IProps {
   match: match<IMatchParams>;
 }
 
-interface IState {}
+interface IState {
+}
 
 class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -89,7 +86,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
             <Typography className={classes.heading}>{item.Title}</Typography>
           </div>
 
-          <div style={{ padding: 0 }}>
+          <div style={{padding: 0}}>
             <Edit className={classes.alignIcons} />
             <Delete className={classes.alignIcons} />
           </div>
@@ -103,19 +100,19 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { classes } = this.props;
+    const {classes} = this.props;
 
     backgroundColorHelper();
 
     return (
       <div>
         <Grid container justify="center" spacing={0}>
-          <Grid item xs={5}>
-            <Header
-              title={`${this.props.selectedEmployee.FirstName} ${
-                this.props.selectedEmployee.LastName
+          <Header
+            title={`${this.props.selectedEmployee.FirstName} ${
+              this.props.selectedEmployee.LastName
               }'s career day`}
-            />
+          />
+          <Grid item xs={5}>
             <Grid container justify="flex-end" className={classes.navigation}>
               <Grid item>
                 <Grid container spacing={8}>
@@ -137,8 +134,8 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
             <Grid container justify="center">
               <div className={classes.root}>
                 {this.props.selectedCareerDay &&
-                  this.props.selectedCareerDay.Objectives &&
-                  this.renderObjectives(classes)}
+                this.props.selectedCareerDay.Objectives &&
+                this.renderObjectives(classes)}
               </div>
             </Grid>
           </Grid>

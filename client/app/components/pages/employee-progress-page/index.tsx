@@ -6,7 +6,7 @@ import {
   getCareerDayOfEmployee,
   getSelectedEmployee,
   addCareerDay,
-} from 'redux/modules/employees/action';
+} from 'redux/modules/employees/actions';
 import EmployeeProgressPage from './EmployeeProgressPage';
 
 const mapStateToProps = (state: IStore) => ({

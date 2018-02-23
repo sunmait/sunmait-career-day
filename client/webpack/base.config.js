@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-// require('../app/favicon.ico');
 
 const env = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : 'development';
 
@@ -21,12 +20,6 @@ module.exports = {
     extensions: ['.ts', '.tsx', '.js'],
     modules: [app, 'node_modules'],
   },
-
-  devServer: {
-    port: 3000,
-    historyApiFallback: true,
-  },
-
   module: {
     rules: [
       {

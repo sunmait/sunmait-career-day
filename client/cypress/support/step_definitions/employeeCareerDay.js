@@ -18,10 +18,12 @@ given('I see {string} page header', (pageHeader) => {
     cy.get('h1').contains(pageHeader);
 })
 
-when('I click on some day link', () => {
-    cy.get('a:first')
+when('I click on top day link', () => {
+    cy.get('ul')
+    .children()
+    .first()
     .within(() => {
-        cy.get('li').click();
+            cy.get('li').click();
     })
 });
 

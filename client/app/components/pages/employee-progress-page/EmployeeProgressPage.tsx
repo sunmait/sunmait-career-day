@@ -13,7 +13,11 @@ import Delete from 'material-ui-icons/Delete';
 import Button from 'material-ui/Button';
 import ControlledTooltips from 'components/common/controlled-tooltips';
 import Header from 'components/common/header';
-import * as employeesAction from 'redux/modules/employees/action';
+import {
+  GetCareerDaysOfEmployee,
+  GetSelectedEmployee,
+  AddCareerDay,
+} from 'redux/modules/employees/actions';
 import {
   ICareerDayOfEmployee,
   IEmployee,
@@ -41,9 +45,6 @@ const styles = (theme: Theme) => ({
     textDecoration: 'none',
     color: 'black',
   },
-  header: {
-    padding: 15,
-  },
 });
 
 interface IStylesProps {
@@ -51,7 +52,6 @@ interface IStylesProps {
   navigation: string;
   options: string;
   disableLinkStyle: string;
-  header: string;
 }
 
 interface IMatchParams {
@@ -61,10 +61,10 @@ interface IMatchParams {
 interface IProps {
   classes: IStylesProps;
   tooltip: JSX.Element;
-  getCareerDayOfEmployee: employeesAction.GetCareerDaysOfEmployee;
-  getSelectedEmployee: employeesAction.GetSelectedEmployee;
+  getCareerDayOfEmployee: GetCareerDaysOfEmployee;
+  getSelectedEmployee: GetSelectedEmployee;
   careerDays: ICareerDayOfEmployee[];
-  addCareerDay: employeesAction.AddCareerDay;
+  addCareerDay: AddCareerDay;
   match: match<IMatchParams>;
   location: Location;
   user: IUser;
@@ -89,7 +89,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
   }
 
   public togglePopupState = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+    this.setState({isOpen: !this.state.isOpen});
   }
 
   public handleAddCareerDay = (date: Date) => {
@@ -126,7 +126,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     if (this.props.careerDays.length === 0) {
       return (
         <Typography align="center">
-          This employee does not have career days.
+          This employee doesn't have career days.
         </Typography>
       );
     } else {
@@ -136,7 +136,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
           to={{
             pathname: `/employees/${
               this.props.match.params.userId
-            }/career-day/${item.id}`,
+              }/career-day/${item.id}`,
           }}
           className={classes.disableLinkStyle}
         >
@@ -153,21 +153,21 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { classes } = this.props;
+    const {classes} = this.props;
 
     backgroundColorHelper();
 
     return (
       <div>
         <Grid container justify="center" spacing={0}>
-          <Grid item xs={5}>
-            {this.props.selectedEmployee && (
-              <Header
-                title={`${this.props.selectedEmployee.FirstName} ${
-                  this.props.selectedEmployee.LastName
+          {this.props.selectedEmployee && (
+            <Header
+              title={`${this.props.selectedEmployee.FirstName} ${
+                this.props.selectedEmployee.LastName
                 }'s progress days`}
-              />
-            )}
+            />
+          )}
+          <Grid item xs={5}>
             <Grid container justify="flex-end" className={classes.navigation}>
               <Grid item>
                 <ControlledTooltips
@@ -198,7 +198,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
               <Grid item className={classes.root}>
                 <List>
                   {this.props.careerDays &&
-                    this.renderHistoryOfProgress(classes)}
+                  this.renderHistoryOfProgress(classes)}
                 </List>
               </Grid>
             </Grid>

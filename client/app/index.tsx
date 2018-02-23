@@ -1,5 +1,5 @@
 import 'assets/styles/main.less';
-import 'assets/logo.png';
+import 'assets/images/logo.png';
 
 import * as React from 'react';
 import {render} from 'react-dom';

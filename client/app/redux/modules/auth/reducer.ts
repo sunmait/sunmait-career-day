@@ -7,7 +7,7 @@ const defaultState: IAuthState = {
 
 export default function(
   state: IAuthState = defaultState,
-  {type, payload}: {type: string; payload: any},
+  {type, payload}: { type: string; payload: any },
 ) {
   switch (type) {
     case AUTH_ACTIONS.LOGIN_AS_EMPLOYEE:

@@ -3,7 +3,7 @@ let openPage = (page) => {
 };
 
 let checkPage = (page) => {
-  cy.url(`http://localhost:3000/${page}`);
+  cy.url().should('eq', `http://localhost:3000/${page}`);
 }
 
 given('I open {string} page', openPage);
@@ -13,6 +13,11 @@ given('I see {string} page', (checkPage));
 given('I see {string} button', (buttonText) => {
   cy.get('button')
     .contains(buttonText);
+});
+
+given('I see logo in app header', () => {
+  cy.get('img')
+    .should('have.attr', 'src', '/logo.png');
 });
 
 given('I logged in as {string}', (userRole) => {
@@ -51,4 +56,8 @@ then('I see {string} page header', (pageHeader) => {
 
 then('I see list', () => {
   cy.get('li');
-})
+});
+
+then ('I see {string} username in app header', (username) => {
+  cy.get('h3').contains(username);
+});

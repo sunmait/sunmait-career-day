@@ -1,7 +1,7 @@
 import * as axios from 'axios';
 import EMPLOYEES_LIST from './actionConstants';
-import { Dispatch } from 'redux/store';
-import { IEmployee, ICareerDayOfEmployee, ICareerDay } from './reducer';
+import {Dispatch} from 'redux/store';
+import {IEmployee, ICareerDayOfEmployee, ICareerDay} from './reducer';
 
 const axiosRequest: any = axios;
 
@@ -55,10 +55,10 @@ export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) 
 
 export type GetSelectedEmployee = (employee: IEmployee) => (dispatch: Dispatch) => void;
 export const getSelectedEmployee: GetSelectedEmployee = (employee: IEmployee) => (dispatch: Dispatch) => {
-      dispatch({
-        type: EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE,
-        payload: employee,
-      });
+  dispatch({
+    type: EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE,
+    payload: employee,
+  });
 };
 
 export type AddCareerDay = (careerDay: ICareerDay) => (dispatch: Dispatch) => void;

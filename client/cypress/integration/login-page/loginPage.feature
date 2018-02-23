@@ -1,10 +1,14 @@
 Feature: Login page
 
+  Scenario: There is a app header
+    Given I open 'login' page
+    And I see logo in app header
+
   Scenario: There is a 'login as employee' button
     Given I open 'login' page
     And I see 'Login as employee' button
 
-  Scenario: I see 'login as unit manager' button
+  Scenario: There is a 'login as unit manager' button
     Given I open 'login' page
     And I see 'Login as unit manager' button
 

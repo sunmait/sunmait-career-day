@@ -12,7 +12,7 @@ import Grid from 'material-ui/Grid';
 import Header from 'components/common/header';
 import Avatar from 'material-ui/Avatar';
 import IconStatus from 'components/common/icon-status';
-import * as employeesAction from 'redux/modules/employees/action';
+import { GetEmployeesList } from 'redux/modules/employees/actions';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
 const styles = (theme: Theme) => ({
@@ -22,24 +22,21 @@ const styles = (theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
     marginTop: 20,
   },
-  header: {
-    padding: 15,
-  },
 });
 
 interface IStyleProps {
   root: string;
-  header: string;
 }
 
 interface IProps {
   classes: IStyleProps;
   user: IUser;
   employees: IEmployee[];
-  getEmployeesList: employeesAction.GetEmployeesList;
+  getEmployeesList: GetEmployeesList;
 }
 
-interface IState {}
+interface IState {
+}
 
 class EmployeeList extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -56,9 +53,9 @@ class EmployeeList extends React.Component<IProps, IState> {
         key={item.id}
         to={{
           pathname: `/employees/${item.id}`,
-          state: { employee: item },
+          state: {employee: item},
         }}
-        style={{ textDecoration: 'none' }}
+        style={{textDecoration: 'none'}}
       >
         <ListItem dense button>
           <Avatar alt={item.LastName} src={item.PhotoUrl} />
@@ -72,18 +69,20 @@ class EmployeeList extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { classes } = this.props;
+    const {classes} = this.props;
 
     backgroundColorHelper();
 
     return (
       <div>
         <Grid container spacing={0} justify="center">
-          <Grid item md={12} className={classes.header}>
-            <Header title="List Of Employees" />
-          </Grid>
-          <Grid item className={classes.root}>
-            <List>{this.props.employees && this.renderEmployeeProfile()}</List>
+          <Header title="List Of Employees" />
+          <Grid item xs={5}>
+            <Grid container justify="center">
+              <div className={classes.root}>
+                <List>{this.props.employees && this.renderEmployeeProfile()}</List>
+              </div>
+            </Grid>
           </Grid>
         </Grid>
       </div>

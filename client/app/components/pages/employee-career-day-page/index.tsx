@@ -2,8 +2,7 @@ import { connect } from 'react-redux';
 import { IStore } from 'redux/rootReducer';
 import * as redux from 'redux';
 import { Dispatch } from 'redux/store';
-
-import { getSelectedCareerDay } from 'redux/modules/employees/action';
+import { getSelectedCareerDay } from 'redux/modules/employees/actions';
 import EmployeeCareerDayPage from './EmployeeCareerDayPage';
 
 const mapStateToProps = (state: IStore) => ({

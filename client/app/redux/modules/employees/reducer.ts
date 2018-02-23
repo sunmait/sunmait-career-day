@@ -9,7 +9,7 @@ const defaultState: IEmployeesState = {
 
 export default function(
   state: IEmployeesState = defaultState,
-  { type, payload }: { type: string; payload: any },
+  {type, payload}: { type: string; payload: any },
 ) {
   switch (type) {
     case EMPLOYEES_LIST.GET_EMPLOYEES_LIST:
@@ -33,7 +33,7 @@ export default function(
 }
 
 function handleGetEmployeesList(state: IEmployeesState, employees: IEmployee) {
-  return { ...state, employees };
+  return {...state, employees};
 }
 
 function handleGetCareerDaysOfEmployee(
@@ -50,21 +50,21 @@ function handleGetSelectedCareerDay(
   state: IEmployeesState,
   selectedCareerDay: ICareerDayOfEmployee,
 ) {
-  return { ...state, selectedCareerDay };
+  return {...state, selectedCareerDay};
 }
 
 function handleGetSelectedEmployee(
   state: IEmployeesState,
   selectedEmployee: IEmployee,
 ) {
-  return { ...state, selectedEmployee };
+  return {...state, selectedEmployee};
 }
 
 function handleCareerDay(
   state: IEmployeesState,
   newCareerDay: ICareerDayOfEmployee,
 ) {
-  return { ...state, careerDays: [newCareerDay, ...state.careerDays] };
+  return {...state, careerDays: [newCareerDay, ...state.careerDays]};
 }
 
 export interface IEmployee {

@@ -31,14 +31,14 @@ class CareerDayPopup extends React.Component<IProps, IState> {
   }
 
   public handleChangeDate = (date: Date) => {
-    this.setState({ selectedDate: date });
+    this.setState({selectedDate: date});
   }
 
   public render() {
     return (
       <Dialog open={this.props.open} onClose={this.handleClosePopup}>
         <DialogTitle id="alert-dialog-title">Add career day</DialogTitle>
-        <DialogContent style={{ display: 'flex' }}>
+        <DialogContent style={{display: 'flex'}}>
           <Typography type="subheading" align="center">
             <DatePicker handleChangeDate={this.handleChangeDate} />
           </Typography>
