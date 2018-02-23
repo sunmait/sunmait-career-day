@@ -22,14 +22,10 @@ const styles = (theme: Theme) => ({
     backgroundColor: theme.palette.background.paper,
     marginTop: 20,
   },
-  header: {
-    padding: 15,
-  },
 });
 
 interface IStyleProps {
   root: string;
-  header: string;
 }
 
 interface IProps {
@@ -79,11 +75,13 @@ class EmployeeList extends React.Component<IProps, IState> {
     return (
       <div>
         <Grid container spacing={0} justify="center">
-          <Grid item md={12} className={classes.header}>
-            <Header title="List Of Employees" />
-          </Grid>
-          <Grid item className={classes.root}>
-            <List>{this.props.employees && this.renderEmployeeProfile()}</List>
+          <Header title="List Of Employees" />
+          <Grid item xs={5}>
+            <Grid container justify="center">
+              <div className={classes.root}>
+                <List>{this.props.employees && this.renderEmployeeProfile()}</List>
+              </div>
+            </Grid>
           </Grid>
         </Grid>
       </div>

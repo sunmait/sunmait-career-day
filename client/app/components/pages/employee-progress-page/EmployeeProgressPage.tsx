@@ -41,9 +41,6 @@ const styles = (theme: Theme) => ({
     textDecoration: 'none',
     color: 'black',
   },
-  header: {
-    padding: 15,
-  },
 });
 
 interface IStylesProps {
@@ -51,7 +48,6 @@ interface IStylesProps {
   navigation: string;
   options: string;
   disableLinkStyle: string;
-  header: string;
 }
 
 interface IMatchParams {
@@ -160,14 +156,14 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     return (
       <div>
         <Grid container justify="center" spacing={0}>
+          {this.props.selectedEmployee && (
+             <Header
+               title={`${this.props.selectedEmployee.FirstName} ${
+                 this.props.selectedEmployee.LastName
+               }'s progress days`}
+             />
+           )}
           <Grid item xs={5}>
-            {this.props.selectedEmployee && (
-              <Header
-                title={`${this.props.selectedEmployee.FirstName} ${
-                  this.props.selectedEmployee.LastName
-                }'s progress days`}
-              />
-            )}
             <Grid container justify="flex-end" className={classes.navigation}>
               <Grid item>
                 <ControlledTooltips

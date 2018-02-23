@@ -41,9 +41,6 @@ const styles = (theme: Theme) => ({
     alignItems: 'center',
     flex: '1 0 0',
   } as React.CSSProperties,
-  header: {
-    padding: 15,
-  },
 });
 
 interface IStylesProps {
@@ -52,7 +49,6 @@ interface IStylesProps {
   navigation: string;
   heading: string;
   summary: string;
-  header: string;
 }
 
 interface IMatchParams {
@@ -110,12 +106,12 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
     return (
       <div>
         <Grid container justify="center" spacing={0}>
-          <Grid item xs={5}>
-            <Header
+        <Header
               title={`${this.props.selectedEmployee.FirstName} ${
                 this.props.selectedEmployee.LastName
               }'s career day`}
             />
+          <Grid item xs={5}>
             <Grid container justify="flex-end" className={classes.navigation}>
               <Grid item>
                 <Grid container spacing={8}>

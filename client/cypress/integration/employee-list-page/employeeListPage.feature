@@ -1,5 +1,10 @@
 Feature: Employee list page
 
+  Scenario: I see user profile section in header
+    Given I logged in as 'unit manager'
+    When I see 'employees' page
+    Then I see 'Alex Denisenko' username in app header
+
   Scenario: I see 'Employee list' page header
     Given I logged in as 'unit manager'
     When I see 'employees' page
@@ -16,4 +21,4 @@ Feature: Employee list page
     Given I logged in as 'unit manager'
     And I see 'employees' page
     When I click on 'Alexandra Tsvirko' link
-    Then I am redirected to 'employees/4' page
+    Then I am redirected to 'employees/3' page

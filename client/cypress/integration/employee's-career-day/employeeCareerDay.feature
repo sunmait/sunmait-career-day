@@ -1,19 +1,15 @@
 Feature: Employee's career days page
 
-  Scenario: I see 'Alexandra Tsvirko' career day
+  Scenario: I see 'Alexandra Tsvirko' career days
     Given I logged in as 'unit manager'
     And I click on 'Alexandra Tsvirko' link
-    And I see 'employees/4' page
-    And I see 'Alexandra Tsvirko' page header
+    When I see 'employees/3' page
+    Then I see 'Alexandra Tsvirko' page header
+    And I see list
 
-  Scenario: I see list of employees career days
+  Scenario: I am redirected to objectives page by click on career day
     Given I logged in as 'unit manager'
     And I click on 'Alexandra Tsvirko' link
-    When I see 'employees/4' page
     Then I see list
-
-  Scenario: I see list of employees career days
-    Given I logged in as 'unit manager'
-    And I click on 'Alexandra Tsvirko' link
-    When I click on some day link
-    Then I am redirected to 'employees/4/career-day/some-day-url' page
+    When I click on top day link
+    Then I am redirected to 'employees/3/career-day/5' page
