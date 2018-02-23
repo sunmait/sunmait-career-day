@@ -1,7 +1,7 @@
-import AUTH_ACTIONS from './authActionConstants';
+import AUTH_ACTIONS from './actionConstants';
 import {Dispatch} from 'redux/store';
-import {IUser} from './authReducer';
-import {ROLES} from './authConstants';
+import {IUser} from './reducer';
+import {ROLES} from './constants';
 
 export type LoginAsEmployee = () => (dispatch: Dispatch) => void;
 export const loginAsEmployee: LoginAsEmployee = () => (dispatch: Dispatch) => {
@@ -17,7 +17,9 @@ export const loginAsEmployee: LoginAsEmployee = () => (dispatch: Dispatch) => {
 };
 
 export type LoginAsUnitManager = () => (dispatch: Dispatch) => void;
-export const loginAsUnitManager: LoginAsUnitManager = () => (dispatch: Dispatch) => {
+export const loginAsUnitManager: LoginAsUnitManager = () => (
+  dispatch: Dispatch,
+) => {
   const user: IUser = {
     role: ROLES.UNIT_MANAGER,
     fullName: 'Alex Denisenko',

@@ -1,7 +1,7 @@
 import * as axios from 'axios';
-import EMPLOYEES_LIST from './employeesActionConstants';
+import EMPLOYEES_LIST from './actionConstants';
 import {Dispatch} from 'redux/store';
-import {IEmployees, ICareerDaysOfEmployee, IObjectives} from './employeesReducer';
+import {IEmployees, ICareerDaysOfEmployee, IObjectives} from './reducer';
 
 const axiosRequest: any = axios;
 

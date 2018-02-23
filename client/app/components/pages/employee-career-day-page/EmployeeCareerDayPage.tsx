@@ -1,17 +1,20 @@
 import * as React from 'react';
 import {match} from 'react-router-dom';
 import {Theme, withStyles} from 'material-ui/styles';
-import Header from 'components/common/Header';
+import Header from 'components/common/header';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Edit from 'material-ui-icons/Edit';
 import Delete from 'material-ui-icons/Delete';
-import ExpansionPanel, {ExpansionPanelSummary, ExpansionPanelDetails} from 'material-ui/ExpansionPanel';
-import * as employeesAction from 'redux/modules/employees/employeesAction';
-import {IUser} from 'redux/modules/auth/authReducer';
-import {IObjectives} from 'redux/modules/employees/employeesReducer';
-import IconStatus from 'components/common/IconStatus';
+import ExpansionPanel, {
+  ExpansionPanelSummary,
+  ExpansionPanelDetails,
+} from 'material-ui/ExpansionPanel';
+import * as employeesAction from 'redux/modules/employees/action';
+import {IUser} from 'redux/modules/auth/reducer';
+import {IObjectives} from 'redux/modules/employees/reducer';
+import IconStatus from 'components/common/icon-status';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
 const styles = (theme: Theme) => ({
@@ -49,7 +52,7 @@ interface IMatchParams {
   careerDayId: number;
 }
 
-interface IEmployeeCareerDayProps {
+interface IProps {
   classes: IStylesProps;
   tooltip: JSX.Element;
   getObjectives: employeesAction.GetObjectives;
@@ -59,11 +62,10 @@ interface IEmployeeCareerDayProps {
   match: match<IMatchParams>;
 }
 
-interface IEmployeeCareerDayState {
-}
+interface IState {}
 
-class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEmployeeCareerDayState> {
-  constructor(props: IEmployeeCareerDayProps) {
+class EmployeeCareerDayPage extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
   }
 
@@ -72,27 +74,25 @@ class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEm
   }
 
   public renderObjectives = (classes: IStylesProps) => {
-    return (
-      this.props.objectives.map(item => (
-        <ExpansionPanel key={item.id}>
-          <ExpansionPanelSummary>
-            <div className={classes.summary}>
-              <IconStatus isArchived={false} />
-              <Typography className={classes.heading}>{item.Title}</Typography>
-            </div>
+    return this.props.objectives.map(item => (
+      <ExpansionPanel key={item.id}>
+        <ExpansionPanelSummary>
+          <div className={classes.summary}>
+            <IconStatus isArchived={false} />
+            <Typography className={classes.heading}>{item.Title}</Typography>
+          </div>
 
-            <div style={{padding: 0}}>
-              <Edit className={classes.alignIcons} />
-              <Delete className={classes.alignIcons} />
-            </div>
-          </ExpansionPanelSummary>
+          <div style={{padding: 0}}>
+            <Edit className={classes.alignIcons} />
+            <Delete className={classes.alignIcons} />
+          </div>
+        </ExpansionPanelSummary>
 
-          <ExpansionPanelDetails>
-            <Typography>{item.Description}</Typography>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      ))
-    );
+        <ExpansionPanelDetails>
+          <Typography>{item.Description}</Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    ));
   }
 
   public render() {
@@ -109,19 +109,13 @@ class EmployeeCareerDayPage extends React.Component<IEmployeeCareerDayProps, IEm
               <Grid item>
                 <Grid container spacing={8}>
                   <Grid item>
-                    <Button
-                      raised
-                      color="primary"
-                    >
+                    <Button raised color="primary">
                       Add objective
                     </Button>
                   </Grid>
 
                   <Grid item>
-                    <Button
-                      raised
-                      color="primary"
-                    >
+                    <Button raised color="primary">
                       Archive
                     </Button>
                   </Grid>

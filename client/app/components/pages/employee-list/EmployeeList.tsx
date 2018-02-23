@@ -1,14 +1,18 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import {IUser} from 'redux/modules/auth/authReducer';
-import {IEmployees} from 'redux/modules/employees/employeesReducer';
+import {IUser} from 'redux/modules/auth/reducer';
+import {IEmployees} from 'redux/modules/employees/reducer';
 import {Theme, withStyles} from 'material-ui/styles';
-import List, {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
+import List, {
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+} from 'material-ui/List';
 import Grid from 'material-ui/Grid';
-import Header from 'components/common/Header';
+import Header from 'components/common/header';
 import Avatar from 'material-ui/Avatar';
-import IconStatus from 'components/common/IconStatus';
-import * as employeesAction from 'redux/modules/employees/employeesAction';
+import IconStatus from 'components/common/icon-status';
+import * as employeesAction from 'redux/modules/employees/action';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
 const styles = (theme: Theme) => ({
@@ -28,18 +32,17 @@ interface IStyleProps {
   header: string;
 }
 
-interface IEmployeeListProps {
+interface IProps {
   classes: IStyleProps;
   user: IUser;
   employees: IEmployees[];
   getEmployeesList: employeesAction.GetEmployeesList;
 }
 
-interface IEmployeeListState {
-}
+interface IState {}
 
-class EmployeeList extends React.Component<IEmployeeListProps, IEmployeeListState> {
-  constructor(props: IEmployeeListProps) {
+class EmployeeList extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
   }
 
@@ -48,25 +51,24 @@ class EmployeeList extends React.Component<IEmployeeListProps, IEmployeeListStat
   }
 
   public renderEmployeeProfile = () => {
-    return (
-      this.props.employees.map((item: IEmployees) => (
-        <Link
-          key={item.id}
-          to={{
-            pathname: `/employees/${item.id}`,
-            state: {employeeFullName: `${item.FirstName} ${item.LastName}`},
-          }}
-          style={{textDecoration: 'none'}}>
-          <ListItem dense button>
-            <Avatar alt={item.LastName} src={item.PhotoUrl} />
-            <ListItemText primary={`${item.FirstName} ${item.LastName}`} />
-            <ListItemSecondaryAction>
-              <IconStatus isArchived={false} />
-            </ListItemSecondaryAction>
-          </ListItem>
-        </Link>
-      ))
-    );
+    return this.props.employees.map((item: IEmployees) => (
+      <Link
+        key={item.id}
+        to={{
+          pathname: `/employees/${item.id}`,
+          state: {employeeFullName: `${item.FirstName} ${item.LastName}`},
+        }}
+        style={{textDecoration: 'none'}}
+      >
+        <ListItem dense button>
+          <Avatar alt={item.LastName} src={item.PhotoUrl} />
+          <ListItemText primary={`${item.FirstName} ${item.LastName}`} />
+          <ListItemSecondaryAction>
+            <IconStatus isArchived={false} />
+          </ListItemSecondaryAction>
+        </ListItem>
+      </Link>
+    ));
   }
 
   public render() {
@@ -81,9 +83,7 @@ class EmployeeList extends React.Component<IEmployeeListProps, IEmployeeListStat
             <Header title="List Of Employees" />
           </Grid>
           <Grid item className={classes.root}>
-            <List>
-              {this.props.employees && this.renderEmployeeProfile()}
-            </List>
+            <List>{this.props.employees && this.renderEmployeeProfile()}</List>
           </Grid>
         </Grid>
       </div>

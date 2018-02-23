@@ -1,15 +1,15 @@
 import {combineReducers} from 'redux';
-import auth, {IAuthState} from './modules/auth/authReducer';
-import employees, {IEmployeesState} from './modules/employees/employeesReducer';
+import auth, {IAuthState} from './modules/auth/reducer';
+import employees, {IEmployeesState} from './modules/employees/reducer';
 
-export interface IRootState {
-  auth: IAuthState;
-  employees: IEmployeesState;
-}
-
-const rootReducer = combineReducers({
+const rootReducer = combineReducers<IStore>({
   auth,
   employees,
 });
 
 export default rootReducer;
+
+export interface IStore {
+  auth: IAuthState;
+  employees: IEmployeesState;
+}

@@ -60,8 +60,8 @@ export default class ObjectiveEntity extends Model<ObjectiveEntity> {
 
   @AllowNull(false)
   @ForeignKey(() => StatusEntity)
-  @Column(DataType.INTEGER)
   @Default(2)
+  @Column(DataType.INTEGER)
   public StatusId: number;
 
   @AllowNull(false)

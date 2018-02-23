@@ -1,18 +1,17 @@
 import * as React from 'react';
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
-import * as authActions from 'redux/modules/auth/authActions';
-import Header from 'components/common/Header';
+import * as authActions from 'redux/modules/auth/actions';
+import Header from 'components/common/header';
 
-interface ILoginPageProps {
+interface IProps {
   loginAsEmployee: authActions.LoginAsEmployee;
   loginAsUnitManager: authActions.LoginAsUnitManager;
 }
 
-interface ILoginPageState {
-}
+interface IState {}
 
-export default class LoginPage extends React.Component<ILoginPageProps, ILoginPageState> {
+export default class LoginPage extends React.Component<IProps, IState> {
   public render() {
     return (
       <div>

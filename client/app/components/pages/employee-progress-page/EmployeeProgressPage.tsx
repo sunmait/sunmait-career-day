@@ -3,16 +3,23 @@ import {Link, match} from 'react-router-dom';
 import {Location} from 'history';
 import * as moment from 'moment';
 import {Theme, withStyles} from 'material-ui/styles';
-import List, {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
+import List, {
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+} from 'material-ui/List';
 import Grid from 'material-ui/Grid';
 import Delete from 'material-ui-icons/Delete';
 import Button from 'material-ui/Button';
-import ControlledTooltips from 'components/common/ControlledTooltips ';
-import Header from 'components/common/Header';
-import * as employeesAction from 'redux/modules/employees/employeesAction';
-import {ICareerDaysOfEmployee, IEmployees} from 'redux/modules/employees/employeesReducer';
-import CareerDayPopup from 'components/pages/employee-progress-page/caree-day-popup/CareerDayPopup';
-import IconStatus from 'components/common/IconStatus';
+import ControlledTooltips from 'components/common/controlled-tooltips';
+import Header from 'components/common/header';
+import * as employeesAction from 'redux/modules/employees/action';
+import {
+  ICareerDaysOfEmployee,
+  IEmployees,
+} from 'redux/modules/employees/reducer';
+import CareerDayPopup from './caree-day-popup';
+import IconStatus from 'components/common/icon-status';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
 const styles = (theme: Theme) => ({
@@ -45,7 +52,7 @@ interface IMatchParams {
   userId: number;
 }
 
-interface IEmployeeProgressProps {
+interface IProps {
   classes: IStylesProps;
   tooltip: JSX.Element;
   getCareerDayOfEmployee: employeesAction.GetCareerDaysOfEmployee;
@@ -57,12 +64,12 @@ interface IEmployeeProgressProps {
   employeeFullName: string;
 }
 
-interface IEmployeeProgressState {
+interface IState {
   isOpen: boolean;
 }
 
-class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmployeeProgressState> {
-  constructor(props: IEmployeeProgressProps) {
+class EmployeeProgressPage extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       isOpen: false,
@@ -70,11 +77,14 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
   }
 
   public componentWillMount() {
-    const employeeFullName = this.props.location.state ?
-      this.props.location.state.employeeFullName :
-      this.props.employeeFullName;
+    const employeeFullName = this.props.location.state
+      ? this.props.location.state.employeeFullName
+      : this.props.employeeFullName;
 
-    this.props.getCareerDayOfEmployee(employeeFullName, this.props.match.params.userId);
+    this.props.getCareerDayOfEmployee(
+      employeeFullName,
+      this.props.match.params.userId,
+    );
   }
 
   public togglePopupState = () => {
@@ -93,29 +103,33 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
     const format = 'DD.MM.YYYY hh:mm A';
 
     if (item.Archived) {
-      return `${moment(item.CreatedAt).format(format)} - ${moment(item.UpdatedAt).format(format)}`;
+      return `${moment(item.CreatedAt).format(format)} - ${moment(
+        item.UpdatedAt,
+      ).format(format)}`;
     }
-    return `${moment(item.CreatedAt).format(format)} - ${moment(item.InterviewDate).format(format)}`;
+    return `${moment(item.CreatedAt).format(format)} - ${moment(
+      item.InterviewDate,
+    ).format(format)}`;
   }
 
   public renderHistoryOfProgress = (classes: IStylesProps) => {
-    return (
-      this.props.careerDays.map(item => (
-        <Link
-          key={item.id}
-          to={`/employees/${this.props.match.params.userId}/career-day/${item.id}`}
-          className={classes.disableLinkStyle}
-        >
-          <ListItem key={item.id} dense button>
-            <IconStatus isArchived={item.Archived} />
-            <ListItemText primary={this.getCurrentDate(item)} />
-            <ListItemSecondaryAction>
-              <Delete className={classes.options} />
-            </ListItemSecondaryAction>
-          </ListItem>
-        </Link>
-      ))
-    );
+    return this.props.careerDays.map(item => (
+      <Link
+        key={item.id}
+        to={`/employees/${this.props.match.params.userId}/career-day/${
+          item.id
+        }`}
+        className={classes.disableLinkStyle}
+      >
+        <ListItem key={item.id} dense button>
+          <IconStatus isArchived={item.Archived} />
+          <ListItemText primary={this.getCurrentDate(item)} />
+          <ListItemSecondaryAction>
+            <Delete className={classes.options} />
+          </ListItemSecondaryAction>
+        </ListItem>
+      </Link>
+    ));
   }
 
   public render() {
@@ -145,15 +159,19 @@ class EmployeeProgressPage extends React.Component<IEmployeeProgressProps, IEmpl
                   }
                 />
               </Grid>
-              {this.state.isOpen &&
-              <CareerDayPopup handleClosePopup={this.togglePopupState} open={this.state.isOpen} />
-              }
+              {this.state.isOpen && (
+                <CareerDayPopup
+                  handleClosePopup={this.togglePopupState}
+                  open={this.state.isOpen}
+                />
+              )}
             </Grid>
 
             <Grid container justify="center">
               <Grid item className={classes.root}>
                 <List>
-                  {this.props.careerDays && this.renderHistoryOfProgress(classes)}
+                  {this.props.careerDays &&
+                    this.renderHistoryOfProgress(classes)}
                 </List>
               </Grid>
             </Grid>

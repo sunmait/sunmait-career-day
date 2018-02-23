@@ -1,16 +1,15 @@
 import * as React from 'react';
 import Tooltip from 'material-ui/Tooltip';
 
-interface IControlledTooltipsProps {
+interface IProps {
   title: string;
   tooltip: JSX.Element;
   isDisabled: boolean;
 }
 
-interface IControlledTooltipsState {
-}
+interface IState {}
 
-class ControlledTooltips extends React.Component<IControlledTooltipsProps, IControlledTooltipsState> {
+class ControlledTooltips extends React.Component<IProps, IState> {
   public render() {
     return (
       <Tooltip
@@ -20,9 +19,7 @@ class ControlledTooltips extends React.Component<IControlledTooltipsProps, ICont
         enterDelay={200}
         leaveDelay={200}
       >
-        <div>
-          {this.props.tooltip}
-        </div>
+        <div>{this.props.tooltip}</div>
       </Tooltip>
     );
   }

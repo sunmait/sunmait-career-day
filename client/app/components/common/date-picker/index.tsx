@@ -5,22 +5,21 @@ import EventIcon from 'material-ui-icons/Event';
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 
-interface IDatePickerProps {
+interface IProps {}
+
+interface IState {
+  selectedDate: moment.Moment;
 }
 
-interface IDatePickerState {
-  selectedDate: any;
-}
-
-class DatePicker extends React.Component<IDatePickerProps, IDatePickerState> {
-  constructor(props: IDatePickerProps) {
+class DatePicker extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       selectedDate: moment(),
     };
   }
 
-  public handleDateChange = (date: {}) => {
+  public handleDateChange = (date: moment.Moment) => {
     this.setState({selectedDate: date});
   }
 

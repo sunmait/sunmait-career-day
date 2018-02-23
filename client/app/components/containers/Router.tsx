@@ -9,28 +9,43 @@ import DisabledForAuthorizedUserRoute from './custom-routes/DisabledForAuthorize
 import AllowedForUnitManagerRoute from './custom-routes/AllowedForUnitManagerRoute';
 import EmployeeHistoryRoute from './custom-routes/EmployeeHistoryRoute';
 import ObjectivesOfEmployeesRoute from './custom-routes/ObjectivesOfEmployeesRoute';
-import EmployeeProgressPageContainer from 'components/pages/employee-progress-page/EmployeeProgressPageContainer';
-import MainPageContainer from 'components/pages/main-page/MainPageContainer';
-import EmployeeCareerDayPageContainer from 'components/pages/employee-career-day-page/EmployeeCareerDayPageContainer';
-import EmployeesListPageContainer from 'components/pages/employee-list/EmployeeListContainer';
-import LoginPageContainer from 'components/pages/login-page/LoginPageContainer';
-import {IAuthState} from 'redux/modules/auth/authReducer';
-import {IRootState} from 'redux/rootReducer';
+import EmployeeProgressPageContainer from 'components/pages/employee-progress-page';
+import MainPageContainer from 'components/pages/main-page';
+import EmployeeCareerDayPageContainer from 'components/pages/employee-career-day-page';
+import EmployeesListPageContainer from 'components/pages/employee-list';
+import LoginPageContainer from 'components/pages/login-page';
+import {IAuthState} from 'redux/modules/auth/reducer';
+import {IStore} from 'redux/rootReducer';
 import {Dispatch} from 'redux/store';
 
-interface IAppProps {
+interface IProps {
   auth: IAuthState;
 }
 
-const AppComponent = (props: IAppProps) => {
+const AppComponent = (props: IProps) => {
   const {auth} = props;
 
   return (
     <Router>
       <Switch>
-        <PrivateRoute exact auth={auth} path="/main" component={MainPageContainer} />
-        <DisabledForAuthorizedUserRoute exact auth={auth} path="/login" component={LoginPageContainer} />
-        <AllowedForUnitManagerRoute exact auth={auth} path="/employees" component={EmployeesListPageContainer} />
+        <PrivateRoute
+          exact
+          auth={auth}
+          path="/main"
+          component={MainPageContainer}
+        />
+        <DisabledForAuthorizedUserRoute
+          exact
+          auth={auth}
+          path="/login"
+          component={LoginPageContainer}
+        />
+        <AllowedForUnitManagerRoute
+          exact
+          auth={auth}
+          path="/employees"
+          component={EmployeesListPageContainer}
+        />
         <EmployeeHistoryRoute
           exact
           auth={auth}
@@ -50,10 +65,11 @@ const AppComponent = (props: IAppProps) => {
   );
 };
 
-const mapStateToProps = (state: IRootState) => ({
+const mapStateToProps = (state: IStore) => ({
   auth: state.auth,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  redux.bindActionCreators({}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppComponent);
