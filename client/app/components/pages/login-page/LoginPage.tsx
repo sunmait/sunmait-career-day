@@ -1,34 +1,21 @@
 import * as React from 'react';
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
-import {withStyles} from 'material-ui/styles';
-import * as authActions from 'redux/modules/auth/authActions';
-import Header from 'components/common/Header';
+import * as authActions from 'redux/modules/auth/actions';
+import Header from 'components/common/header';
 
-const styles = () => ({
-  header: {
-    padding: 15,
-  },
-});
-
-interface IStyleProps {  
-  header: string;
-}
-
-interface ILoginPageProps {
-  classes: IStyleProps;
+interface IProps {
   loginAsEmployee: authActions.LoginAsEmployee;
   loginAsUnitManager: authActions.LoginAsUnitManager;
 }
 
 interface IState {}
 
-class LoginPage extends React.Component<ILoginPageProps, ILoginPageState> {
+export default class LoginPage extends React.Component<IProps, IState> {
   public render() {
-    const {classes} = this.props;
     return (
       <div>
-        <Grid item md={12} className={classes.header}>
+        <Grid item md={12}>
           <Header title="Login" />
         </Grid>
 
@@ -57,5 +44,3 @@ class LoginPage extends React.Component<ILoginPageProps, ILoginPageState> {
     );
   }
 }
-
-export default withStyles(styles)(LoginPage)

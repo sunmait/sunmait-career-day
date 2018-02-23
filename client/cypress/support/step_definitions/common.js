@@ -15,6 +15,11 @@ given('I see {string} button', (buttonText) => {
     .contains(buttonText);
 });
 
+given('I see logo in app header', () => {
+  cy.get('img')
+    .should('have.attr', 'src', '/logo.png');
+});
+
 given('I logged in as {string}', (userRole) => {
   cy.visit(`http://localhost:3000/login`)
   .get('button').contains(`Login as ${userRole}`)

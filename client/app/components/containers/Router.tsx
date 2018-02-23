@@ -14,6 +14,7 @@ import MainPageContainer from 'components/pages/main-page';
 import EmployeeCareerDayPageContainer from 'components/pages/employee-career-day-page';
 import EmployeesListPageContainer from 'components/pages/employee-list';
 import LoginPageContainer from 'components/pages/login-page';
+import App from 'components/common/app';
 import {IAuthState} from 'redux/modules/auth/reducer';
 import {IStore} from 'redux/rootReducer';
 import {Dispatch} from 'redux/store';
@@ -27,40 +28,42 @@ const AppComponent = (props: IProps) => {
 
   return (
     <Router>
-      <Switch>
-        <PrivateRoute
-          exact
-          auth={auth}
-          path="/main"
-          component={MainPageContainer}
-        />
-        <DisabledForAuthorizedUserRoute
-          exact
-          auth={auth}
-          path="/login"
-          component={LoginPageContainer}
-        />
-        <AllowedForUnitManagerRoute
-          exact
-          auth={auth}
-          path="/employees"
-          component={EmployeesListPageContainer}
-        />
-        <EmployeeHistoryRoute
-          exact
-          auth={auth}
-          path="/employees/:userId"
-          component={EmployeeProgressPageContainer}
-        />
-        <ObjectivesOfEmployeesRoute
-          exact
-          auth={auth}
-          path="/employees/:userId/career-day/:careerDayId"
-          component={EmployeeCareerDayPageContainer}
-        />
+      <App>
+        <Switch>
+          <PrivateRoute
+            exact
+            auth={auth}
+            path="/main"
+            component={MainPageContainer}
+          />
+          <DisabledForAuthorizedUserRoute
+            exact
+            auth={auth}
+            path="/login"
+            component={LoginPageContainer}
+          />
+          <AllowedForUnitManagerRoute
+            exact
+            auth={auth}
+            path="/employees"
+            component={EmployeesListPageContainer}
+          />
+          <EmployeeHistoryRoute
+            exact
+            auth={auth}
+            path="/employees/:userId"
+            component={EmployeeProgressPageContainer}
+          />
+          <ObjectivesOfEmployeesRoute
+            exact
+            auth={auth}
+            path="/employees/:userId/career-day/:careerDayId"
+            component={EmployeeCareerDayPageContainer}
+          />
 
-        <Redirect from="/" exact to="/main" />
-      </Switch>
+          <Redirect from="/" exact to="/main" />
+        </Switch>
+      </App>
     </Router>
   );
 };
