@@ -1,4 +1,4 @@
-import {InstallerBase} from './InstallerBase';
+import { InstallerBase } from './InstallerBase';
 import {
   CareerDayRepository,
   ObjectiveRepository,
@@ -15,7 +15,7 @@ import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
 import StatusEntity from '../../../Data/Entities/StatusEntity';
 
-import {DbContext} from '../../../Data/DbContext';
+import { DbContext } from '../../../Data/DbContext';
 export class DataInstaller extends InstallerBase {
   public install(): void {
     this.container

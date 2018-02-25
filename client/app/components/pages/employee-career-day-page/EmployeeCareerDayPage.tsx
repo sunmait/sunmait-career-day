@@ -1,6 +1,6 @@
 import * as React from 'react';
-import {match} from 'react-router-dom';
-import {Theme, withStyles} from 'material-ui/styles';
+import { match } from 'react-router-dom';
+import { Theme, withStyles } from 'material-ui/styles';
 import Header from 'components/common/header';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
@@ -11,9 +11,12 @@ import ExpansionPanel, {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
 } from 'material-ui/ExpansionPanel';
-import * as employeesAction from 'redux/modules/employees/action';
-import {IUser} from 'redux/modules/auth/reducer';
-import {IObjectives} from 'redux/modules/employees/reducer';
+import { IUser } from 'redux/modules/auth/reducer';
+import {
+  ICareerDayOfEmployee,
+  IEmployee,
+} from 'redux/modules/employees/reducer';
+import { GetSelectedCareerDay } from 'redux/modules/employees/action';
 import IconStatus from 'components/common/icon-status';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
@@ -55,10 +58,10 @@ interface IMatchParams {
 interface IProps {
   classes: IStylesProps;
   tooltip: JSX.Element;
-  getObjectives: employeesAction.GetObjectives;
   user: IUser;
-  objectives: IObjectives[];
-  employeeFullName: string;
+  selectedCareerDay: ICareerDayOfEmployee;
+  selectedEmployee: IEmployee;
+  getSelectedCareerDay: GetSelectedCareerDay;
   match: match<IMatchParams>;
 }
 
@@ -70,11 +73,11 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 
   public componentWillMount() {
-    this.props.getObjectives(this.props.match.params.careerDayId);
+    this.props.getSelectedCareerDay(this.props.match.params.careerDayId);
   }
 
   public renderObjectives = (classes: IStylesProps) => {
-    return this.props.objectives.map(item => (
+    return this.props.selectedCareerDay.Objectives.map(item => (
       <ExpansionPanel key={item.id}>
         <ExpansionPanelSummary>
           <div className={classes.summary}>
@@ -82,7 +85,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
             <Typography className={classes.heading}>{item.Title}</Typography>
           </div>
 
-          <div style={{padding: 0}}>
+          <div style={{ padding: 0 }}>
             <Edit className={classes.alignIcons} />
             <Delete className={classes.alignIcons} />
           </div>
@@ -96,7 +99,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     backgroundColorHelper();
 
@@ -104,7 +107,11 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
       <div>
         <Grid container justify="center" spacing={0}>
           <Grid item xs={5}>
-            <Header title={`${this.props.employeeFullName}'s career day`} />
+            <Header
+              title={`${this.props.selectedEmployee.FirstName} ${
+                this.props.selectedEmployee.LastName
+              }'s career day`}
+            />
             <Grid container justify="flex-end" className={classes.navigation}>
               <Grid item>
                 <Grid container spacing={8}>
@@ -125,7 +132,9 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
 
             <Grid container justify="center">
               <div className={classes.root}>
-                {this.props.objectives && this.renderObjectives(classes)}
+                {this.props.selectedCareerDay &&
+                  this.props.selectedCareerDay.Objectives &&
+                  this.renderObjectives(classes)}
               </div>
             </Grid>
           </Grid>

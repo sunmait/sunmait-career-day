@@ -1,4 +1,4 @@
 export interface IObjectiveService {
-  getObjectivesById(CareerDayId: number): Promise<any>;
+  getObjectivesByCareerDayId(CareerDayId: number): Promise<any>;
   addObjective(data: any): Promise<any>;
 }

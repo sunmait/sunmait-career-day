@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {Link} from 'react-router-dom';
-import {IUser} from 'redux/modules/auth/reducer';
-import {IEmployees} from 'redux/modules/employees/reducer';
-import {Theme, withStyles} from 'material-ui/styles';
+import { Link } from 'react-router-dom';
+import { IUser } from 'redux/modules/auth/reducer';
+import { IEmployee } from 'redux/modules/employees/reducer';
+import { Theme, withStyles } from 'material-ui/styles';
 import List, {
   ListItem,
   ListItemSecondaryAction,
@@ -35,7 +35,7 @@ interface IStyleProps {
 interface IProps {
   classes: IStyleProps;
   user: IUser;
-  employees: IEmployees[];
+  employees: IEmployee[];
   getEmployeesList: employeesAction.GetEmployeesList;
 }
 
@@ -51,14 +51,14 @@ class EmployeeList extends React.Component<IProps, IState> {
   }
 
   public renderEmployeeProfile = () => {
-    return this.props.employees.map((item: IEmployees) => (
+    return this.props.employees.map((item: IEmployee) => (
       <Link
         key={item.id}
         to={{
           pathname: `/employees/${item.id}`,
-          state: {employeeFullName: `${item.FirstName} ${item.LastName}`},
+          state: { employee: item },
         }}
-        style={{textDecoration: 'none'}}
+        style={{ textDecoration: 'none' }}
       >
         <ListItem dense button>
           <Avatar alt={item.LastName} src={item.PhotoUrl} />
@@ -72,7 +72,7 @@ class EmployeeList extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     backgroundColorHelper();
 

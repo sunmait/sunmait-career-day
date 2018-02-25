@@ -16,12 +16,12 @@ module.exports = {
       },
       CareerDayId: {
         type: Sequelize.INTEGER,
-        references: {model: 'CareerDays', key: 'id'},
+        references: { model: 'CareerDays', key: 'id' },
         onDelete: 'CASCADE',
       },
       StatusId: {
         type: Sequelize.INTEGER,
-        references: {model: 'Statuses', key: 'id'},
+        references: { model: 'Statuses', key: 'id' },
       },
       Progress: {
         type: Sequelize.DOUBLE,

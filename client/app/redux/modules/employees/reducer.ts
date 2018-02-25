@@ -3,13 +3,13 @@ import EMPLOYEES_LIST from './actionConstants';
 const defaultState: IEmployeesState = {
   employees: null,
   careerDays: null,
-  objectives: null,
-  employeeFullName: null,
+  selectedCareerDay: null,
+  selectedEmployee: null,
 };
 
 export default function(
   state: IEmployeesState = defaultState,
-  {type, payload}: {type: string; payload: any},
+  { type, payload }: { type: string; payload: any },
 ) {
   switch (type) {
     case EMPLOYEES_LIST.GET_EMPLOYEES_LIST:
@@ -18,34 +18,56 @@ export default function(
     case EMPLOYEES_LIST.GET_CAREER_DAYS:
       return handleGetCareerDaysOfEmployee(state, payload);
 
-    case EMPLOYEES_LIST.GET_OBJECTIVES:
-      return handleGetObjectives(state, payload);
+    case EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY:
+      return handleGetSelectedCareerDay(state, payload);
+
+    case EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE:
+      return handleGetSelectedEmployee(state, payload);
+
+    case EMPLOYEES_LIST.ADD_CAREER_DAY:
+      return handleCareerDay(state, payload);
 
     default:
       return state;
   }
 }
 
-function handleGetEmployeesList(state: IEmployeesState, employees: IEmployees) {
-  return {...state, employees};
+function handleGetEmployeesList(state: IEmployeesState, employees: IEmployee) {
+  return { ...state, employees };
 }
 
 function handleGetCareerDaysOfEmployee(
   state: IEmployeesState,
-  payload: {careerDays: ICareerDaysOfEmployee} & {employeeFullName: string},
+  careerDays: ICareerDayOfEmployee,
 ) {
   return {
     ...state,
-    careerDays: payload.careerDays,
-    employeeFullName: payload.employeeFullName,
+    careerDays,
   };
 }
 
-function handleGetObjectives(state: IEmployeesState, objectives: IObjectives) {
-  return {...state, objectives};
+function handleGetSelectedCareerDay(
+  state: IEmployeesState,
+  selectedCareerDay: ICareerDayOfEmployee,
+) {
+  return { ...state, selectedCareerDay };
 }
 
-export interface IEmployees {
+function handleGetSelectedEmployee(
+  state: IEmployeesState,
+  selectedEmployee: IEmployee,
+) {
+  return { ...state, selectedEmployee };
+}
+
+function handleCareerDay(
+  state: IEmployeesState,
+  newCareerDay: ICareerDayOfEmployee,
+) {
+  return { ...state, careerDays: [newCareerDay, ...state.careerDays] };
+}
+
+export interface IEmployee {
   id: number;
   Roles: string;
   LastName: string;
@@ -54,7 +76,7 @@ export interface IEmployees {
   AccessToken: string;
 }
 
-export interface ICareerDaysOfEmployee {
+export interface ICareerDayOfEmployee {
   id: number;
   Archived: boolean;
   EmployeeExternalId: string;
@@ -62,9 +84,10 @@ export interface ICareerDaysOfEmployee {
   InterviewDate: Date;
   CreatedAt: Date;
   UpdatedAt: Date;
+  Objectives: null | IObjective[];
 }
 
-export interface IObjectives {
+export interface IObjective {
   id: number;
   Title: string;
   Description: string;
@@ -76,8 +99,14 @@ export interface IObjectives {
 }
 
 export interface IEmployeesState {
-  employees: null | IEmployees[];
-  careerDays: null | ICareerDaysOfEmployee[];
-  objectives: null | IObjectives[];
-  employeeFullName: null | string;
+  employees: null | IEmployee[];
+  careerDays: null | ICareerDayOfEmployee[];
+  selectedCareerDay: null | ICareerDayOfEmployee;
+  selectedEmployee: null | IEmployee;
+}
+
+export interface ICareerDay {
+  EmployeeExternalId: number;
+  UnitManagerExternalId: number;
+  InterviewDate: Date;
 }

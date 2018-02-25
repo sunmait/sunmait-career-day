@@ -1,13 +1,17 @@
 import AUTH_ACTIONS from './actionConstants';
-import {Dispatch} from 'redux/store';
-import {IUser} from './reducer';
-import {ROLES} from './constants';
+import { Dispatch } from 'redux/store';
+import { IUser } from './reducer';
+import { ROLES } from './constants';
 
 export type LoginAsEmployee = () => (dispatch: Dispatch) => void;
 export const loginAsEmployee: LoginAsEmployee = () => (dispatch: Dispatch) => {
   const user: IUser = {
-    role: ROLES.EMPLOYEE,
-    fullName: 'Pavel Markov',
+    id: 1,
+    Roles: ROLES.EMPLOYEE,
+    LastName: 'Pupkin',
+    FirstName: 'Vasya',
+    PhotoUrl: 'https://vk.com/images/camera_200.png',
+    AccessToken: 'token',
   };
 
   dispatch({
@@ -21,8 +25,12 @@ export const loginAsUnitManager: LoginAsUnitManager = () => (
   dispatch: Dispatch,
 ) => {
   const user: IUser = {
-    role: ROLES.UNIT_MANAGER,
-    fullName: 'Alex Denisenko',
+    id: 4,
+    Roles: ROLES.UNIT_MANAGER,
+    LastName: 'Stasivich',
+    FirstName: 'Kirill',
+    PhotoUrl: 'https://vk.com/images/camera_200.png',
+    AccessToken: 'token',
   };
 
   dispatch({

@@ -7,7 +7,9 @@ interface IProps {
 
 const Header = (props: IProps) => {
   return (
-    <Typography type="display2" align="center" style={{marginBottom: 10}}>{props.title}</Typography>
+    <Typography type="display2" align="center" style={{ marginBottom: 10 }}>
+      {props.title}
+    </Typography>
   );
 };
 

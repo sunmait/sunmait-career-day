@@ -1,5 +1,5 @@
-import {Sequelize} from 'sequelize-typescript';
-import {inject, injectable} from 'inversify';
+import { Sequelize } from 'sequelize-typescript';
+import { inject, injectable } from 'inversify';
 import {
   ISettingsProvider,
   IDatabaseSettings,

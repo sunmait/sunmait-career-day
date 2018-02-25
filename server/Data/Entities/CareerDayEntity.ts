@@ -16,7 +16,7 @@ import {
 } from 'sequelize-typescript';
 import ObjectiveEntity from '../Entities/ObjectiveEntity';
 
-@Table({tableName: 'CareerDays'})
+@Table({ tableName: 'CareerDays' })
 export default class CareerDayEntity extends Model<CareerDayEntity> {
   @Unique
   @PrimaryKey

@@ -21,7 +21,7 @@ import {
 import CareerDayEntity from './CareerDayEntity';
 import StatusEntity from './StatusEntity';
 
-@Table({tableName: 'Objectives'})
+@Table({ tableName: 'Objectives' })
 export default class ObjectiveEntity extends Model<ObjectiveEntity> {
   @Unique
   @PrimaryKey

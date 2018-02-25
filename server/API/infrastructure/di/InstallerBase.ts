@@ -1,4 +1,4 @@
-import {Container} from 'inversify';
+import { Container } from 'inversify';
 
 export abstract class InstallerBase {
   protected container: Container;

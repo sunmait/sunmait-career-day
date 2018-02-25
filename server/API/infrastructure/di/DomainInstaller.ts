@@ -1,4 +1,4 @@
-import {InstallerBase} from './InstallerBase';
+import { InstallerBase } from './InstallerBase';
 import {
   ICareerDayService,
   IObjectiveService,

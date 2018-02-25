@@ -1,20 +1,21 @@
-import {connect} from 'react-redux';
-import {IStore} from 'redux/rootReducer';
+import { connect } from 'react-redux';
+import { IStore } from 'redux/rootReducer';
 import * as redux from 'redux';
-import {Dispatch} from 'redux/store';
-import * as employeesAction from 'redux/modules/employees/action';
+import { Dispatch } from 'redux/store';
+
+import { getSelectedCareerDay } from 'redux/modules/employees/action';
 import EmployeeCareerDayPage from './EmployeeCareerDayPage';
 
 const mapStateToProps = (state: IStore) => ({
   user: state.auth.user,
-  objectives: state.employees.objectives,
-  employeeFullName: state.employees.employeeFullName,
+  selectedCareerDay: state.employees.selectedCareerDay,
+  selectedEmployee: state.employees.selectedEmployee,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
   redux.bindActionCreators(
     {
-      getObjectives: employeesAction.getObjectives,
+      getSelectedCareerDay,
     },
     dispatch,
   );

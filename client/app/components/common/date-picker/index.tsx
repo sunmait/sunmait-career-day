@@ -1,30 +1,32 @@
 import * as React from 'react';
-import * as moment from 'moment';
 import * as Picker from 'material-ui-pickers';
 import EventIcon from 'material-ui-icons/Event';
 import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
 import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 
-interface IProps {}
+interface IProps {
+  handleChangeDate: (date: Date) => void;
+}
 
 interface IState {
-  selectedDate: moment.Moment;
+  selectedDate: Date;
 }
 
 class DatePicker extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      selectedDate: moment(),
+      selectedDate: new Date(),
     };
   }
 
-  public handleDateChange = (date: moment.Moment) => {
-    this.setState({selectedDate: date});
+  public handleChangeDate = (date: Date) => {
+    this.setState({ selectedDate: date });
+    this.props.handleChangeDate(date);
   }
 
   public render() {
-    const {selectedDate} = this.state;
+    const { selectedDate } = this.state;
 
     return (
       <Picker.DatePicker
@@ -33,7 +35,7 @@ class DatePicker extends React.Component<IProps, IState> {
         rightArrowIcon={<KeyboardArrowRight />}
         keyboardIcon={<EventIcon />}
         value={selectedDate}
-        onChange={this.handleDateChange}
+        onChange={this.handleChangeDate}
         animateYearScrolling={false}
       />
     );

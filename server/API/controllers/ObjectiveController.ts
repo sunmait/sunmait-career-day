@@ -8,9 +8,9 @@ import {
   requestParam,
   requestBody,
 } from 'inversify-express-utils';
-import {inject} from 'inversify';
+import { inject } from 'inversify';
 
-import {IObjectiveService} from './../../Domain/Services/index';
+import { IObjectiveService } from './../../Domain/Services/index';
 
 /**
  * Operations about objectives.
@@ -32,7 +32,7 @@ export class ObjectiveController implements interfaces.Controller {
     @requestParam('id') id: number,
     @response() res: express.Response,
   ): Promise<void> {
-    res.json(await this._objectiveService.getObjectivesById(id));
+    res.json(await this._objectiveService.getObjectivesByCareerDayId(id));
   }
 
   /**

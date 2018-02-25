@@ -1,9 +1,10 @@
-import {injectable} from 'inversify';
-import {IRepository} from '../index';
-import {Model} from 'sequelize-typescript';
+import { injectable } from 'inversify';
+import { IRepository } from '../index';
+import { Model } from 'sequelize-typescript';
 
 @injectable()
-export class RepositoryBase<TEntity extends Model<any>> implements IRepository<TEntity> {
+export class RepositoryBase<TEntity extends Model<any>>
+  implements IRepository<TEntity> {
   private _entityType: any;
 
   constructor(entityType: any) {

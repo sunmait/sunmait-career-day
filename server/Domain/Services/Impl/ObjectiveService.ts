@@ -1,20 +1,32 @@
-import {injectable, inject} from 'inversify';
-import {IObjectiveService} from '../IObjectiveService';
+import { injectable, inject } from 'inversify';
+import { IObjectiveService } from '../IObjectiveService';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
+import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 
-import {IObjectiveRepository} from '../../../Data/Repositories/index';
+import {
+  IObjectiveRepository,
+  ICareerDayRepository,
+} from '../../../Data/Repositories/index';
 
 @injectable()
 export class ObjectiveService implements IObjectiveService {
   private readonly _objectiveRepository: IObjectiveRepository;
+  private readonly _careerDayRepository: ICareerDayRepository;
 
-  constructor(@inject('ObjectiveRepository') objectiveRepository: IObjectiveRepository) {
+  constructor(
+    @inject('ObjectiveRepository') objectiveRepository: IObjectiveRepository,
+    @inject('CareerDayRepository') careerDayRepository: ICareerDayRepository,
+  ) {
     this._objectiveRepository = objectiveRepository;
+    this._careerDayRepository = careerDayRepository;
   }
 
-  public async getObjectivesById(CareerDayId: number): Promise<ObjectiveEntity[]> {
-    return this._objectiveRepository.findAll({
-      where: {CareerDayId},
+  public async getObjectivesByCareerDayId(
+    CareerDayId: number,
+  ): Promise<CareerDayEntity[]> {
+    return this._careerDayRepository.find({
+      where: { id: CareerDayId },
+      include: ObjectiveEntity,
     });
   }
 

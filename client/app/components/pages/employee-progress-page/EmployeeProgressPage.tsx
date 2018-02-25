@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {Link, match} from 'react-router-dom';
-import {Location} from 'history';
+import { Link, match } from 'react-router-dom';
+import { Location } from 'history';
 import * as moment from 'moment';
-import {Theme, withStyles} from 'material-ui/styles';
+import { Theme, withStyles } from 'material-ui/styles';
 import List, {
   ListItem,
   ListItemSecondaryAction,
@@ -15,12 +15,14 @@ import ControlledTooltips from 'components/common/controlled-tooltips';
 import Header from 'components/common/header';
 import * as employeesAction from 'redux/modules/employees/action';
 import {
-  ICareerDaysOfEmployee,
-  IEmployees,
+  ICareerDayOfEmployee,
+  IEmployee,
 } from 'redux/modules/employees/reducer';
 import CareerDayPopup from './caree-day-popup';
 import IconStatus from 'components/common/icon-status';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
+import Typography from 'material-ui/Typography';
+import { IUser } from 'redux/modules/auth/reducer';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -56,12 +58,13 @@ interface IProps {
   classes: IStylesProps;
   tooltip: JSX.Element;
   getCareerDayOfEmployee: employeesAction.GetCareerDaysOfEmployee;
-  careerDays: ICareerDaysOfEmployee[];
-  employee: IEmployees[];
-  handleClosePopup: () => void;
+  getSelectedEmployee: employeesAction.GetSelectedEmployee;
+  careerDays: ICareerDayOfEmployee[];
+  addCareerDay: employeesAction.AddCareerDay;
   match: match<IMatchParams>;
   location: Location;
-  employeeFullName: string;
+  user: IUser;
+  selectedEmployee: IEmployee;
 }
 
 interface IState {
@@ -77,18 +80,21 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
   }
 
   public componentWillMount() {
-    const employeeFullName = this.props.location.state
-      ? this.props.location.state.employeeFullName
-      : this.props.employeeFullName;
-
-    this.props.getCareerDayOfEmployee(
-      employeeFullName,
-      this.props.match.params.userId,
-    );
+    this.props.getSelectedEmployee(this.props.location.state.employee);
+    this.props.getCareerDayOfEmployee(this.props.location.state.employee);
   }
 
   public togglePopupState = () => {
-    this.setState({isOpen: !this.state.isOpen});
+    this.setState({ isOpen: !this.state.isOpen });
+  }
+
+  public handleAddCareerDay = (date: Date) => {
+    this.props.addCareerDay({
+      UnitManagerExternalId: this.props.user.id,
+      EmployeeExternalId: this.props.selectedEmployee.id,
+      InterviewDate: date,
+    });
+    this.togglePopupState();
   }
 
   public isActiveButton = () => {
@@ -99,7 +105,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     }
   }
 
-  public getCurrentDate = (item: ICareerDaysOfEmployee) => {
+  public getCurrentDate = (item: ICareerDayOfEmployee) => {
     const format = 'DD.MM.YYYY hh:mm A';
 
     if (item.Archived) {
@@ -113,27 +119,37 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
   }
 
   public renderHistoryOfProgress = (classes: IStylesProps) => {
-    return this.props.careerDays.map(item => (
-      <Link
-        key={item.id}
-        to={`/employees/${this.props.match.params.userId}/career-day/${
-          item.id
-        }`}
-        className={classes.disableLinkStyle}
-      >
-        <ListItem key={item.id} dense button>
-          <IconStatus isArchived={item.Archived} />
-          <ListItemText primary={this.getCurrentDate(item)} />
-          <ListItemSecondaryAction>
-            <Delete className={classes.options} />
-          </ListItemSecondaryAction>
-        </ListItem>
-      </Link>
-    ));
+    if (this.props.careerDays.length === 0) {
+      return (
+        <Typography align="center">
+          This employee does not have career days.
+        </Typography>
+      );
+    } else {
+      return this.props.careerDays.map(item => (
+        <Link
+          key={item.id}
+          to={{
+            pathname: `/employees/${
+              this.props.match.params.userId
+            }/career-day/${item.id}`,
+          }}
+          className={classes.disableLinkStyle}
+        >
+          <ListItem key={item.id} dense button>
+            <IconStatus isArchived={item.Archived} />
+            <ListItemText primary={this.getCurrentDate(item)} />
+            <ListItemSecondaryAction>
+              <Delete className={classes.options} />
+            </ListItemSecondaryAction>
+          </ListItem>
+        </Link>
+      ));
+    }
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     backgroundColorHelper();
 
@@ -141,7 +157,13 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
       <div>
         <Grid container justify="center" spacing={0}>
           <Grid item xs={5}>
-            <Header title={`${this.props.employeeFullName}'s progress days`} />
+            {this.props.selectedEmployee && (
+              <Header
+                title={`${this.props.selectedEmployee.FirstName} ${
+                  this.props.selectedEmployee.LastName
+                }'s progress days`}
+              />
+            )}
             <Grid container justify="flex-end" className={classes.navigation}>
               <Grid item>
                 <ControlledTooltips
@@ -162,6 +184,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
               {this.state.isOpen && (
                 <CareerDayPopup
                   handleClosePopup={this.togglePopupState}
+                  handleAddCareerDay={this.handleAddCareerDay}
                   open={this.state.isOpen}
                 />
               )}

@@ -10,9 +10,9 @@ import {
   httpDelete,
   httpPatch,
 } from 'inversify-express-utils';
-import {inject} from 'inversify';
+import { inject } from 'inversify';
 
-import {ICareerDayService} from './../../Domain/Services/index';
+import { ICareerDayService } from './../../Domain/Services/index';
 
 /**
  * Operations about Career days.

@@ -1,8 +1,8 @@
-import {injectable, inject} from 'inversify';
-import {ICareerDayService} from '../ICareerDayService';
+import { injectable, inject } from 'inversify';
+import { ICareerDayService } from '../ICareerDayService';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 
-import {ICareerDayRepository} from '../../../Data/Repositories/index';
+import { ICareerDayRepository } from '../../../Data/Repositories/index';
 
 @injectable()
 export class CareerDayService implements ICareerDayService {
@@ -17,13 +17,14 @@ export class CareerDayService implements ICareerDayService {
     EmployeeExternalId: number,
   ): Promise<CareerDayEntity[]> {
     return this._careerDayRepository.findAll({
-      where: {EmployeeExternalId},
+      where: { EmployeeExternalId },
+      order: [['CreatedAt', 'DESC']],
     });
   }
 
   public async addCareerDay(data: any): Promise<CareerDayEntity> {
     const activeCareerDay = await this._careerDayRepository.findAll({
-      where: {EmployeeExternalId: data.EmployeeExternalId, Archived: false},
+      where: { EmployeeExternalId: data.EmployeeExternalId, Archived: false },
     });
     if (!activeCareerDay[0]) {
       const careerDay = new CareerDayEntity(data);
@@ -37,7 +38,7 @@ export class CareerDayService implements ICareerDayService {
   }
 
   public async deleteCareerDay(id: number): Promise<void> {
-    await this._careerDayRepository.remove({where: {id}});
+    await this._careerDayRepository.remove({ where: { id } });
   }
 
   public async archiveCareerDay(id: number): Promise<CareerDayEntity> {

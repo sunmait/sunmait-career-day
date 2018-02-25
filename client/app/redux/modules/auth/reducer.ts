@@ -24,8 +24,12 @@ const handleLogin = (state: IAuthState, user: IUser) => {
 };
 
 export interface IUser {
-  role: ROLES;
-  fullName: string;
+  id: number;
+  Roles: ROLES;
+  LastName: string;
+  FirstName: string;
+  PhotoUrl: string;
+  AccessToken: string;
 }
 
 export interface IAuthState {

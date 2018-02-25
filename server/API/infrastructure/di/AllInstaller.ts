@@ -1,5 +1,5 @@
-import {InstallerBase, DomainInstaller, DataInstaller} from './index';
-import {ISettingsProvider, SettingsProvider} from '../index';
+import { InstallerBase, DomainInstaller, DataInstaller } from './index';
+import { ISettingsProvider, SettingsProvider } from '../index';
 
 export class AllInstaller extends InstallerBase {
   public install(): void {

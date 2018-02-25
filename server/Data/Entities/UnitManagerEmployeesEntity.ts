@@ -8,8 +8,10 @@ import {
 } from 'sequelize-typescript';
 import TestUserEntity from './TestUserEntity';
 
-@Table({tableName: 'UnitManagerEmployees'})
-export default class UnitManagerEmployeesEntity extends Model<UnitManagerEmployeesEntity> {
+@Table({ tableName: 'UnitManagerEmployees' })
+export default class UnitManagerEmployeesEntity extends Model<
+  UnitManagerEmployeesEntity
+> {
   @PrimaryKey
   @ForeignKey(() => TestUserEntity)
   @Column(DataType.STRING)
