@@ -1,7 +1,7 @@
 import AUTH_ACTIONS from './actionConstants';
-import {Dispatch} from 'redux/store';
-import {IUser} from './reducer';
-import {ROLES} from './constants';
+import { Dispatch } from 'redux/store';
+import { IUser } from './reducer';
+import { ROLES } from './constants';
 
 export type LoginAsEmployee = () => (dispatch: Dispatch) => void;
 export const loginAsEmployee: LoginAsEmployee = () => (dispatch: Dispatch) => {

@@ -25,7 +25,10 @@ export default function(
       return handleGetSelectedEmployee(state, payload);
 
     case EMPLOYEES_LIST.ADD_CAREER_DAY:
-      return handleCareerDay(state, payload);
+      return handleAddCareerDay(state, payload);
+
+    case EMPLOYEES_LIST.ADD_OBJECTIVE:
+      return handleAddObjective(state, payload);
 
     default:
       return state;
@@ -36,35 +39,24 @@ function handleGetEmployeesList(state: IEmployeesState, employees: IEmployee) {
   return {...state, employees};
 }
 
-function handleGetCareerDaysOfEmployee(
-  state: IEmployeesState,
-  careerDays: ICareerDayOfEmployee,
-) {
-  return {
-    ...state,
-    careerDays,
-  };
+function handleGetCareerDaysOfEmployee(state: IEmployeesState, careerDays: ICareerDayOfEmployee) {
+  return {...state, careerDays};
 }
 
-function handleGetSelectedCareerDay(
-  state: IEmployeesState,
-  selectedCareerDay: ICareerDayOfEmployee,
-) {
+function handleGetSelectedCareerDay(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
   return {...state, selectedCareerDay};
 }
 
-function handleGetSelectedEmployee(
-  state: IEmployeesState,
-  selectedEmployee: IEmployee,
-) {
+function handleGetSelectedEmployee(state: IEmployeesState, selectedEmployee: IEmployee) {
   return {...state, selectedEmployee};
 }
 
-function handleCareerDay(
-  state: IEmployeesState,
-  newCareerDay: ICareerDayOfEmployee,
-) {
+function handleAddCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEmployee) {
   return {...state, careerDays: [newCareerDay, ...state.careerDays]};
+}
+
+function handleAddObjective(state: IEmployeesState, objective: IObjectiveById) {
+  return {...state, objectives: [objective, ...state.selectedCareerDay.Objectives]};
 }
 
 export interface IEmployee {
@@ -96,6 +88,12 @@ export interface IObjective {
   Progress: number;
   CreatedAt: Date;
   UpdatedAt: Date;
+}
+
+export interface IObjectiveById {
+  Title: string;
+  Description: string;
+  CareerDayId: number;
 }
 
 export interface IEmployeesState {

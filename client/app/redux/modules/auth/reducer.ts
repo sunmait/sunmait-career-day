@@ -1,5 +1,5 @@
 import AUTH_ACTIONS from './actionConstants';
-import {ROLES} from './constants';
+import { ROLES } from './constants';
 
 const defaultState: IAuthState = {
   user: null,

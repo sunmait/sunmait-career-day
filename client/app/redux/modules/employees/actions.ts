@@ -1,7 +1,7 @@
 import * as axios from 'axios';
 import EMPLOYEES_LIST from './actionConstants';
-import {Dispatch} from 'redux/store';
-import {IEmployee, ICareerDayOfEmployee, ICareerDay} from './reducer';
+import { Dispatch } from 'redux/store';
+import { IEmployee, ICareerDayOfEmployee, ICareerDay, IObjectiveById} from './reducer';
 
 const axiosRequest: any = axios;
 
@@ -67,6 +67,25 @@ export const addCareerDay: AddCareerDay = (careerDay: ICareerDay) => (dispatch: 
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
         type: EMPLOYEES_LIST.ADD_CAREER_DAY,
+        payload: res.data,
+      });
+    })
+    .catch((err: axios.AxiosError) => {
+      console.error(err);
+
+      return err;
+    });
+};
+
+export type AddObjective = (objective: IObjectiveById) => (objective: Dispatch) => void;
+export const addObjective: AddObjective = (objective: IObjectiveById) => (dispatch: Dispatch) => {
+
+  // TODO: add field unit manager id for validate
+
+  return axiosRequest.post(`/api/objectives`, objective)
+    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+      dispatch({
+        type: EMPLOYEES_LIST.ADD_OBJECTIVE,
         payload: res.data,
       });
     })
