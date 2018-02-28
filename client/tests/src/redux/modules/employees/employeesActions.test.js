@@ -72,7 +72,14 @@ describe('employees action', () => {
     };
     test('should sent GET request to `/api/career-days/1`', () => {
       const dispatchSpy = jest.fn();
-    
+      const employee = {
+        id: 1,
+        Roles: '1',
+        LastName: 'Tsvirko',
+        FirstName: 'Alex',
+        PhotoUrl: 'my-avatar',
+        AccessToken: 'token',
+      };
       return actions.getCareerDayOfEmployee(employee)(dispatchSpy)
         .then(() => {
           const urlArg = axios.get.mock.calls[0][0];
@@ -83,6 +90,14 @@ describe('employees action', () => {
 
     test('should dispatch correct action in case of success response', () => {
       const dispatchSpy = jest.fn();
+      const employee = {
+        id: 1,
+        Roles: '1',
+        LastName: 'Tsvirko',
+        FirstName: 'Alex',
+        PhotoUrl: 'my-avatar',
+        AccessToken: 'token',
+      };
 
       return actions.getCareerDayOfEmployee(employee)(dispatchSpy)
         .then(() => {
@@ -233,6 +248,14 @@ describe('employees action', () => {
 
     test('should return rejected promise in case of error in request', () => {
       const dispatchSpy = jest.fn();
+      const employee = {
+        id: 1,
+        Roles: '1',
+        LastName: 'Tsvirko',
+        FirstName: 'Alex',
+        PhotoUrl: 'my-avatar',
+        AccessToken: 'token',
+      };
       const fakeResponse = {
         body: {},
         status: 500,
@@ -266,7 +289,8 @@ describe('employees action', () => {
 
       return actions.addObjective(objective)(dispatchSpy)
         .then(() => {
-          const type = dispatchSpy.mock.calls[0][0].type;
+          const type = dispatchSpy.moc
+          k.calls[0][0].type;
 
           return expect(type).toEqual(EMPLOYEES_LIST.ADD_OBJECTIVE);
         });
