@@ -1,6 +1,6 @@
-import authReducer from 'redux/modules/auth/authReducer.ts';
-import AUTH_ACTIONS from 'redux/modules/auth/authActionConstants';
-import {ROLES} from 'redux/modules/auth/authConstants';
+import authReducer from 'redux/modules/auth/reducer.ts';
+import AUTH_ACTIONS from 'redux/modules/auth/actionConstants';
+import {ROLES} from 'redux/modules/auth/constants';
 
 describe('authReducer', () => {
   test('Should return default state', () => {

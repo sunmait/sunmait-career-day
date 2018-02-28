@@ -83,7 +83,7 @@ export const addCareerDay: AddCareerDay = (careerDay: ICareerDay) => (dispatch: 
     });
 };
 
-export type AddObjective = (objective: IObjectiveById) => (objective: Dispatch) => void;
+export type AddObjective = (objective: IObjectiveById) => (dispatch: Dispatch) => void;
 export const addObjective: AddObjective = (objective: IObjectiveById) => (dispatch: Dispatch) => {
 
   // TODO: add field unit manager id for validate
