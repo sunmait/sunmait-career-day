@@ -1,33 +1,35 @@
 import * as React from 'react';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
-import TextField from 'material-ui/TextField';
+import FormInput from 'components/common/form-input';
+import { withStyles, WithStyles } from 'material-ui/styles';
 
-interface IStyleProps {
-  textField: string;
-  alignColumn: string;
-}
+const styles = {
+  alignColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+  } as React.CSSProperties,
+};
+
+type ComponentClassNames = 'alignColumn';
 
 interface IProps {
   handleClosePopup: () => void;
   open: boolean;
   handleAddObjective: (objective: { Title: string, Description: string }) => void;
-  classes: IStyleProps;
 }
 
 interface IState {
   title: string;
   description: string;
-  isValid: boolean;
 }
 
-class ObjectivePopup extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class ObjectivePopup extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
+  constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {
       title: '',
       description: '',
-      isValid: true,
     };
   }
 
@@ -60,27 +62,27 @@ class ObjectivePopup extends React.Component<IProps, IState> {
       <Dialog open={this.props.open} onClose={this.handleClosePopup}>
         <DialogTitle id="alert-dialog-title">Add objective</DialogTitle>
         <DialogContent className={classes.alignColumn}>
-          <TextField
-            id="multiline-flexible"
-            label="Title"
-            multiline
-            rowsMax="4"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeTitleValue(e)}
-            className={classes.textField}
-            margin="normal"
+          <FormInput
+            label={'Title'}
+            maxLength={50}
+            inputHelperText={'Max 50 characters'}
+            calculateCharacters={`${50 - this.state.title.length}/50`}
+            handleChangeValue={this.handleChangeTitleValue}
           />
 
-          <TextField
-            id="multiline-flexible"
-            label="Description"
-            multiline
-            rowsMax="4"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeDescriptionValue(e)}
-            className={classes.textField}
-            margin="normal"
+          <FormInput
+            label={'Description'}
+            maxLength={255}
+            inputHelperText={'Max 255 characters'}
+            calculateCharacters={`${255 - this.state.description.length}/255`}
+            handleChangeValue={this.handleChangeDescriptionValue}
           />
 
-          <Button color="primary" onClick={this.addObjectiveClick}>
+          <Button
+            color="primary"
+            disabled={this.state.title.length === 0 || this.state.description.length === 0}
+            onClick={this.addObjectiveClick}
+          >
             Add
           </Button>
         </DialogContent>
@@ -89,4 +91,4 @@ class ObjectivePopup extends React.Component<IProps, IState> {
   }
 }
 
-export default ObjectivePopup;
+export default withStyles<ComponentClassNames>(styles)(ObjectivePopup);

@@ -43,15 +43,6 @@ const styles = (theme: Theme) => ({
     alignItems: 'center',
     flex: '1 0 0',
   } as React.CSSProperties,
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 400,
-  },
-  alignColumn: {
-    display: 'flex',
-    flexDirection: 'column',
-  } as React.CSSProperties,
 });
 
 interface IStylesProps {
@@ -60,8 +51,6 @@ interface IStylesProps {
   navigation: string;
   heading: string;
   summary: string;
-  textField: string;
-  alignColumn: string;
 }
 
 interface IMatchParams {
@@ -159,7 +148,6 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
                       handleClosePopup={this.togglePopupState}
                       handleAddObjective={this.handleAddObjective}
                       open={this.state.isOpen}
-                      classes={{textField: classes.textField, alignColumn: classes.alignColumn}}
                     />
                   )}
 
