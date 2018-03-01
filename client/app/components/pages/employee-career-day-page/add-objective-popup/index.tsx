@@ -1,20 +1,7 @@
 import * as React from 'react';
-import { withStyles, Theme } from 'material-ui/styles';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 import TextField from 'material-ui/TextField';
-
-const styles = (theme: Theme) => ({
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 400,
-  },
-  alignColumn: {
-    display: 'flex',
-    flexDirection: 'column',
-  } as React.CSSProperties,
-});
 
 interface IStyleProps {
   textField: string;
@@ -31,6 +18,7 @@ interface IProps {
 interface IState {
   title: string;
   description: string;
+  isValid: boolean;
 }
 
 class ObjectivePopup extends React.Component<IProps, IState> {
@@ -39,6 +27,7 @@ class ObjectivePopup extends React.Component<IProps, IState> {
     this.state = {
       title: '',
       description: '',
+      isValid: true,
     };
   }
 
@@ -100,4 +89,4 @@ class ObjectivePopup extends React.Component<IProps, IState> {
   }
 }
 
-export default withStyles(styles)(ObjectivePopup);
+export default ObjectivePopup;
