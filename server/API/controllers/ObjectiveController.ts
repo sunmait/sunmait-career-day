@@ -3,6 +3,7 @@ import {
   controller,
   httpGet,
   httpPost,
+  httpPatch,
   interfaces,
   response,
   requestParam,
@@ -44,5 +45,19 @@ export class ObjectiveController implements interfaces.Controller {
     @response() res: express.Response,
   ): Promise<void> {
     res.json(await this._objectiveService.addObjective(body));
+  }
+
+  /**
+   * Update objective
+   * id: objective
+   */
+  @httpPatch('/:id')
+  private async updateObjective(
+    @requestParam('id') id: number,
+    @requestBody('title') title: string,
+    @requestBody('description') description: string,
+    @response() res: express.Response,
+  ): Promise<void> {
+    res.json(await this._objectiveService.updateObjective(id, title, description));
   }
 }

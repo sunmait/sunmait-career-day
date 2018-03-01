@@ -21,11 +21,9 @@ export class ObjectiveService implements IObjectiveService {
     this._careerDayRepository = careerDayRepository;
   }
 
-  public async getObjectivesByCareerDayId(
-    CareerDayId: number,
-  ): Promise<CareerDayEntity[]> {
+  public async getObjectivesByCareerDayId(CareerDayId: number): Promise<CareerDayEntity[]> {
     return this._careerDayRepository.find({
-      where: { id: CareerDayId },
+      where: {id: CareerDayId},
       include: ObjectiveEntity,
     });
   }
@@ -34,5 +32,22 @@ export class ObjectiveService implements IObjectiveService {
     const objective = new ObjectiveEntity(data);
 
     return this._objectiveRepository.create(objective);
+  }
+
+  public async updateObjective(id: number, title: string, description: string) {
+    const objective = await this._objectiveRepository.findById(id);
+    const careerDay = await this._careerDayRepository.findById(objective.CareerDayId);
+
+    if (!careerDay.Archived) {
+      objective.Title = title;
+      objective.Description = description;
+
+      return this._objectiveRepository.update(objective);
+    } else {
+      throw {
+        code: 403,
+        massage: 'No one can edit objective in which Career Day was archived .',
+      };
+    }
   }
 }

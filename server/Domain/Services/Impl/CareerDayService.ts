@@ -13,9 +13,7 @@ export class CareerDayService implements ICareerDayService {
     this._careerDayRepository = careerDayRepository;
   }
 
-  public async getCareerDaysWithId(
-    EmployeeExternalId: number,
-  ): Promise<CareerDayEntity[]> {
+  public async getCareerDaysWithId(EmployeeExternalId: number): Promise<CareerDayEntity[]> {
     return this._careerDayRepository.findAll({
       where: { EmployeeExternalId },
       order: [['CreatedAt', 'DESC']],
