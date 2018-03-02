@@ -6,6 +6,7 @@ import {
   getCareerDayOfEmployee,
   getSelectedEmployee,
   addCareerDay,
+  deleteCareerDay,
 } from 'redux/modules/employees/actions';
 import EmployeeProgressPage from './EmployeeProgressPage';
 
@@ -21,6 +22,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
       getCareerDayOfEmployee,
       getSelectedEmployee,
       addCareerDay,
+      deleteCareerDay,
     },
     dispatch,
   );

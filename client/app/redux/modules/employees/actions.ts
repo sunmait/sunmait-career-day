@@ -81,12 +81,27 @@ export type AddObjective = (objective: IObjectiveById) => (objective: Dispatch) 
 export const addObjective: AddObjective = (objective: IObjectiveById) => (dispatch: Dispatch) => {
 
   // TODO: add field unit manager id for validate
-
   return axiosRequest.post(`/api/objectives`, objective)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
         type: EMPLOYEES_LIST.ADD_OBJECTIVE,
         payload: res.data,
+      });
+    })
+    .catch((err: axios.AxiosError) => {
+      console.error(err);
+
+      return err;
+    });
+};
+
+export type DeleteCareerDay = (careerDayId: number) => (dispatch: Dispatch) => void;
+export const deleteCareerDay: DeleteCareerDay = (careerDayId: number) => (dispatch: Dispatch) => {
+  return axiosRequest.delete(`/api/career-days/${careerDayId}`)
+    .then(() => {
+      dispatch({
+        type: EMPLOYEES_LIST.DELETE_CAREER_DAY,
+        payload: careerDayId,
       });
     })
     .catch((err: axios.AxiosError) => {

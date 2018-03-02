@@ -30,6 +30,9 @@ export default function(
     case EMPLOYEES_LIST.ADD_OBJECTIVE:
       return handleAddObjective(state, payload);
 
+    case EMPLOYEES_LIST.DELETE_CAREER_DAY:
+      return handleDeleteCareerDay(state, payload);
+
     default:
       return state;
   }
@@ -57,6 +60,11 @@ function handleAddCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEm
 
 function handleAddObjective(state: IEmployeesState, objective: IObjectiveById) {
   return {...state, objectives: [objective, ...state.selectedCareerDay.Objectives]};
+}
+
+function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
+  const newCareerDaysList = state.careerDays.filter(careerDay => careerDay.id !== careerDayId );
+  return {...state, careerDays: newCareerDaysList};
 }
 
 export interface IEmployee {

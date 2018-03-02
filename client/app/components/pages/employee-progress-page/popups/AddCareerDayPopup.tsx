@@ -14,7 +14,7 @@ interface IState {
   selectedDate: Date;
 }
 
-class CareerDayPopup extends React.Component<IProps, IState> {
+class AddCareerDayPopup extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
@@ -51,4 +51,4 @@ class CareerDayPopup extends React.Component<IProps, IState> {
   }
 }
 
-export default CareerDayPopup;
+export default AddCareerDayPopup;

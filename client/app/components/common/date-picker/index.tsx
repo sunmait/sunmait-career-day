@@ -37,6 +37,7 @@ class DatePicker extends React.Component<IProps, IState> {
         value={selectedDate}
         onChange={this.handleChangeDate}
         animateYearScrolling={false}
+        minDate={new Date()}
       />
     );
   }

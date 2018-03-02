@@ -17,12 +17,14 @@ import {
   GetCareerDaysOfEmployee,
   GetSelectedEmployee,
   AddCareerDay,
+  DeleteCareerDay,
 } from 'redux/modules/employees/actions';
 import {
   ICareerDayOfEmployee,
   IEmployee,
 } from 'redux/modules/employees/reducer';
-import CareerDayPopup from './caree-day-popup';
+import AddCareerDayPopup from './popups/AddCareerDayPopup';
+import DeleteCareerDayPopup from './popups/DeleteCareerDayPopup';
 import IconStatus from 'components/common/icon-status';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 import Typography from 'material-ui/Typography';
@@ -44,6 +46,7 @@ const styles = (theme: Theme) => ({
   disableLinkStyle: {
     textDecoration: 'none',
     color: 'black',
+    outline: 'none',
   },
 });
 
@@ -52,6 +55,7 @@ interface IStylesProps {
   navigation: string;
   options: string;
   disableLinkStyle: string;
+  button: string;
 }
 
 interface IMatchParams {
@@ -65,6 +69,7 @@ interface IProps {
   getSelectedEmployee: GetSelectedEmployee;
   careerDays: ICareerDayOfEmployee[];
   addCareerDay: AddCareerDay;
+  deleteCareerDay: DeleteCareerDay;
   match: match<IMatchParams>;
   location: Location;
   user: IUser;
@@ -72,14 +77,18 @@ interface IProps {
 }
 
 interface IState {
-  isOpen: boolean;
+  isOpenDeletePopup: boolean;
+  isOpenAddPopup: boolean;
+  deleteCareerDayId: number;
 }
 
 class EmployeeProgressPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      isOpen: false,
+      isOpenAddPopup: false,
+      isOpenDeletePopup: false,
+      deleteCareerDayId: null,
     };
   }
 
@@ -88,8 +97,22 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     this.props.getCareerDayOfEmployee(this.props.location.state.employee);
   }
 
-  public togglePopupState = () => {
-    this.setState({isOpen: !this.state.isOpen});
+  public toggleAddPopupState = () => {
+    this.setState({ isOpenAddPopup: !this.state.isOpenAddPopup });
+  }
+
+  public toggleDeletePopupState = () => {
+    this.setState({
+      isOpenDeletePopup: !this.state.isOpenDeletePopup,
+    });
+  }
+
+  public handleClickOnDeleteButton = (event: React.MouseEvent<SVGSVGElement>, deleteCareerDayId: number) => {
+    event.preventDefault();
+    this.setState({
+      deleteCareerDayId,
+    });
+    this.toggleDeletePopupState();
   }
 
   public handleAddCareerDay = (date: Date) => {
@@ -98,7 +121,12 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
       EmployeeExternalId: this.props.selectedEmployee.id,
       InterviewDate: date,
     });
-    this.togglePopupState();
+    this.toggleAddPopupState();
+  }
+
+  public handleDeleteCareerDay = (deleteCareerDayId: number) => {
+    this.props.deleteCareerDay(deleteCareerDayId);
+    this.toggleDeletePopupState();
   }
 
   public isActiveButton = () => {
@@ -136,7 +164,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
           to={{
             pathname: `/employees/${
               this.props.match.params.userId
-              }/career-day/${item.id}`,
+            }/career-day/${item.id}`,
           }}
           className={classes.disableLinkStyle}
         >
@@ -144,7 +172,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
             <IconStatus isArchived={item.Archived} />
             <ListItemText primary={this.getCurrentDate(item)} />
             <ListItemSecondaryAction>
-              <Delete className={classes.options} />
+              <Delete className={classes.options} onClick={e => this.handleClickOnDeleteButton(e, item.id)}/>
             </ListItemSecondaryAction>
           </ListItem>
         </Link>
@@ -153,7 +181,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     backgroundColorHelper();
 
@@ -164,7 +192,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
             <Header
               title={`${this.props.selectedEmployee.FirstName} ${
                 this.props.selectedEmployee.LastName
-                }'s progress days`}
+              }'s progress days`}
             />
           )}
           <Grid item xs={5}>
@@ -178,18 +206,26 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
                       disabled={this.isActiveButton()}
                       raised
                       color="primary"
-                      onClick={this.togglePopupState}
+                      onClick={this.toggleAddPopupState}
                     >
                       Add career day
                     </Button>
                   }
                 />
               </Grid>
-              {this.state.isOpen && (
-                <CareerDayPopup
-                  handleClosePopup={this.togglePopupState}
+              {this.state.isOpenAddPopup && (
+                <AddCareerDayPopup
+                  handleClosePopup={this.toggleAddPopupState}
                   handleAddCareerDay={this.handleAddCareerDay}
-                  open={this.state.isOpen}
+                  open={this.state.isOpenAddPopup}
+                />
+              )}
+              {this.state.isOpenDeletePopup && (
+                <DeleteCareerDayPopup
+                  handleClosePopup={this.toggleDeletePopupState}
+                  handleDeleteCareerDay={this.handleDeleteCareerDay}
+                  open={this.state.isOpenDeletePopup}
+                  careerDayId={this.state.deleteCareerDayId}
                 />
               )}
             </Grid>
@@ -198,7 +234,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
               <Grid item className={classes.root}>
                 <List>
                   {this.props.careerDays &&
-                  this.renderHistoryOfProgress(classes)}
+                    this.renderHistoryOfProgress(classes)}
                 </List>
               </Grid>
             </Grid>
