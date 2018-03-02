@@ -17,7 +17,7 @@ given('I see {string} button', (buttonText) => {
 
 given('I see logo in app header', () => {
   cy.get('img')
-    .should('have.attr', 'src', '/logo.png');
+    .should('have.attr', 'src', '/logo.svg');
 });
 
 given('I logged in as {string}', (userRole) => {

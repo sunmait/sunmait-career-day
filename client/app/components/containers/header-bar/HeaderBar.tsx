@@ -49,7 +49,7 @@ export default class HeaderBar extends React.Component<IProps, IState> {
             <Grid container spacing={8} justify={justify} alignItems="center">
               <Grid item xs={4}>
                 <Link to="/employees" className="header-bar-link">
-                  <img className="header-bar-image" src={require('assets/images/logo.png')} />
+                  <img className="header-bar-image" src={require('assets/images/logo.svg')} />
                 </Link>
               </Grid>
               {UserProfile}
