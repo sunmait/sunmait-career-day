@@ -13,9 +13,9 @@ describe('employees action', () => {
 
       return actions.getEmployeesList()(dispatchSpy)
         .then(() => {
-          const urlArg = axios.get.mock.calls[0][0];
+          const expectedUrl = axios.get.mock.calls[0][0];
 
-          return expect(urlArg).toBe('/api/users/employees');
+          return expect(expectedUrl).toBe('/api/users/employees');
         });
     });
 
@@ -72,32 +72,16 @@ describe('employees action', () => {
     };
     test('should sent GET request to `/api/career-days/1`', () => {
       const dispatchSpy = jest.fn();
-      const employee = {
-        id: 1,
-        Roles: '1',
-        LastName: 'Tsvirko',
-        FirstName: 'Alex',
-        PhotoUrl: 'my-avatar',
-        AccessToken: 'token',
-      };
       return actions.getCareerDayOfEmployee(employee)(dispatchSpy)
         .then(() => {
-          const urlArg = axios.get.mock.calls[0][0];
+          const expectedUrl = axios.get.mock.calls[0][0];
 
-          return expect(urlArg).toBe('/api/career-days/1');
+          return expect(expectedUrl).toBe('/api/career-days/1');
         });
     });
 
     test('should dispatch correct action in case of success response', () => {
       const dispatchSpy = jest.fn();
-      const employee = {
-        id: 1,
-        Roles: '1',
-        LastName: 'Tsvirko',
-        FirstName: 'Alex',
-        PhotoUrl: 'my-avatar',
-        AccessToken: 'token',
-      };
 
       return actions.getCareerDayOfEmployee(employee)(dispatchSpy)
         .then(() => {
@@ -133,12 +117,13 @@ describe('employees action', () => {
     };
     test('should sent GET request to `/api/objectives/1`',() => {
       const dispatchSpy = jest.fn();
+      const numberOfEmployee = 1;
 
-      return actions.getSelectedCareerDay(1)(dispatchSpy)
+      return actions.getSelectedCareerDay(numberOfEmployee)(dispatchSpy)
         .then(() => {
-          const urlArg = axios.get.mock.calls[0][0];
+          const expectedUrl = axios.get.mock.calls[0][0];
 
-          return expect(urlArg).toBe('/api/objectives/1');
+          return expect(expectedUrl).toBe('/api/objectives/1');
         });
     });
 
@@ -177,9 +162,18 @@ describe('employees action', () => {
   });
 
   describe('method getSelectedEmployee',() => {
+    const employee = {
+      id: 1,
+      Roles: '1',
+      LastName: 'Tsvirko',
+      FirstName: 'Alex',
+      PhotoUrl: 'my-avatar',
+      AccessToken: 'token',
+    };
     
     test('should dispatch correct action',() => {
       const dispatchSpy = jest.fn();
+
       actions.getSelectedEmployee()(dispatchSpy);
       const type = dispatchSpy.mock.calls[0][0].type;
 
@@ -188,15 +182,7 @@ describe('employees action', () => {
 
     test('should dispatch correct payload', () => {
       const dispatchSpy = jest.fn();
-      const employee = {
-        id: 1,
-        Roles: '1',
-        LastName: 'Tsvirko',
-        FirstName: 'Alex',
-        PhotoUrl: 'my-avatar',
-        AccessToken: 'token',
-      };
-
+      
       actions.getSelectedEmployee(employee)(dispatchSpy);
       const returnedData = dispatchSpy.mock.calls[0][0].payload;
 
@@ -206,19 +192,19 @@ describe('employees action', () => {
   });
 
   describe('method addCareerDay',() => {
-    const careerDay = {
-      EmployeeExternalId: '1',
-      UnitManagerExternalId: 4,
-      InterviewDate: new Date(),
+    const fakeResponse = {
+      body: {},
+      status: 200,
     };
-    test('should sent GET request to `/api/career-days`',() => {
+    
+    test('should sent POST request to `/api/career-days`',() => {
       const dispatchSpy = jest.fn();
-
+      
       return actions.addCareerDay()(dispatchSpy)
         .then(() => {
-          const urlArg = axios.get.mock.calls[0][0];
+          const expectedUrl = axios.post.mock.calls[0][0];
 
-          return expect(urlArg).toBe('/api/career-days');
+          return expect(expectedUrl).toBe('/api/career-days');
         });
     });
 
@@ -235,35 +221,22 @@ describe('employees action', () => {
 
     test('should dispatch correct payload in case of success response', () => {
       const dispatchSpy = jest.fn();
-      const fakeResponse = {
-        body: {},
-        status: 200,
-      };
       
-      axios.get.mockReturnValue(Promise.resolve(fakeResponse));
-
       return actions.addCareerDay()(dispatchSpy)
-        .then(() => expect(axios.get()).resolves.toEqual(fakeResponse));
+        .then(() => expect(axios.post()).resolves.toEqual(fakeResponse));
     });
 
     test('should return rejected promise in case of error in request', () => {
       const dispatchSpy = jest.fn();
-      const employee = {
-        id: 1,
-        Roles: '1',
-        LastName: 'Tsvirko',
-        FirstName: 'Alex',
-        PhotoUrl: 'my-avatar',
-        AccessToken: 'token',
-      };
       const fakeResponse = {
         body: {},
         status: 500,
       };
-      axios.get.mockReturnValue(Promise.reject(fakeResponse));
+
+      axios.post.mockReturnValue(Promise.reject(fakeResponse));
 
       return actions.addCareerDay()(dispatchSpy)
-        .then(() => expect(axios.get()).rejects.toEqual(fakeResponse));
+        .then(() => expect(axios.post()).rejects.toEqual(fakeResponse));
     });
   });
 
@@ -271,26 +244,27 @@ describe('employees action', () => {
     const objective = {
       Title: 'objective',
       Description: 'description',
-      CareerDayId: 1
-    }
-    test('should sent GET request to `/api/objectives`', () => {
+      CareerDayId: 1,
+    };
+    test('should sent POST request to `/api/objectives`', () => {
       const dispatchSpy = jest.fn();
 
       return actions.addObjective(objective)(dispatchSpy)
         .then(() => {
-          const urlArg = axios.get.mock.calls[0][0];
+          const expectedUrl = axios.post.mock.calls[0][0];
 
-          return expect(urlArg).toBe('/api/objectives');
+          return expect(expectedUrl).toBe('/api/objectives');
         });
     });
 
     test('should dispatch correct action in case of success response', () => {
       const dispatchSpy = jest.fn();
+      
+      axios.post.mockReturnValue(Promise.resolve({status: 200, body: {}}));
 
       return actions.addObjective(objective)(dispatchSpy)
         .then(() => {
-          const type = dispatchSpy.moc
-          k.calls[0][0].type;
+          const type = dispatchSpy.mock.calls[0][0].type;
 
           return expect(type).toEqual(EMPLOYEES_LIST.ADD_OBJECTIVE);
         });
@@ -302,10 +276,11 @@ describe('employees action', () => {
         body: {},
         status: 200,
       };
-      axios.get.mockReturnValue(Promise.resolve(fakeResponse));
+
+      axios.post.mockReturnValue(Promise.resolve(fakeResponse));
 
       return actions.addObjective(objective)(dispatchSpy)
-        .then(() => expect(axios.get()).resolves.toEqual(fakeResponse));
+        .then(() => expect(axios.post()).resolves.toEqual(fakeResponse));
     });
 
     test('should return rejected promise in case of error in request', () => {
@@ -314,10 +289,11 @@ describe('employees action', () => {
         body: {},
         status: 500,
       };
-      axios.get.mockReturnValue(Promise.reject(fakeResponse));
+
+      axios.post.mockReturnValue(Promise.reject(fakeResponse));
 
       return actions.addObjective(objective)(dispatchSpy)
-        .then(() => expect(axios.get()).rejects.toEqual(fakeResponse));
+        .then(() => expect(axios.post()).rejects.toEqual(fakeResponse));
     });
   });  
 });

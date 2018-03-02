@@ -2,6 +2,24 @@ import employeesReducer from 'redux/modules/employees/reducer';
 import EMPLOYEES_ACTION from 'redux/modules/employees/actionConstants';
 
 describe('employeesReducer', () => {
+  const employees = {
+    id: 1,
+    Roles: '1',
+    LastName: 'Tsvirko',
+    FirstName: 'Alex',
+    PhotoUrl: 'my-avatar',
+    AccessToken: 'token',
+  };
+  const payload = {
+    id: 1,
+    Archived: true,
+    EmployeeExternalId: '1',
+    UnitManagerExternalId: '1',
+    InterviewDate: new Date(),
+    CreatedAt: new Date(),
+    UpdatedAt: new Date(),
+    Objectives: {},
+  };
   test('Should return default state', () => {
     const initAction = { type: '', payload: {} };
     const defaultState = employeesReducer(undefined, initAction);
@@ -10,15 +28,6 @@ describe('employeesReducer', () => {
   });
 
   test('Should return list of employees', () => {
-    const employees = {
-      id: 1,
-      Roles: '1',
-      LastName: 'Tsvirko',
-      FirstName: 'Alex',
-      PhotoUrl: 'my-avatar',
-      AccessToken: 'token',
-    };
-
     const initAction = { type: EMPLOYEES_ACTION.GET_EMPLOYEES_LIST, payload: employees };
     const changedState = employeesReducer(undefined, initAction);
 
@@ -26,17 +35,6 @@ describe('employeesReducer', () => {
   });
 
   test('Should return list of career day', async () => {
-    const payload = {
-      id: 1,
-      Archived: true,
-      EmployeeExternalId: '1',
-      UnitManagerExternalId: '1',
-      InterviewDate: new Date(),
-      CreatedAt: new Date(),
-      UpdatedAt: new Date(),
-      Objectives: null,
-    };
-
     const initAction = { type: EMPLOYEES_ACTION.GET_CAREER_DAYS, payload };
     const changedState = employeesReducer(undefined, initAction);
 
@@ -44,17 +42,6 @@ describe('employeesReducer', () => {
   });
 
   test('Should return list of selected career day', async () => {
-    const payload = {
-      id: 1,
-      Archived: true,
-      EmployeeExternalId: '1',
-      UnitManagerExternalId: '1',
-      InterviewDate: new Date(),
-      CreatedAt: new Date(),
-      UpdatedAt: new Date(),
-      Objectives: null,
-    };
-
     const initAction = { type: EMPLOYEES_ACTION.GET_SELECTED_CAREER_DAY, payload };
     const changedState = employeesReducer(undefined, initAction);
 
@@ -62,15 +49,6 @@ describe('employeesReducer', () => {
   });
 
   test('Should return list of selected empployees', async () => {
-    const employees = {
-      id: 1,
-      Roles: '1',
-      LastName: 'Tsvirko',
-      FirstName: 'Alex',
-      PhotoUrl: 'my-avatar',
-      AccessToken: 'token',
-    };
-
     const initAction = { type: EMPLOYEES_ACTION.GET_SELECTED_EMPLOYEE, payload: employees };
     const changedState = employeesReducer(undefined, initAction);
 
@@ -78,13 +56,6 @@ describe('employeesReducer', () => {
   });
 
   test('Should return updated list of career date', async () => {
-    const payload = {
-      id: 1,
-      Archived: true,
-      EmployeeExternalId: '1',
-      UnitManagerExternalId: '1',
-    };
-
     const initAction = { type: EMPLOYEES_ACTION.ADD_CAREER_DAY, payload };
     const changedState = employeesReducer({ 
       employees: null,

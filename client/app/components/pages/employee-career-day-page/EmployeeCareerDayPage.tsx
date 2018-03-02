@@ -121,7 +121,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
                     <AddObjectivePopup
                       handleClosePopup={() => this.togglePopupState()}
                       handleAddObjective={(objective: IObjectiveById) => this.handleAddObjective(objective)}
-                      open={this.state.isOpen}
+                      open={this.state.isOpen}                    
                     />
                   )}
 
