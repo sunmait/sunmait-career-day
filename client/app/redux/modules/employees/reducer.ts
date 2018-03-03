@@ -30,6 +30,9 @@ export default function(state: IEmployeesState = defaultState, {type, payload}: 
     case EMPLOYEES_LIST.DELETE_CAREER_DAY:
       return handleDeleteCareerDay(state, payload);
 
+    case EMPLOYEES_LIST.UPDATE_OBJECTIVE:
+      return handleUpdateObjective(state, payload);
+
     default:
       return state;
   }
@@ -63,8 +66,25 @@ function handleAddObjective(state: IEmployeesState, objective: IObjective) {
 }
 
 function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
-  const newCareerDaysList = state.careerDays.filter(careerDay => careerDay.id !== careerDayId );
+  const newCareerDaysList = state.careerDays.filter(careerDay => careerDay.id !== careerDayId);
   return {...state, careerDays: newCareerDaysList};
+}
+
+function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
+  const updatedSelectedCareerDay = {...state.selectedCareerDay};
+  updatedSelectedCareerDay.Objectives.filter((item: IObjective, index: number) => {
+    if (item.id === objective.id) {
+      updatedSelectedCareerDay.Objectives.splice(index, 1, objective);
+    }
+  });
+
+  // updatedSelectedCareerDay.Objectives.forEach((item: IObjective, index: number) => {
+  //   if (item.id === objective.id) {
+  //     updatedSelectedCareerDay.Objectives.splice(index, 1, objective);
+  //   }
+  // });
+
+  return {...state, selectedCareerDay: updatedSelectedCareerDay};
 }
 
 export interface IEmployee {
@@ -115,4 +135,10 @@ export interface ICareerDay {
   EmployeeExternalId: number;
   UnitManagerExternalId: number;
   InterviewDate: Date;
+}
+
+export interface IUpdateObjective {
+  id: number;
+  title: string;
+  description: string;
 }

@@ -10,12 +10,8 @@ const mapStateToProps = (state: IStore) => ({
   employees: state.employees.employees,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  redux.bindActionCreators(
-    {
-      getEmployeesList,
-    },
-    dispatch,
-  );
+const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
+  getEmployeesList,
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(EmployeeList);

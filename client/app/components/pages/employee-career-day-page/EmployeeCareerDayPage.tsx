@@ -17,10 +17,10 @@ import {
   IEmployee,
   IObjectiveById,
 } from 'redux/modules/employees/reducer';
-import { GetSelectedCareerDay, AddObjective } from 'redux/modules/employees/actions';
-import IconStatus from 'components/common/icon-status';
+import { GetSelectedCareerDay, AddObjective, UpdateObjective } from 'redux/modules/employees/actions';
+import IconStatus from 'components/common/icon-status/icon-status-objective';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
-import ObjectivePopup from './add-objective-popup';
+import EditObjectivePopup from './add-objective-popup';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -66,6 +66,7 @@ interface IProps {
   selectedEmployee: IEmployee;
   getSelectedCareerDay: GetSelectedCareerDay;
   match: match<IMatchParams>;
+  updateObjective: UpdateObjective;
 }
 
 interface IState {
@@ -84,22 +85,22 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
     this.props.getSelectedCareerDay(this.props.match.params.careerDayId);
   }
 
-  public togglePopupState = () => {
+  private togglePopupState() {
     this.setState({isOpen: !this.state.isOpen});
   }
 
-  public handleAddObjective = (objective: IObjectiveById) => {
+  private handleAddObjective(objective: IObjectiveById) {
     const objectiveByCareerDayId = {...objective, CareerDayId: this.props.match.params.careerDayId};
 
     this.props.addObjective(objectiveByCareerDayId);
   }
 
-  public renderObjectives = (classes: IStylesProps) => {
+  private renderObjectives(classes: IStylesProps) {
     return this.props.selectedCareerDay.Objectives.map(item => (
       <ExpansionPanel key={item.id}>
         <ExpansionPanelSummary>
           <div className={classes.summary}>
-            <IconStatus isArchived={false} />
+            <IconStatus statusId={item.StatusId} />
             <Typography className={classes.heading}>{item.Title}</Typography>
           </div>
 
@@ -137,16 +138,16 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
                     <Button
                       raised
                       color="primary"
-                      onClick={this.togglePopupState}
+                      onClick={() => this.togglePopupState()}
                     >
                       Add objective
                     </Button>
                   </Grid>
 
                   {this.state.isOpen && (
-                    <ObjectivePopup
-                      handleClosePopup={this.togglePopupState}
-                      handleAddObjective={this.handleAddObjective}
+                    <EditObjectivePopup
+                      handleClosePopup={() => this.togglePopupState()}
+                      handleAddObjective={(objective: IObjectiveById) => this.handleAddObjective(objective)}
                       open={this.state.isOpen}
                     />
                   )}

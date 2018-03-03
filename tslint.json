@@ -18,7 +18,7 @@
       "allow-leading-underscore",
       "allow-pascal-case"
     ],
-    "max-line-length": false
+    "member-ordering": false
   },
   "linterOptions": {
     "exclude": ["**/node_modules/**/*.ts"]
