@@ -33,11 +33,16 @@ export default function(state: IEmployeesState = defaultState, { type, payload }
     case EMPLOYEES_LIST.UPDATE_OBJECTIVE:
       return handleUpdateObjective(state, payload);
 
+<<<<<<< HEAD
     case EMPLOYEES_LIST.DELETE_OBJECTIVE:
       return handleDeleteObjective(state, payload);
 
     case EMPLOYEES_LIST.ARCHIVE_CAREER_DAY:
       return handleArchiveCareerDay(state, payload);
+=======
+    case EMPLOYEES_LIST.ARCHIVE_CAREER_DAY:
+    return handleArchiveCareerDay(state, payload);
+>>>>>>> cb6ec73... added archive action for career days
 
     default:
       return state;
@@ -75,6 +80,18 @@ function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
   const newCareerDaysList = state.careerDays.filter(careerDay => careerDay.id !== careerDayId);
 
   return { ...state, careerDays: newCareerDaysList };
+}
+
+function handleArchiveCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEmployee) {
+  const newCareerDaysList = state.careerDays.map((item: ICareerDayOfEmployee) => {
+    if (item.id === newCareerDay.id) {
+      return newCareerDay;
+    } else {
+      return item;
+    }
+  });
+
+  return {...state, careerDays: newCareerDaysList, selectedCareerDay: newCareerDay};
 }
 
 function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {

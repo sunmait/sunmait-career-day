@@ -8,7 +8,10 @@ enum EMPLOYEES_ACTION {
   DELETE_CAREER_DAY = 'DELETE_CAREER_DAY',
   UPDATE_OBJECTIVE = 'UPDATE_OBJECTIVE',
   ARCHIVE_CAREER_DAY = 'ARCHIVE_CAREER_DAY',
+<<<<<<< HEAD
   DELETE_OBJECTIVE = 'DELETE_OBJECTIVE',
+=======
+>>>>>>> cb6ec73... added archive action for career days
 }
 
 export default EMPLOYEES_ACTION;
