@@ -1,7 +1,13 @@
 import * as axios from 'axios';
 import EMPLOYEES_LIST from './actionConstants';
 import { Dispatch } from 'redux/store';
-import { IEmployee, ICareerDayOfEmployee, ICareerDay, IObjectiveById} from './reducer';
+import {
+  IEmployee,
+  ICareerDayOfEmployee,
+  ICareerDay,
+  IObjectiveById,
+  IUpdateObjective,
+} from './reducer';
 
 const axiosRequest: any = axios;
 
@@ -102,6 +108,22 @@ export const deleteCareerDay: DeleteCareerDay = (careerDayId: number) => (dispat
       dispatch({
         type: EMPLOYEES_LIST.DELETE_CAREER_DAY,
         payload: careerDayId,
+      });
+    })
+    .catch((err: axios.AxiosError) => {
+      console.error(err);
+
+      return err;
+    });
+};
+
+export type UpdateObjective = (objective: IUpdateObjective) => (dispatch: Dispatch) => void;
+export const updateObjective: UpdateObjective = (objective: IUpdateObjective) => (dispatch: Dispatch) => {
+  return axiosRequest.patch(`/api/objectives/${objective.id}`, objective.id, objective.title, objective.description)
+    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+      dispatch({
+        type: EMPLOYEES_LIST.UPDATE_OBJECTIVE,
+        payload: res.data,
       });
     })
     .catch((err: axios.AxiosError) => {

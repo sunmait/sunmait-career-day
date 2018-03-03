@@ -11,7 +11,7 @@ import List, {
 import Grid from 'material-ui/Grid';
 import Header from 'components/common/header';
 import Avatar from 'material-ui/Avatar';
-import IconStatus from 'components/common/icon-status';
+import IconStatus from 'components/common/icon-status/icon-status-career-day';
 import { GetEmployeesList } from 'redux/modules/employees/actions';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
@@ -47,7 +47,7 @@ class EmployeeList extends React.Component<IProps, IState> {
     this.props.getEmployeesList();
   }
 
-  public renderEmployeeProfile = () => {
+  private renderEmployeeProfile() {
     return this.props.employees.map((item: IEmployee) => (
       <Link
         key={item.id}

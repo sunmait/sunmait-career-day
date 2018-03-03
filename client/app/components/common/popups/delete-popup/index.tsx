@@ -9,7 +9,6 @@ const styles = {
   button: {
     margin: '20px',
     width: '140px',
-    height: '25px',
   },
 };
 
@@ -17,36 +16,33 @@ type ComponentClassNames = 'button';
 
 interface IProps {
   handleClosePopup: () => void;
-  handleDeleteCareerDay: (datcareerDayIde: number) => void;
+  handleDeleteItem: () => void;
   open: boolean;
-  careerDayId: number;
 }
 
-interface IState {}
+interface IState {
+}
 
 class DeleteCareerDayPopup extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
   constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
-    this.state = {
-      selectedDate: new Date(),
-    };
   }
 
-  public handleClosePopup = () => {
+  private handleClosePopup() {
     this.props.handleClosePopup();
   }
 
-  public handleDeleteCareerDay = () => {
-    this.props.handleDeleteCareerDay(this.props.careerDayId);
+  private handleDeleteItem() {
+    this.props.handleDeleteItem();
   }
 
   public render() {
-    const { classes } = this.props;
+    const {classes} = this.props;
     return (
       <Dialog
         open={this.props.open}
-        onClose={this.handleClosePopup}
-        style={{ textAlign: 'center' }}
+        onClose={() => this.handleClosePopup()}
+        style={{textAlign: 'center'}}
       >
         <DialogTitle id="alert-dialog-title">
           Remove this career day?
@@ -63,7 +59,7 @@ class DeleteCareerDayPopup extends React.Component<IProps & WithStyles<Component
             className={classes.button}
             raised
             color="secondary"
-            onClick={this.handleDeleteCareerDay}
+            onClick={() => this.handleDeleteItem()}
           >
             Yes
           </Button>
@@ -71,7 +67,7 @@ class DeleteCareerDayPopup extends React.Component<IProps & WithStyles<Component
             className={classes.button}
             raised
             color="primary"
-            onClick={this.handleClosePopup}
+            onClick={() => this.handleClosePopup()}
           >
             No
           </Button>
