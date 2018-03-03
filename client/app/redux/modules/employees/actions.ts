@@ -119,7 +119,10 @@ export const deleteCareerDay: DeleteCareerDay = (careerDayId: number) => (dispat
 
 export type UpdateObjective = (objective: IUpdateObjective) => (dispatch: Dispatch) => void;
 export const updateObjective: UpdateObjective = (objective: IUpdateObjective) => (dispatch: Dispatch) => {
-  return axiosRequest.patch(`/api/objectives/${objective.id}`, objective.id, objective.title, objective.description)
+  return axiosRequest.patch(`/api/objectives/${objective.id}`, {
+    title: objective.title,
+    description: objective.description,
+  })
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
         type: EMPLOYEES_LIST.UPDATE_OBJECTIVE,

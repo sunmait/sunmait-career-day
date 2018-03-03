@@ -1,57 +1,34 @@
 import * as React from 'react';
 import { match } from 'react-router-dom';
-import { Theme, withStyles } from 'material-ui/styles';
+import { withStyles } from 'material-ui/styles';
 import Header from 'components/common/header';
 import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
-import Edit from 'material-ui-icons/Edit';
-import Delete from 'material-ui-icons/Delete';
-import ExpansionPanel, {
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-} from 'material-ui/ExpansionPanel';
 import { IUser } from 'redux/modules/auth/reducer';
 import {
   ICareerDayOfEmployee,
   IEmployee,
   IObjectiveById,
+  IUpdateObjective,
 } from 'redux/modules/employees/reducer';
 import { GetSelectedCareerDay, AddObjective, UpdateObjective } from 'redux/modules/employees/actions';
-import IconStatus from 'components/common/icon-status/icon-status-objective';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
-import EditObjectivePopup from './add-objective-popup';
+import AddObjectivePopup from './add-objective-popup';
+import Objective from './objective';
 
-const styles = (theme: Theme) => ({
+const styles = {
   root: {
     flexGrow: 1,
     marginTop: 20,
   },
-  heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
-    marginLeft: 10,
-  },
   navigation: {
-    margin: 0,
     marginTop: 20,
   },
-  alignIcons: {
-    margin: 10,
-  },
-  summary: {
-    display: 'flex',
-    alignItems: 'center',
-    flex: '1 0 0',
-  } as React.CSSProperties,
-});
+};
 
 interface IStylesProps {
   root: string;
-  alignIcons: string;
   navigation: string;
-  heading: string;
-  summary: string;
 }
 
 interface IMatchParams {
@@ -87,39 +64,34 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 
   private togglePopupState() {
-    this.setState({isOpen: !this.state.isOpen});
+    this.setState({ isOpen: !this.state.isOpen });
   }
 
   private handleAddObjective(objective: IObjectiveById) {
-    const objectiveByCareerDayId = {...objective, CareerDayId: this.props.match.params.careerDayId};
+    const objectiveByCareerDayId = { ...objective, CareerDayId: this.props.match.params.careerDayId };
 
     this.props.addObjective(objectiveByCareerDayId);
   }
 
-  private renderObjectives(classes: IStylesProps) {
+  private handleSaveObjective(updatedObjective: IUpdateObjective) {
+    this.props.updateObjective(updatedObjective);
+  }
+
+  private renderObjectives() {
     return this.props.selectedCareerDay.Objectives.map(item => (
-      <ExpansionPanel key={item.id}>
-        <ExpansionPanelSummary>
-          <div className={classes.summary}>
-            <IconStatus statusId={item.StatusId} />
-            <Typography className={classes.heading}>{item.Title}</Typography>
-          </div>
-
-          <div style={{padding: 0}}>
-            <Edit className={classes.alignIcons} />
-            <Delete className={classes.alignIcons} />
-          </div>
-        </ExpansionPanelSummary>
-
-        <ExpansionPanelDetails>
-          <Typography>{item.Description}</Typography>
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+      <Objective
+        key={item.id}
+        objectiveId={item.id}
+        title={item.Title}
+        description={item.Description}
+        statusId={item.StatusId}
+        handleSaveObjective={(objective: IUpdateObjective) => this.handleSaveObjective(objective)}
+      />
     ));
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     backgroundColorHelper();
 
@@ -131,7 +103,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
               this.props.selectedEmployee.LastName
               }'s career day`}
           />
-          <Grid item xs={5} lg={4} xl={3}>
+          <Grid item xs={5}>
             <Grid container justify="flex-end" className={classes.navigation}>
               <Grid item>
                 <Grid container spacing={8}>
@@ -146,7 +118,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
                   </Grid>
 
                   {this.state.isOpen && (
-                    <EditObjectivePopup
+                    <AddObjectivePopup
                       handleClosePopup={() => this.togglePopupState()}
                       handleAddObjective={(objective: IObjectiveById) => this.handleAddObjective(objective)}
                       open={this.state.isOpen}
@@ -166,7 +138,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
               <div className={classes.root}>
                 {this.props.selectedCareerDay &&
                 this.props.selectedCareerDay.Objectives &&
-                this.renderObjectives(classes)}
+                this.renderObjectives()}
               </div>
             </Grid>
           </Grid>

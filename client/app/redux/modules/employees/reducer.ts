@@ -7,7 +7,7 @@ const defaultState: IEmployeesState = {
   selectedEmployee: null,
 };
 
-export default function(state: IEmployeesState = defaultState, {type, payload}: { type: string; payload: any }) {
+export default function(state: IEmployeesState = defaultState, { type, payload }: { type: string; payload: any }) {
   switch (type) {
     case EMPLOYEES_LIST.GET_EMPLOYEES_LIST:
       return handleGetEmployeesList(state, payload);
@@ -39,52 +39,49 @@ export default function(state: IEmployeesState = defaultState, {type, payload}: 
 }
 
 function handleGetEmployeesList(state: IEmployeesState, employees: IEmployee) {
-  return {...state, employees};
+  return { ...state, employees };
 }
 
 function handleGetCareerDaysOfEmployee(state: IEmployeesState, careerDays: ICareerDayOfEmployee) {
-  return {...state, careerDays};
+  return { ...state, careerDays };
 }
 
 function handleGetSelectedCareerDay(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
-  return {...state, selectedCareerDay};
+  return { ...state, selectedCareerDay };
 }
 
 function handleGetSelectedEmployee(state: IEmployeesState, selectedEmployee: IEmployee) {
-  return {...state, selectedEmployee};
+  return { ...state, selectedEmployee };
 }
 
 function handleAddCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEmployee) {
-  return {...state, careerDays: [newCareerDay, ...state.careerDays]};
+  return { ...state, careerDays: [newCareerDay, ...state.careerDays] };
 }
 
 function handleAddObjective(state: IEmployeesState, objective: IObjective) {
-  const updatedSelectedCareerDay = {...state.selectedCareerDay};
+  const updatedSelectedCareerDay = { ...state.selectedCareerDay };
   updatedSelectedCareerDay.Objectives.push(objective);
 
-  return {...state, selectedCareerDay: updatedSelectedCareerDay};
+  return { ...state, selectedCareerDay: updatedSelectedCareerDay };
 }
 
 function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
   const newCareerDaysList = state.careerDays.filter(careerDay => careerDay.id !== careerDayId);
-  return {...state, careerDays: newCareerDaysList};
+  return { ...state, careerDays: newCareerDaysList };
 }
 
 function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
-  const updatedSelectedCareerDay = {...state.selectedCareerDay};
-  updatedSelectedCareerDay.Objectives.filter((item: IObjective, index: number) => {
+  const updatedSelectedCareerDay = { ...state.selectedCareerDay };
+  updatedSelectedCareerDay.Objectives.find((item: IObjective, index: number): boolean => {
     if (item.id === objective.id) {
-      updatedSelectedCareerDay.Objectives.splice(index, 1, objective);
+      updatedSelectedCareerDay.Objectives[index] = objective;
+      
+      return true;
     }
+    return false;
   });
 
-  // updatedSelectedCareerDay.Objectives.forEach((item: IObjective, index: number) => {
-  //   if (item.id === objective.id) {
-  //     updatedSelectedCareerDay.Objectives.splice(index, 1, objective);
-  //   }
-  // });
-
-  return {...state, selectedCareerDay: updatedSelectedCareerDay};
+  return { ...state, selectedCareerDay: updatedSelectedCareerDay };
 }
 
 export interface IEmployee {
@@ -122,6 +119,12 @@ export interface IObjectiveById {
   Title: string;
   Description: string;
   CareerDayId: number;
+}
+
+export interface IUpdateObjective {
+  title: string;
+  description: string;
+  objectiveId: number;
 }
 
 export interface IEmployeesState {

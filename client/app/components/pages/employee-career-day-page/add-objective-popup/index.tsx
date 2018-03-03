@@ -65,23 +65,21 @@ class ObjectivePopup extends React.Component<IProps & WithStyles<ComponentClassN
           <FormInput
             label={'Title'}
             maxLength={50}
-            inputHelperText={'Max 50 characters'}
-            calculateCharacters={`${50 - this.state.title.length}/50`}
-            handleChangeValue={this.handleChangeTitleValue}
+            value={this.state.title}
+            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeTitleValue(e)}
           />
 
           <FormInput
             label={'Description'}
             maxLength={255}
-            inputHelperText={'Max 255 characters'}
-            calculateCharacters={`${255 - this.state.description.length}/255`}
-            handleChangeValue={this.handleChangeDescriptionValue}
+            value={this.state.description}
+            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeDescriptionValue(e)}
           />
 
           <Button
             color="primary"
             disabled={this.state.title.length === 0 || this.state.description.length === 0}
-            onClick={this.addObjectiveClick}
+            onClick={() => this.addObjectiveClick()}
           >
             Add
           </Button>

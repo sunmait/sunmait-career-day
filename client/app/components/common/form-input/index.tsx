@@ -21,8 +21,7 @@ type ComponentClassNames = 'textField' | 'helperText';
 interface IProps {
   label: string;
   maxLength: number;
-  inputHelperText: string;
-  calculateCharacters: string;
+  value: string;
   handleChangeValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -34,6 +33,7 @@ const FormInput = (props: IProps & WithStyles<ComponentClassNames>) => {
         className={props.classes.textField}
         label={props.label}
         multiline
+        value={props.value}
         rowsMax="4"
         onChange={props.handleChangeValue}
         margin="normal"
@@ -42,8 +42,8 @@ const FormInput = (props: IProps & WithStyles<ComponentClassNames>) => {
         }}
       />
       <div className={props.classes.helperText}>
-        <FormHelperText>{props.inputHelperText}</FormHelperText>
-        <FormHelperText>{props.calculateCharacters}</FormHelperText>
+        <FormHelperText>{`Max ${props.maxLength} characters`}</FormHelperText>
+        <FormHelperText>{`${props.maxLength - props.value.length}/${props.maxLength}`}</FormHelperText>
       </div>
     </FormControl>
   );
