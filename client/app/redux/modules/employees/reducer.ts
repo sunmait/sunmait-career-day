@@ -33,6 +33,9 @@ export default function(state: IEmployeesState = defaultState, { type, payload }
     case EMPLOYEES_LIST.UPDATE_OBJECTIVE:
       return handleUpdateObjective(state, payload);
 
+    case EMPLOYEES_LIST.ARCHIVE_CAREER_DAY:
+    return handleArchiveCareerDay(state, payload);
+
     default:
       return state;
   }
@@ -68,6 +71,18 @@ function handleAddObjective(state: IEmployeesState, objective: IObjective) {
 function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
   const newCareerDaysList = state.careerDays.filter(careerDay => careerDay.id !== careerDayId);
   return { ...state, careerDays: newCareerDaysList };
+}
+
+function handleArchiveCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEmployee) {
+  const newCareerDaysList = state.careerDays.map((item: ICareerDayOfEmployee) => {
+    if (item.id === newCareerDay.id) {
+      return newCareerDay;
+    } else {
+      return item;
+    }
+  });
+
+  return {...state, careerDays: newCareerDaysList, selectedCareerDay: newCareerDay};
 }
 
 function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
