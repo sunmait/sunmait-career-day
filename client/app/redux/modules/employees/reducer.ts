@@ -77,6 +77,18 @@ function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
   return { ...state, careerDays: newCareerDaysList };
 }
 
+function handleArchiveCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEmployee) {
+  const newCareerDaysList = state.careerDays.map((item: ICareerDayOfEmployee) => {
+    if (item.id === newCareerDay.id) {
+      return newCareerDay;
+    } else {
+      return item;
+    }
+  });
+
+  return { ...state, careerDays: newCareerDaysList, selectedCareerDay: newCareerDay };
+}
+
 function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
   const updatedSelectedCareerDay = { ...state.selectedCareerDay };
   updatedSelectedCareerDay.Objectives.find((item: IObjective, index: number): boolean => {
@@ -103,18 +115,6 @@ function handleDeleteObjective(state: IEmployeesState, objectiveId: number) {
   });
 
   return { ...state, selectedCareerDay: newSelectedCareerDay };
-}
-
-function handleArchiveCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEmployee) {
-  const newCareerDaysList = state.careerDays.map((item: ICareerDayOfEmployee) => {
-    if (item.id === newCareerDay.id) {
-      return newCareerDay;
-    } else {
-      return item;
-    }
-  });
-
-  return { ...state, careerDays: newCareerDaysList, selectedCareerDay: newCareerDay };
 }
 
 export interface IEmployee {

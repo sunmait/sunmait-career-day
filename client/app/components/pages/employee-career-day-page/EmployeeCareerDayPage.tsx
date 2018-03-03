@@ -105,7 +105,10 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 
   private handleAddObjective(objective: IObjectiveById) {
-    const objectiveByCareerDayId = { ...objective, CareerDayId: this.props.match.params.careerDayId };
+    const objectiveByCareerDayId = {
+      ...objective,
+      CareerDayId: this.props.match.params.careerDayId,
+    };
 
     this.props.addObjective(objectiveByCareerDayId);
   }
@@ -130,7 +133,6 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
       />
     ));
   }
-
   private isActiveAddObjectiveButton() {
     if (this.props.selectedCareerDay) {
       return this.props.selectedCareerDay.Archived;
@@ -142,6 +144,17 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   private handleArchiveCareerDay() {
     this.props.archiveCareerDay(this.props.selectedCareerDay.id);
     this.toggleArchiveCDPopupState();
+  }
+
+  private isActiveArchiveButton() {
+    if (this.props.selectedCareerDay) {
+      return moment(this.props.selectedCareerDay.InterviewDate) < moment()
+        ? this.props.selectedCareerDay.Archived
+        : true;
+    }
+
+    return true;
+
   }
 
   private archiveButtonText() {
@@ -162,16 +175,6 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
     return 'The career day archived.';
   }
 
-  private isActiveArchiveButton() {
-    if (this.props.selectedCareerDay) {
-      return moment(this.props.selectedCareerDay.InterviewDate) < moment()
-        ? this.props.selectedCareerDay.Archived
-        : true;
-    }
-
-    return true;
-  }
-
   public render() {
     const { classes } = this.props;
 
@@ -183,7 +186,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
           <Header
             title={`${this.props.selectedEmployee.FirstName} ${
               this.props.selectedEmployee.LastName
-              }'s career day`}
+            }'s career day`}
           />
           <Grid item xs={5}>
             <Grid container justify="flex-end" className={classes.navigation}>
