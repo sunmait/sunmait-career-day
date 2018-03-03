@@ -135,3 +135,20 @@ export const updateObjective: UpdateObjective = (objective: IUpdateObjective) =>
       return err;
     });
 };
+
+// TODO:  only unit manager can archive CD - validation: can be archived only after datetime of CD
+export type ArchiveCareerDay = (careerDayId: number) => (dispatch: Dispatch) => void;
+export const archiveCareerDay: ArchiveCareerDay = (careerDayId: number) => (dispatch: Dispatch) => {
+  return axiosRequest.patch(`/api/career-days/archive/${careerDayId}`)
+    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+      dispatch({
+        type: EMPLOYEES_LIST.ARCHIVE_CAREER_DAY,
+        payload: res.data,
+      });
+    })
+    .catch((err: axios.AxiosError) => {
+      console.error(err);
+
+      return err;
+    });
+};

@@ -15,15 +15,16 @@ const styles = {
 type ComponentClassNames = 'button';
 
 interface IProps {
+  title: string;
+  description: string;
   handleClosePopup: () => void;
-  handleDeleteItem: () => void;
+  handleConfirm: () => void;
   open: boolean;
 }
 
-interface IState {
-}
+interface IState {}
 
-class DeleteCareerDayPopup extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
+class ConfirmationPopup extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
   constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
   }
@@ -32,34 +33,26 @@ class DeleteCareerDayPopup extends React.Component<IProps & WithStyles<Component
     this.props.handleClosePopup();
   }
 
-  private handleDeleteItem() {
-    this.props.handleDeleteItem();
+  private handleConfirm() {
+    this.props.handleConfirm();
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
     return (
       <Dialog
         open={this.props.open}
         onClose={() => this.handleClosePopup()}
-        style={{textAlign: 'center'}}
+        style={{ textAlign: 'center' }}
       >
-        <DialogTitle id="alert-dialog-title">
-          Remove this career day?
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{this.props.title}</DialogTitle>
         <DialogContent>
-          <Typography>
-            Are you sure you want to remove this career day?
-          </Typography>
-          <Typography>
-            Also, along with the career day, the objectives that belong to this
-            will be removed!
-          </Typography>
+          <Typography>{this.props.description}</Typography>
           <Button
             className={classes.button}
             raised
             color="secondary"
-            onClick={() => this.handleDeleteItem()}
+            onClick={() => this.handleConfirm()}
           >
             Yes
           </Button>
@@ -77,4 +70,4 @@ class DeleteCareerDayPopup extends React.Component<IProps & WithStyles<Component
   }
 }
 
-export default withStyles<ComponentClassNames>(styles)(DeleteCareerDayPopup);
+export default withStyles<ComponentClassNames>(styles)(ConfirmationPopup);
