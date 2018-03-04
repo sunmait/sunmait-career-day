@@ -33,7 +33,6 @@ import { IUser } from 'redux/modules/auth/reducer';
 const styles = (theme: Theme) => ({
   root: {
     width: '100%',
-    maxWidth: 800,
     backgroundColor: theme.palette.background.paper,
     marginTop: 20,
   },
@@ -188,8 +187,8 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
                 }'s progress days`}
             />
           )}
-          <Grid item xs={5}>
-            <Grid container justify="flex-end" className={classes.navigation}>
+          <Grid item xs={5} lg={4} xl={3}>
+            <Grid container justify="flex-end" spacing={8} className={classes.navigation}>
               <Grid item>
                 <ControlledTooltips
                   title="Employee already has active career day"
@@ -222,7 +221,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
               )}
             </Grid>
 
-            <Grid container justify="center">
+            <Grid container justify="center" spacing={0}>
               <Grid item className={classes.root}>
                 <List>
                   {this.props.careerDays &&

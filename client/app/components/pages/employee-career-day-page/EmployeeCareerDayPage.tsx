@@ -33,6 +33,7 @@ const styles = (theme: Theme) => ({
     marginLeft: 10,
   },
   navigation: {
+    margin: 0,
     marginTop: 20,
   },
   alignIcons: {
@@ -130,7 +131,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
               this.props.selectedEmployee.LastName
               }'s career day`}
           />
-          <Grid item xs={5}>
+          <Grid item xs={5} lg={4} xl={3}>
             <Grid container justify="flex-end" className={classes.navigation}>
               <Grid item>
                 <Grid container spacing={8}>
