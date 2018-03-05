@@ -6,11 +6,11 @@ import { withStyles } from 'material-ui/styles';
 const styles = () => ({
   text: {
     fontSize: 30,
-  }
+  },
 });
 
 interface IStylesProps {
-  text: string,
+  text: string;
 }
 
 interface IProps {
@@ -20,14 +20,13 @@ interface IProps {
 interface IState {
 }
 
-
 class SuccessPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {};
   }
 
-  render() {
+  public render() {
     const {classes} = this.props;
     return (
       <Paper>
@@ -38,8 +37,8 @@ class SuccessPage extends React.Component<IProps, IState> {
           Message with instruction was sent on your email.
         </Typography>
       </Paper>
-    )
+    );
   }
-};
+}
 
 export default withStyles(styles)(SuccessPage);

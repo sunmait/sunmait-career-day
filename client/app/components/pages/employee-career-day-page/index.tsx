@@ -8,6 +8,7 @@ import {
   updateObjective,
   deleteObjective,
   archiveCareerDay,
+  updateInterviewDate,
 } from 'redux/modules/employees/actions';
 import EmployeeCareerDayPage from './EmployeeCareerDayPage';
 
@@ -23,6 +24,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
   updateObjective,
   archiveCareerDay,
   deleteObjective,
+  updateInterviewDate,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(

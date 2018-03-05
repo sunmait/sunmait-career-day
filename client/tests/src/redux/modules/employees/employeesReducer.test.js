@@ -159,6 +159,26 @@ describe('employeesReducer', () => {
     });
   });
 
+  describe('method handleUpdateInterviewDatetime', () => {
+    test('Should return updated current career day', () => {
+      const initAction = {type: EMPLOYEES_ACTION.UPDATE_INTERVIEW_DATETIME, payload: careerDayOfEmployee};
+
+      const changedState = employeesReducer({
+        employees: null,
+        careerDays: null,
+        selectedCareerDay: careerDayOfEmployee,
+        selectedEmployee: null
+      }, initAction);
+
+      expect(changedState).toEqual({
+        employees: null,
+        careerDays: null,
+        selectedCareerDay: careerDayOfEmployee,
+        selectedEmployee: null,
+      });
+    });
+  });
+
   describe('method handleUpdateObjective', () => {
     test(
       'Should return updated list of career days after editing objective when it equal the current objective ',

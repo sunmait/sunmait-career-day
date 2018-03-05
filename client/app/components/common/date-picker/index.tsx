@@ -6,6 +6,7 @@ import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 
 interface IProps {
   handleChangeDate: (date: Date) => void;
+  displayedDate?: Date;
 }
 
 interface IState {
@@ -16,7 +17,7 @@ class DatePicker extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      selectedDate: new Date(),
+      selectedDate: this.props.displayedDate ? this.props.displayedDate : new Date(),
     };
   }
 

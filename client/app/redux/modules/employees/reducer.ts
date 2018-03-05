@@ -39,6 +39,9 @@ export default function(state: IEmployeesState = defaultState, { type, payload }
     case EMPLOYEES_LIST.ARCHIVE_CAREER_DAY:
       return handleArchiveCareerDay(state, payload);
 
+    case EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME:
+      return handleUpdateInterviewDate(state, payload);
+
     default:
       return state;
   }
@@ -117,6 +120,13 @@ function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
   return { ...state, selectedCareerDay: updatedSelectedCareerDay };
 }
 
+function handleUpdateInterviewDate(state: IEmployeesState, careerDay: ICareerDayOfEmployee) {
+  const updatedCareerDay = {...state.selectedCareerDay};
+
+  updatedCareerDay.InterviewDate = careerDay.InterviewDate;
+  return {...state, selectedCareerDay: updatedCareerDay};
+}
+
 export interface IEmployee {
   id: number;
   Roles: string;
@@ -177,4 +187,9 @@ export interface IUpdateObjective {
   id: number;
   title: string;
   description: string;
+}
+
+export interface IUpdateInterviewDate {
+  id: number;
+  date: Date;
 }

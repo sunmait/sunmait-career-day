@@ -53,6 +53,10 @@ when('I open {string} page', openPage);
 
 when('I see {string} page', (checkPage));
 
+when('I see list', () => {
+  cy.get('li');
+});
+
 then('I am redirected to {string} page', (checkPage));
 
 then('I see {string} page header', (pageHeader) => {
@@ -69,4 +73,14 @@ then ('I see {string} username in app header', (username) => {
 
 then('I see paragraph with {string} message',(message) => {
   cy.get('p').contains(message);
+});
+
+then('I see {string} button', (buttonText) => {
+  cy.get('button')
+    .contains(buttonText);
+});
+
+then('I see {string} form input label', (labelText) => {
+  cy.get('label')
+    .contains(labelText);
 });

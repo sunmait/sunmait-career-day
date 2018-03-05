@@ -7,6 +7,7 @@ import {
   ICareerDay,
   IObjectiveById,
   IUpdateObjective,
+  IUpdateInterviewDate,
 } from './reducer';
 
 const axiosRequest: any = axios;
@@ -143,6 +144,22 @@ export const archiveCareerDay: ArchiveCareerDay = (careerDayId: number) => (disp
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
         type: EMPLOYEES_LIST.ARCHIVE_CAREER_DAY,
+        payload: res.data,
+      });
+    })
+    .catch((err: axios.AxiosError) => {
+      console.error(err);
+
+      return err;
+    });
+};
+
+export type UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (dispatch: Dispatch) => void;
+export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (dispatch: Dispatch) => {
+  return axiosRequest.patch(`/api/career-days/update-date/${datetime.id}`, datetime)
+  .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+      dispatch({
+        type: EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME,
         payload: res.data,
       });
     })

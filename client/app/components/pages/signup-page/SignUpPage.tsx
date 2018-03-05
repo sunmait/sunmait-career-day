@@ -1,11 +1,11 @@
 import * as React from 'react';
 import Grid from 'material-ui/Grid';
 import Input from 'material-ui/Input';
-import Typography from 'material-ui/Typography'
+import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
-import Header from '../../common/header';
+import Header from 'components/common/header';
 import { withStyles } from 'material-ui/styles';
-import * as regExpHelper from  '../../helper/regExpHelper';
+import * as regExpHelper from 'components/helper/regExpHelper';
 
 const styles = () => ({
   inputs: {
@@ -17,12 +17,12 @@ const styles = () => ({
     backgroundColor: '#f2dede',
     borderColor: '#ebccd1',
     color: '#a94442',
-  }
+  },
 });
 
 interface IStylesProps {
-  inputs: string,
-  errors: string,
+  inputs: string;
+  errors: string;
 }
 
 interface IProps {
@@ -30,12 +30,12 @@ interface IProps {
 }
 
 interface IState {
-  firstname: string,
-  lastname: string,
-  email: string,
-  password: string,
-  passwordconfirm: string,
-  errors: Array<string>,
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  passwordconfirm: string;
+  errors: string[];
 }
 
 type stateKeys = keyof IState;
@@ -61,21 +61,23 @@ class SignUpPage extends React.Component<IProps, IState> {
   private validateForm() {
     const letters = /^[A-Za-z]+$/;
     const email = regExpHelper.email;
-    let errors: Array<string> = [];
+    const errors: string[] = [];
 
     if (!this.state.firstname.match(letters)) {
       if (this.state.firstname.length === 0) {
         errors.push('The First Name field can not be empty');
       }
-      else
+      else {
         errors.push('The First Name field can contains only letters');
+      }
     }
     if (!this.state.lastname.match(letters)) {
       if (this.state.lastname.length === 0) {
         errors.push('The Last Name field can not be empty');
       }
-      else
+      else {
         errors.push('The Last Name field can contains only letters');
+      }
     }
     if (!this.state.lastname === null) {
       errors.push('The Last Name field can not be empty');
@@ -185,7 +187,7 @@ class SignUpPage extends React.Component<IProps, IState> {
                       </Typography>
                       <br />
                     </div>
-                  )
+                  );
                 })}
               </Grid>
               <Grid item xs={2}>

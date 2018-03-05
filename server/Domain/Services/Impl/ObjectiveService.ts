@@ -21,8 +21,8 @@ export class ObjectiveService implements IObjectiveService {
     this._careerDayRepository = careerDayRepository;
   }
 
-  public async getObjectivesByCareerDayId(CareerDayId: number): Promise<CareerDayEntity[]> {
-    return this._careerDayRepository.findAll({
+  public async getObjectivesByCareerDayId(CareerDayId: number): Promise<CareerDayEntity> {
+    return this._careerDayRepository.findOne({
       where: { id: CareerDayId },
       include: ObjectiveEntity,
     });

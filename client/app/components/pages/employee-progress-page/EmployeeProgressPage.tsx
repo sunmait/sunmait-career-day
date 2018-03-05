@@ -81,6 +81,8 @@ interface IState {
   deleteCareerDayId: number;
 }
 
+type stateKeys = keyof IState;
+
 class EmployeeProgressPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
@@ -96,12 +98,10 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     this.props.getCareerDayOfEmployee(this.props.location.state.employee);
   }
 
-  private toggleAddPopupState() {
-    this.setState({ isOpenAddPopup: !this.state.isOpenAddPopup });
-  }
+  private togglePopupState(name: any) {
+    const propName = name as stateKeys;
 
-  private toggleDeletePopupState() {
-    this.setState({ isOpenDeletePopup: !this.state.isOpenDeletePopup });
+    this.setState({ [propName as any]: !this.state[propName] });
   }
 
   private handleClickOnDeleteButton(
@@ -111,7 +111,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     event.preventDefault();
 
     this.setState({ deleteCareerDayId });
-    this.toggleDeletePopupState();
+    this.togglePopupState('isOpenDeletePopup');
   }
 
   private handleAddCareerDay(date: Date) {
@@ -120,12 +120,12 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
       EmployeeExternalId: this.props.selectedEmployee.id,
       InterviewDate: date,
     });
-    this.toggleAddPopupState();
+    this.togglePopupState('isOpenAddPopup');
   }
 
   private handleDeleteCareerDay() {
     this.props.deleteCareerDay(this.state.deleteCareerDayId);
-    this.toggleDeletePopupState();
+    this.togglePopupState('isOpenDeletePopup');
   }
 
   private isActiveButton() {
@@ -208,7 +208,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
                       disabled={this.isActiveButton()}
                       raised
                       color="primary"
-                      onClick={() => this.toggleAddPopupState()}
+                      onClick={() => this.togglePopupState('isOpenAddPopup')}
                     >
                       Add career day
                     </Button>
@@ -229,14 +229,14 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
         </Grid>
         {this.state.isOpenAddPopup && (
           <AddCareerDayPopup
-            handleClosePopup={() => this.toggleAddPopupState()}
+            handleClosePopup={() => this.togglePopupState('isOpenAddPopup')}
             handleAddCareerDay={(date: Date) => this.handleAddCareerDay(date)}
             open={this.state.isOpenAddPopup}
           />
         )}
         {this.state.isOpenDeletePopup && (
           <ConfirmationPopup
-            handleClosePopup={() => this.toggleDeletePopupState()}
+            handleClosePopup={() => this.togglePopupState('isOpenDeletePopup')}
             handleConfirm={() => this.handleDeleteCareerDay()}
             open={this.state.isOpenDeletePopup}
             title={'Remove this career day?'}

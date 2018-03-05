@@ -414,6 +414,59 @@ describe('employees action', () => {
     });
   });
 
+  describe('method updateInterviewDatetime', () => {
+    const careerDay = {
+      id: 1,
+      date: new Date(),
+    }
+
+    test('should sent PATCH request to `/api/career-days/update-date/id`', () => {
+      const dispatchSpy = jest.fn();
+
+      return actions.updateInterviewDatetime(careerDay)(dispatchSpy)
+        .then(() => {
+          const expectedUrl = axios.patch.mock.calls[0][0];
+
+          return expect(expectedUrl).toBe(`/api/career-days/update-date/${careerDay.id}`);
+        });
+    });
+
+    test('should dispatch correct action in case of success response', () => {
+      const dispatchSpy = jest.fn();
+
+      return actions.updateInterviewDatetime(careerDay)(dispatchSpy)
+        .then(() => {
+          const type = dispatchSpy.mock.calls[0][0].type;
+
+          return expect(type).toEqual(EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME);
+        });
+    });
+
+    test('should dispatch correct payload in case of success response', () => {
+      const dispatchSpy = jest.fn();
+      const fakeResponse = {
+        body: {},
+        status: 200,
+      };
+
+      return actions.updateInterviewDatetime(careerDay)(dispatchSpy)
+        .then(() => expect(axios.patch()).resolves.toEqual(fakeResponse));
+    });
+
+    test('should return rejected promise in case of error in request', () => {
+      const dispatchSpy = jest.fn();
+      const fakeResponse = {
+        body: {},
+        status: 500,
+      };
+
+      axios.patch.mockReturnValue(Promise.reject(fakeResponse));
+
+      return actions.updateInterviewDatetime(careerDay)(dispatchSpy)
+        .then(() => expect(axios.patch()).rejects.toEqual(fakeResponse));
+    });
+  });
+
   describe('method archiveCareerDay', () => {
     const careerDayId = 1;
 
