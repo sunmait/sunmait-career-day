@@ -153,6 +153,9 @@ export const archiveCareerDay: ArchiveCareerDay = (careerDayId: number) => (disp
     });
 };
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> c0e4dc6... added removing objective
 
 export type DeleteObjective = (objectiveId: number) => (dispatch: Dispatch) => void;
 export const deleteObjective: DeleteObjective = (objectiveId: number) => (dispatch: Dispatch) => {
@@ -169,5 +172,8 @@ export const deleteObjective: DeleteObjective = (objectiveId: number) => (dispat
       return err;
     });
 };
+<<<<<<< HEAD
 =======
 >>>>>>> cb6ec73... added archive action for career days
+=======
+>>>>>>> c0e4dc6... added removing objective
