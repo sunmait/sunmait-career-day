@@ -39,6 +39,7 @@ interface IProps {
   description: string;
   statusId: number;
   handleSaveObjective: (objective: { title: string, description: string }) => void;
+  handleDeleteObjective: (e: React.MouseEvent<SVGSVGElement>, objectiveId: number) => void;
 }
 
 interface IState {
@@ -61,6 +62,12 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     e.preventDefault();
 
     this.setState({ isEdited: !this.state.isEdited });
+  }
+
+  private handleDeleteObjective(e: React.MouseEvent<SVGSVGElement>) {
+    e.preventDefault();
+
+    this.props.handleDeleteObjective(e, this.props.objectiveId);
   }
 
   private handleChangeTitleValue(e: React.ChangeEvent<HTMLInputElement>) {
@@ -129,7 +136,10 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
               className={this.props.classes.alignIcons}
               onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleEditObjective(e)}
             />
-            <Delete className={this.props.classes.alignIcons} />
+            <Delete
+              className={this.props.classes.alignIcons}
+              onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleDeleteObjective(e)}
+            />
           </div>
         </ExpansionPanelSummary>
 

@@ -23,7 +23,7 @@ export class ObjectiveService implements IObjectiveService {
 
   public async getObjectivesByCareerDayId(CareerDayId: number): Promise<CareerDayEntity[]> {
     return this._careerDayRepository.find({
-      where: {id: CareerDayId},
+      where: { id: CareerDayId },
       include: ObjectiveEntity,
     });
   }
@@ -49,5 +49,9 @@ export class ObjectiveService implements IObjectiveService {
         massage: 'No one can edit objective in which Career Day was archived .',
       };
     }
+  }
+
+  public async deleteObjective(id: number): Promise<void> {
+    await this._objectiveRepository.remove({ where: { id } });
   }
 }
