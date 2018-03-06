@@ -71,6 +71,13 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     e.preventDefault();
 
     this.props.handleDeleteObjective(e, this.props.objectiveId);
+<<<<<<< HEAD
+=======
+  }
+
+  private handleChangeTitleValue(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ title: e.target.value });
+>>>>>>> c0e4dc6... added removing objective
   }
 
   private handleChangeValue(e: React.ChangeEvent<HTMLInputElement>) {

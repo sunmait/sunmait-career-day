@@ -9,9 +9,13 @@ enum EMPLOYEES_ACTION {
   UPDATE_OBJECTIVE = 'UPDATE_OBJECTIVE',
   ARCHIVE_CAREER_DAY = 'ARCHIVE_CAREER_DAY',
 <<<<<<< HEAD
+<<<<<<< HEAD
   DELETE_OBJECTIVE = 'DELETE_OBJECTIVE',
 =======
 >>>>>>> cb6ec73... added archive action for career days
+=======
+  DELETE_OBJECTIVE = 'DELETE_OBJECTIVE',
+>>>>>>> c0e4dc6... added removing objective
 }
 
 export default EMPLOYEES_ACTION;
