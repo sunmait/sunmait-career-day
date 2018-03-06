@@ -1,8 +1,8 @@
 import { injectable, inject } from 'inversify';
 import { ICareerDayService } from '../ICareerDayService';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
-
 import { ICareerDayRepository } from '../../../Data/Repositories/index';
+import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
 
 @injectable()
 export class CareerDayService implements ICareerDayService {
@@ -13,7 +13,9 @@ export class CareerDayService implements ICareerDayService {
     this._careerDayRepository = careerDayRepository;
   }
 
-  public async getCareerDaysWithId(EmployeeExternalId: number): Promise<CareerDayEntity[]> {
+  public async getCareerDaysWithId(
+    EmployeeExternalId: number,
+  ): Promise<CareerDayEntity[]> {
     return this._careerDayRepository.findAll({
       where: { EmployeeExternalId },
       order: [['CreatedAt', 'DESC']],
@@ -40,9 +42,16 @@ export class CareerDayService implements ICareerDayService {
   }
 
   public async archiveCareerDay(id: number): Promise<CareerDayEntity> {
-    const careerDay = await this._careerDayRepository.findById(id);
+    const careerDay = (await this._careerDayRepository.findAll({
+      where: { id },
+      include: ObjectiveEntity,
+    }))[0];
     if (careerDay.InterviewDate.getTime() - Date.now() <= 0) {
       careerDay.Archived = true;
+      careerDay.Objectives.forEach(item => {
+        item.StatusId = 3;
+        return item;
+      });
       return this._careerDayRepository.update(careerDay);
     } else {
       throw {
