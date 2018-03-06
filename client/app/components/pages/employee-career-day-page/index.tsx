@@ -2,7 +2,13 @@ import { connect } from 'react-redux';
 import { IStore } from 'redux/rootReducer';
 import * as redux from 'redux';
 import { Dispatch } from 'redux/store';
-import { getSelectedCareerDay, addObjective, updateObjective, archiveCareerDay } from 'redux/modules/employees/actions';
+import {
+  getSelectedCareerDay,
+  addObjective,
+  updateObjective,
+  deleteObjective,
+  archiveCareerDay,
+} from 'redux/modules/employees/actions';
 import EmployeeCareerDayPage from './EmployeeCareerDayPage';
 
 const mapStateToProps = (state: IStore) => ({
@@ -16,6 +22,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
   addObjective,
   updateObjective,
   archiveCareerDay,
+  deleteObjective,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(
