@@ -12,10 +12,6 @@ const styles = {
 };
 
 type ComponentClassNames = 'alignColumn';
-interface IProps {
-  textField: string;
-  alignColumn: string;
-}
 
 interface IProps {
   handleClosePopup: () => void;
