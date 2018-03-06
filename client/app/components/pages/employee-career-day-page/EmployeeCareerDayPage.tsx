@@ -11,15 +11,16 @@ import {
   IObjectiveById,
   IUpdateObjective,
 } from 'redux/modules/employees/reducer';
-import AddObjectivePopup from './add-objective-popup';
-import Objective from './objective';
 import {
   GetSelectedCareerDay,
   AddObjective,
   UpdateObjective,
+  DeleteObjective,
   ArchiveCareerDay,
 } from 'redux/modules/employees/actions';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
+import AddObjectivePopup from './add-objective-popup';
+import Objective from './objective';
 import ConfirmationPopup from 'components/common/popups/confirmation-popup';
 import ControlledTooltips from 'components/common/controlled-tooltips';
 import * as moment from 'moment';
@@ -51,22 +52,27 @@ interface IProps {
   selectedCareerDay: ICareerDayOfEmployee;
   selectedEmployee: IEmployee;
   getSelectedCareerDay: GetSelectedCareerDay;
+  deleteObjective: DeleteObjective;
   match: match<IMatchParams>;
   updateObjective: UpdateObjective;
   archiveCareerDay: ArchiveCareerDay;
 }
 
 interface IState {
-  isOpenEditObjectivePopup: boolean;
+  isOpenAddPopup: boolean;
+  isOpenDeletePopup: boolean;
   isOpenArchiveCDPopup: boolean;
+  objectiveId: number;
 }
 
 class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      isOpenEditObjectivePopup: false,
+      isOpenAddPopup: false,
+      isOpenDeletePopup: false,
       isOpenArchiveCDPopup: false,
+      objectiveId: null,
     };
   }
 
@@ -74,21 +80,32 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
     this.props.getSelectedCareerDay(this.props.match.params.careerDayId);
   }
 
-  private toggleEditObjectivePopupState() {
-    this.setState({
-      isOpenEditObjectivePopup: !this.state.isOpenEditObjectivePopup,
-    });
+  private toggleAddPopupState() {
+    this.setState({ isOpenAddPopup: !this.state.isOpenAddPopup });
+  }
+
+  private toggleDeletePopupState() {
+    this.setState({ isOpenDeletePopup: !this.state.isOpenDeletePopup });
   }
 
   private toggleArchiveCDPopupState() {
     this.setState({ isOpenArchiveCDPopup: !this.state.isOpenArchiveCDPopup });
   }
 
+  private handleClickOnDeleteButton(e: React.MouseEvent<SVGSVGElement>, objectiveId: number) {
+    e.preventDefault();
+
+    this.setState({ objectiveId });
+    this.toggleDeletePopupState();
+  }
+
+  private handleDeleteObjective() {
+    this.props.deleteObjective(this.state.objectiveId);
+    this.toggleDeletePopupState();
+  }
+
   private handleAddObjective(objective: IObjectiveById) {
-    const objectiveByCareerDayId = {
-      ...objective,
-      CareerDayId: this.props.match.params.careerDayId,
-    };
+    const objectiveByCareerDayId = { ...objective, CareerDayId: this.props.match.params.careerDayId };
 
     this.props.addObjective(objectiveByCareerDayId);
   }
@@ -105,12 +122,15 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
         title={item.Title}
         description={item.Description}
         statusId={item.StatusId}
-        handleSaveObjective={(objective: IUpdateObjective) =>
-          this.handleSaveObjective(objective)
-        }
+        handleSaveObjective={(objective: IUpdateObjective) => this.handleSaveObjective(objective)}
+        handleDeleteObjective={(
+          e: React.MouseEvent<SVGSVGElement>,
+          objectiveId: number,
+        ) => this.handleClickOnDeleteButton(e, objectiveId)}
       />
     ));
   }
+
   private isActiveAddObjectiveButton() {
     if (this.props.selectedCareerDay) {
       return this.props.selectedCareerDay.Archived;
@@ -124,20 +144,22 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
     this.toggleArchiveCDPopupState();
   }
 
-  private acrhiveButtonText() {
-    if (this.props.selectedCareerDay && this.props.selectedCareerDay.Archived) {
+  private archiveButtonText() {
+    if (this.props.selectedCareerDay &&
+      this.props.selectedCareerDay.Archived) {
       return 'Archived';
     }
 
     return 'Archive';
-
   }
 
   private getArchiveButtonTitle() {
-    return this.props.selectedCareerDay &&
-      moment(this.props.selectedCareerDay.InterviewDate) > moment()
-      ? 'Can be archived only after interview date of CD.'
-      : 'The career day archived.';
+    if (this.props.selectedCareerDay &&
+      moment(this.props.selectedCareerDay.InterviewDate) > moment()) {
+      return 'Can be archived only after interview date of CD.';
+    }
+
+    return 'The career day archived.';
   }
 
   private isActiveArchiveButton() {
@@ -148,7 +170,6 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
     }
 
     return true;
-
   }
 
   public render() {
@@ -162,7 +183,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
           <Header
             title={`${this.props.selectedEmployee.FirstName} ${
               this.props.selectedEmployee.LastName
-            }'s career day`}
+              }'s career day`}
           />
           <Grid item xs={5}>
             <Grid container justify="flex-end" className={classes.navigation}>
@@ -177,7 +198,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
                           raised
                           disabled={this.isActiveAddObjectiveButton()}
                           color="primary"
-                          onClick={() => this.toggleEditObjectivePopupState()}
+                          onClick={() => this.toggleAddPopupState()}
                         >
                           Add objective
                         </Button>
@@ -196,7 +217,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
                           color="primary"
                           onClick={() => this.toggleArchiveCDPopupState()}
                         >
-                          {this.acrhiveButtonText()}
+                          {this.archiveButtonText()}
                         </Button>
                       }
                     />
@@ -207,21 +228,29 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
 
             <Grid container justify="center">
               <div className={classes.root}>
-                {this.props.selectedCareerDay &&
-                  this.props.selectedCareerDay.Objectives &&
-                  this.renderObjectives()}
+                {(
+                  this.props.selectedCareerDay &&
+                  this.props.selectedCareerDay.Objectives) &&
+                this.renderObjectives()}
               </div>
             </Grid>
           </Grid>
         </Grid>
 
-        {this.state.isOpenEditObjectivePopup && (
+        {this.state.isOpenAddPopup && (
           <AddObjectivePopup
-            handleClosePopup={() => this.toggleEditObjectivePopupState()}
-            handleAddObjective={(objective: IObjectiveById) =>
-              this.handleAddObjective(objective)
-            }
-            open={this.state.isOpenEditObjectivePopup}
+            handleClosePopup={() => this.toggleAddPopupState()}
+            handleAddObjective={(objective: IObjectiveById) => this.handleAddObjective(objective)}
+            open={this.state.isOpenAddPopup}
+          />
+        )}
+        {this.state.isOpenDeletePopup && (
+          <ConfirmationPopup
+            handleClosePopup={() => this.toggleDeletePopupState()}
+            handleConfirm={() => this.handleDeleteObjective()}
+            open={this.state.isOpenDeletePopup}
+            title={'Delete this objective?'}
+            description={'After deleting, you cann\'t come back objective!'}
           />
         )}
         {this.state.isOpenArchiveCDPopup && (

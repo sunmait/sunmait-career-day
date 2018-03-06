@@ -152,3 +152,19 @@ export const archiveCareerDay: ArchiveCareerDay = (careerDayId: number) => (disp
       return err;
     });
 };
+
+export type DeleteObjective = (objectiveId: number) => (dispatch: Dispatch) => void;
+export const deleteObjective: DeleteObjective = (objectiveId: number) => (dispatch: Dispatch) => {
+  return axiosRequest.delete(`/api/objectives/${objectiveId}`)
+    .then(() => {
+      dispatch({
+        type: EMPLOYEES_LIST.DELETE_OBJECTIVE,
+        payload: objectiveId,
+      });
+    })
+    .catch((err: axios.AxiosError) => {
+      console.error(err);
+
+      return err;
+    });
+};
