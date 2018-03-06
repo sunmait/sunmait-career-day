@@ -25,15 +25,13 @@ const styles = (theme: Theme) => ({
     alignItems: 'center',
     flex: '1 0 0',
   } as React.CSSProperties,
-  alignInputs: {
-    flexDirection: 'column',
-  } as React.CSSProperties,
   alignFrom: {
-    textAlign: 'center',
-  },
+    display: 'flex',
+    flexDirection: 'column',
+  }as React.CSSProperties,
 });
 
-type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignInputs' | 'alignFrom';
+type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignFrom';
 
 interface IProps {
   objectiveId: number;
@@ -66,20 +64,14 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
   }
 
   private handleChangeTitleValue(e: React.ChangeEvent<HTMLInputElement>) {
-    e.preventDefault();
-
     this.setState({ title: e.target.value });
   }
 
   private handleChangeDescriptionValue(e: React.ChangeEvent<HTMLInputElement>) {
-    e.preventDefault();
-
     this.setState({ description: e.target.value });
   }
 
-  private saveObjectiveClick(e: React.MouseEvent<HTMLElement>) {
-    e.preventDefault();
-
+  private saveObjectiveClick() {
     const objective = {
       title: this.state.title,
       description: this.state.description,
@@ -93,8 +85,8 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
 
   private formInputPanel() {
     return (
-      <ExpansionPanel>
-        <ExpansionPanelSummary className={this.props.classes.alignInputs}>
+      <ExpansionPanel expanded>
+        <ExpansionPanelSummary>
           <div className={this.props.classes.alignFrom}>
             <FromInput
               label={'Title'}
@@ -113,7 +105,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
             <Button
               color="primary"
               disabled={this.state.title.length === 0 || this.state.description.length === 0}
-              onClick={(e: React.MouseEvent<HTMLElement>) => this.saveObjectiveClick(e)}
+              onClick={() => this.saveObjectiveClick()}
             >
               Save
             </Button>
@@ -143,7 +135,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
 
         <ExpansionPanelDetails>
           <Typography>{this.props.description}</Typography>
-        </ExpansionPanelDetails>,
+        </ExpansionPanelDetails>
       </ExpansionPanel>
     );
   }
