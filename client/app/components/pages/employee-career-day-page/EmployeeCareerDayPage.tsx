@@ -105,10 +105,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 
   private handleAddObjective(objective: IObjectiveById) {
-    const objectiveByCareerDayId = {
-      ...objective,
-      CareerDayId: this.props.match.params.careerDayId,
-    };
+    const objectiveByCareerDayId = { ...objective, CareerDayId: this.props.match.params.careerDayId };
 
     this.props.addObjective(objectiveByCareerDayId);
   }
@@ -133,6 +130,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
       />
     ));
   }
+
   private isActiveAddObjectiveButton() {
     if (this.props.selectedCareerDay) {
       return this.props.selectedCareerDay.Archived;
@@ -154,7 +152,6 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
     }
 
     return true;
-
   }
 
   private archiveButtonText() {
@@ -186,7 +183,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
           <Header
             title={`${this.props.selectedEmployee.FirstName} ${
               this.props.selectedEmployee.LastName
-            }'s career day`}
+              }'s career day`}
           />
           <Grid item xs={5}>
             <Grid container justify="flex-end" className={classes.navigation}>
