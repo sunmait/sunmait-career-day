@@ -34,7 +34,10 @@ export default function(state: IEmployeesState = defaultState, { type, payload }
       return handleUpdateObjective(state, payload);
 
     case EMPLOYEES_LIST.ARCHIVE_CAREER_DAY:
-    return handleArchiveCareerDay(state, payload);
+      return handleArchiveCareerDay(state, payload);
+
+    case EMPLOYEES_LIST.DELETE_OBJECTIVE:
+      return handleDeleteObjective(state, payload);
 
     default:
       return state;
@@ -73,6 +76,20 @@ function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
   return { ...state, careerDays: newCareerDaysList };
 }
 
+function handleDeleteObjective(state: IEmployeesState, objectiveId: number) {
+  const newSelectedCareerDay = { ...state.selectedCareerDay };
+  newSelectedCareerDay.Objectives.find((objective: IObjective, index: number): boolean => {
+    if (objective.id === objectiveId) {
+      newSelectedCareerDay.Objectives.splice(index, 1);
+
+      return true;
+    }
+    return false;
+  });
+
+  return { ...state, selectedCareerDay: newSelectedCareerDay };
+}
+
 function handleArchiveCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEmployee) {
   const newCareerDaysList = state.careerDays.map((item: ICareerDayOfEmployee) => {
     if (item.id === newCareerDay.id) {
@@ -82,7 +99,7 @@ function handleArchiveCareerDay(state: IEmployeesState, newCareerDay: ICareerDay
     }
   });
 
-  return {...state, careerDays: newCareerDaysList, selectedCareerDay: newCareerDay};
+  return { ...state, careerDays: newCareerDaysList, selectedCareerDay: newCareerDay };
 }
 
 function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
@@ -90,7 +107,7 @@ function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
   updatedSelectedCareerDay.Objectives.find((item: IObjective, index: number): boolean => {
     if (item.id === objective.id) {
       updatedSelectedCareerDay.Objectives[index] = objective;
-      
+
       return true;
     }
     return false;
