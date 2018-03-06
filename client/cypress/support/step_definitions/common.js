@@ -44,6 +44,11 @@ when('I click on {string} link', (linkText) => {
     .click();
 });
 
+when('I typing in {string} field: {string}',(fieldName,text) => {
+  cy.get(`input[name=${fieldName}]`)
+    .type(text);
+});
+
 when('I open {string} page', openPage);
 
 when('I see {string} page', (checkPage));
@@ -60,4 +65,8 @@ then('I see list', () => {
 
 then ('I see {string} username in app header', (username) => {
   cy.get('h3').contains(username);
+});
+
+then('I see paragraph with {string} message',(message) => {
+  cy.get('p').contains(message);
 });
