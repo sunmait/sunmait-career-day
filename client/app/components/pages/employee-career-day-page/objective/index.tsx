@@ -3,13 +3,13 @@ import { Theme, withStyles, WithStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Edit from 'material-ui-icons/Edit';
 import Delete from 'material-ui-icons/Delete';
+import Save from 'material-ui-icons/Save';
 import ExpansionPanel, {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
 } from 'material-ui/ExpansionPanel';
 import IconStatus from 'components/common/icon-status/icon-status-objective';
 import FromInput from 'components/common/form-input';
-import Button from 'material-ui/Button';
 
 const styles = (theme: Theme) => ({
   heading: {
@@ -25,13 +25,10 @@ const styles = (theme: Theme) => ({
     alignItems: 'center',
     flex: '1 0 0',
   } as React.CSSProperties,
-  alignFrom: {
-    display: 'flex',
-    flexDirection: 'column',
-  }as React.CSSProperties,
+  alignSaveButton: {},
 });
 
-type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignFrom';
+type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignSaveButton' ;
 
 interface IProps {
   objectiveId: number;
@@ -90,18 +87,28 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     this.props.handleSaveObjective(objective);
   }
 
+  private setButtonType() {
+    if (this.state.title.length === 0 || this.state.description.length === 0) {
+      return 'disabled';
+    }
+    return 'primary';
+  }
+
   private formInputPanel() {
     return (
-      <ExpansionPanel expanded>
+      <ExpansionPanel>
         <ExpansionPanelSummary>
-          <div className={this.props.classes.alignFrom}>
+          <div style={{ display: 'flex', textAlign: 'center' }}>
+            <IconStatus statusId={this.props.statusId} />
             <FromInput
               label={'Title'}
               maxLength={50}
               value={this.state.Title}
               handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
             />
+          </div>
 
+          <div>
             <FromInput
               label={'Description'}
               maxLength={255}
