@@ -8,6 +8,7 @@ import {
   response,
   requestParam,
   requestBody,
+  httpDelete,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 
@@ -59,5 +60,17 @@ export class ObjectiveController implements interfaces.Controller {
     @response() res: express.Response,
   ): Promise<void> {
     res.json(await this._objectiveService.updateObjective(id, title, description));
+  }
+
+  /**
+   * Delete objective
+   * id: objective
+   */
+  @httpDelete('/:id')
+  private async delete(
+    @requestParam('id') id: number,
+    @response() res: express.Response,
+  ): Promise<void> {
+    res.json(await this._objectiveService.deleteObjective(id));
   }
 }
