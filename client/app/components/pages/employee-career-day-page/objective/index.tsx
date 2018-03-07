@@ -44,17 +44,19 @@ interface IProps {
 
 interface IState {
   isEdited: boolean;
-  title: string;
-  description: string;
+  Title: string;
+  Description: string;
 }
+
+type stateKeys = keyof IState;
 
 class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
   constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {
       isEdited: false,
-      title: this.props.title,
-      description: this.props.description,
+      Title: this.props.title,
+      Description: this.props.description,
     };
   }
 
@@ -70,18 +72,16 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     this.props.handleDeleteObjective(e, this.props.objectiveId);
   }
 
-  private handleChangeTitleValue(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ title: e.target.value });
-  }
-
-  private handleChangeDescriptionValue(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({ description: e.target.value });
+  private handleChangeValue(e: React.ChangeEvent<HTMLInputElement>) {
+    const propName = e.target.name as stateKeys;
+    const newState = { [propName as any]: e.target.value };
+    this.setState(newState);
   }
 
   private saveObjectiveClick() {
     const objective = {
-      title: this.state.title,
-      description: this.state.description,
+      title: this.state.Title,
+      description: this.state.Description,
       id: this.props.objectiveId,
     };
 
@@ -98,20 +98,20 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
             <FromInput
               label={'Title'}
               maxLength={50}
-              value={this.state.title}
-              handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeTitleValue(e)}
+              value={this.state.Title}
+              handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
             />
 
             <FromInput
               label={'Description'}
               maxLength={255}
-              value={this.state.description}
-              handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeDescriptionValue(e)}
+              value={this.state.Description}
+              handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
             />
 
             <Button
               color="primary"
-              disabled={this.state.title.length === 0 || this.state.description.length === 0}
+              disabled={this.state.Title.length === 0 || this.state.Description.length === 0}
               onClick={() => this.saveObjectiveClick()}
             >
               Save
