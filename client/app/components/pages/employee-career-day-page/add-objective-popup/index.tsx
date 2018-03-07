@@ -20,23 +20,25 @@ interface IProps {
 }
 
 interface IState {
-  title: string;
-  description: string;
+  Title: string;
+  Description: string;
 }
+
+type stateKeys = keyof IState;
 
 class ObjectivePopup extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
   constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {
-      title: '',
-      description: '',
+      Title: '',
+      Description: '',
     };
   }
 
   private addObjectiveClick() {
     const objective = {
-      Title: this.state.title,
-      Description: this.state.description,
+      Title: this.state.Title,
+      Description: this.state.Description,
     };
 
     this.props.handleAddObjective(objective);
@@ -47,16 +49,14 @@ class ObjectivePopup extends React.Component<IProps & WithStyles<ComponentClassN
     this.props.handleClosePopup();
   }
 
-  private handleChangeTitleValue(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({title: e.target.value});
-  }
-
-  private handleChangeDescriptionValue(e: React.ChangeEvent<HTMLInputElement>) {
-    this.setState({description: e.target.value});
+  private handleChangeValue(e: React.ChangeEvent<HTMLInputElement>) {
+    const propName = e.target.name as stateKeys;
+    const newState = { [propName as any]: e.target.value };
+    this.setState(newState);
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     return (
       <Dialog open={this.props.open} onClose={() => this.handleClosePopup()}>
@@ -65,20 +65,20 @@ class ObjectivePopup extends React.Component<IProps & WithStyles<ComponentClassN
           <FormInput
             label={'Title'}
             maxLength={50}
-            value={this.state.title}
-            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeTitleValue(e)}
+            value={this.state.Title}
+            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
           />
 
           <FormInput
             label={'Description'}
             maxLength={255}
-            value={this.state.description}
-            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeDescriptionValue(e)}
+            value={this.state.Description}
+            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
           />
 
           <Button
             color="primary"
-            disabled={this.state.title.length === 0 || this.state.description.length === 0}
+            disabled={this.state.Title.length === 0 || this.state.Description.length === 0}
             onClick={() => this.addObjectiveClick()}
           >
             Add

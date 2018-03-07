@@ -37,6 +37,7 @@ const FormInput = (props: IProps & WithStyles<ComponentClassNames>) => {
         rowsMax="4"
         onChange={props.handleChangeValue}
         margin="normal"
+        name={props.label}
         inputProps={{
           maxLength: props.maxLength,
         }}
