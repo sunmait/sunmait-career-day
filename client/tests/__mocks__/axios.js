@@ -7,6 +7,8 @@ const fakeResponse = {
 const axiosMock = {
   get: jest.fn().mockReturnValue(Promise.resolve(fakeResponse)),
   post: jest.fn().mockReturnValue(Promise.resolve(fakeResponse)),
+  delete: jest.fn().mockReturnValue(Promise.resolve(fakeResponse)),
+  patch: jest.fn().mockReturnValue(Promise.resolve(fakeResponse)),
 };
 
 module.exports = axiosMock;

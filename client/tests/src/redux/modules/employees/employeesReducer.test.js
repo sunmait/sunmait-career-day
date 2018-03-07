@@ -10,7 +10,8 @@ describe('employeesReducer', () => {
     PhotoUrl: 'my-avatar',
     AccessToken: 'token',
   };
-  const payload = {
+
+  const careerDayOfEmployee = {
     id: 1,
     Archived: true,
     EmployeeExternalId: '1',
@@ -18,52 +19,290 @@ describe('employeesReducer', () => {
     InterviewDate: new Date(),
     CreatedAt: new Date(),
     UpdatedAt: new Date(),
-    Objectives: {},
+    Objectives: [],
   };
-  test('Should return default state', () => {
-    const initAction = { type: '', payload: {} };
-    const defaultState = employeesReducer(undefined, initAction);
 
-    expect(defaultState).toEqual({ employees: null, careerDays: null, selectedCareerDay: null, selectedEmployee: null });
+  const objective = {
+    id: 1,
+    Title: 'Title',
+    Description: 'Description',
+    CareerDayId: 'CareerDayId',
+    StatusId: 1,
+    Progress: 0,
+    CreatedAt: new Date,
+    UpdatedAt: new Date,
+  };
+
+  describe('state with empty parameters', () => {
+    test('Should return default state', () => {
+      const initAction = {type: '', payload: {}};
+      const defaultState = employeesReducer(undefined, initAction);
+
+      expect(defaultState).toEqual({
+        employees: null,
+        careerDays: null,
+        selectedCareerDay: null,
+        selectedEmployee: null
+      });
+    });
   });
 
-  test('Should return list of employees', () => {
-    const initAction = { type: EMPLOYEES_ACTION.GET_EMPLOYEES_LIST, payload: employees };
-    const changedState = employeesReducer(undefined, initAction);
+  describe('method handleGetEmployeesList', () => {
+    test('Should return list of employees', () => {
+      const initAction = {type: EMPLOYEES_ACTION.GET_EMPLOYEES_LIST, payload: employees};
+      const changedState = employeesReducer(undefined, initAction);
 
-    expect(changedState).toEqual({ employees, careerDays: null, selectedCareerDay: null, selectedEmployee: null });
+      expect(changedState).toEqual({employees, careerDays: null, selectedCareerDay: null, selectedEmployee: null});
+    });
   });
 
-  test('Should return list of career day', async () => {
-    const initAction = { type: EMPLOYEES_ACTION.GET_CAREER_DAYS, payload };
-    const changedState = employeesReducer(undefined, initAction);
+  describe('method handleGetCareerDaysOfEmployee', () => {
+    test('Should return list of career day', () => {
+      const initAction = {type: EMPLOYEES_ACTION.GET_CAREER_DAYS, payload: careerDayOfEmployee};
+      const changedState = employeesReducer(undefined, initAction);
 
-    expect(changedState).toEqual({ employees: null, careerDays: payload, selectedCareerDay: null, selectedEmployee: null });
+      expect(changedState).toEqual({
+        employees: null,
+        careerDays: careerDayOfEmployee,
+        selectedCareerDay: null,
+        selectedEmployee: null
+      });
+    });
   });
 
-  test('Should return list of selected career day', async () => {
-    const initAction = { type: EMPLOYEES_ACTION.GET_SELECTED_CAREER_DAY, payload };
-    const changedState = employeesReducer(undefined, initAction);
+  describe('method handleGetSelectedCareerDay', () => {
+    test('Should return list of selected career day', () => {
+      const initAction = {type: EMPLOYEES_ACTION.GET_SELECTED_CAREER_DAY, payload: careerDayOfEmployee};
+      const changedState = employeesReducer(undefined, initAction);
 
-    expect(changedState).toEqual({ employees: null, careerDays: null, selectedCareerDay: payload, selectedEmployee: null });
+      expect(changedState).toEqual({
+        employees: null,
+        careerDays: null,
+        selectedCareerDay: careerDayOfEmployee,
+        selectedEmployee: null
+      });
+    });
   });
 
-  test('Should return list of selected empployees', async () => {
-    const initAction = { type: EMPLOYEES_ACTION.GET_SELECTED_EMPLOYEE, payload: employees };
-    const changedState = employeesReducer(undefined, initAction);
+  describe('method handleGetSelectedEmployee', () => {
+    test('Should return list of selected employees', () => {
+      const initAction = {type: EMPLOYEES_ACTION.GET_SELECTED_EMPLOYEE, payload: employees};
+      const changedState = employeesReducer(undefined, initAction);
 
-    expect(changedState).toEqual({ employees: null, careerDays: null, selectedCareerDay: null, selectedEmployee: employees });
+      expect(changedState).toEqual({
+        employees: null,
+        careerDays: null,
+        selectedCareerDay: null,
+        selectedEmployee: employees
+      });
+    });
   });
 
-  test('Should return updated list of career date', async () => {
-    const initAction = { type: EMPLOYEES_ACTION.ADD_CAREER_DAY, payload };
-    const changedState = employeesReducer({ 
-      employees: null,
-      careerDays: [],
-      selectedCareerDay: null,
-      selectedEmployee: null
-    }, initAction);
+  describe('method handleAddCareerDay', () => {
+    test('Should return updated list of career day after adding career day', () => {
+      const initAction = {type: EMPLOYEES_ACTION.ADD_CAREER_DAY, payload: careerDayOfEmployee};
 
-    expect(changedState).toEqual({ employees: null, careerDays: [payload], selectedCareerDay: null, selectedEmployee: null });
+      const changedState = employeesReducer({
+        employees: null,
+        careerDays: [],
+        selectedCareerDay: null,
+        selectedEmployee: null
+      }, initAction);
+
+      expect(changedState).toEqual({
+        employees: null,
+        careerDays: [careerDayOfEmployee],
+        selectedCareerDay: null,
+        selectedEmployee: null
+      });
+    });
+  });
+
+  describe('method handleAddObjective', () => {
+    test('Should return updated list of xareer days after adding objective', () => {
+      const initAction = {type: EMPLOYEES_ACTION.ADD_OBJECTIVE, payload: objective};
+
+      const changedState = employeesReducer({
+        employees: null,
+        careerDays: null,
+        selectedCareerDay: careerDayOfEmployee,
+        selectedEmployee: null
+      }, initAction);
+
+      expect(changedState).toEqual({
+        employees: null,
+        careerDays: null,
+        selectedCareerDay: careerDayOfEmployee,
+        selectedEmployee: null
+      });
+    });
+  });
+
+  describe('method handleDeleteCareerDay', () => {
+    test('Should return updated list of career days after deleting career day ', () => {
+      const careerDayId = 1;
+      const initAction = {type: EMPLOYEES_ACTION.DELETE_CAREER_DAY, payload: careerDayId};
+
+      const changedState = employeesReducer({
+        employees: null,
+        careerDays: [careerDayOfEmployee],
+        selectedCareerDay: null,
+        selectedEmployee: null
+      }, initAction);
+
+      expect(changedState).toEqual({
+        employees: null,
+        careerDays: [],
+        selectedCareerDay: null,
+        selectedEmployee: null
+      });
+    });
+  });
+
+  describe('method handleUpdateObjective', () => {
+    test(
+      'Should return updated list of career days after editing objective when it equal the current objective ',
+      () => {
+        const initAction = {type: EMPLOYEES_ACTION.UPDATE_OBJECTIVE, payload: objective};
+
+        const changedState = employeesReducer({
+          employees: null,
+          careerDays: null,
+          selectedCareerDay: careerDayOfEmployee,
+          selectedEmployee: null
+        }, initAction);
+
+        expect(changedState).toEqual({
+          employees: null,
+          careerDays: null,
+          selectedCareerDay: careerDayOfEmployee,
+          selectedEmployee: null,
+        });
+      });
+
+    test(
+      'Should return updated list of career days after editing objective when it not equal the current objective',
+      () => {
+        const objective = {
+          id: 2,
+          Title: 'Title',
+          Description: 'Description',
+          CareerDayId: 'CareerDayId',
+          StatusId: 1,
+          Progress: 0,
+          CreatedAt: new Date,
+          UpdatedAt: new Date,
+        };
+
+        const initAction = {type: EMPLOYEES_ACTION.UPDATE_OBJECTIVE, payload: objective};
+
+        const changedState = employeesReducer({
+          employees: null,
+          careerDays: null,
+          selectedCareerDay: careerDayOfEmployee,
+          selectedEmployee: null
+        }, initAction);
+
+        expect(changedState).toEqual({
+          employees: null,
+          careerDays: null,
+          selectedCareerDay: careerDayOfEmployee,
+          selectedEmployee: null,
+        });
+      });
+  });
+
+  describe('method  handleDeleteObjective', () => {
+    test(
+      'Should return updated list of selected career days after deleting objective when it not equal the current objective',
+      () => {
+        const objectiveId = 2;
+
+        const initAction = {type: EMPLOYEES_ACTION.DELETE_OBJECTIVE, payload: objectiveId};
+
+        const changedState = employeesReducer({
+          employees: null,
+          careerDays: null,
+          selectedCareerDay: careerDayOfEmployee,
+          selectedEmployee: null
+        }, initAction);
+
+        expect(changedState).toEqual({
+          employees: null,
+          careerDays: null,
+          selectedCareerDay: careerDayOfEmployee,
+          selectedEmployee: null,
+        });
+      });
+
+    test(
+      'Should return updated list of selected career days after deleting objective when it equal the current objective',
+      () => {
+        const objectiveId = 1;
+        const initAction = {type: EMPLOYEES_ACTION.DELETE_OBJECTIVE, payload: objectiveId};
+
+        const changedState = employeesReducer({
+          employees: null,
+          careerDays: null,
+          selectedCareerDay: careerDayOfEmployee,
+          selectedEmployee: null
+        }, initAction);
+
+        expect(changedState).toEqual({
+          employees: null,
+          careerDays: null,
+          selectedCareerDay: careerDayOfEmployee,
+          selectedEmployee: null,
+        });
+      });
+  });
+
+  describe('method handleArchiveCareerDay', () => {
+    test('Should return updated list of career days after archiving when it equal the current objective', () => {
+      const initAction = {type: EMPLOYEES_ACTION.ARCHIVE_CAREER_DAY, payload: careerDayOfEmployee};
+
+      const changedState = employeesReducer({
+        employees: null,
+        careerDays: [careerDayOfEmployee],
+        selectedCareerDay: careerDayOfEmployee,
+        selectedEmployee: null
+      }, initAction);
+
+      expect(changedState).toEqual({
+        employees: null,
+        careerDays: [careerDayOfEmployee],
+        selectedCareerDay: careerDayOfEmployee,
+        selectedEmployee: null,
+      });
+    });
+
+    test('Should return updated list of career days  after archiving when it not equal the current objective', () => {
+      const notEqualCareerDayOfEmployee = {
+        id: 2,
+        Archived: true,
+        EmployeeExternalId: '1',
+        UnitManagerExternalId: '1',
+        InterviewDate: new Date(),
+        CreatedAt: new Date(),
+        UpdatedAt: new Date(),
+        Objectives: [],
+      };
+
+      const initAction = {type: EMPLOYEES_ACTION.ARCHIVE_CAREER_DAY, payload: notEqualCareerDayOfEmployee};
+
+      const changedState = employeesReducer({
+        employees: null,
+        careerDays: [careerDayOfEmployee],
+        selectedCareerDay: notEqualCareerDayOfEmployee,
+        selectedEmployee: null
+      }, initAction);
+
+      expect(changedState).toEqual({
+        employees: null,
+        careerDays: [careerDayOfEmployee],
+        selectedCareerDay: notEqualCareerDayOfEmployee,
+        selectedEmployee: null,
+      });
+    });
   });
 });

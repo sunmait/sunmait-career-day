@@ -33,11 +33,11 @@ export default function(state: IEmployeesState = defaultState, { type, payload }
     case EMPLOYEES_LIST.UPDATE_OBJECTIVE:
       return handleUpdateObjective(state, payload);
 
-    case EMPLOYEES_LIST.ARCHIVE_CAREER_DAY:
-      return handleArchiveCareerDay(state, payload);
-
     case EMPLOYEES_LIST.DELETE_OBJECTIVE:
       return handleDeleteObjective(state, payload);
+
+    case EMPLOYEES_LIST.ARCHIVE_CAREER_DAY:
+      return handleArchiveCareerDay(state, payload);
 
     default:
       return state;
@@ -73,7 +73,22 @@ function handleAddObjective(state: IEmployeesState, objective: IObjective) {
 
 function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
   const newCareerDaysList = state.careerDays.filter(careerDay => careerDay.id !== careerDayId);
+
   return { ...state, careerDays: newCareerDaysList };
+}
+
+function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
+  const updatedSelectedCareerDay = { ...state.selectedCareerDay };
+  updatedSelectedCareerDay.Objectives.find((item: IObjective, index: number): boolean => {
+    if (item.id === objective.id) {
+      updatedSelectedCareerDay.Objectives[index] = objective;
+
+      return true;
+    }
+    return false;
+  });
+
+  return { ...state, selectedCareerDay: updatedSelectedCareerDay };
 }
 
 function handleDeleteObjective(state: IEmployeesState, objectiveId: number) {
@@ -100,20 +115,6 @@ function handleArchiveCareerDay(state: IEmployeesState, newCareerDay: ICareerDay
   });
 
   return { ...state, careerDays: newCareerDaysList, selectedCareerDay: newCareerDay };
-}
-
-function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
-  const updatedSelectedCareerDay = { ...state.selectedCareerDay };
-  updatedSelectedCareerDay.Objectives.find((item: IObjective, index: number): boolean => {
-    if (item.id === objective.id) {
-      updatedSelectedCareerDay.Objectives[index] = objective;
-
-      return true;
-    }
-    return false;
-  });
-
-  return { ...state, selectedCareerDay: updatedSelectedCareerDay };
 }
 
 export interface IEmployee {
