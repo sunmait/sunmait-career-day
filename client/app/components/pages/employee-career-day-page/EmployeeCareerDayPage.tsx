@@ -154,10 +154,12 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 
   private getArchiveButtonTitle() {
-    return this.props.selectedCareerDay &&
-      (moment(this.props.selectedCareerDay.InterviewDate) > moment()
-        ? 'Can be archived only after interview date of CD.'
-        : 'The career day archived.');
+    if (this.props.selectedCareerDay &&
+      moment(this.props.selectedCareerDay.InterviewDate) > moment()) {
+      return 'Can be archived only after interview date of CD.';
+    }
+
+    return 'The career day archived.';
   }
 
   private isActiveArchiveButton() {
@@ -226,7 +228,8 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
 
             <Grid container justify="center">
               <div className={classes.root}>
-                {(this.props.selectedCareerDay &&
+                {(
+                  this.props.selectedCareerDay &&
                   this.props.selectedCareerDay.Objectives) &&
                 this.renderObjectives()}
               </div>
