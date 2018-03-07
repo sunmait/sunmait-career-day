@@ -3,13 +3,13 @@ import { Theme, withStyles, WithStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Edit from 'material-ui-icons/Edit';
 import Delete from 'material-ui-icons/Delete';
-import Save from 'material-ui-icons/Save';
 import ExpansionPanel, {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
 } from 'material-ui/ExpansionPanel';
 import IconStatus from 'components/common/icon-status/icon-status-objective';
-import FromInput from 'components/common/form-input';
+import FormInput from 'components/common/form-input';
+import Button from 'material-ui/Button';
 
 const styles = (theme: Theme) => ({
   heading: {
@@ -25,13 +25,14 @@ const styles = (theme: Theme) => ({
     alignItems: 'center',
     flex: '1 0 0',
   } as React.CSSProperties,
-  alignSaveButton: {
-    alignSelf: 'flex-end',
-    padding: ' 0  0 25px 10px',
+  alignFrom: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
   }as React.CSSProperties,
 });
 
-type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignSaveButton' ;
+type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignFrom' ;
 
 interface IProps {
   objectiveId: number;
@@ -90,35 +91,23 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     this.props.handleSaveObjective(objective);
   }
 
-  private setButtonType() {
-    if (this.state.title.length === 0 || this.state.description.length === 0) {
-      return 'disabled';
-    }
-    return 'primary';
-  }
-
   private formInputPanel() {
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary>
-          <div>
-            <IconStatus statusId={this.props.statusId} />
-          </div>
-
-          <div>
-            <FromInput
+          <div className={this.props.classes.alignFrom}>
+            <FormInput
               label={'Title'}
               maxLength={50}
               value={this.state.Title}
               handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
             />
-            <FromInput
+            <FormInput
               label={'Description'}
               maxLength={255}
               value={this.state.Description}
               handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
             />
-
             <Button
               color="primary"
               disabled={this.state.Title.length === 0 || this.state.Description.length === 0}
@@ -127,13 +116,6 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
               Save
             </Button>
           </div>
-
-          <Save
-            color={this.setButtonType()}
-            className={this.props.classes.alignSaveButton}
-            onClick={() => !(this.state.title.length === 0 || this.state.description.length === 0)
-              && this.saveObjectiveClick()}
-          />
         </ExpansionPanelSummary>
       </ExpansionPanel>
     );

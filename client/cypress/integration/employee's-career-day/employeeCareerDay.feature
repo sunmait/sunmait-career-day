@@ -12,4 +12,4 @@ Feature: Employee's career days page
     And I click on 'Alexandra Tsvirko' link
     Then I see list
     When I click on top day link
-    Then I am redirected to 'employees/3/career-day/5' page
+    Then I am redirected to 'employees/3/career-day/8' page

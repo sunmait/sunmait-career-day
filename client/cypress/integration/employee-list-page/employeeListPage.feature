@@ -3,7 +3,7 @@ Feature: Employee list page
   Scenario: I see user profile section in header
     Given I logged in as 'unit manager'
     When I see 'employees' page
-    Then I see 'Alex Denisenko' username in app header
+    Then I see 'Kirill Stasivich' username in app header
 
   Scenario: I see 'Employee list' page header
     Given I logged in as 'unit manager'

@@ -7,7 +7,8 @@ const styles = (theme: Theme) => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 400,
+    width: '100%',
+    cursor: 'text',
   },
   helperText: {
     margin: '0 5px 0 10px',
