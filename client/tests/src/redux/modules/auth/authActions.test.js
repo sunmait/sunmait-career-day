@@ -1,5 +1,5 @@
-import AUTH_ACTIONS from 'redux/modules/auth/authActionConstants';
-import * as actions from 'redux/modules/auth/authActions';
+import AUTH_ACTIONS from 'redux/modules/auth/actionConstants';
+import * as actions from 'redux/modules/auth/actions';
 
 describe('authActions', () => {
   test('Should login as employess', () => {

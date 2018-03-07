@@ -1,70 +1,69 @@
-import employeesReducer from 'redux/modules/employees/employeesReducer';
-import EMPLOYEES_ACTION from 'redux/modules/employees/employeesActionConstants';
+import employeesReducer from 'redux/modules/employees/reducer';
+import EMPLOYEES_ACTION from 'redux/modules/employees/actionConstants';
 
 describe('employeesReducer', () => {
+  const employees = {
+    id: 1,
+    Roles: '1',
+    LastName: 'Tsvirko',
+    FirstName: 'Alex',
+    PhotoUrl: 'my-avatar',
+    AccessToken: 'token',
+  };
+  const payload = {
+    id: 1,
+    Archived: true,
+    EmployeeExternalId: '1',
+    UnitManagerExternalId: '1',
+    InterviewDate: new Date(),
+    CreatedAt: new Date(),
+    UpdatedAt: new Date(),
+    Objectives: {},
+  };
   test('Should return default state', () => {
-    const initAction = {type: '', payload: {}};
+    const initAction = { type: '', payload: {} };
     const defaultState = employeesReducer(undefined, initAction);
 
-    expect(defaultState).toEqual({employees: null, careerDays: null, objectives: null, employeeFullName: null});
+    expect(defaultState).toEqual({ employees: null, careerDays: null, selectedCareerDay: null, selectedEmployee: null });
   });
 
   test('Should return list of employees', () => {
-    const employees = {
-      id: 1,
-      Roles: '1',
-      LastName: 'Tsvirko',
-      FirstName: 'Alex',
-      PhotoUrl: 'my-avatar',
-      AccessToken: 'token',
-    };
+    const initAction = { type: EMPLOYEES_ACTION.GET_EMPLOYEES_LIST, payload: employees };
+    const changedState = employeesReducer(undefined, initAction);
 
-    const initAction = {type: EMPLOYEES_ACTION.GET_EMPLOYEES_LIST, payload: employees};
-    const managerState = employeesReducer(undefined, initAction);
-
-    expect(managerState).toEqual({employees, careerDays: null, objectives: null, employeeFullName: null});
+    expect(changedState).toEqual({ employees, careerDays: null, selectedCareerDay: null, selectedEmployee: null });
   });
 
-  test('Should return list of career day and employee full name', async () => {
-    const payload = {
-      careerDays: {
-        id: 1,
-        Archived: true,
-        EmployeeExternalId: '1',
-        UnitManagerExternalId: '1',
-        InterviewDate: new Date(),
-        CreatedAt: new Date(),
-        UpdatedAt: new Date(),
-      },
-      employeeFullName: 'Alex tsvirko'
-    };
+  test('Should return list of career day', async () => {
+    const initAction = { type: EMPLOYEES_ACTION.GET_CAREER_DAYS, payload };
+    const changedState = employeesReducer(undefined, initAction);
 
-    const initAction = {type: EMPLOYEES_ACTION.GET_CAREER_DAYS, payload};
-    const managerState = employeesReducer(undefined, initAction)  ;
+    expect(changedState).toEqual({ employees: null, careerDays: payload, selectedCareerDay: null, selectedEmployee: null });
+  });
 
-    expect(managerState).toEqual({
-      careerDays: payload.careerDays,
+  test('Should return list of selected career day', async () => {
+    const initAction = { type: EMPLOYEES_ACTION.GET_SELECTED_CAREER_DAY, payload };
+    const changedState = employeesReducer(undefined, initAction);
+
+    expect(changedState).toEqual({ employees: null, careerDays: null, selectedCareerDay: payload, selectedEmployee: null });
+  });
+
+  test('Should return list of selected empployees', async () => {
+    const initAction = { type: EMPLOYEES_ACTION.GET_SELECTED_EMPLOYEE, payload: employees };
+    const changedState = employeesReducer(undefined, initAction);
+
+    expect(changedState).toEqual({ employees: null, careerDays: null, selectedCareerDay: null, selectedEmployee: employees });
+  });
+
+  test('Should return updated list of career date', async () => {
+    const initAction = { type: EMPLOYEES_ACTION.ADD_CAREER_DAY, payload };
+    const changedState = employeesReducer({ 
       employees: null,
-      objectives: null,
-      employeeFullName: payload.employeeFullName,
-    });
-  });
+      careerDays: [],
+      selectedCareerDay: null,
+      selectedEmployee: null
+    }, initAction);
 
-  test('Should return list of objectives', () => {
-    const objectives = {
-      id: '1',
-      Title: 'text',
-      Description: 'descriptions',
-      CareerDayId: '1',
-      StatusId: '1',
-      Progress: 1,
-      CreatedAt: new Date(),
-      UpdatedAt: new Date(),
-    };
-
-    const initAction = {type: EMPLOYEES_ACTION.GET_OBJECTIVES, payload: objectives};
-    const managerState = employeesReducer(undefined, initAction);
-
-    expect(managerState).toEqual({objectives, employees: null, careerDays: null, employeeFullName: null});
+    expect(changedState).toEqual({ employees: null, careerDays: [payload], selectedCareerDay: null, selectedEmployee: null });
   });
 });
