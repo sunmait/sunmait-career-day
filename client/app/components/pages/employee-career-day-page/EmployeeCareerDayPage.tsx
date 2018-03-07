@@ -228,7 +228,8 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
 
             <Grid container justify="center">
               <div className={classes.root}>
-                {(this.props.selectedCareerDay &&
+                {(
+                  this.props.selectedCareerDay &&
                   this.props.selectedCareerDay.Objectives) &&
                 this.renderObjectives()}
               </div>

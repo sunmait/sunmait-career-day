@@ -25,7 +25,10 @@ const styles = (theme: Theme) => ({
     alignItems: 'center',
     flex: '1 0 0',
   } as React.CSSProperties,
-  alignSaveButton: {},
+  alignSaveButton: {
+    alignSelf: 'flex-end',
+    padding: ' 0  0 25px 10px',
+  }as React.CSSProperties,
 });
 
 type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignSaveButton' ;
@@ -98,17 +101,17 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary>
-          <div style={{ display: 'flex', textAlign: 'center' }}>
+          <div>
             <IconStatus statusId={this.props.statusId} />
+          </div>
+
+          <div>
             <FromInput
               label={'Title'}
               maxLength={50}
               value={this.state.Title}
               handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
             />
-          </div>
-
-          <div>
             <FromInput
               label={'Description'}
               maxLength={255}
@@ -124,6 +127,13 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
               Save
             </Button>
           </div>
+
+          <Save
+            color={this.setButtonType()}
+            className={this.props.classes.alignSaveButton}
+            onClick={() => !(this.state.title.length === 0 || this.state.description.length === 0)
+              && this.saveObjectiveClick()}
+          />
         </ExpansionPanelSummary>
       </ExpansionPanel>
     );
