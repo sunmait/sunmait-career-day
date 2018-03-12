@@ -3,7 +3,7 @@ export interface IRepository<T> {
 
   findAll(filter: any): Promise<T[]>;
 
-  find(filter: any): Promise<T[]>;
+  findOne(filter: any): Promise<T>;
 
   create(entity: T): Promise<T>;
 

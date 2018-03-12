@@ -5,13 +5,53 @@ import {
   interfaces,
   response,
   requestParam,
+  httpPost,
+  requestBody,
 } from 'inversify-express-utils';
+import { inject } from 'inversify';
+import { IUserService } from '../../Domain/Services';
 
 /**
  * Operations about users.
  */
 @controller('/api/users')
 export class UserController implements interfaces.Controller {
+  private readonly _userService: IUserService;
+
+  constructor(@inject('UserService') userService: IUserService) {
+    this._userService = userService;
+  }
+
+  @httpPost('/')
+  private async register(
+    @response() res: express.Response,
+    @requestBody('FirstName') FirstName: string,
+    @requestBody('LastName') LastName: string,
+    @requestBody('Email') Email: string,
+    @requestBody('Password') Password: string,
+  ): Promise<void> {
+    res.json(
+      await this._userService.registerUser(
+        FirstName,
+        LastName,
+        Email,
+        Password,
+      ),
+    );
+  }
+
+  @httpGet('/verifyEmail/:hash')
+  private async verifyEmail(
+    @response() res: express.Response,
+    @requestParam('hash') hash: string,
+  ): Promise<void> {
+    if (await this._userService.verifyEmail(decodeURIComponent(hash))) {
+      // redirect to front page
+      res.redirect('https://vk.com/');
+    }
+    // link is not valid
+    res.redirect('https://ok.ru/');
+  }
   /**
    * Get employees
    * id: unit manager id

@@ -6,5 +6,11 @@
     "password": <YOUR PASSWORD>,
     "host": "localhost",
     "port": <YOUR PORT>
-  }
+  },
+  "email": {
+    "username": "denis.zhidis@gmail.com",
+    "password": "1q1a1z2w2s2x"
+  },
+  "secretKey": "asdaasd",
+  "hostname": "http://localhost:3000"
 }

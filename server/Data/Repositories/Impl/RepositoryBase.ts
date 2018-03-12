@@ -17,7 +17,7 @@ export class RepositoryBase<TEntity extends Model<any>>
   public async findAll(filter: any): Promise<TEntity[]> {
     return this._entityType.findAll(filter);
   }
-  public async find(filter: any): Promise<TEntity[]> {
+  public async findOne(filter: any): Promise<TEntity> {
     return this._entityType.find(filter);
   }
   public async create(entity: TEntity): Promise<TEntity> {

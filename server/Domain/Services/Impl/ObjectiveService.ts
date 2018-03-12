@@ -22,7 +22,7 @@ export class ObjectiveService implements IObjectiveService {
   }
 
   public async getObjectivesByCareerDayId(CareerDayId: number): Promise<CareerDayEntity[]> {
-    return this._careerDayRepository.find({
+    return this._careerDayRepository.findAll({
       where: { id: CareerDayId },
       include: ObjectiveEntity,
     });

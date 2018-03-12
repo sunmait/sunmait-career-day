@@ -1,14 +1,18 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var TestUsers = sequelize.define(
-    'TestUsers',
+    'Users',
     {
       id: DataTypes.INTEGER,
       Roles: DataTypes.STRING,
       LastName: DataTypes.STRING,
       FirstName: DataTypes.STRING,
       PhotoUrl: DataTypes.STRING,
-      AccessToken: DataTypes.STRING,
+      Email: DataTypes.STRING,
+      PasswordHash: DataTypes.STRING,
+      EmailVerified: DataTypes.BOOLEAN,
+      CreatedAt: DataTypes.DATE,
+      UpdatedAt: DataTypes.DATE,
     },
     {
       classMethods: {
