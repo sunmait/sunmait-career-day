@@ -102,6 +102,12 @@
         "branches": 100,
         "functions": 100,
         "lines": 100
+      },
+      "./app/components/helper/*.ts": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
       }
     },
     "testMatch": [
