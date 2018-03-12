@@ -167,7 +167,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
           }}
           className={classes.disableLinkStyle}
         >
-          <ListItem key={item.id} dense button>
+          <ListItem  id={item.id.toString()} key={item.id} dense button>
             <IconStatus isArchived={item.Archived} />
             <ListItemText primary={this.getCurrentDate(item)} />
             <ListItemSecondaryAction>
@@ -183,7 +183,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { classes } = this.props;
+    const {classes} = this.props;
 
     backgroundColorHelper();
 

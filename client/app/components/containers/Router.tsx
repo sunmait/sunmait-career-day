@@ -1,9 +1,9 @@
 import 'assets/styles/backgrounds/defaultBackground.less';
 
 import * as React from 'react';
-import {BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import * as redux from 'redux';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import PrivateRoute from './custom-routes/PrivateRoute';
 import DisabledForAuthorizedUserRoute from './custom-routes/DisabledForAuthorizedUserRoute';
 import AllowedForUnitManagerRoute from './custom-routes/AllowedForUnitManagerRoute';
@@ -17,9 +17,9 @@ import LoginPageContainer from 'components/pages/login-page';
 import SignUpPage from '../pages/signup-page/SignUpPage';
 import SuccessPage from '../pages/after-registration-page/SuccessPage';
 import App from 'components/common/app';
-import {IAuthState} from 'redux/modules/auth/reducer';
-import {IStore} from 'redux/rootReducer';
-import {Dispatch} from 'redux/store';
+import { IAuthState } from 'redux/modules/auth/reducer';
+import { IStore } from 'redux/rootReducer';
+import { Dispatch } from 'redux/store';
 
 interface IProps {
   auth: IAuthState;

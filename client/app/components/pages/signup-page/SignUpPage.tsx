@@ -4,9 +4,29 @@ import Input from 'material-ui/Input';
 import Typography from 'material-ui/Typography'
 import Button from 'material-ui/Button';
 import Header from '../../common/header';
+import { withStyles } from 'material-ui/styles';
+import * as regExpHelper from  '../../helper/regExpHelper';
 
+const styles = () => ({
+  inputs: {
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  errors: {
+    marginLeft: 5,
+    backgroundColor: '#f2dede',
+    borderColor: '#ebccd1',
+    color: '#a94442',
+  }
+});
+
+interface IStylesProps {
+  inputs: string,
+  errors: string,
+}
 
 interface IProps {
+  classes: IStylesProps;
 }
 
 interface IState {
@@ -20,7 +40,7 @@ interface IState {
 
 type stateKeys = keyof IState;
 
-export default class SignUpPage extends React.Component<IProps, IState> {
+class SignUpPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
@@ -40,6 +60,7 @@ export default class SignUpPage extends React.Component<IProps, IState> {
 
   private validateForm() {
     const letters = /^[A-Za-z]+$/;
+    const email = regExpHelper.email;
     let errors: Array<string> = [];
 
     if (!this.state.firstname.match(letters)) {
@@ -47,14 +68,14 @@ export default class SignUpPage extends React.Component<IProps, IState> {
         errors.push('The First Name field can not be empty');
       }
       else
-      errors.push('The First Name field can contains only letters');
+        errors.push('The First Name field can contains only letters');
     }
     if (!this.state.lastname.match(letters)) {
       if (this.state.lastname.length === 0) {
         errors.push('The Last Name field can not be empty');
       }
       else
-      errors.push('The Last Name field can contains only letters');
+        errors.push('The Last Name field can contains only letters');
     }
     if (!this.state.lastname === null) {
       errors.push('The Last Name field can not be empty');
@@ -71,7 +92,7 @@ export default class SignUpPage extends React.Component<IProps, IState> {
     if (this.state.password !== this.state.passwordconfirm) {
       errors.push('Password Confirmation should be same with Password');
     }
-    if (!this.state.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+    if (!this.state.email.match(email)) {
       errors.push('Email is not valid');
     }
     this.setState({errors});
@@ -84,6 +105,8 @@ export default class SignUpPage extends React.Component<IProps, IState> {
   }
 
   public render() {
+    const {classes} = this.props;
+
     return (
       <div>
         <Header title="Sign Up" />
@@ -91,7 +114,7 @@ export default class SignUpPage extends React.Component<IProps, IState> {
           <Grid item md={3} />
           <Grid item xs={12} md={6}>
             <Input
-              style={{marginLeft: 5, marginRight: 5}}
+              className={classes.inputs}
               placeholder="First Name"
               onChange={(e) => this.onChange(e)}
               fullWidth
@@ -103,7 +126,7 @@ export default class SignUpPage extends React.Component<IProps, IState> {
           <Grid item md={3} />
           <Grid item xs={12} md={6}>
             <Input
-              style={{marginLeft: 5, marginRight: 5}}
+              className={classes.inputs}
               placeholder="Last Name"
               onChange={this.onChange}
               fullWidth
@@ -115,7 +138,7 @@ export default class SignUpPage extends React.Component<IProps, IState> {
           <Grid item md={3} />
           <Grid item xs={12} md={6}>
             <Input
-              style={{marginLeft: 5, marginRight: 5}}
+              className={classes.inputs}
               placeholder="Email"
               onChange={this.onChange}
               fullWidth
@@ -127,7 +150,7 @@ export default class SignUpPage extends React.Component<IProps, IState> {
           <Grid item md={3} />
           <Grid item xs={12} md={6}>
             <Input
-              style={{marginLeft: 5, marginRight: 5}}
+              className={classes.inputs}
               placeholder="Password"
               onChange={this.onChange}
               value={this.state.password}
@@ -140,7 +163,7 @@ export default class SignUpPage extends React.Component<IProps, IState> {
           <Grid item md={3} />
           <Grid item xs={12} md={6}>
             <Input
-              style={{marginLeft: 5, marginRight: 5}}
+              className={classes.inputs}
               placeholder="Password confirmation"
               onChange={this.onChange}
               value={this.state.passwordconfirm}
@@ -157,12 +180,7 @@ export default class SignUpPage extends React.Component<IProps, IState> {
                 {this.state.errors.map((error: string) => {
                   return (
                     <div key={error}>
-                      <Typography style={{
-                        marginLeft: 5,
-                        backgroundColor: '#f2dede',
-                        borderColor: '#ebccd1',
-                        color: '#a94442',
-                      }}>
+                      <Typography className={classes.errors}>
                         {error}
                       </Typography>
                       <br />
@@ -185,3 +203,5 @@ export default class SignUpPage extends React.Component<IProps, IState> {
     );
   }
 }
+
+export default withStyles(styles)(SignUpPage);
