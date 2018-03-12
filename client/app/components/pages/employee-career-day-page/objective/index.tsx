@@ -28,7 +28,7 @@ const styles = (theme: Theme) => ({
   alignFrom: {
     display: 'flex',
     flexDirection: 'column',
-  }as React.CSSProperties,
+  } as React.CSSProperties,
 });
 
 type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignFrom';
