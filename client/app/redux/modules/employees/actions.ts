@@ -83,7 +83,7 @@ export const addCareerDay: AddCareerDay = (careerDay: ICareerDay) => (dispatch: 
     });
 };
 
-export type AddObjective = (objective: IObjectiveById) => (dispatch: Dispatch) => void;
+export type AddObjective = (objective: IObjectiveById) => (objective: Dispatch) => void;
 export const addObjective: AddObjective = (objective: IObjectiveById) => (dispatch: Dispatch) => {
 
   // TODO: add field unit manager id for validate
@@ -152,10 +152,6 @@ export const archiveCareerDay: ArchiveCareerDay = (careerDayId: number) => (disp
       return err;
     });
 };
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> c0e4dc6... added removing objective
 
 export type DeleteObjective = (objectiveId: number) => (dispatch: Dispatch) => void;
 export const deleteObjective: DeleteObjective = (objectiveId: number) => (dispatch: Dispatch) => {
@@ -172,8 +168,3 @@ export const deleteObjective: DeleteObjective = (objectiveId: number) => (dispat
       return err;
     });
 };
-<<<<<<< HEAD
-=======
->>>>>>> cb6ec73... added archive action for career days
-=======
->>>>>>> c0e4dc6... added removing objective

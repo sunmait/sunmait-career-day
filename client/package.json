@@ -43,8 +43,8 @@
     "babel-preset-stage-2": "^6.24.1",
     "compression-webpack-plugin": "^1.1.2",
     "css-loader": "^0.28.7",
-    "cypress": "^1.4.2",
-    "cypress-cucumber-preprocessor": "0.0.2",
+    "cypress": "^2.1.0",
+    "cypress-cucumber-preprocessor": "^0.2.0",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.9",
     "html-webpack-plugin": "^2.30.1",
@@ -98,6 +98,12 @@
     ],
     "coverageThreshold": {
       "./app/redux/**/*.ts": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      },
+      "./app/components/helper/*.ts": {
         "statements": 100,
         "branches": 100,
         "functions": 100,

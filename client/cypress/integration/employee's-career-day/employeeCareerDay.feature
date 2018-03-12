@@ -4,12 +4,5 @@ Feature: Employee's career days page
     Given I logged in as 'unit manager'
     And I click on 'Alexandra Tsvirko' link
     When I see 'employees/3' page
-    Then I see 'Alexandra Tsvirko' page header
-    And I see list
-
-  Scenario: I am redirected to objectives page by click on career day
-    Given I logged in as 'unit manager'
-    And I click on 'Alexandra Tsvirko' link
-    Then I see list
-    When I click on top day link
-    Then I am redirected to 'employees/3/career-day/8' page
+    Then I see "Alexandra Tsvirko's progress days" page header
+    And I see paragraph with "This employee doesn't have career days." message

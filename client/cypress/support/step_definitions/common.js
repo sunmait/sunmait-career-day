@@ -20,9 +20,9 @@ given('I see logo in app header', () => {
     .should('have.attr', 'src', '/logo.svg');
 });
 
-given('I logged in as {string}', (userRole) => {
+given('I logged in as {string}', () => {
   cy.visit(`http://localhost:3000/login`)
-  .get('button').contains(`Login as ${userRole}`)
+  .get('button').contains(`Login`)
   .click();
 });
 
@@ -60,4 +60,8 @@ then('I see list', () => {
 
 then ('I see {string} username in app header', (username) => {
   cy.get('h3').contains(username);
+});
+
+then('I see paragraph with {string} message',(message) => {
+   cy.get('p').contains(message);
 });
