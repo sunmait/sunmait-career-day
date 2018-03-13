@@ -8,6 +8,10 @@ describe('employees action', () => {
     axios.post.mockReturnValue(Promise.resolve({status: 200, body: {}}));
     axios.delete.mockReturnValue(Promise.resolve({status: 200, body: {}}));
     axios.patch.mockReturnValue(Promise.resolve({status: 200, body: {}}));
+
+    console.error = jest.fn((error) => {
+
+    });
   });
 
   describe('method getEmployeesList', () => {
