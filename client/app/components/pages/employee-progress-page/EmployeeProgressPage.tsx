@@ -9,6 +9,7 @@ import List, {
   ListItemText,
 } from 'material-ui/List';
 import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
 import Delete from 'material-ui-icons/Delete';
 import Button from 'material-ui/Button';
 import ControlledTooltips from 'components/common/controlled-tooltips';
@@ -35,6 +36,7 @@ const styles = (theme: Theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
     marginTop: 20,
+    marginBottom: 20,
   },
   navigation: {
     marginTop: 20,
@@ -219,10 +221,12 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
 
             <Grid container justify="center" spacing={0}>
               <Grid item className={classes.root}>
-                <List>
-                  {this.props.careerDays &&
-                    this.renderHistoryOfProgress(classes)}
-                </List>
+                <Paper elevation={1}>
+                  <List>
+                    {this.props.careerDays &&
+                      this.renderHistoryOfProgress(classes)}
+                  </List>
+                </Paper>
               </Grid>
             </Grid>
           </Grid>

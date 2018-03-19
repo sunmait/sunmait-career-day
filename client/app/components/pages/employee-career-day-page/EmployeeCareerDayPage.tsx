@@ -33,6 +33,7 @@ const styles = {
   root: {
     flexGrow: 1,
     marginTop: 20,
+    marginBottom: 20,
   },
   navigation: {
     marginTop: 10,
@@ -125,7 +126,12 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 
   private handleUpdateDatetime(datetime: IUpdateInterviewDate) {
-    const interviewDate = {...datetime, id: this.props.match.params.careerDayId};
+    const interviewDate = {
+      ...datetime,
+      id: this.props.match.params.careerDayId,
+      EmployeeExternalId: Number(this.props.selectedCareerDay.EmployeeExternalId),
+      UnitManagerExternalId: Number(this.props.user.id),
+    };
 
     this.props.updateInterviewDate(interviewDate);
   }
@@ -134,10 +140,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
     return this.props.selectedCareerDay.Objectives.map(item => (
       <Objective
         key={item.id}
-        objectiveId={item.id}
-        title={item.Title}
-        description={item.Description}
-        statusId={item.StatusId}
+        objective={item}
         handleSaveObjective={(objective: IUpdateObjective) => this.handleSaveObjective(objective)}
         handleDeleteObjective={(
           e: React.MouseEvent<SVGSVGElement>,

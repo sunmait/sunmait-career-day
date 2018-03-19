@@ -33,7 +33,7 @@ class DatetimePopup extends React.Component<IProps & WithStyles<ComponentClassNa
     };
   }
 
-  private addObjectiveClick() {
+  private updateDateClick() {
     const interviewDate = {
       date: this.state.interviewDate,
     };
@@ -66,7 +66,7 @@ class DatetimePopup extends React.Component<IProps & WithStyles<ComponentClassNa
 
           <Button
             color="primary"
-            onClick={() => this.addObjectiveClick()}
+            onClick={() => this.updateDateClick()}
           >
             Update
           </Button>

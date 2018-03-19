@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as moment from 'moment';
 import { Theme, withStyles, WithStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Edit from 'material-ui-icons/Edit';
@@ -7,9 +8,12 @@ import ExpansionPanel, {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
 } from 'material-ui/ExpansionPanel';
+import { LinearProgress } from 'material-ui/Progress';
+import Grid from 'material-ui/Grid';
 import IconStatus from 'components/common/icon-status/icon-status-objective';
 import FormInput from 'components/common/form-input';
 import Button from 'material-ui/Button';
+import { IObjective } from 'redux/modules/employees/reducer';
 
 const styles = (theme: Theme) => ({
   heading: {
@@ -35,10 +39,7 @@ const styles = (theme: Theme) => ({
 type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignFrom';
 
 interface IProps {
-  objectiveId: number;
-  title: string;
-  description: string;
-  statusId: number;
+  objective: IObjective;
   handleSaveObjective: (objective: { title: string, description: string }) => void;
   handleDeleteObjective: (e: React.MouseEvent<SVGSVGElement>, objectiveId: number) => void;
 }
@@ -56,8 +57,8 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     super(props);
     this.state = {
       isEdited: false,
-      Title: this.props.title,
-      Description: this.props.description,
+      Title: this.props.objective.Title,
+      Description: this.props.objective.Description,
     };
   }
 
@@ -70,7 +71,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
   private handleDeleteObjective(e: React.MouseEvent<SVGSVGElement>) {
     e.preventDefault();
 
-    this.props.handleDeleteObjective(e, this.props.objectiveId);
+    this.props.handleDeleteObjective(e, this.props.objective.id);
   }
 
   private handleChangeValue(e: React.ChangeEvent<HTMLInputElement>) {
@@ -83,7 +84,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     const objective = {
       title: this.state.Title,
       description: this.state.Description,
-      id: this.props.objectiveId,
+      id: this.props.objective.id,
     };
 
     this.setState({ isEdited: false });
@@ -121,13 +122,43 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     );
   }
 
+  private objectivePanelDetails() {
+    const format = 'DD.MM.YYYY';
+
+    return (
+      <Grid container justify="center" alignItems="center" spacing={8}>
+        <Grid item xs={6}>
+          <Typography color="textSecondary">
+            {`Created at: ${moment(this.props.objective.CreatedAt).format(format)}`}
+          </Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography color="textSecondary" align="right">
+            {`Updated at: ${moment(this.props.objective.UpdatedAt).format(format)}`}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <LinearProgress color="primary" value={this.props.objective.Progress * 100} mode="determinate" />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography color="textSecondary" align="right">
+            {`Progress: ${this.props.objective.Progress * 100}/100`}
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography align="justify">{this.props.objective.Description}</Typography>
+        </Grid>
+      </Grid>
+    );
+  }
+
   private objectivePanel() {
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary>
           <div className={this.props.classes.summary}>
-            <IconStatus statusId={this.props.statusId} />
-            <Typography className={this.props.classes.heading}>{this.props.title}</Typography>
+            <IconStatus statusId={this.props.objective.StatusId} />
+            <Typography className={this.props.classes.heading}>{this.props.objective.Title}</Typography>
           </div>
 
           <div style={{ padding: 0 }}>
@@ -143,7 +174,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
         </ExpansionPanelSummary>
 
         <ExpansionPanelDetails>
-          <Typography>{this.props.description}</Typography>
+          {this.objectivePanelDetails()}
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );

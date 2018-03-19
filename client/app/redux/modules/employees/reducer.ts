@@ -192,4 +192,6 @@ export interface IUpdateObjective {
 export interface IUpdateInterviewDate {
   id: number;
   date: Date;
+  EmployeeExternalId: number;
+  UnitManagerExternalId: number;
 }

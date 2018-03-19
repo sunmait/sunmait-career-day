@@ -9,6 +9,7 @@ import List, {
   ListItemText,
 } from 'material-ui/List';
 import Grid from 'material-ui/Grid';
+import Paper from 'material-ui/Paper';
 import Header from 'components/common/header';
 import Avatar from 'material-ui/Avatar';
 import IconStatus from 'components/common/icon-status/icon-status-career-day';
@@ -21,6 +22,7 @@ const styles = (theme: Theme) => ({
     maxWidth: 500,
     backgroundColor: theme.palette.background.paper,
     marginTop: 20,
+    marginBottom: 20,
   },
 });
 
@@ -80,7 +82,9 @@ class EmployeeList extends React.Component<IProps, IState> {
           <Grid item xs={5}>
             <Grid container justify="center">
               <div className={classes.root}>
-                <List>{this.props.employees && this.renderEmployeeProfile()}</List>
+                <Paper elevation={1}>
+                  <List>{this.props.employees && this.renderEmployeeProfile()}</List>
+                </Paper>
               </div>
             </Grid>
           </Grid>

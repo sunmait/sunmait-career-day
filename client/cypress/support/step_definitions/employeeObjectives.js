@@ -19,3 +19,9 @@ given('I open objectives page', () => {
     cy.get('li').click();
   });
 });
+
+when('I click on {string} expansion panel', (panelText) => {
+  cy.get('div')
+  .contains(panelText)
+  .click();
+});

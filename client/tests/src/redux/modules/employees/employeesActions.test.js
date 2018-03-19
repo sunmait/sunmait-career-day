@@ -414,7 +414,7 @@ describe('employees action', () => {
     });
   });
 
-  describe('method updateInterviewDatetime', () => {
+  describe('method updateInterviewDate', () => {
     const careerDay = {
       id: 1,
       date: new Date(),
@@ -423,7 +423,7 @@ describe('employees action', () => {
     test('should sent PATCH request to `/api/career-days/update-date/id`', () => {
       const dispatchSpy = jest.fn();
 
-      return actions.updateInterviewDatetime(careerDay)(dispatchSpy)
+      return actions.updateInterviewDate(careerDay)(dispatchSpy)
         .then(() => {
           const expectedUrl = axios.patch.mock.calls[0][0];
 
@@ -434,7 +434,7 @@ describe('employees action', () => {
     test('should dispatch correct action in case of success response', () => {
       const dispatchSpy = jest.fn();
 
-      return actions.updateInterviewDatetime(careerDay)(dispatchSpy)
+      return actions.updateInterviewDate(careerDay)(dispatchSpy)
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
@@ -449,7 +449,7 @@ describe('employees action', () => {
         status: 200,
       };
 
-      return actions.updateInterviewDatetime(careerDay)(dispatchSpy)
+      return actions.updateInterviewDate(careerDay)(dispatchSpy)
         .then(() => expect(axios.patch()).resolves.toEqual(fakeResponse));
     });
 
@@ -462,7 +462,7 @@ describe('employees action', () => {
 
       axios.patch.mockReturnValue(Promise.reject(fakeResponse));
 
-      return actions.updateInterviewDatetime(careerDay)(dispatchSpy)
+      return actions.updateInterviewDate(careerDay)(dispatchSpy)
         .then(() => expect(axios.patch()).rejects.toEqual(fakeResponse));
     });
   });

@@ -1,8 +1,18 @@
 import * as React from 'react';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
+import { withStyles, WithStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import DatePicker from 'components/common/date-picker';
+
+const styles = {
+  alignColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+  } as React.CSSProperties,
+};
+
+type ComponentClassNames = 'alignColumn';
 
 interface IProps {
   handleClosePopup: () => void;
@@ -14,8 +24,8 @@ interface IState {
   selectedDate: Date;
 }
 
-class AddCareerDayPopup extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class AddCareerDayPopup extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
+  constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {
       selectedDate: new Date(),
@@ -35,10 +45,12 @@ class AddCareerDayPopup extends React.Component<IProps, IState> {
   }
 
   public render() {
+    const {classes} = this.props;
+
     return (
       <Dialog open={this.props.open} onClose={() => this.handleClosePopup()}>
         <DialogTitle id="alert-dialog-title">Add career day</DialogTitle>
-        <DialogContent style={{display: 'flex'}}>
+        <DialogContent className={classes.alignColumn}>
           <Typography type="subheading" align="center">
             <DatePicker handleChangeDate={(date: Date) => this.handleChangeDate(date)} />
           </Typography>
@@ -51,4 +63,4 @@ class AddCareerDayPopup extends React.Component<IProps, IState> {
   }
 }
 
-export default AddCareerDayPopup;
+export default withStyles<ComponentClassNames>(styles)(AddCareerDayPopup);
