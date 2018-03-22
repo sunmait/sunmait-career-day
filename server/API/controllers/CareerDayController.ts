@@ -14,6 +14,7 @@ import {
 import { inject } from 'inversify';
 
 import { ICareerDayService } from './../../Domain/Services/index';
+import handleError from './handleError';
 
 /**
  * Operations about Career days.
