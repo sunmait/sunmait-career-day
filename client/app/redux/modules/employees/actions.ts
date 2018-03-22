@@ -5,6 +5,7 @@ import {
   IEmployee,
   ICareerDayOfEmployee,
   ICareerDay,
+  IArchiveCareerDay,
   IObjectiveById,
   IUpdateObjective,
   IUpdateInterviewDate,
@@ -87,7 +88,6 @@ export const addCareerDay: AddCareerDay = (careerDay: ICareerDay) => (dispatch: 
 export type AddObjective = (objective: IObjectiveById) => (objective: Dispatch) => void;
 export const addObjective: AddObjective = (objective: IObjectiveById) => (dispatch: Dispatch) => {
 
-  // TODO: add field unit manager id for validate
   return axiosRequest.post(`/api/objectives`, objective)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
@@ -97,6 +97,7 @@ export const addObjective: AddObjective = (objective: IObjectiveById) => (dispat
     })
     .catch((err: axios.AxiosError) => {
       console.error(err);
+      // TODO: error handling (use message from err.response.data);
 
       return err;
     });
@@ -137,10 +138,9 @@ export const updateObjective: UpdateObjective = (objective: IUpdateObjective) =>
     });
 };
 
-// TODO:  only unit manager can archive CD - validation: can be archived only after datetime of CD
-export type ArchiveCareerDay = (careerDayId: number) => (dispatch: Dispatch) => void;
-export const archiveCareerDay: ArchiveCareerDay = (careerDayId: number) => (dispatch: Dispatch) => {
-  return axiosRequest.patch(`/api/career-days/archive/${careerDayId}`)
+export type ArchiveCareerDay = (careerDay: IArchiveCareerDay) => (dispatch: Dispatch) => void;
+export const archiveCareerDay: ArchiveCareerDay = (careerDay: IArchiveCareerDay) => (dispatch: Dispatch) => {
+  return axiosRequest.patch(`/api/career-days/archive/${careerDay.id}`, careerDay)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
         type: EMPLOYEES_LIST.ARCHIVE_CAREER_DAY,

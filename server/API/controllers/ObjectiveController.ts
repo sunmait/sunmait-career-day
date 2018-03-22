@@ -13,6 +13,7 @@ import {
 import { inject } from 'inversify';
 
 import { IObjectiveService } from './../../Domain/Services/index';
+import handleError from './handleError';
 
 /**
  * Operations about objectives.
@@ -34,7 +35,11 @@ export class ObjectiveController implements interfaces.Controller {
     @requestParam('id') id: number,
     @response() res: express.Response,
   ): Promise<void> {
-    res.json(await this._objectiveService.getObjectivesByCareerDayId(id));
+    try {
+      res.json(await this._objectiveService.getObjectivesByCareerDayId(id));
+    } catch (err) {
+      handleError(err, res);
+    }
   }
 
   /**
@@ -45,7 +50,11 @@ export class ObjectiveController implements interfaces.Controller {
     @requestBody() body: any,
     @response() res: express.Response,
   ): Promise<void> {
-    res.json(await this._objectiveService.addObjective(body));
+    try {
+      res.json(await this._objectiveService.addObjective(body));
+    } catch (err) {
+      handleError(err, res);
+    }
   }
 
   /**
@@ -59,7 +68,11 @@ export class ObjectiveController implements interfaces.Controller {
     @requestBody('description') description: string,
     @response() res: express.Response,
   ): Promise<void> {
-    res.json(await this._objectiveService.updateObjective(id, title, description));
+    try {
+      res.json(await this._objectiveService.updateObjective(id, title, description));
+    } catch (err) {
+      handleError(err, res);
+    }
   }
 
   /**
@@ -71,6 +84,10 @@ export class ObjectiveController implements interfaces.Controller {
     @requestParam('id') id: number,
     @response() res: express.Response,
   ): Promise<void> {
-    res.json(await this._objectiveService.deleteObjective(id));
+    try {
+      res.json(await this._objectiveService.deleteObjective(id));
+    } catch (err) {
+      handleError(err, res);
+    }
   }
 }

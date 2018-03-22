@@ -116,7 +116,12 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 
   private handleAddObjective(objective: IObjectiveById) {
-    const objectiveByCareerDayId = { ...objective, CareerDayId: this.props.match.params.careerDayId };
+    const objectiveByCareerDayId = {
+      ...objective,
+      CareerDayId: this.props.match.params.careerDayId,
+      EmployeeExternalId: Number(this.props.selectedCareerDay.EmployeeExternalId),
+      UnitManagerExternalId: this.props.user.id,
+    };
 
     this.props.addObjective(objectiveByCareerDayId);
   }
@@ -159,7 +164,12 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 
   private handleArchiveCareerDay() {
-    this.props.archiveCareerDay(this.props.selectedCareerDay.id);
+    const dayInfo = {
+      id: this.props.selectedCareerDay.id,
+      UnitManagerExternalId: this.props.user.id,
+    };
+
+    this.props.archiveCareerDay(dayInfo);
     this.togglePopupState('isOpenArchiveCDPopup');
   }
 

@@ -162,6 +162,8 @@ export interface IObjectiveById {
   Title: string;
   Description: string;
   CareerDayId: number;
+  EmployeeExternalId: number;
+  UnitManagerExternalId: number;
 }
 
 export interface IUpdateObjective {
@@ -181,6 +183,11 @@ export interface ICareerDay {
   EmployeeExternalId: number;
   UnitManagerExternalId: number;
   InterviewDate: Date;
+}
+
+export interface IArchiveCareerDay {
+  id: number;
+  UnitManagerExternalId: number;
 }
 
 export interface IUpdateObjective {

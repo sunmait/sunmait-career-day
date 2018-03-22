@@ -66,16 +66,14 @@ class SignUpPage extends React.Component<IProps, IState> {
     if (!this.state.firstname.match(letters)) {
       if (this.state.firstname.length === 0) {
         errors.push('The First Name field can not be empty');
-      }
-      else {
+      } else {
         errors.push('The First Name field can contains only letters');
       }
     }
     if (!this.state.lastname.match(letters)) {
       if (this.state.lastname.length === 0) {
         errors.push('The Last Name field can not be empty');
-      }
-      else {
+      } else {
         errors.push('The Last Name field can contains only letters');
       }
     }
@@ -87,8 +85,7 @@ class SignUpPage extends React.Component<IProps, IState> {
     }
     if (this.state.password.length < 6) {
       errors.push('The Password minimum length is 6 symbols');
-    }
-    else if (this.state.password.length > 18) {
+    } else if (this.state.password.length > 18) {
       errors.push('The Password maximum length is 18 symbols');
     }
     if (this.state.password !== this.state.passwordconfirm) {
@@ -118,7 +115,7 @@ class SignUpPage extends React.Component<IProps, IState> {
             <Input
               className={classes.inputs}
               placeholder="First Name"
-              onChange={(e) => this.onChange(e)}
+              onChange={e => this.onChange(e)}
               fullWidth
               value={this.state.firstname}
               name="firstname"

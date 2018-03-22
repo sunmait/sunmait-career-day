@@ -3,6 +3,7 @@ import { ICareerDayService } from '../ICareerDayService';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 import { ICareerDayRepository } from '../../../Data/Repositories/index';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
+import ApplicationError from './ApplicationError';
 
 @injectable()
 export class CareerDayService implements ICareerDayService {
@@ -26,50 +27,54 @@ export class CareerDayService implements ICareerDayService {
     const activeCareerDay = await this._careerDayRepository.findAll({
       where: { EmployeeExternalId: data.EmployeeExternalId, Archived: false },
     });
+
+    // TODO: manager validation
+    // id already in data
     if (!activeCareerDay[0]) {
       const careerDay = new CareerDayEntity(data);
       return this._careerDayRepository.create(careerDay);
-    } else {
-      throw {
-        code: 403,
-        massage: 'The employee already has an active Сareer Day.',
-      };
     }
+    throw (new ApplicationError('The employee already has an active Сareer Day.', 403));
   }
 
   public async deleteCareerDay(id: number): Promise<void> {
-    await this._careerDayRepository.remove({ where: { id } });
+    const careerDay = await this._careerDayRepository.findById(id);
+
+    if (careerDay.Archived) {
+      await this._careerDayRepository.remove({ where: { id } });
+    } else {
+      throw (new ApplicationError(`You can't delete active Career Day.`, 403));
+    }
   }
 
-  public async archiveCareerDay(id: number): Promise<CareerDayEntity> {
+  public async archiveCareerDay(id: number, managerId: number): Promise<CareerDayEntity> {
     const careerDay = (await this._careerDayRepository.findAll({
       where: { id },
       include: ObjectiveEntity,
     }))[0];
-    if (careerDay.InterviewDate.getTime() - Date.now() <= 0) {
-      careerDay.Archived = true;
-      careerDay.Objectives.forEach(item => {
-        item.StatusId = 3;
-        return item;
-      });
-      return this._careerDayRepository.update(careerDay);
-    } else {
-      throw {
-        code: 403,
-        massage: 'Can be archived only after datetime of Career Day.',
-      };
+    if (managerId === careerDay.UnitManagerExternalId) {
+      if (careerDay.InterviewDate.getTime() - Date.now() <= 0) {
+        careerDay.Archived = true;
+        careerDay.Objectives.forEach(item => {
+          item.StatusId = 3;
+          return item;
+        });
+        return this._careerDayRepository.update(careerDay);
+      }
+      throw (new ApplicationError('Can be archived only after datetime of Career Day.', 403));
     }
+    throw (new ApplicationError('You are not manager of this employee.', 403));
   }
-  public async updateCareerDayDate(id: number, date: any) {
+
+  public async updateCareerDayDate(id: number, date: any, employeeId: number, managerId: number) {
     const careerDay = await this._careerDayRepository.findById(id);
     if (!careerDay.Archived) {
-      careerDay.InterviewDate = new Date(date);
-      return this._careerDayRepository.update(careerDay);
-    } else {
-      throw {
-        code: 403,
-        massage: 'No one can edit archived Career Day.',
-      };
+      if (employeeId === careerDay.EmployeeExternalId && managerId === careerDay.UnitManagerExternalId) {
+        careerDay.InterviewDate = new Date(date);
+        return this._careerDayRepository.update(careerDay);
+      }
+      throw (new ApplicationError('You are not manager of this employee.', 403));
     }
+    throw (new ApplicationError('No one can edit archived Career Day.', 403));
   }
 }

@@ -13,6 +13,7 @@ import {
 import { inject } from 'inversify';
 
 import { ICareerDayService } from './../../Domain/Services/index';
+import handleError from './handleError';
 
 /**
  * Operations about Career days.
@@ -33,7 +34,11 @@ export class CareerDayController implements interfaces.Controller {
     @requestParam('id') id: number,
     @response() res: express.Response,
   ): Promise<void> {
-    res.json(await this._careerDayService.getCareerDaysWithId(id));
+    try {
+      res.json(await this._careerDayService.getCareerDaysWithId(id));
+    } catch (err) {
+      handleError(err, res);
+    }
   }
 
   /**
@@ -44,7 +49,11 @@ export class CareerDayController implements interfaces.Controller {
     @requestBody() body: any,
     @response() res: express.Response,
   ): Promise<void> {
-    res.json(await this._careerDayService.addCareerDay(body));
+    try {
+      res.json(await this._careerDayService.addCareerDay(body));
+    } catch (err) {
+      handleError(err, res);
+    }
   }
 
   /**
@@ -55,7 +64,11 @@ export class CareerDayController implements interfaces.Controller {
     @requestParam('id') id: number,
     @response() res: express.Response,
   ): Promise<void> {
-    res.json(await this._careerDayService.deleteCareerDay(id));
+    try {
+      res.json(await this._careerDayService.deleteCareerDay(id));
+    } catch (err) {
+      handleError(err, res);
+    }
   }
 
   /**
@@ -64,9 +77,14 @@ export class CareerDayController implements interfaces.Controller {
   @httpPatch('/archive/:id')
   private async archive(
     @requestParam('id') id: number,
+    @requestBody('UnitManagerExternalId') managerId: number,
     @response() res: express.Response,
   ): Promise<void> {
-    res.json(await this._careerDayService.archiveCareerDay(id));
+    try {
+      res.json(await this._careerDayService.archiveCareerDay(id, managerId));
+    } catch (err) {
+      handleError(err, res);
+    }
   }
 
   /**
@@ -76,8 +94,14 @@ export class CareerDayController implements interfaces.Controller {
   private async updateDate(
     @requestParam('id') id: number,
     @requestBody('date') date: any,
+    @requestBody('EmployeeExternalId') employeeId: number,
+    @requestBody('UnitManagerExternalId') managerId: number,
     @response() res: express.Response,
   ): Promise<void> {
-    res.json(await this._careerDayService.updateCareerDayDate(id, date));
+    try {
+      res.json(await this._careerDayService.updateCareerDayDate(id, date, employeeId, managerId));
+    } catch (err) {
+      handleError(err, res);
+    }
   }
 }
