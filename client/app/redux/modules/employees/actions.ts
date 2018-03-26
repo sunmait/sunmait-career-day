@@ -1,5 +1,6 @@
 import * as axios from 'axios';
 import EMPLOYEES_LIST from './actionConstants';
+import APP_ACTIONS from '../app/actionConstants';
 import { Dispatch } from 'redux/store';
 import {
   IEmployee,
@@ -25,6 +26,11 @@ export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => 
     .catch((err: axios.AxiosError) => {
       console.error(err);
 
+      dispatch({
+        type: APP_ACTIONS.ADD_NOTIFICATION,
+        payload: {status: err.response.status, message: err.response.statusText},
+      });
+
       return err;
     });
 };
@@ -41,6 +47,11 @@ export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employee: IEmplo
     .catch((err: axios.AxiosError) => {
       console.error(err);
 
+      dispatch({
+        type: APP_ACTIONS.ADD_NOTIFICATION,
+        payload: {status: err.response.status, message: err.response.statusText},
+      });
+
       return err;
     });
 };
@@ -56,6 +67,11 @@ export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) 
     })
     .catch((err: axios.AxiosError) => {
       console.error(err);
+
+      dispatch({
+        type: APP_ACTIONS.ADD_NOTIFICATION,
+        payload: {status: err.response.status, message: err.response.statusText},
+      });
 
       return err;
     });
@@ -81,6 +97,11 @@ export const addCareerDay: AddCareerDay = (careerDay: ICareerDay) => (dispatch: 
     .catch((err: axios.AxiosError) => {
       console.error(err);
 
+      dispatch({
+        type: APP_ACTIONS.ADD_NOTIFICATION,
+        payload: {status: err.response.status, message: err.response.statusText},
+      });
+
       return err;
     });
 };
@@ -97,7 +118,11 @@ export const addObjective: AddObjective = (objective: IObjectiveById) => (dispat
     })
     .catch((err: axios.AxiosError) => {
       console.error(err);
-      // TODO: error handling (use message from err.response.data);
+
+      dispatch({
+        type: APP_ACTIONS.ADD_NOTIFICATION,
+        payload: {status: err.response.status, message: err.response.statusText},
+      });
 
       return err;
     });
@@ -114,6 +139,11 @@ export const deleteCareerDay: DeleteCareerDay = (careerDayId: number) => (dispat
     })
     .catch((err: axios.AxiosError) => {
       console.error(err);
+
+      dispatch({
+        type: APP_ACTIONS.ADD_NOTIFICATION,
+        payload: {status: err.response.status, message: err.response.statusText},
+      });
 
       return err;
     });
@@ -134,6 +164,11 @@ export const updateObjective: UpdateObjective = (objective: IUpdateObjective) =>
     .catch((err: axios.AxiosError) => {
       console.error(err);
 
+      dispatch({
+        type: APP_ACTIONS.ADD_NOTIFICATION,
+        payload: {status: err.response.status, message: err.response.statusText},
+      });
+
       return err;
     });
 };
@@ -149,6 +184,11 @@ export const archiveCareerDay: ArchiveCareerDay = (careerDay: IArchiveCareerDay)
     })
     .catch((err: axios.AxiosError) => {
       console.error(err);
+
+      dispatch({
+        type: APP_ACTIONS.ADD_NOTIFICATION,
+        payload: {status: err.response.status, message: err.response.statusText},
+      });
 
       return err;
     });
@@ -166,6 +206,11 @@ export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterv
     .catch((err: axios.AxiosError) => {
       console.error(err);
 
+      dispatch({
+        type: APP_ACTIONS.ADD_NOTIFICATION,
+        payload: {status: err.response.status, message: err.response.statusText},
+      });
+
       return err;
     });
 };
@@ -181,6 +226,11 @@ export const deleteObjective: DeleteObjective = (objectiveId: number) => (dispat
     })
     .catch((err: axios.AxiosError) => {
       console.error(err);
+
+      dispatch({
+        type: APP_ACTIONS.ADD_NOTIFICATION,
+        payload: {status: err.response.status, message: err.response.statusText},
+      });
 
       return err;
     });
