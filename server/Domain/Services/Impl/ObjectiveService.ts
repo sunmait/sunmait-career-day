@@ -2,7 +2,6 @@ import { injectable, inject } from 'inversify';
 import { IObjectiveService } from '../IObjectiveService';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
-import ApplicationError from './ApplicationError';
 
 import {
   IObjectiveRepository,

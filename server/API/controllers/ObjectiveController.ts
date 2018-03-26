@@ -14,7 +14,6 @@ import {
 import { inject } from 'inversify';
 
 import { IObjectiveService } from './../../Domain/Services/index';
-import handleError from './handleError';
 
 /**
  * Operations about objectives.

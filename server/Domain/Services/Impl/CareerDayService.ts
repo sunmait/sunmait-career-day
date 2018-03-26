@@ -3,7 +3,6 @@ import { ICareerDayService } from '../ICareerDayService';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 import { ICareerDayRepository } from '../../../Data/Repositories/index';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
-import ApplicationError from './ApplicationError';
 
 @injectable()
 export class CareerDayService implements ICareerDayService {
