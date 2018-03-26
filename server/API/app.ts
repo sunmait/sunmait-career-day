@@ -12,6 +12,9 @@ import { AllInstaller } from './infrastructure/di/AllInstaller';
 
 import { DbContext } from '../Data/DbContext';
 
+import IErrorAPIWithMessage from './helper/IErrorAPIWithMessage';
+import ErrorHandler from './middlewares/ErrorHandler';
+
 // set up container
 const container = new Container();
 
@@ -34,17 +37,7 @@ const server = new InversifyExpressServer(container);
 server.setConfig(application => {
   application.use(bodyParser.urlencoded({ extended: false }));
   application.use(bodyParser.json());
-  application.use(errorHandler);
 });
-
-function errorHandler(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-  const code = err.status || 500;
-  const message = err.message;
-
-  res.status(err.status || 500);
-  res.writeHead(code, message, {'content-type' : 'text/plain'});
-  res.end(message);
-}
 
 const app = server.build();
 
@@ -60,5 +53,7 @@ app.get('*', (req: express.Request, res: express.Response, next: express.NextFun
     res.end(html);
   });
 });
+
+app.use(ErrorHandler);
 
 app.listen(3000);

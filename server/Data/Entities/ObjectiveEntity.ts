@@ -71,4 +71,7 @@ export default class ObjectiveEntity extends Model<ObjectiveEntity> {
 
   @BelongsTo(() => StatusEntity)
   public Status: StatusEntity;
+
+  @BelongsTo(() => CareerDayEntity)
+  public CareerDay: CareerDayEntity;
 }

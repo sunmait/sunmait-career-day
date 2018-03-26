@@ -157,7 +157,7 @@ export const archiveCareerDay: ArchiveCareerDay = (careerDay: IArchiveCareerDay)
 export type UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (dispatch: Dispatch) => void;
 export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (dispatch: Dispatch) => {
   return axiosRequest.patch(`/api/career-days/update-date/${datetime.id}`, datetime)
-  .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
         type: EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME,
         payload: res.data,

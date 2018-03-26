@@ -2,7 +2,6 @@ import { injectable, inject } from 'inversify';
 import { IObjectiveService } from '../IObjectiveService';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
-import ApplicationError from './ApplicationError';
 
 import {
   IObjectiveRepository,
@@ -32,38 +31,58 @@ export class ObjectiveService implements IObjectiveService {
   public async addObjective(data: any): Promise<ObjectiveEntity> {
     const careerDay = await this._careerDayRepository.findById(data.CareerDayId);
 
-    if (!careerDay.Archived) {
-      if (data.EmployeeExternalId === careerDay.EmployeeExternalId
-        && data.UnitManagerExternalId === careerDay.UnitManagerExternalId) {
-        const objective = new ObjectiveEntity(data);
+    if (careerDay) {
+      if (!careerDay.Archived) {
+        if (data.EmployeeExternalId === careerDay.EmployeeExternalId
+          && data.UnitManagerExternalId === careerDay.UnitManagerExternalId) {
+          const objective = new ObjectiveEntity(data);
 
-        return this._objectiveRepository.create(objective);
+          return this._objectiveRepository.create(objective);
+        }
+        throw ({ status: 403 });
       }
-      throw (new ApplicationError('You are  not manager of this employee.', 403));
+      throw ({ status: 403 });
     }
-    throw (new ApplicationError('No one can add objective in which Career Day was archived.', 403));
+    throw ({ status: 404 });
   }
 
   public async updateObjective(id: number, title: string, description: string) {
-    const objective = await this._objectiveRepository.findById(id);
-    const careerDay = await this._careerDayRepository.findById(objective.CareerDayId);
+    const objective = await this._objectiveRepository.findOne({
+      where: { id },
+      include: CareerDayEntity,
+    });
 
-    if (!careerDay.Archived) {
-      objective.Title = title;
-      objective.Description = description;
+    // TODO: can edit only init manager
 
-      return this._objectiveRepository.update(objective);
+    if (objective && objective.CareerDay) {
+      if (!objective.CareerDay.Archived) {
+        objective.Title = title;
+        objective.Description = description;
+
+        return this._objectiveRepository.update(objective);
+      }
+      throw ({ status: 403 });
+    } else {
+      throw ({ status: 404 });
     }
-    throw (new ApplicationError('No one can edit objective in which Career Day was archived.', 403));
   }
 
   public async deleteObjective(id: number): Promise<void> {
-    const careerDay = await this._careerDayRepository.findById(id);
+    const objective = await this._objectiveRepository.findOne({
+      where: { id },
+      include: CareerDayEntity,
+    });
 
-    if (!careerDay.Archived) {
-      await this._objectiveRepository.remove({ where: { id } });
+    // TODO: can delete only init manager
+
+    if (objective.CareerDay) {
+      if (!objective.CareerDay.Archived) {
+        await this._objectiveRepository.remove({ where: { id } });
+      } else {
+        throw ({ status: 403 });
+      }
     } else {
-      throw (new ApplicationError('No one can delete objective in which Career Day was archived.', 403));
+      throw({ status: 404 });
     }
   }
 }

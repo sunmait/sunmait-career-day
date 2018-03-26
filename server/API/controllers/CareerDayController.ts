@@ -9,11 +9,11 @@ import {
   requestBody,
   httpDelete,
   httpPatch,
+  next as nextFn,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 
 import { ICareerDayService } from './../../Domain/Services/index';
-import handleError from './handleError';
 
 /**
  * Operations about Career days.
@@ -33,11 +33,12 @@ export class CareerDayController implements interfaces.Controller {
   private async get(
     @requestParam('id') id: number,
     @response() res: express.Response,
+    @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
       res.json(await this._careerDayService.getCareerDaysWithId(id));
     } catch (err) {
-      handleError(err, res);
+      next(err);
     }
   }
 
@@ -48,11 +49,12 @@ export class CareerDayController implements interfaces.Controller {
   private async add(
     @requestBody() body: any,
     @response() res: express.Response,
+    @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
       res.json(await this._careerDayService.addCareerDay(body));
     } catch (err) {
-      handleError(err, res);
+      next(err);
     }
   }
 
@@ -63,11 +65,12 @@ export class CareerDayController implements interfaces.Controller {
   private async delete(
     @requestParam('id') id: number,
     @response() res: express.Response,
+    @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
       res.json(await this._careerDayService.deleteCareerDay(id));
     } catch (err) {
-      handleError(err, res);
+      next(err);
     }
   }
 
@@ -79,11 +82,12 @@ export class CareerDayController implements interfaces.Controller {
     @requestParam('id') id: number,
     @requestBody('UnitManagerExternalId') managerId: number,
     @response() res: express.Response,
+    @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
       res.json(await this._careerDayService.archiveCareerDay(id, managerId));
     } catch (err) {
-      handleError(err, res);
+      next(err);
     }
   }
 
@@ -97,11 +101,12 @@ export class CareerDayController implements interfaces.Controller {
     @requestBody('EmployeeExternalId') employeeId: number,
     @requestBody('UnitManagerExternalId') managerId: number,
     @response() res: express.Response,
+    @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
       res.json(await this._careerDayService.updateCareerDayDate(id, date, employeeId, managerId));
     } catch (err) {
-      handleError(err, res);
+      next(err);
     }
   }
 }

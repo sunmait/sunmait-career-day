@@ -7,6 +7,7 @@ import {
   requestParam,
   httpPost,
   requestBody,
+  next as nextFn,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { IUserService } from '../../Domain/Services';
@@ -29,29 +30,40 @@ export class UserController implements interfaces.Controller {
     @requestBody('LastName') LastName: string,
     @requestBody('Email') Email: string,
     @requestBody('Password') Password: string,
+    @nextFn() next: express.NextFunction,
   ): Promise<void> {
-    res.json(
-      await this._userService.registerUser(
-        FirstName,
-        LastName,
-        Email,
-        Password,
-      ),
-    );
+    try {
+      res.json(
+        await this._userService.registerUser(
+          FirstName,
+          LastName,
+          Email,
+          Password,
+        ),
+      );
+    } catch (err) {
+      next(err);
+    }
   }
 
   @httpGet('/verifyEmail/:hash')
   private async verifyEmail(
     @response() res: express.Response,
     @requestParam('hash') hash: string,
+    @nextFn() next: express.NextFunction,
   ): Promise<void> {
-    if (await this._userService.verifyEmail(decodeURIComponent(hash))) {
-      // redirect to front page
-      res.redirect('https://vk.com/');
+    try {
+      if (await this._userService.verifyEmail(decodeURIComponent(hash))) {
+        // redirect to front page
+        res.redirect('https://vk.com/');
+      }
+      // link is not valid
+      res.redirect('https://ok.ru/');
+    } catch (err) {
+      next(err);
     }
-    // link is not valid
-    res.redirect('https://ok.ru/');
   }
+
   /**
    * Get employees
    * id: unit manager id
@@ -60,33 +72,38 @@ export class UserController implements interfaces.Controller {
   private async get(
     @requestParam('id') id: string,
     @response() res: express.Response,
+    @nextFn() next: express.NextFunction,
   ): Promise<void> {
-    res.json([
-      {
-        id: 1,
-        Roles: 'employee',
-        LastName: 'Pupkin',
-        FirstName: 'Vasya',
-        PhotoUrl: 'https://vk.com/images/camera_200.png',
-        AccessToken: 'token',
-      },
-      {
-        id: 2,
-        Roles: 3,
-        LastName: 'Pupkin',
-        FirstName: 'Petya',
-        PhotoUrl: 'https://vk.com/images/camera_200.png',
-        AccessToken: 'token',
-      },
-      {
-        id: 3,
-        Roles: 'employee',
-        LastName: 'Tsvirko',
-        FirstName: 'Alexandra',
-        PhotoUrl:
-          'https://pp.userapi.com/c836738/v836738191/6de55/3wEYIHussZI.jpg',
-        AccessToken: 'token',
-      },
-    ]);
+    try {
+      res.json([
+        {
+          id: 1,
+          Roles: 'employee',
+          LastName: 'Pupkin',
+          FirstName: 'Vasya',
+          PhotoUrl: 'https://vk.com/images/camera_200.png',
+          AccessToken: 'token',
+        },
+        {
+          id: 2,
+          Roles: 3,
+          LastName: 'Pupkin',
+          FirstName: 'Petya',
+          PhotoUrl: 'https://vk.com/images/camera_200.png',
+          AccessToken: 'token',
+        },
+        {
+          id: 3,
+          Roles: 'employee',
+          LastName: 'Tsvirko',
+          FirstName: 'Alexandra',
+          PhotoUrl:
+            'https://pp.userapi.com/c836738/v836738191/6de55/3wEYIHussZI.jpg',
+          AccessToken: 'token',
+        },
+      ]);
+    } catch (err) {
+      next(err);
+    }
   }
 }

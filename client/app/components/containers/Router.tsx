@@ -9,6 +9,7 @@ import DisabledForAuthorizedUserRoute from './custom-routes/DisabledForAuthorize
 import AllowedForUnitManagerRoute from './custom-routes/AllowedForUnitManagerRoute';
 import EmployeeHistoryRoute from './custom-routes/EmployeeHistoryRoute';
 import ObjectivesOfEmployeesRoute from './custom-routes/ObjectivesOfEmployeesRoute';
+import ErrorRoute from './custom-routes/ErrorRoute';
 import EmployeeProgressPageContainer from 'components/pages/employee-progress-page';
 import MainPageContainer from 'components/pages/main-page';
 import EmployeeCareerDayPageContainer from 'components/pages/employee-career-day-page';
@@ -16,6 +17,8 @@ import EmployeesListPageContainer from 'components/pages/employee-list';
 import LoginPageContainer from 'components/pages/login-page';
 import SignUpPage from '../pages/signup-page/SignUpPage';
 import SuccessPage from '../pages/after-registration-page/SuccessPage';
+import NotFoundPage from '../common/error-pages/NotFoundPage';
+import InternalServerErrorPage from '../common/error-pages/InternalServerErrorPage';
 import App from 'components/common/app';
 import { IAuthState } from 'redux/modules/auth/reducer';
 import { IStore } from 'redux/rootReducer';
@@ -26,7 +29,7 @@ interface IProps {
 }
 
 const AppComponent = (props: IProps) => {
-  const {auth} = props;
+  const { auth } = props;
 
   return (
     <Router>
@@ -73,6 +76,16 @@ const AppComponent = (props: IProps) => {
             auth={auth}
             path="/employees/:userId/career-day/:careerDayId"
             component={EmployeeCareerDayPageContainer}
+          />
+          <ErrorRoute
+            exact
+            path="/error/not-found"
+            component={NotFoundPage}
+          />
+          <ErrorRoute
+            exact
+            path="/error/server-error"
+            component={InternalServerErrorPage}
           />
 
           <Redirect from="/" exact to="/main" />
