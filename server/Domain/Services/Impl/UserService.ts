@@ -13,24 +13,22 @@ export class UserServise implements IUserService {
   private readonly _mailerService: IMailerService;
   private readonly _hostname: string;
 
-  constructor(
-    @inject('UserRepository') objectiveRepository: IUserRepository,
-    @inject('CryptoService') cryptoService: ICryptoService,
-    @inject('MailerService') mailerService: IMailerService,
-    @inject('SettingsProvider') settingsProvider: ISettingsProvider,
-  ) {
+  constructor(@inject('UserRepository') objectiveRepository: IUserRepository,
+              @inject('CryptoService') cryptoService: ICryptoService,
+              @inject('MailerService') mailerService: IMailerService,
+              @inject('SettingsProvider') settingsProvider: ISettingsProvider,
+              ) {
     this._userRepository = objectiveRepository;
     this._cryptoService = cryptoService;
     this._mailerService = mailerService;
     this._hostname = settingsProvider.getHostname();
   }
 
-  public async registerUser(
-    FirstName: string,
-    LastName: string,
-    Email: string,
-    Password: string,
-  ) {
+  public async registerUser(FirstName: string,
+                            LastName: string,
+                            Email: string,
+                            Password: string,
+                            ) {
     const userData = {
       FirstName,
       LastName,
@@ -49,7 +47,7 @@ export class UserServise implements IUserService {
   public async verifyEmail(encrtyptedEmail: string) {
     const email = this._cryptoService.decryptAES(encrtyptedEmail);
     const user = await this._userRepository.findOne({
-      where: { Email: email },
+      where: {Email: email},
     });
     if (user && !user.EmailVerified) {
       user.EmailVerified = true;
@@ -66,4 +64,13 @@ export class UserServise implements IUserService {
     );
     return `${this._hostname}/api/users/verifyEmail/${encrtyptedEmail}`;
   }
+
+  public async loginAsEmployee() {
+    const user = await this._userRepository.findById(1);
+    if (user) {
+      return user;
+    }
+    return false;
+  }
+
 }

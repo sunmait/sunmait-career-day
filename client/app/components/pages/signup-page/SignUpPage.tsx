@@ -115,7 +115,7 @@ class SignUpPage extends React.Component<IProps, IState> {
             <Input
               className={classes.inputs}
               placeholder="First Name"
-              onChange={e => this.onChange(e)}
+              onChange={ e => this.onChange(e)}
               fullWidth
               value={this.state.firstname}
               name="firstname"

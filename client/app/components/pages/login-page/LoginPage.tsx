@@ -135,6 +135,14 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
               >
                 Login
               </Button>
+              <Button
+                raised
+                color="secondary"
+                className={classes.button}
+                onClick={() => this.props.loginAsEmployee()}
+              >
+                Login as employee
+              </Button>
             </div>
           </form>
         </Grid>

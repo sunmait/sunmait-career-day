@@ -15,6 +15,9 @@ export default function(state: IEmployeesState = defaultState, { type, payload }
     case EMPLOYEES_LIST.GET_CAREER_DAYS:
       return handleGetCareerDaysOfEmployee(state, payload);
 
+    case EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY:
+      return handleGetActiveCareerDay(state, payload);
+
     case EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY:
       return handleGetSelectedCareerDay(state, payload);
 
@@ -56,6 +59,10 @@ function handleGetCareerDaysOfEmployee(state: IEmployeesState, careerDays: ICare
 }
 
 function handleGetSelectedCareerDay(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
+  return { ...state, selectedCareerDay };
+}
+
+function handleGetActiveCareerDay(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
   return { ...state, selectedCareerDay };
 }
 

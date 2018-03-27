@@ -1,14 +1,13 @@
 import * as React from 'react';
 import { Route, RouteProps, Redirect } from 'react-router-dom';
 import { IAuthState } from 'redux/modules/auth/reducer';
-import { isAuthAsManager } from 'components/helper/userRoleHelper';
 import { isAuthAsEmployee } from 'components/helper/userRoleHelper';
 
 interface IProps extends RouteProps {
   auth: IAuthState;
 }
 
-const PrivateRoute = (props: IProps) => {
+const AllowedForEmployeeRoute = (props: IProps) => {
   const { component: Component, auth, ...rest } = props;
 
   return (
@@ -16,17 +15,14 @@ const PrivateRoute = (props: IProps) => {
       {...rest}
       render={routeProps => {
         if (auth.user) {
-          if (isAuthAsManager(auth.user)) {
-            return <Redirect to="/employees" />;
-          } else if (isAuthAsEmployee(auth.user)) {
-            return <Redirect to="/employee" />;
+          if (isAuthAsEmployee(auth.user)) {
+            return <Component {...routeProps} />;
           }
-          return <Component {...routeProps} />;
         }
-        return <Redirect to="/login" />;
+        return <Redirect to="/main" />;
       }}
     />
   );
 };
 
-export default PrivateRoute;
+export default AllowedForEmployeeRoute;
