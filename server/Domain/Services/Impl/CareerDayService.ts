@@ -49,7 +49,7 @@ export class CareerDayService implements ICareerDayService {
     }
   }
 
-  public async archiveCareerDay(id: number, managerId: number): Promise<CareerDayEntity> {
+  public async archiveCareerDay(id: number): Promise<CareerDayEntity> {
     const careerDay = (await this._careerDayRepository.findAll({
       where: { id },
       include: ObjectiveEntity,
@@ -65,7 +65,7 @@ export class CareerDayService implements ICareerDayService {
     throw ({ status: 403 });
   }
 
-  public async updateCareerDayDate(id: number, date: any, employeeId: number, managerId: number) {
+  public async updateCareerDayDate(id: number, date: any, employeeId: number) {
     const careerDay = await this._careerDayRepository.findById(id);
 
     if (careerDay) {

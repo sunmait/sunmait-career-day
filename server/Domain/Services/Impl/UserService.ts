@@ -1,6 +1,8 @@
 import { injectable, inject } from 'inversify';
 import { IUserService } from '../IUserService';
-import { IUserRepository } from '../../../Data/Repositories/index';
+import {
+  IUserRepository,
+} from '../../../Data/Repositories/index';
 import UserEntity from '../../../Data/Entities/UserEntity';
 import { ICryptoService } from '../ICryptoService';
 import { IMailerService } from '../IMailerService';
@@ -14,12 +16,12 @@ export class UserServise implements IUserService {
   private readonly _hostname: string;
 
   constructor(
-    @inject('UserRepository') objectiveRepository: IUserRepository,
+    @inject('UserRepository') userRepository: IUserRepository,
     @inject('CryptoService') cryptoService: ICryptoService,
     @inject('MailerService') mailerService: IMailerService,
     @inject('SettingsProvider') settingsProvider: ISettingsProvider,
   ) {
-    this._userRepository = objectiveRepository;
+    this._userRepository = userRepository;
     this._cryptoService = cryptoService;
     this._mailerService = mailerService;
     this._hostname = settingsProvider.getHostname();

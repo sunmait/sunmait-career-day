@@ -11,14 +11,14 @@ export class RepositoryBase<TEntity extends Model<any>>
     this._entityType = entityType;
   }
 
-  public async findById(id: number): Promise<TEntity> {
-    return this._entityType.findById(id);
+  public async findById(id: number, options: any = {}): Promise<TEntity> {
+    return this._entityType.findById(id, options);
   }
-  public async findAll(filter: any): Promise<TEntity[]> {
-    return this._entityType.findAll(filter);
+  public async findAll(filter: any, options: any = {}): Promise<TEntity[]> {
+    return this._entityType.findAll(filter, options);
   }
-  public async findOne(filter: any): Promise<TEntity> {
-    return this._entityType.find(filter);
+  public async findOne(filter: any, options: any = {}): Promise<TEntity> {
+    return this._entityType.find(filter, options);
   }
   public async create(entity: TEntity): Promise<TEntity> {
     return entity.save();

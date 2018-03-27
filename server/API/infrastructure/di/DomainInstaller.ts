@@ -5,6 +5,7 @@ import {
   IUserService,
   IMailerService,
   ICryptoService,
+  IAuthService,
 } from './../../../Domain/Services/index';
 import {
   CareerDayService,
@@ -12,6 +13,7 @@ import {
   UserServise,
   MailerService,
   CryptoService,
+  AuthService,
 } from './../../../Domain/Services/Impl/index';
 
 export class DomainInstaller extends InstallerBase {
@@ -22,14 +24,9 @@ export class DomainInstaller extends InstallerBase {
     this.container
       .bind<IObjectiveService>('ObjectiveService')
       .to(ObjectiveService);
-    this.container
-      .bind<IUserService>('UserService')
-      .to(UserServise);
-    this.container
-      .bind<IMailerService>('MailerService')
-      .to(MailerService);
-    this.container
-      .bind<ICryptoService>('CryptoService')
-      .to(CryptoService);
+    this.container.bind<IUserService>('UserService').to(UserServise);
+    this.container.bind<IMailerService>('MailerService').to(MailerService);
+    this.container.bind<ICryptoService>('CryptoService').to(CryptoService);
+    this.container.bind<IAuthService>('AuthService').to(AuthService);
   }
 }

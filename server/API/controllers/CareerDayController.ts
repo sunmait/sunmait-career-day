@@ -14,11 +14,12 @@ import {
 import { inject } from 'inversify';
 
 import { ICareerDayService } from './../../Domain/Services/index';
+import { CheckAuth } from '../middlewares/CheckAuth';
 
 /**
  * Operations about Career days.
  */
-@controller('/api/career-days')
+@controller('/api/career-days', CheckAuth)
 export class CareerDayController implements interfaces.Controller {
   private readonly _careerDayService: ICareerDayService;
 
@@ -104,7 +105,14 @@ export class CareerDayController implements interfaces.Controller {
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._careerDayService.updateCareerDayDate(id, date, employeeId, managerId));
+      res.json(
+        await this._careerDayService.updateCareerDayDate(
+          id,
+          date,
+          employeeId,
+          managerId,
+        ),
+      );
     } catch (err) {
       next(err);
     }

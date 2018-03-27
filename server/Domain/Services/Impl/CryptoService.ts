@@ -28,4 +28,8 @@ export class CryptoService implements ICryptoService {
   public passwordsVerification(password: string, hashedPassword: string) {
     return passwordHash.verify(password, hashedPassword);
   }
+
+  public sha256Hashing(str: string) {
+    return CryptoJS.SHA256(str, this._sectetKey).toString();
+  }
 }
