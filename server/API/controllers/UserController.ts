@@ -11,6 +11,7 @@ import {
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { IUserService } from '../../Domain/Services';
+import { ISettingsProvider } from '../infrastructure/index';
 
 /**
  * Operations about users.
@@ -18,9 +19,14 @@ import { IUserService } from '../../Domain/Services';
 @controller('/api/users')
 export class UserController implements interfaces.Controller {
   private readonly _userService: IUserService;
+  private readonly _hostname: string;
 
-  constructor(@inject('UserService') userService: IUserService) {
+  constructor(
+    @inject('UserService') userService: IUserService,
+    @inject('SettingsProvider') settingsPropvider: ISettingsProvider,
+  ) {
     this._userService = userService;
+    this._hostname = settingsPropvider.getHostname();
   }
 
   @httpPost('/')
@@ -55,10 +61,10 @@ export class UserController implements interfaces.Controller {
     try {
       if (await this._userService.verifyEmail(decodeURIComponent(hash))) {
         // redirect to front page
-        res.redirect('https://vk.com/');
+        res.redirect(`${this._hostname}/verify-email?successful=true`);
       }
       // link is not valid
-      res.redirect('https://ok.ru/');
+      res.redirect(`${this._hostname}/verify-email?successful=false`);
     } catch (err) {
       next(err);
     }
