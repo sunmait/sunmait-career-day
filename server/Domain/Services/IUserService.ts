@@ -6,4 +6,5 @@ export interface IUserService {
     Password: string,
   ): Promise<void>;
   verifyEmail(encrtyptedEmail: string): Promise<boolean>;
+  loginAsEmployee(): Promise<any>;
 }

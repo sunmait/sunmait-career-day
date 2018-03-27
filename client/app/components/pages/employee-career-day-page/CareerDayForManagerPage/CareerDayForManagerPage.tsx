@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { match } from 'react-router-dom';
-import { withStyles } from 'material-ui/styles';
+import { withStyles, WithStyles } from 'material-ui/styles';
 import * as moment from 'moment';
-import Header from 'components/common/header';
+import Header from 'components/common/header/index';
 import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
 import { IUser } from 'redux/modules/auth/reducer';
@@ -22,12 +21,12 @@ import {
   UpdateInterviewDate,
 } from 'redux/modules/employees/actions';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
-import AddObjectivePopup from './popups/add-objective-popup';
-import Objective from './objective';
-import ConfirmationPopup from 'components/common/popups/confirmation-popup';
-import ControlledTooltips from 'components/common/controlled-tooltips';
-import EditDatetimePopup from './popups/update-date-popup';
-import DatetimeList from './datetime-list';
+import AddObjectivePopup from '../popups/add-objective-popup/index';
+import Objective from '../objective/index';
+import ConfirmationPopup from 'components/common/popups/confirmation-popup/index';
+import ControlledTooltips from 'components/common/controlled-tooltips/index';
+import EditDatetimePopup from '../popups/update-date-popup/index';
+import DatetimeList from '../datetime-list/index';
 
 const styles = {
   root: {
@@ -46,26 +45,17 @@ const styles = {
   },
 };
 
-interface IStylesProps {
-  root: string;
-  navigation: string;
-  datetime: string;
-}
-
-interface IMatchParams {
-  careerDayId: number;
-}
+type ComponentClassNames = 'root' | 'navigation' | 'datetime';
 
 interface IProps {
-  classes: IStylesProps;
-  tooltip: JSX.Element;
+  tooltip?: JSX.Element;
   user: IUser;
   addObjective: AddObjective;
   selectedCareerDay: ICareerDayOfEmployee;
   selectedEmployee: IEmployee;
   getSelectedCareerDay: GetSelectedCareerDay;
   deleteObjective: DeleteObjective;
-  match: match<IMatchParams>;
+  careerDayId: number;
   updateObjective: UpdateObjective;
   archiveCareerDay: ArchiveCareerDay;
   updateInterviewDate: UpdateInterviewDate;
@@ -81,8 +71,8 @@ interface IState {
 
 type stateKeys = keyof IState;
 
-class EmployeeCareerDayPage extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class CareerDayForManagerPage extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
+  constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {
       isOpenAddPopup: false,
@@ -94,13 +84,13 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 
   public componentWillMount() {
-    this.props.getSelectedCareerDay(this.props.match.params.careerDayId);
+    this.props.getSelectedCareerDay(this.props.careerDayId);
   }
 
   private togglePopupState(name: any) {
     const propName = name as stateKeys;
 
-    this.setState({ [propName as any]: !this.state[propName] });
+    this.setState({[propName as any]: !this.state[propName]});
   }
 
   private handleClickOnDeleteButton(e: React.MouseEvent<SVGSVGElement>, objectiveId: number) {
@@ -133,7 +123,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   private handleUpdateDatetime(datetime: IUpdateInterviewDate) {
     const interviewDate = {
       ...datetime,
-      id: this.props.match.params.careerDayId,
+      id: this.props.careerDayId,
       EmployeeExternalId: Number(this.props.selectedCareerDay.EmployeeExternalId),
       UnitManagerExternalId: Number(this.props.user.id),
     };
@@ -146,6 +136,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
       <Objective
         key={item.id}
         objective={item}
+        userRole={this.props.user.Roles}
         handleSaveObjective={(objective: IUpdateObjective) => this.handleSaveObjective(objective)}
         handleDeleteObjective={(
           e: React.MouseEvent<SVGSVGElement>,
@@ -308,7 +299,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
             handleConfirm={() => this.handleDeleteObjective()}
             open={this.state.isOpenDeletePopup}
             title={'Delete this objective?'}
-            description={'After deleting, you cann\'t come back objective!'}
+            description={'After deleting, you can\'t come back objective!'}
           />
         )}
         {this.state.isOpenArchiveCDPopup && (
@@ -317,7 +308,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
             handleConfirm={() => this.handleArchiveCareerDay()}
             open={this.state.isOpenArchiveCDPopup}
             title={'Archive this career day?'}
-            description="After archiving, you cann't edit a career day!"
+            description="After archiving, you can't edit a career day!"
           />
         )}
       </div>
@@ -325,4 +316,4 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
   }
 }
 
-export default withStyles(styles)(EmployeeCareerDayPage);
+export default withStyles<ComponentClassNames>(styles)(CareerDayForManagerPage);

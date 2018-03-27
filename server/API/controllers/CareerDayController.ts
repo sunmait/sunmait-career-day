@@ -42,6 +42,14 @@ export class CareerDayController implements interfaces.Controller {
     }
   }
 
+  @httpGet('/active-day/:id')
+  private async getCurrentCareerDay(
+    @requestParam('id') id: number,
+    @response() res: express.Response,
+  ): Promise<void> {
+    res.json(await this._careerDayService.getCurrentCareerDay(id));
+  }
+
   /**
    * Add employee career day
    */

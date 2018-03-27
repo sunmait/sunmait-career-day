@@ -21,6 +21,14 @@ export class CareerDayService implements ICareerDayService {
     });
   }
 
+  public async getCurrentCareerDay(EmployeeExternalId: number): Promise<CareerDayEntity> {
+    const activeDay = await this._careerDayRepository.findOne({
+      where: {EmployeeExternalId, Archived: false},
+      include: ObjectiveEntity,
+    });
+    return activeDay;
+  }
+
   public async addCareerDay(data: any): Promise<CareerDayEntity> {
     const activeCareerDay = await this._careerDayRepository.findAll({
       where: { EmployeeExternalId: data.EmployeeExternalId, Archived: false },

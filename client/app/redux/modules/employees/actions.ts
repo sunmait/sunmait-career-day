@@ -77,6 +77,17 @@ export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) 
     });
 };
 
+export type GetActiveCareerDay = (employeeId: number) => (dispatch: Dispatch) => void;
+export const getActiveCareerDay: GetActiveCareerDay = (employeeId: number) => (dispatch: Dispatch) => {
+  return axiosRequest.get(`/api/career-days/active-day/${employeeId}`)
+    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+      dispatch({
+        type: EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY,
+        payload: res.data,
+      });
+    });
+};
+
 export type GetSelectedEmployee = (employee: IEmployee) => (dispatch: Dispatch) => void;
 export const getSelectedEmployee: GetSelectedEmployee = (employee: IEmployee) => (dispatch: Dispatch) => {
   dispatch({
