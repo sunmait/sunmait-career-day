@@ -10,6 +10,7 @@ import AllowedForUnitManagerRoute from './custom-routes/AllowedForUnitManagerRou
 import EmployeeHistoryRoute from './custom-routes/EmployeeHistoryRoute';
 import ObjectivesOfEmployeesRoute from './custom-routes/ObjectivesOfEmployeesRoute';
 import ErrorRoute from './custom-routes/ErrorRoute';
+import EmailVerificationRoute from './custom-routes/EmailVerificationRoute';
 import EmployeeProgressPageContainer from 'components/pages/employee-progress-page';
 import MainPageContainer from 'components/pages/main-page';
 import EmployeeCareerDayPageContainer from 'components/pages/employee-career-day-page';
@@ -19,6 +20,7 @@ import SignUpPage from '../pages/signup-page/SignUpPage';
 import SuccessPage from '../pages/after-registration-page/SuccessPage';
 import NotFoundPage from '../common/error-pages/NotFoundPage';
 import InternalServerErrorPage from '../common/error-pages/InternalServerErrorPage';
+import EmailVerificationPage from '../common/email-verification-page';
 import App from 'components/common/app';
 import { IAuthState } from 'redux/modules/auth/reducer';
 import { IStore } from 'redux/rootReducer';
@@ -86,6 +88,11 @@ const AppComponent = (props: IProps) => {
             exact
             path="/error/server-error"
             component={InternalServerErrorPage}
+          />
+          <EmailVerificationRoute
+            exact
+            path="/verify-email"
+            component={EmailVerificationPage}
           />
 
           <Redirect from="/" exact to="/main" />
