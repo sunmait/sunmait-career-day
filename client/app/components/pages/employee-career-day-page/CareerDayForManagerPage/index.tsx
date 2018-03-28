@@ -5,7 +5,7 @@ import { Dispatch } from 'redux/store';
 import {
   getSelectedCareerDay,
   addObjective,
-  updateObjective,
+  updateObjectiveManager,
   deleteObjective,
   archiveCareerDay,
   updateInterviewDate,
@@ -21,7 +21,7 @@ const mapStateToProps = (state: IStore) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
   getSelectedCareerDay,
   addObjective,
-  updateObjective,
+  updateObjectiveManager,
   archiveCareerDay,
   deleteObjective,
   updateInterviewDate,

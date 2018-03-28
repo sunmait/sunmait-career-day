@@ -4,9 +4,11 @@ import Header from 'components/common/header/index';
 import Grid from 'material-ui/Grid';
 import {
   ICareerDayOfEmployee,
+  IUpdateObjectiveEmployee,
 } from 'redux/modules/employees/reducer';
 import {
   GetActiveCareerDay,
+  UpdateObjectiveEmployee,
 } from 'redux/modules/employees/actions';
 import { withStyles, WithStyles } from 'material-ui/styles';
 import DatetimeList from '../datetime-list/index';
@@ -36,6 +38,7 @@ interface IProps {
   user: IUser;
   activeCareerDay: ICareerDayOfEmployee;
   getActiveCareerDay: GetActiveCareerDay;
+  updateObjectiveEmployee: UpdateObjectiveEmployee;
 }
 
 interface IState {
@@ -51,12 +54,17 @@ class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<Compo
     this.props.getActiveCareerDay(this.props.user.id);
   }
 
+  private handleSaveObjective(updatedObjectiveProgress: IUpdateObjectiveEmployee) {
+    this.props.updateObjectiveEmployee(updatedObjectiveProgress);
+  }
+
   private renderObjectives() {
     return this.props.activeCareerDay.Objectives.map(item => (
       <Objective
         key={item.id}
         objective={item}
         userRole={this.props.user.Roles}
+        handleSaveObjective={(objective: IUpdateObjectiveEmployee) => this.handleSaveObjective(objective)}
       />
     ));
   }

@@ -60,11 +60,29 @@ export class ObjectiveController implements interfaces.Controller {
   }
 
   /**
-   * Update objective
+   * Update objective from employee
+   * id: objective
+   */
+  @httpPatch('/progress/:id')
+  private async updateObjectiveEmployee(
+    @requestParam('id') id: number,
+    @requestBody() body: any,
+    @response() res: express.Response,
+    @nextFn() next: express.NextFunction,
+  ): Promise<void> {
+    try {
+      res.json(await this._objectiveService.updateObjectiveEmployee(id, body.progress));
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   * Update objective from manager
    * id: objective
    */
   @httpPatch('/:id')
-  private async updateObjective(
+  private async updateObjectiveManager(
     @requestParam('id') id: number,
     @requestBody('title') title: string,
     @requestBody('description') description: string,
@@ -72,7 +90,7 @@ export class ObjectiveController implements interfaces.Controller {
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._objectiveService.updateObjective(id, title, description));
+      res.json(await this._objectiveService.updateObjectiveManager(id, title, description));
     } catch (err) {
       next(err);
     }

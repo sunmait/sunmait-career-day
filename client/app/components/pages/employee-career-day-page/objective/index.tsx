@@ -41,7 +41,7 @@ type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignFrom';
 interface IProps {
   objective: IObjective;
   userRole: string;
-  handleSaveObjective?: (objective: { title: string, description: string }) => void;
+  handleSaveObjective?: (objective: { title?: string, description?: string, progress?: number, id: number }) => void;
   handleDeleteObjective?: (e: React.MouseEvent<SVGSVGElement>, objectiveId: number) => void;
 }
 
@@ -49,6 +49,7 @@ interface IState {
   isEdited: boolean;
   Title: string;
   Description: string;
+  Progress: number;
 }
 
 type stateKeys = keyof IState;
@@ -60,6 +61,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
       isEdited: false,
       Title: this.props.objective.Title,
       Description: this.props.objective.Description,
+      Progress: Math.floor(this.props.objective.Progress * 100),
     };
   }
 
@@ -70,7 +72,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
   }
 
   private handleDeleteObjective(e: React.MouseEvent<SVGSVGElement>) {
-    e.preventDefault();
+    e.stopPropagation();
 
     this.props.handleDeleteObjective(e, this.props.objective.id);
   }
@@ -82,15 +84,33 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
   }
 
   private saveObjectiveClick() {
-    const objective = {
-      title: this.state.Title,
-      description: this.state.Description,
-      id: this.props.objective.id,
-    };
+    let objective;
+    if (this.props.userRole === 'manager') {
+      objective = {
+        title: this.state.Title,
+        description: this.state.Description,
+        id: this.props.objective.id,
+      };
+    } else {
+      objective = {
+        progress: Number(this.state.Progress) / 100,
+        id: this.props.objective.id,
+      };
+    }
+    this.props.handleSaveObjective(objective);
 
     this.setState({ isEdited: false });
+  }
 
-    this.props.handleSaveObjective(objective);
+  private setNumberProgress() {
+    const progress = this.state.Progress;
+
+    if (!isNaN(progress)) {
+      if (progress <= 100 && progress >= 0) {
+        return progress;
+      }
+    }
+    return '';
   }
 
   private formInputPanel() {
@@ -98,21 +118,37 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
       <ExpansionPanel>
         <ExpansionPanelSummary>
           <div className={this.props.classes.alignFrom}>
-            <FormInput
-              label={'Title'}
-              maxLength={50}
-              value={this.state.Title}
-              handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
-            />
-            <FormInput
-              label={'Description'}
-              maxLength={255}
-              value={this.state.Description}
-              handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
-            />
+            {this.props.userRole === 'manager' ?
+              [
+                <FormInput
+                  key={1}
+                  label={'Title'}
+                  maxLength={50}
+                  value={this.state.Title}
+                  handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
+                />,
+                <FormInput
+                  key={2}
+                  label={'Description'}
+                  maxLength={255}
+                  value={this.state.Description}
+                  handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
+                />,
+              ] :
+              <FormInput
+                label={'Progress'}
+                maxLength={3}
+                value={this.setNumberProgress()}
+                handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
+              />
+            }
             <Button
               color="primary"
-              disabled={this.state.Title.length === 0 || this.state.Description.length === 0}
+              disabled={
+                this.state.Title.length === 0 ||
+                this.state.Description.length === 0 ||
+                this.state.Progress.toString().length === 0
+              }
               onClick={() => this.saveObjectiveClick()}
             >
               Save
@@ -143,7 +179,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
         </Grid>
         <Grid item xs={12}>
           <Typography color="textSecondary" align="right">
-            {`Progress: ${this.props.objective.Progress * 100}/100`}
+            {`Progress: ${this.state.Progress}/100`}
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -168,10 +204,10 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
               onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleEditObjective(e)}
             />
             {this.props.userRole === 'manager' ?
-            <Delete
-              className={this.props.classes.alignIcons}
-              onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleDeleteObjective(e)}
-            /> : null}
+              <Delete
+                className={this.props.classes.alignIcons}
+                onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleDeleteObjective(e)}
+              /> : null}
           </div>
         </ExpansionPanelSummary>
 

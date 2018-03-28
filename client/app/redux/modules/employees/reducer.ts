@@ -27,13 +27,16 @@ export default function(state: IEmployeesState = defaultState, { type, payload }
     case EMPLOYEES_LIST.ADD_CAREER_DAY:
       return handleAddCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.ADD_OBJECTIVE:
+    case  EMPLOYEES_LIST.ADD_OBJECTIVE:
       return handleAddObjective(state, payload);
 
     case EMPLOYEES_LIST.DELETE_CAREER_DAY:
       return handleDeleteCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.UPDATE_OBJECTIVE:
+    case EMPLOYEES_LIST.UPDATE_OBJECTIVE_MANAGER:
+      return handleUpdateObjective(state, payload);
+
+    case EMPLOYEES_LIST.UPDATE_OBJECTIVE_EMPLOYEE:
       return handleUpdateObjective(state, payload);
 
     case EMPLOYEES_LIST.DELETE_OBJECTIVE:
@@ -74,11 +77,8 @@ function handleAddCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEm
   return { ...state, careerDays: [newCareerDay, ...state.careerDays] };
 }
 
-function handleAddObjective(state: IEmployeesState, objective: IObjective) {
-  const updatedSelectedCareerDay = { ...state.selectedCareerDay };
-  updatedSelectedCareerDay.Objectives.push(objective);
-
-  return { ...state, selectedCareerDay: updatedSelectedCareerDay };
+function handleAddObjective(state: IEmployeesState, selectedCareerDay: IObjective) {
+  return { ...state, selectedCareerDay };
 }
 
 function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
@@ -87,30 +87,12 @@ function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
   return { ...state, careerDays: newCareerDaysList };
 }
 
-function handleDeleteObjective(state: IEmployeesState, objectiveId: number) {
-  const newSelectedCareerDay = { ...state.selectedCareerDay };
-  newSelectedCareerDay.Objectives.find((objective: IObjective, index: number): boolean => {
-    if (objective.id === objectiveId) {
-      newSelectedCareerDay.Objectives.splice(index, 1);
-
-      return true;
-    }
-    return false;
-  });
-
-  return { ...state, selectedCareerDay: newSelectedCareerDay };
+function handleDeleteObjective(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
+  return { ...state, selectedCareerDay };
 }
 
-function handleArchiveCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEmployee) {
-  const newCareerDaysList = state.careerDays.map((item: ICareerDayOfEmployee) => {
-    if (item.id === newCareerDay.id) {
-      return newCareerDay;
-    } else {
-      return item;
-    }
-  });
-
-  return { ...state, careerDays: newCareerDaysList, selectedCareerDay: newCareerDay };
+function handleArchiveCareerDay(state: IEmployeesState, payload: any) {
+  return { ...state, careerDays: payload.careerDay, selectedCareerDay: payload.selectedCareerDay };
 }
 
 function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
@@ -127,11 +109,8 @@ function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
   return { ...state, selectedCareerDay: updatedSelectedCareerDay };
 }
 
-function handleUpdateInterviewDate(state: IEmployeesState, careerDay: ICareerDayOfEmployee) {
-  const updatedCareerDay = {...state.selectedCareerDay};
-
-  updatedCareerDay.InterviewDate = careerDay.InterviewDate;
-  return {...state, selectedCareerDay: updatedCareerDay};
+function handleUpdateInterviewDate(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
+  return { ...state, selectedCareerDay };
 }
 
 export interface IEmployee {
@@ -173,12 +152,6 @@ export interface IObjectiveById {
   UnitManagerExternalId: number;
 }
 
-export interface IUpdateObjective {
-  title: string;
-  description: string;
-  objectiveId: number;
-}
-
 export interface IEmployeesState {
   employees: null | IEmployee[];
   careerDays: null | ICareerDayOfEmployee[];
@@ -197,10 +170,15 @@ export interface IArchiveCareerDay {
   UnitManagerExternalId: number;
 }
 
-export interface IUpdateObjective {
+export interface IUpdateObjectiveManager {
   id: number;
   title: string;
   description: string;
+}
+
+export interface IUpdateObjectiveEmployee {
+  id: number;
+  progress: number;
 }
 
 export interface IUpdateInterviewDate {

@@ -9,13 +9,13 @@ import {
   ICareerDayOfEmployee,
   IEmployee,
   IObjectiveById,
-  IUpdateObjective,
+  IUpdateObjectiveManager,
   IUpdateInterviewDate,
 } from 'redux/modules/employees/reducer';
 import {
   GetSelectedCareerDay,
   AddObjective,
-  UpdateObjective,
+  UpdateObjectiveManager,
   DeleteObjective,
   ArchiveCareerDay,
   UpdateInterviewDate,
@@ -56,7 +56,7 @@ interface IProps {
   getSelectedCareerDay: GetSelectedCareerDay;
   deleteObjective: DeleteObjective;
   careerDayId: number;
-  updateObjective: UpdateObjective;
+  updateObjectiveManager: UpdateObjectiveManager;
   archiveCareerDay: ArchiveCareerDay;
   updateInterviewDate: UpdateInterviewDate;
 }
@@ -90,7 +90,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
   private togglePopupState(name: any) {
     const propName = name as stateKeys;
 
-    this.setState({[propName as any]: !this.state[propName]});
+    this.setState({ [propName as any]: !this.state[propName] });
   }
 
   private handleClickOnDeleteButton(e: React.MouseEvent<SVGSVGElement>, objectiveId: number) {
@@ -108,7 +108,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
   private handleAddObjective(objective: IObjectiveById) {
     const objectiveByCareerDayId = {
       ...objective,
-      CareerDayId: this.props.match.params.careerDayId,
+      CareerDayId: this.props.careerDayId,
       EmployeeExternalId: Number(this.props.selectedCareerDay.EmployeeExternalId),
       UnitManagerExternalId: this.props.user.id,
     };
@@ -116,8 +116,8 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
     this.props.addObjective(objectiveByCareerDayId);
   }
 
-  private handleSaveObjective(updatedObjective: IUpdateObjective) {
-    this.props.updateObjective(updatedObjective);
+  private handleSaveObjective(updatedObjective: IUpdateObjectiveManager) {
+    this.props.updateObjectiveManager(updatedObjective);
   }
 
   private handleUpdateDatetime(datetime: IUpdateInterviewDate) {
@@ -137,7 +137,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
         key={item.id}
         objective={item}
         userRole={this.props.user.Roles}
-        handleSaveObjective={(objective: IUpdateObjective) => this.handleSaveObjective(objective)}
+        handleSaveObjective={(objective: IUpdateObjectiveManager) => this.handleSaveObjective(objective)}
         handleDeleteObjective={(
           e: React.MouseEvent<SVGSVGElement>,
           objectiveId: number,

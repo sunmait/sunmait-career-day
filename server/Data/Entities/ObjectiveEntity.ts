@@ -55,7 +55,7 @@ export default class ObjectiveEntity extends Model<ObjectiveEntity> {
   @Max(1)
   @Min(0)
   @Default(0)
-  @Column(DataType.DOUBLE)
+  @Column(DataType.FLOAT)
   public Progress: number;
 
   @AllowNull(false)

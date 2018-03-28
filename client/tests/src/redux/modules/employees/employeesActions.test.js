@@ -53,7 +53,6 @@ describe('employees action', () => {
       const fakeResponse = {
         body: {},
         status: 500,
-        response: {data: {}},
       };
 
       axios.get.mockReturnValue(Promise.reject(fakeResponse));
@@ -111,7 +110,6 @@ describe('employees action', () => {
       const fakeResponse = {
         body: {},
         status: 500,
-        response: {data: {}},
       };
 
       axios.get.mockReturnValue(Promise.reject(fakeResponse));
@@ -162,7 +160,6 @@ describe('employees action', () => {
       const fakeResponse = {
         body: {},
         status: 500,
-        response: {data: {}},
       };
 
       axios.get.mockReturnValue(Promise.reject(fakeResponse));
@@ -246,7 +243,6 @@ describe('employees action', () => {
       const fakeResponse = {
         body: {},
         status: 500,
-        response: {data: {}},
       };
 
       axios.post.mockReturnValue(Promise.reject(fakeResponse));
@@ -305,7 +301,6 @@ describe('employees action', () => {
       const fakeResponse = {
         body: {},
         status: 500,
-        response: {data: {}},
       };
 
       axios.post.mockReturnValue(Promise.reject(fakeResponse));
@@ -356,7 +351,6 @@ describe('employees action', () => {
       const fakeResponse = {
         body: {},
         status: 500,
-        response: {data: {}},
       };
 
       axios.delete.mockReturnValue(Promise.reject(fakeResponse));
@@ -366,7 +360,7 @@ describe('employees action', () => {
     });
   });
 
-  describe('method updateObjective', () => {
+  describe('method updateObjectiveManager', () => {
     const objective = {
       id: 1,
       title: 'title',
@@ -376,7 +370,7 @@ describe('employees action', () => {
     test('should sent PATCH request to `/api/objectives/id`', () => {
       const dispatchSpy = jest.fn();
 
-      return actions.updateObjective(objective)(dispatchSpy)
+      return actions.updateObjectiveManager(objective)(dispatchSpy)
         .then(() => {
           const expectedUrl = axios.patch.mock.calls[0][0];
 
@@ -387,11 +381,11 @@ describe('employees action', () => {
     test('should dispatch correct action in case of success response', () => {
       const dispatchSpy = jest.fn();
 
-      return actions.updateObjective(objective)(dispatchSpy)
+      return actions.updateObjectiveManager(objective)(dispatchSpy)
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          return expect(type).toEqual(EMPLOYEES_LIST.UPDATE_OBJECTIVE);
+          return expect(type).toEqual(EMPLOYEES_LIST.UPDATE_OBJECTIVE_MANAGER);
         });
     });
 
@@ -402,7 +396,7 @@ describe('employees action', () => {
         status: 200,
       };
 
-      return actions.updateObjective(objective)(dispatchSpy)
+      return actions.updateObjectiveManager(objective)(dispatchSpy)
         .then(() => expect(axios.patch()).resolves.toEqual(fakeResponse));
     });
 
@@ -411,12 +405,11 @@ describe('employees action', () => {
       const fakeResponse = {
         body: {},
         status: 500,
-        response: {data: {}},
       };
 
       axios.patch.mockReturnValue(Promise.reject(fakeResponse));
 
-      return actions.updateObjective(objective)(dispatchSpy)
+      return actions.updateObjectiveManager(objective)(dispatchSpy)
         .then(() => expect(axios.patch()).rejects.toEqual(fakeResponse));
     });
   });
@@ -465,7 +458,6 @@ describe('employees action', () => {
       const fakeResponse = {
         body: {},
         status: 500,
-        response: {data: {}},
       };
 
       axios.patch.mockReturnValue(Promise.reject(fakeResponse));
@@ -476,26 +468,23 @@ describe('employees action', () => {
   });
 
   describe('method archiveCareerDay', () => {
-    const careerDay = {
-      id: 2,
-      UnitManagerExternalId: 4,
-    }
+    const careerDayId = 1;
 
-    test('should sent PATCH request to `/api/career-days/archive/careerDay.id`', () => {
+    test('should sent PATCH request to `/api/career-days/archive/careerDayId`', () => {
       const dispatchSpy = jest.fn();
 
-      return actions.archiveCareerDay(careerDay)(dispatchSpy)
+      return actions.archiveCareerDay(careerDayId)(dispatchSpy)
         .then(() => {
           const expectedUrl = axios.patch.mock.calls[0][0];
 
-          return expect(expectedUrl).toBe(`/api/career-days/archive/${careerDay.id}`);
+          return expect(expectedUrl).toBe(`/api/career-days/archive/${careerDayId}`);
         });
     });
 
     test('should dispatch correct action in case of success response', () => {
       const dispatchSpy = jest.fn();
 
-      return actions.archiveCareerDay(careerDay)(dispatchSpy)
+      return actions.archiveCareerDay(careerDayId)(dispatchSpy)
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
@@ -510,7 +499,7 @@ describe('employees action', () => {
         status: 200,
       };
 
-      return actions.archiveCareerDay(careerDay)(dispatchSpy)
+      return actions.archiveCareerDay(careerDayId)(dispatchSpy)
         .then(() => expect(axios.patch()).resolves.toEqual(fakeResponse));
     });
 
@@ -519,12 +508,11 @@ describe('employees action', () => {
       const fakeResponse = {
         body: {},
         status: 500,
-        response: {data: {}},
       };
 
       axios.patch.mockReturnValue(Promise.reject(fakeResponse));
 
-      return actions.archiveCareerDay(careerDay)(dispatchSpy)
+      return actions.archiveCareerDay(careerDayId)(dispatchSpy)
         .then(() => expect(axios.patch()).rejects.toEqual(fakeResponse));
     });
   });
@@ -570,7 +558,6 @@ describe('employees action', () => {
       const fakeResponse = {
         body: {},
         status: 500,
-        response: {data: {}},
       };
 
       axios.delete.mockReturnValue(Promise.reject(fakeResponse));

@@ -183,7 +183,7 @@ describe('employeesReducer', () => {
     test(
       'Should return updated list of career days after editing objective when it equal the current objective ',
       () => {
-        const initAction = {type: EMPLOYEES_ACTION.UPDATE_OBJECTIVE, payload: objective};
+        const initAction = {type: EMPLOYEES_ACTION.UPDATE_OBJECTIVE_MANAGER, payload: objective};
 
         const changedState = employeesReducer({
           employees: null,
@@ -214,7 +214,7 @@ describe('employeesReducer', () => {
           UpdatedAt: new Date,
         };
 
-        const initAction = {type: EMPLOYEES_ACTION.UPDATE_OBJECTIVE, payload: objective};
+        const initAction = {type: EMPLOYEES_ACTION.UPDATE_OBJECTIVE_MANAGER, payload: objective};
 
         const changedState = employeesReducer({
           employees: null,

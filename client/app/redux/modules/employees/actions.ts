@@ -1,15 +1,17 @@
 import * as axios from 'axios';
 import EMPLOYEES_LIST from './actionConstants';
 import APP_ACTIONS from '../app/actionConstants';
-import { Dispatch } from 'redux/store';
+import store, { Dispatch } from 'redux/store';
 import {
   IEmployee,
   ICareerDayOfEmployee,
   ICareerDay,
   IArchiveCareerDay,
   IObjectiveById,
-  IUpdateObjective,
+  IUpdateObjectiveManager,
   IUpdateInterviewDate,
+  IUpdateObjectiveEmployee,
+  IObjective,
 } from './reducer';
 
 const axiosRequest: any = axios;
@@ -28,7 +30,7 @@ export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => 
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -46,10 +48,9 @@ export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employee: IEmplo
     })
     .catch((err: axios.AxiosError) => {
       console.error(err);
-
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -70,7 +71,7 @@ export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) 
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -110,7 +111,7 @@ export const addCareerDay: AddCareerDay = (careerDay: ICareerDay) => (dispatch: 
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -119,12 +120,16 @@ export const addCareerDay: AddCareerDay = (careerDay: ICareerDay) => (dispatch: 
 
 export type AddObjective = (objective: IObjectiveById) => (objective: Dispatch) => void;
 export const addObjective: AddObjective = (objective: IObjectiveById) => (dispatch: Dispatch) => {
-
   return axiosRequest.post(`/api/objectives`, objective)
-    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+    .then((res: axios.AxiosResponse<IObjective>) => {
+      const newObjective: IObjective = res.data;
+      const updatedSelectedCareerDay = { ...store.getState().employees.selectedCareerDay };
+
+      updatedSelectedCareerDay.Objectives.push(newObjective);
+
       dispatch({
         type: EMPLOYEES_LIST.ADD_OBJECTIVE,
-        payload: res.data,
+        payload: updatedSelectedCareerDay,
       });
     })
     .catch((err: axios.AxiosError) => {
@@ -132,7 +137,7 @@ export const addObjective: AddObjective = (objective: IObjectiveById) => (dispat
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -153,65 +158,101 @@ export const deleteCareerDay: DeleteCareerDay = (careerDayId: number) => (dispat
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
     });
 };
 
-export type UpdateObjective = (objective: IUpdateObjective) => (dispatch: Dispatch) => void;
-export const updateObjective: UpdateObjective = (objective: IUpdateObjective) => (dispatch: Dispatch) => {
-  return axiosRequest.patch(`/api/objectives/${objective.id}`, {
-    title: objective.title,
-    description: objective.description,
-  })
-    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
-      dispatch({
-        type: EMPLOYEES_LIST.UPDATE_OBJECTIVE,
-        payload: res.data,
-      });
+export type UpdateObjectiveEmployee = (objective: IUpdateObjectiveEmployee) => (dispatch: Dispatch) => void;
+export const updateObjectiveEmployee: UpdateObjectiveEmployee = (objective: IUpdateObjectiveEmployee) =>
+  (dispatch: Dispatch) => {
+    return axiosRequest.patch(`/api/objectives/progress/${objective.id}`, {
+      progress: objective.progress,
     })
-    .catch((err: axios.AxiosError) => {
-      console.error(err);
+      .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+        dispatch({
+          type: EMPLOYEES_LIST.UPDATE_OBJECTIVE_EMPLOYEE,
+          payload: res.data,
+        });
+      })
+      .catch((err: axios.AxiosError) => {
+        console.error(err);
 
-      dispatch({
-        type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        dispatch({
+          type: APP_ACTIONS.ADD_NOTIFICATION,
+          payload: { status: err.response.status, message: err.response.statusText },
+        });
+
+        return err;
       });
+  };
 
-      return err;
-    });
-};
+export type UpdateObjectiveManager = (objective: IUpdateObjectiveManager) => (dispatch: Dispatch) => void;
+export const updateObjectiveManager: UpdateObjectiveManager = (objective: IUpdateObjectiveManager) =>
+  (dispatch: Dispatch) => {
+    return axiosRequest.patch(`/api/objectives/${objective.id}`, {
+      title: objective.title,
+      description: objective.description,
+    })
+      .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+        dispatch({
+          type: EMPLOYEES_LIST.UPDATE_OBJECTIVE_MANAGER,
+          payload: res.data,
+        });
+      })
+      .catch((err: axios.AxiosError) => {
+        console.error(err);
+
+        dispatch({
+          type: APP_ACTIONS.ADD_NOTIFICATION,
+          payload: { status: err.response.status, message: err.response.statusText },
+        });
+
+        return err;
+      });
+  };
 
 export type ArchiveCareerDay = (careerDay: IArchiveCareerDay) => (dispatch: Dispatch) => void;
 export const archiveCareerDay: ArchiveCareerDay = (careerDay: IArchiveCareerDay) => (dispatch: Dispatch) => {
   return axiosRequest.patch(`/api/career-days/archive/${careerDay.id}`, careerDay)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
-      dispatch({
-        type: EMPLOYEES_LIST.ARCHIVE_CAREER_DAY,
-        payload: res.data,
+      const newCareerDay: ICareerDayOfEmployee = res.data;
+
+      const newCareerDaysList = store.getState().employees.careerDays.map((item: ICareerDayOfEmployee) => {
+        if (item.id === res.data.id) {
+          return newCareerDay.id;
+        } else {
+          return newCareerDay;
+        }
       });
+
+      dispatch({ type: EMPLOYEES_LIST.ARCHIVE_CAREER_DAY, payload: { newCareerDaysList, careerDay: res.data } });
     })
     .catch((err: axios.AxiosError) => {
       console.error(err);
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
     });
+
 };
 
 export type UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (dispatch: Dispatch) => void;
 export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (dispatch: Dispatch) => {
   return axiosRequest.patch(`/api/career-days/update-date/${datetime.id}`, datetime)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+      const updatedCareerDay = { ...store.getState().employees.selectedCareerDay };
+      updatedCareerDay.InterviewDate = res.data.InterviewDate;
+
       dispatch({
         type: EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME,
-        payload: res.data,
+        payload: updatedCareerDay,
       });
     })
     .catch((err: axios.AxiosError) => {
@@ -219,7 +260,7 @@ export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterv
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -230,9 +271,20 @@ export type DeleteObjective = (objectiveId: number) => (dispatch: Dispatch) => v
 export const deleteObjective: DeleteObjective = (objectiveId: number) => (dispatch: Dispatch) => {
   return axiosRequest.delete(`/api/objectives/${objectiveId}`)
     .then(() => {
+      const newSelectedCareerDay = { ...store.getState().employees.selectedCareerDay };
+
+      newSelectedCareerDay.Objectives.find((objective: IObjective, index: number): boolean => {
+        if (objective.id === objectiveId) {
+          newSelectedCareerDay.Objectives.splice(index, 1);
+
+          return true;
+        }
+        return false;
+      });
+
       dispatch({
         type: EMPLOYEES_LIST.DELETE_OBJECTIVE,
-        payload: objectiveId,
+        payload: newSelectedCareerDay,
       });
     })
     .catch((err: axios.AxiosError) => {
@@ -240,7 +292,7 @@ export const deleteObjective: DeleteObjective = (objectiveId: number) => (dispat
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;

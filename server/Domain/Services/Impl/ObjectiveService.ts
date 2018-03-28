@@ -46,7 +46,27 @@ export class ObjectiveService implements IObjectiveService {
     throw ({ status: 404 });
   }
 
-  public async updateObjective(id: number, title: string, description: string) {
+  public async updateObjectiveEmployee(id: number, progress: number) {
+    const objective = await this._objectiveRepository.findOne({
+      where: { id },
+      include: CareerDayEntity,
+    });
+
+    // TODO: can edit only init manager
+
+    if (objective && objective.CareerDay) {
+      if (!objective.CareerDay.Archived) {
+        objective.Progress = progress;
+
+        return this._objectiveRepository.update(objective);
+      }
+      throw ({ status: 403 });
+    } else {
+      throw ({ status: 404 });
+    }
+  }
+
+  public async updateObjectiveManager(id: number, title: string, description: string) {
     const objective = await this._objectiveRepository.findOne({
       where: { id },
       include: CareerDayEntity,

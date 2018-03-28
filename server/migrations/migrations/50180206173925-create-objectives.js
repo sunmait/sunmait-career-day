@@ -25,7 +25,7 @@ module.exports = {
         references: { model: 'Statuses', key: 'id' },
       },
       Progress: {
-        type: Sequelize.DOUBLE,
+        type: Sequelize.FLOAT ,
       },
       CreatedAt: {
         allowNull: false,
