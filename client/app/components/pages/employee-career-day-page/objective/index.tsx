@@ -40,8 +40,9 @@ type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignFrom';
 
 interface IProps {
   objective: IObjective;
-  handleSaveObjective: (objective: { title: string, description: string }) => void;
-  handleDeleteObjective: (e: React.MouseEvent<SVGSVGElement>, objectiveId: number) => void;
+  userRole: string;
+  handleSaveObjective?: (objective: { title: string, description: string }) => void;
+  handleDeleteObjective?: (e: React.MouseEvent<SVGSVGElement>, objectiveId: number) => void;
 }
 
 interface IState {
@@ -166,10 +167,11 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
               className={this.props.classes.alignIcons}
               onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleEditObjective(e)}
             />
+            {this.props.userRole === 'manager' ?
             <Delete
               className={this.props.classes.alignIcons}
               onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleDeleteObjective(e)}
-            />
+            /> : null}
           </div>
         </ExpansionPanelSummary>
 

@@ -11,6 +11,7 @@ export default function(
 ) {
   switch (type) {
     case AUTH_ACTIONS.LOGIN_AS_EMPLOYEE:
+      return handleLogin(state, payload);
     case AUTH_ACTIONS.LOGIN_AS_UNIT_MANAGER:
       return handleLogin(state, payload);
 

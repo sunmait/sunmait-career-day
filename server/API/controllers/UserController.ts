@@ -106,4 +106,13 @@ export class UserController implements interfaces.Controller {
       next(err);
     }
   }
+
+  @httpGet('/employee')
+  private  async loginAsEmployee(
+    @response() res: express.Response,
+  ): Promise<void> {
+    res.json(
+      await this._userService.loginAsEmployee(),
+    );
+  }
 }

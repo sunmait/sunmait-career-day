@@ -9,10 +9,11 @@ import DisabledForAuthorizedUserRoute from './custom-routes/DisabledForAuthorize
 import AllowedForUnitManagerRoute from './custom-routes/AllowedForUnitManagerRoute';
 import EmployeeHistoryRoute from './custom-routes/EmployeeHistoryRoute';
 import ObjectivesOfEmployeesRoute from './custom-routes/ObjectivesOfEmployeesRoute';
+import AllowedForEmployeeRoute from './custom-routes/AllowedForEmployeeRoute';
 import ErrorRoute from './custom-routes/ErrorRoute';
 import EmployeeProgressPageContainer from 'components/pages/employee-progress-page';
 import MainPageContainer from 'components/pages/main-page';
-import EmployeeCareerDayPageContainer from 'components/pages/employee-career-day-page';
+import CareerDayPageContainer from 'components/pages/employee-career-day-page';
 import EmployeesListPageContainer from 'components/pages/employee-list';
 import LoginPageContainer from 'components/pages/login-page';
 import SignUpPage from '../pages/signup-page/SignUpPage';
@@ -65,6 +66,12 @@ const AppComponent = (props: IProps) => {
             path="/employees"
             component={EmployeesListPageContainer}
           />
+          <AllowedForEmployeeRoute
+            exact
+            auth={auth}
+            path="/employee"
+            component={CareerDayPageContainer}
+          />
           <EmployeeHistoryRoute
             exact
             auth={auth}
@@ -75,7 +82,7 @@ const AppComponent = (props: IProps) => {
             exact
             auth={auth}
             path="/employees/:userId/career-day/:careerDayId"
-            component={EmployeeCareerDayPageContainer}
+            component={CareerDayPageContainer}
           />
           <ErrorRoute
             exact
