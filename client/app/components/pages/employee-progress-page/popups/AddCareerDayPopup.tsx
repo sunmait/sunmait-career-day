@@ -1,18 +1,21 @@
 import * as React from 'react';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
-import { withStyles, WithStyles } from 'material-ui/styles';
+import { Theme, withStyles, WithStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import DatePicker from 'components/common/date-picker';
 
-const styles = {
+const styles = (theme: Theme) => ({
+  button: {
+    marginTop: theme.spacing.unit,
+  },
   alignColumn: {
     display: 'flex',
     flexDirection: 'column',
   } as React.CSSProperties,
-};
+});
 
-type ComponentClassNames = 'alignColumn';
+type ComponentClassNames = 'alignColumn' | 'button';
 
 interface IProps {
   handleClosePopup: () => void;
@@ -54,7 +57,11 @@ class AddCareerDayPopup extends React.Component<IProps & WithStyles<ComponentCla
           <Typography type="subheading" align="center">
             <DatePicker handleChangeDate={(date: Date) => this.handleChangeDate(date)} />
           </Typography>
-          <Button color="primary" onClick={() => this.handleAddCareerDay()}>
+          <Button
+            color="primary"
+            className={classes.button}
+            onClick={() => this.handleAddCareerDay()}
+          >
             Add
           </Button>
         </DialogContent>

@@ -1,6 +1,5 @@
 import * as React from 'react';
-import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
-import Typography from 'material-ui/Typography';
+import Dialog, { DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
 import { WithStyles } from 'material-ui';
@@ -17,6 +16,7 @@ type ComponentClassNames = 'button';
 interface IProps {
   title: string;
   description: string;
+  confirmTitle: string;
   handleClosePopup: () => void;
   handleConfirm: () => void;
   open: boolean;
@@ -47,22 +47,21 @@ class ConfirmationPopup extends React.Component<IProps & WithStyles<ComponentCla
       >
         <DialogTitle id="alert-dialog-title">{this.props.title}</DialogTitle>
         <DialogContent>
-          <Typography>{this.props.description}</Typography>
+          <DialogContentText id="alert-dialog-description">
+            {this.props.description}
+          </DialogContentText>
           <Button
             className={classes.button}
-            raised
+            color="default"
+            onClick={() => this.handleClosePopup()}
+          >
+            Cansel
+          </Button>
+          <Button
             color="secondary"
             onClick={() => this.handleConfirm()}
           >
-            Yes
-          </Button>
-          <Button
-            className={classes.button}
-            raised
-            color="primary"
-            onClick={() => this.handleClosePopup()}
-          >
-            No
+            {this.props.confirmTitle}
           </Button>
         </DialogContent>
       </Dialog>

@@ -12,6 +12,7 @@ import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Delete from 'material-ui-icons/Delete';
 import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
 import ControlledTooltips from 'components/common/controlled-tooltips';
 import Header from 'components/common/header';
 import {
@@ -173,10 +174,12 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
             <IconStatus isArchived={item.Archived} />
             <ListItemText primary={this.getCurrentDate(item)} />
             <ListItemSecondaryAction>
-              <Delete
-                className={classes.options}
-                onClick={e => this.handleClickOnDeleteButton(e, item.id)}
-              />
+              <IconButton disabled={!item.Archived} >
+                <Delete
+                  className={classes.options}
+                  onClick={e => this.handleClickOnDeleteButton(e, item.id)}
+                />
+              </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
         </Link>
@@ -199,7 +202,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
               }'s progress days`}
             />
           )}
-          <Grid item xs={5} lg={4} xl={3}>
+          <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="flex-end" spacing={8} className={classes.navigation}>
               <Grid item>
                 <ControlledTooltips
@@ -245,6 +248,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
             open={this.state.isOpenDeletePopup}
             title={'Remove this career day?'}
             description={'Also, along with the career day, the objectives that belong to this will be removed!'}
+            confirmTitle={'Delete the day'}
           />
         )}
       </div>

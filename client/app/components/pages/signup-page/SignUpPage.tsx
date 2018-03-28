@@ -1,28 +1,19 @@
 import * as React from 'react';
 import Grid from 'material-ui/Grid';
-import Input from 'material-ui/Input';
-import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import Header from 'components/common/header';
-import { withStyles } from 'material-ui/styles';
+import UserFormInput from './user-form-input';
+import { Theme, withStyles } from 'material-ui/styles';
 import * as regExpHelper from 'components/helper/regExpHelper';
 
-const styles = () => ({
-  inputs: {
-    marginLeft: 5,
-    marginRight: 5,
-  },
-  errors: {
-    marginLeft: 5,
-    backgroundColor: '#f2dede',
-    borderColor: '#ebccd1',
-    color: '#a94442',
+const styles = (theme: Theme) => ({
+  button: {
+    marginTop: theme.spacing.unit,
   },
 });
 
 interface IStylesProps {
-  inputs: string;
-  errors: string;
+  button: string;
 }
 
 interface IProps {
@@ -35,7 +26,15 @@ interface IState {
   email: string;
   password: string;
   passwordconfirm: string;
-  errors: string[];
+  errors: IErrors;
+}
+
+interface IErrors {
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  password?: string;
+  passwordconfirm?: string;
 }
 
 type stateKeys = keyof IState;
@@ -49,7 +48,7 @@ class SignUpPage extends React.Component<IProps, IState> {
       email: '',
       passwordconfirm: '',
       password: '',
-      errors: [],
+      errors: {},
     };
     this.onChange = this.onChange.bind(this);
   }
@@ -61,38 +60,38 @@ class SignUpPage extends React.Component<IProps, IState> {
   private validateForm() {
     const letters = /^[A-Za-z]+$/;
     const email = regExpHelper.email;
-    const errors: string[] = [];
+    const errors: IErrors = {};
 
     if (!this.state.firstname.match(letters)) {
       if (this.state.firstname.length === 0) {
-        errors.push('The First Name field can not be empty');
+        errors.firstname = 'The First Name field can not be empty';
       } else {
-        errors.push('The First Name field can contains only letters');
+        errors.firstname = 'The First Name field can contains only letters';
       }
     }
     if (!this.state.lastname.match(letters)) {
       if (this.state.lastname.length === 0) {
-        errors.push('The Last Name field can not be empty');
+        errors.lastname = 'The Last Name field can not be empty';
       } else {
-        errors.push('The Last Name field can contains only letters');
+        errors.lastname = 'The Last Name field can contains only letters';
       }
     }
     if (!this.state.lastname === null) {
-      errors.push('The Last Name field can not be empty');
+      errors.lastname = 'The Last Name field can not be empty';
     }
     if (this.state.password.match(/\W/ || '_')) {
-      errors.push('The Password field can contains only letters and numbers');
+      errors.password = 'The Password field can contains only letters and numbers';
     }
     if (this.state.password.length < 6) {
-      errors.push('The Password minimum length is 6 symbols');
+      errors.password = 'The Password minimum length is 6 symbols';
     } else if (this.state.password.length > 18) {
-      errors.push('The Password maximum length is 18 symbols');
+      errors.password = 'The Password maximum length is 18 symbols';
     }
     if (this.state.password !== this.state.passwordconfirm) {
-      errors.push('Password Confirmation should be same with Password');
+      errors.passwordconfirm = 'Password Confirmation should be same with Password';
     }
     if (!this.state.email.match(email)) {
-      errors.push('Email is not valid');
+      errors.email = 'Email is not valid';
     }
     this.setState({errors});
   }
@@ -108,95 +107,72 @@ class SignUpPage extends React.Component<IProps, IState> {
 
     return (
       <div>
-        <Header title="Sign Up" />
-        <Grid container>
-          <Grid item md={3} />
-          <Grid item xs={12} md={6}>
-            <Input
-              className={classes.inputs}
-              placeholder="First Name"
-              onChange={ e => this.onChange(e)}
-              fullWidth
-              value={this.state.firstname}
-              name="firstname"
-            />
-          </Grid>
-          <Grid item md={3} />
-          <Grid item md={3} />
-          <Grid item xs={12} md={6}>
-            <Input
-              className={classes.inputs}
-              placeholder="Last Name"
-              onChange={this.onChange}
-              fullWidth
-              value={this.state.lastname}
-              name="lastname"
-            />
-          </Grid>
-          <Grid item md={3} />
-          <Grid item md={3} />
-          <Grid item xs={12} md={6}>
-            <Input
-              className={classes.inputs}
-              placeholder="Email"
-              onChange={this.onChange}
-              fullWidth
-              value={this.state.email}
-              name="email"
-            />
-          </Grid>
-          <Grid item md={3} />
-          <Grid item md={3} />
-          <Grid item xs={12} md={6}>
-            <Input
-              className={classes.inputs}
-              placeholder="Password"
-              onChange={this.onChange}
-              value={this.state.password}
-              type="password"
-              name="password"
-              fullWidth
-            />
-          </Grid>
-          <Grid item md={3} />
-          <Grid item md={3} />
-          <Grid item xs={12} md={6}>
-            <Input
-              className={classes.inputs}
-              placeholder="Password confirmation"
-              onChange={this.onChange}
-              value={this.state.passwordconfirm}
-              name="passwordconfirm"
-              type="password"
-              fullWidth
-            />
-          </Grid>
-          <Grid item md={3} />
-          <Grid item md={3} />
-          <Grid item xs={12} md={6}>
-            <Grid container>
+        <Grid container justify="center" spacing={0}>
+          <Header title="Sign Up" />
+          <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
+            <Grid container justify="center" direction="column" alignItems="stretch" spacing={0}>
               <Grid item xs={10}>
-                {this.state.errors.map((error: string) => {
-                  return (
-                    <div key={error}>
-                      <Typography className={classes.errors}>
-                        {error}
-                      </Typography>
-                      <br />
-                    </div>
-                  );
-                })}
+                <UserFormInput
+                  label="firstname"
+                  title="First Name"
+                  value={this.state.firstname}
+                  error={('firstname' in this.state.errors) ? this.state.errors.firstname : null}
+                  handleChangeValue={e => this.onChange(e)}
+                />
               </Grid>
-              <Grid item xs={2}>
-                <Grid container justify="flex-end">
-                  <Button onClick={() => this.confirmForm()}>
-                    Confirm
-                  </Button>
+              <Grid item xs={10}>
+                <UserFormInput
+                  label="lastname"
+                  title="Last Name"
+                  value={this.state.lastname}
+                  error={('lastname' in this.state.errors) ? this.state.errors.lastname : null}
+                  handleChangeValue={e => this.onChange(e)}
+                />
+              </Grid>
+              <Grid item xs={10}>
+                <UserFormInput
+                  label="email"
+                  title="Email"
+                  value={this.state.email}
+                  error={('email' in this.state.errors) ? this.state.errors.email : null}
+                  handleChangeValue={e => this.onChange(e)}
+                />
+              </Grid>
+              <Grid item xs={10}>
+                <UserFormInput
+                  label="password"
+                  title="Password"
+                  value={this.state.password}
+                  type="password"
+                  error={('password' in this.state.errors) ? this.state.errors.password : null}
+                  handleChangeValue={e => this.onChange(e)}
+                />
+              </Grid>
+              <Grid item xs={10}>
+                <UserFormInput
+                  label="passwordconfirm"
+                  title="Password confirmation"
+                  value={this.state.passwordconfirm}
+                  type="password"
+                  error={('passwordconfirm' in this.state.errors) ? this.state.errors.passwordconfirm : null}
+                  handleChangeValue={e => this.onChange(e)}
+                />
+              </Grid>
+              <Grid item className={classes.button}>
+                <Grid container justify="center" alignItems="center" spacing={8}>
+                  <Grid item>
+                    <Button
+                      raised
+                      color="primary"
+                      onClick={() => this.confirmForm()}
+                    >
+                      Confirm
+                    </Button>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={3} />
         </Grid>
       </div>
     );

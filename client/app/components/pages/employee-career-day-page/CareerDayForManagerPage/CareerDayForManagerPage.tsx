@@ -137,6 +137,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
         key={item.id}
         objective={item}
         userRole={this.props.user.Roles}
+        isArchived={this.props.selectedCareerDay.Archived}
         handleSaveObjective={(objective: IUpdateObjectiveManager) => this.handleSaveObjective(objective)}
         handleDeleteObjective={(
           e: React.MouseEvent<SVGSVGElement>,
@@ -204,7 +205,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
               this.props.selectedEmployee.LastName
               }'s career day`}
           />
-          <Grid item xs={5} lg={4} xl={3}>
+          <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="flex-end" className={classes.navigation} spacing={8}>
               <Grid item>
                 <ControlledTooltips
@@ -300,6 +301,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
             open={this.state.isOpenDeletePopup}
             title={'Delete this objective?'}
             description={'After deleting, you can\'t come back objective!'}
+            confirmTitle={'Delete objective'}
           />
         )}
         {this.state.isOpenArchiveCDPopup && (
@@ -309,6 +311,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
             open={this.state.isOpenArchiveCDPopup}
             title={'Archive this career day?'}
             description="After archiving, you can't edit a career day!"
+            confirmTitle={'Archive the day'}
           />
         )}
       </div>

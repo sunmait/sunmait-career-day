@@ -24,6 +24,9 @@ const styles = (theme: Theme) => ({
   alignIcons: {
     margin: 10,
   },
+  button: {
+    marginTop: theme.spacing.unit,
+  },
   summary: {
     display: 'flex',
     alignItems: 'center',
@@ -36,11 +39,12 @@ const styles = (theme: Theme) => ({
   }as React.CSSProperties,
 });
 
-type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignFrom';
+type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignFrom' | 'button';
 
 interface IProps {
   objective: IObjective;
   userRole: string;
+  isArchived?: boolean;
   handleSaveObjective?: (objective: { title?: string, description?: string, progress?: number, id: number }) => void;
   handleDeleteObjective?: (e: React.MouseEvent<SVGSVGElement>, objectiveId: number) => void;
 }
@@ -113,7 +117,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     return '';
   }
 
-  private formInputPanel() {
+  private renderFormInputPanel() {
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary>
@@ -142,24 +146,29 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
                 handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
               />
             }
-            <Button
-              color="primary"
-              disabled={
-                this.state.Title.length === 0 ||
-                this.state.Description.length === 0 ||
-                this.state.Progress.toString().length === 0
-              }
-              onClick={() => this.saveObjectiveClick()}
-            >
-              Save
-            </Button>
+            <Grid container justify="center" alignItems="center" spacing={0}>
+              <Grid item>
+                <Button
+                  className={this.props.classes.button}
+                  color="primary"
+                  disabled={
+                    this.state.Title.length === 0 ||
+                    this.state.Description.length === 0 ||
+                    this.state.Progress.toString().length === 0
+                  }
+                  onClick={() => this.saveObjectiveClick()}
+                >
+                  Save
+                </Button>
+              </Grid>
+            </Grid>
           </div>
         </ExpansionPanelSummary>
       </ExpansionPanel>
     );
   }
 
-  private objectivePanelDetails() {
+  private renderObjectivePanelDetails() {
     const format = 'DD.MM.YYYY';
 
     return (
@@ -189,7 +198,22 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     );
   }
 
-  private objectivePanel() {
+  private renderObjectiveOptions() {
+    return (
+      <div style={{ padding: 0 }}>
+        <Edit
+          className={this.props.classes.alignIcons}
+          onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleEditObjective(e)}
+        />
+        <Delete
+          className={this.props.classes.alignIcons}
+          onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleDeleteObjective(e)}
+        />
+      </div>
+    );
+  }
+
+  private renderObjectivePanel() {
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary>
@@ -197,22 +221,11 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
             <IconStatus statusId={this.props.objective.StatusId} />
             <Typography className={this.props.classes.heading}>{this.props.objective.Title}</Typography>
           </div>
-
-          <div style={{ padding: 0 }}>
-            <Edit
-              className={this.props.classes.alignIcons}
-              onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleEditObjective(e)}
-            />
-            {this.props.userRole === 'manager' ?
-              <Delete
-                className={this.props.classes.alignIcons}
-                onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleDeleteObjective(e)}
-              /> : null}
-          </div>
+          {!this.props.isArchived && this.renderObjectiveOptions()}
         </ExpansionPanelSummary>
 
         <ExpansionPanelDetails>
-          {this.objectivePanelDetails()}
+          {this.renderObjectivePanelDetails()}
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );
@@ -220,7 +233,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
 
   public render() {
     return (
-      <div>{this.state.isEdited ? this.formInputPanel() : this.objectivePanel()}</div>
+      <div>{this.state.isEdited ? this.renderFormInputPanel() : this.renderObjectivePanel()}</div>
     );
   }
 }

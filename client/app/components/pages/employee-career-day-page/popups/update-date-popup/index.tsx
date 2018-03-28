@@ -1,18 +1,21 @@
 import * as React from 'react';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
-import { withStyles, WithStyles } from 'material-ui/styles';
+import { Theme, withStyles, WithStyles } from 'material-ui/styles';
 import DatePicker from 'components/common/date-picker';
 import Typography from 'material-ui/Typography';
 
-const styles = {
+const styles = (theme: Theme) => ({
+  button: {
+    marginTop: theme.spacing.unit,
+  },
   alignColumn: {
     display: 'flex',
     flexDirection: 'column',
   } as React.CSSProperties,
-};
+});
 
-type ComponentClassNames = 'alignColumn';
+type ComponentClassNames = 'alignColumn' | 'button';
 
 interface IProps {
   handleClosePopup: () => void;
@@ -66,6 +69,7 @@ class DatetimePopup extends React.Component<IProps & WithStyles<ComponentClassNa
 
           <Button
             color="primary"
+            className={classes.button}
             onClick={() => this.updateDateClick()}
           >
             Update

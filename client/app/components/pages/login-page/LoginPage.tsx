@@ -87,9 +87,8 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
 
     return (
       <div>
-        <Header title="Login" />
-
-        <Grid container justify="center">
+        <Grid container justify="center" spacing={0}>
+          <Header title="Login" />
           <form onSubmit={() => this.props.loginAsUnitManager()}>
             <div className={classes.root}>
               <TextField

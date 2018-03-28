@@ -2,16 +2,19 @@ import * as React from 'react';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 import FormInput from 'components/common/form-input';
-import { withStyles, WithStyles } from 'material-ui/styles';
+import { Theme, withStyles, WithStyles } from 'material-ui/styles';
 
-const styles = {
+const styles = (theme: Theme) => ({
+  button: {
+    marginTop: theme.spacing.unit,
+  },
   alignColumn: {
     display: 'flex',
     flexDirection: 'column',
   } as React.CSSProperties,
-};
+});
 
-type ComponentClassNames = 'alignColumn';
+type ComponentClassNames = 'alignColumn' | 'button';
 
 interface IProps {
   handleClosePopup: () => void;
@@ -78,6 +81,7 @@ class ObjectivePopup extends React.Component<IProps & WithStyles<ComponentClassN
 
           <Button
             color="primary"
+            className={classes.button}
             disabled={this.state.Title.length === 0 || this.state.Description.length === 0}
             onClick={() => this.addObjectiveClick()}
           >
