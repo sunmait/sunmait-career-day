@@ -308,7 +308,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
             handleConfirm={() => this.handleDeleteObjective()}
             open={this.state.isOpenDeletePopup}
             title={'Delete this objective?'}
-            description={'After deleting, you cann\'t come back objective!'}
+            description={'After deleting, you can\'t come back objective!'}
           />
         )}
         {this.state.isOpenArchiveCDPopup && (
@@ -317,7 +317,7 @@ class EmployeeCareerDayPage extends React.Component<IProps, IState> {
             handleConfirm={() => this.handleArchiveCareerDay()}
             open={this.state.isOpenArchiveCDPopup}
             title={'Archive this career day?'}
-            description="After archiving, you cann't edit a career day!"
+            description="After archiving, you can't edit a career day!"
           />
         )}
       </div>

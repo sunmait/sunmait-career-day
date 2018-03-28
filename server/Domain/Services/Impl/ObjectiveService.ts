@@ -46,7 +46,7 @@ export class ObjectiveService implements IObjectiveService {
     throw ({ status: 404 });
   }
 
-  public async updateObjective(id: number, title: string, description: string) {
+  public async updateObjective(id: number, title: string, description: string, progress: number) {
     const objective = await this._objectiveRepository.findOne({
       where: { id },
       include: CareerDayEntity,
@@ -58,6 +58,7 @@ export class ObjectiveService implements IObjectiveService {
       if (!objective.CareerDay.Archived) {
         objective.Title = title;
         objective.Description = description;
+        objective.Progress = progress;
 
         return this._objectiveRepository.update(objective);
       }

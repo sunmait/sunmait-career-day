@@ -48,6 +48,7 @@ interface IState {
   isEdited: boolean;
   Title: string;
   Description: string;
+  Progress: number;
 }
 
 type stateKeys = keyof IState;
@@ -59,6 +60,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
       isEdited: false,
       Title: this.props.objective.Title,
       Description: this.props.objective.Description,
+      Progress: Math.floor(this.props.objective.Progress * 100),
     };
   }
 
@@ -69,7 +71,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
   }
 
   private handleDeleteObjective(e: React.MouseEvent<SVGSVGElement>) {
-    e.preventDefault();
+    e.stopPropagation();
 
     this.props.handleDeleteObjective(e, this.props.objective.id);
   }
@@ -84,12 +86,24 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     const objective = {
       title: this.state.Title,
       description: this.state.Description,
+      progress: Number(this.state.Progress) / 100,
       id: this.props.objective.id,
     };
 
     this.setState({ isEdited: false });
 
     this.props.handleSaveObjective(objective);
+  }
+
+  private setNumberProgress() {
+    const progress = this.state.Progress;
+
+    if (!isNaN(progress)) {
+      if (progress <= 100 && progress >= 0) {
+        return progress;
+      }
+    }
+    return '';
   }
 
   private formInputPanel() {
@@ -107,6 +121,12 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
               label={'Description'}
               maxLength={255}
               value={this.state.Description}
+              handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
+            />
+            <FormInput
+              label={'Progress'}
+              maxLength={3}
+              value={this.setNumberProgress()}
               handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
             />
             <Button
@@ -142,7 +162,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
         </Grid>
         <Grid item xs={12}>
           <Typography color="textSecondary" align="right">
-            {`Progress: ${this.props.objective.Progress * 100}/100`}
+            {`Progress: ${this.state.Progress}/100`}
           </Typography>
         </Grid>
         <Grid item xs={12}>

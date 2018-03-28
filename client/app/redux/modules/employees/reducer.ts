@@ -166,12 +166,6 @@ export interface IObjectiveById {
   UnitManagerExternalId: number;
 }
 
-export interface IUpdateObjective {
-  title: string;
-  description: string;
-  objectiveId: number;
-}
-
 export interface IEmployeesState {
   employees: null | IEmployee[];
   careerDays: null | ICareerDayOfEmployee[];
@@ -194,6 +188,7 @@ export interface IUpdateObjective {
   id: number;
   title: string;
   description: string;
+  progress: number;
 }
 
 export interface IUpdateInterviewDate {

@@ -68,11 +68,12 @@ export class ObjectiveController implements interfaces.Controller {
     @requestParam('id') id: number,
     @requestBody('title') title: string,
     @requestBody('description') description: string,
+    @requestBody('progress') progress: number,
     @response() res: express.Response,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._objectiveService.updateObjective(id, title, description));
+      res.json(await this._objectiveService.updateObjective(id, title, description, progress));
     } catch (err) {
       next(err);
     }

@@ -28,7 +28,7 @@ export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => 
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -49,7 +49,7 @@ export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employee: IEmplo
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -70,7 +70,7 @@ export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) 
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -99,7 +99,7 @@ export const addCareerDay: AddCareerDay = (careerDay: ICareerDay) => (dispatch: 
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -121,7 +121,7 @@ export const addObjective: AddObjective = (objective: IObjectiveById) => (dispat
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -142,7 +142,7 @@ export const deleteCareerDay: DeleteCareerDay = (careerDayId: number) => (dispat
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -154,6 +154,7 @@ export const updateObjective: UpdateObjective = (objective: IUpdateObjective) =>
   return axiosRequest.patch(`/api/objectives/${objective.id}`, {
     title: objective.title,
     description: objective.description,
+    progress: Number(objective.progress),
   })
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
@@ -166,7 +167,7 @@ export const updateObjective: UpdateObjective = (objective: IUpdateObjective) =>
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -187,7 +188,7 @@ export const archiveCareerDay: ArchiveCareerDay = (careerDay: IArchiveCareerDay)
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -208,7 +209,7 @@ export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterv
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;
@@ -229,7 +230,7 @@ export const deleteObjective: DeleteObjective = (objectiveId: number) => (dispat
 
       dispatch({
         type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: {status: err.response.status, message: err.response.statusText},
+        payload: { status: err.response.status, message: err.response.statusText },
       });
 
       return err;

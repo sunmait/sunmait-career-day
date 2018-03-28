@@ -138,7 +138,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     }
   }
 
-  private getCurrentDate(item: ICareerDayOfEmployee) {
+  private static getCurrentDate(item: ICareerDayOfEmployee) {
     const format = 'DD.MM.YYYY hh:mm A';
 
     if (item.Archived) {
@@ -159,7 +159,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
         </Typography>
       );
     } else {
-      return this.props.careerDays.map(item => (
+      return this.props.careerDays.map((item: ICareerDayOfEmployee ) => (
         <Link
           key={item.id}
           to={{
@@ -171,7 +171,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
         >
           <ListItem  id={item.id.toString()} key={item.id} dense button>
             <IconStatus isArchived={item.Archived} />
-            <ListItemText primary={this.getCurrentDate(item)} />
+            <ListItemText primary={EmployeeProgressPage.getCurrentDate(item)} />
             <ListItemSecondaryAction>
               <Delete
                 className={classes.options}
