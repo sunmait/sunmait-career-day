@@ -30,7 +30,10 @@ describe('appReducer', () => {
   describe('method handleDeleteNotification', () => {
     test('Should return empty notification', () => {
       const initAction = {type: APP_ACTIONS.DELETE_NOTIFICATION};
-      const changedState = appReducer(undefined, initAction);
+      const initState = {
+        notification: {status: 404, message: 'Error message'},
+      };
+      const changedState = appReducer(initState, initAction);
 
       expect(changedState).toEqual({notification: {}});
     });

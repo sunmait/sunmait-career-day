@@ -82,7 +82,7 @@ class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<Compo
               this.props.user.LastName
               }'s career day`}
           />
-          <Grid item xs={5} lg={4} xl={3}>
+          <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="center">
               <div className={classes.datetime}>
                 {activeCareerDay &&

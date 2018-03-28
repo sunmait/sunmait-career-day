@@ -19,15 +19,20 @@ import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 const styles = (theme: Theme) => ({
   root: {
     width: '100%',
-    maxWidth: 500,
     backgroundColor: theme.palette.background.paper,
     marginTop: 20,
     marginBottom: 20,
+  },
+  disableLinkStyle: {
+    textDecoration: 'none',
+    color: 'black',
+    outline: 'none',
   },
 });
 
 interface IStyleProps {
   root: string;
+  disableLinkStyle: string;
 }
 
 interface IProps {
@@ -49,7 +54,7 @@ class EmployeeList extends React.Component<IProps, IState> {
     this.props.getEmployeesList();
   }
 
-  private renderEmployeeProfile() {
+  private renderEmployeeProfile(classes: IStyleProps) {
     return this.props.employees.map((item: IEmployee) => (
       <Link
         key={item.id}
@@ -57,7 +62,7 @@ class EmployeeList extends React.Component<IProps, IState> {
           pathname: `/employees/${item.id}`,
           state: {employee: item},
         }}
-        style={{textDecoration: 'none'}}
+        className={classes.disableLinkStyle}
       >
         <ListItem dense button>
           <Avatar alt={item.LastName} src={item.PhotoUrl} />
@@ -68,6 +73,7 @@ class EmployeeList extends React.Component<IProps, IState> {
         </ListItem>
       </Link>
     ));
+    // TODO: add archived/in progress info in IEmployee (get from server)
   }
 
   public render() {
@@ -79,11 +85,11 @@ class EmployeeList extends React.Component<IProps, IState> {
       <div>
         <Grid container spacing={0} justify="center">
           <Header title="List Of Employees" />
-          <Grid item xs={5}>
+          <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="center">
               <div className={classes.root}>
                 <Paper elevation={1}>
-                  <List>{this.props.employees && this.renderEmployeeProfile()}</List>
+                  <List>{this.props.employees && this.renderEmployeeProfile(classes)}</List>
                 </Paper>
               </div>
             </Grid>
