@@ -68,4 +68,13 @@ export class UserServise implements IUserService {
     );
     return `${this._hostname}/api/users/verifyEmail/${encrtyptedEmail}`;
   }
+
+  public async loginAsEmployee() {
+    const user = await this._userRepository.findById(1);
+    if (user) {
+      return user;
+    }
+    return false;
+  }
+
 }

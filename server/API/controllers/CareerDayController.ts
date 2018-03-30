@@ -88,12 +88,11 @@ export class CareerDayController implements interfaces.Controller {
   @httpPatch('/archive/:id')
   private async archive(
     @requestParam('id') id: number,
-    @requestBody('UnitManagerExternalId') managerId: number,
     @response() res: express.Response,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._careerDayService.archiveCareerDay(id, managerId));
+      res.json(await this._careerDayService.archiveCareerDay(id));
     } catch (err) {
       next(err);
     }
@@ -107,7 +106,6 @@ export class CareerDayController implements interfaces.Controller {
     @requestParam('id') id: number,
     @requestBody('date') date: any,
     @requestBody('EmployeeExternalId') employeeId: number,
-    @requestBody('UnitManagerExternalId') managerId: number,
     @response() res: express.Response,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
@@ -117,7 +115,6 @@ export class CareerDayController implements interfaces.Controller {
           id,
           date,
           employeeId,
-          managerId,
         ),
       );
     } catch (err) {
