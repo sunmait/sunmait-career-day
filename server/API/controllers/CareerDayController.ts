@@ -14,12 +14,11 @@ import {
 import { inject } from 'inversify';
 
 import { ICareerDayService } from './../../Domain/Services/index';
-import { CheckAuth } from '../middlewares/CheckAuth';
 
 /**
  * Operations about Career days.
  */
-@controller('/api/career-days', CheckAuth)
+@controller('/api/career-days')
 export class CareerDayController implements interfaces.Controller {
   private readonly _careerDayService: ICareerDayService;
 
