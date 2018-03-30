@@ -6,6 +6,9 @@ import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import Router from 'components/containers/Router';
 import store from 'redux/store';
+import {verifyCredentials} from 'redux/modules/auth/actions';
+
+// verifyCredentials(store.dispatch);
 
 render(
   <Provider store={store}>

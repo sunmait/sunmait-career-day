@@ -3,6 +3,7 @@ import { container } from '../infrastructure/di/Container';
 import { SettingsProvider } from '../infrastructure/SettingsProvider';
 import * as jwt from 'jsonwebtoken';
 import IRequest from '../helper/IRequest';
+import IUserDecodedFromToken from 'API/helper/IUserDecodedFromToken';
 
 const settingsProvider = container.get<SettingsProvider>('SettingsProvider');
 
@@ -15,7 +16,7 @@ export function CheckAuth(
     const header = req.get('Authorization').split(' ');
     if (header[0] === 'Bearer') {
       try {
-        const payload: any = jwt.verify(header[1], settingsProvider.getSecretKey());
+        const payload = jwt.verify(header[1], settingsProvider.getSecretKey()) as IUserDecodedFromToken;
         req.user = payload;
         next();
       } catch (err) {

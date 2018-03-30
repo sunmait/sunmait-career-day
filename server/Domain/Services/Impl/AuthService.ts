@@ -57,7 +57,7 @@ export class AuthService implements IAuthService {
     }
   }
 
-  public async refreshSesstion(RefreshToken: string) {
+  public async refreshSession(RefreshToken: string) {
     const session = await this._sessionRepository.findOne({
       where: { RefreshToken },
       include: UserEntity,

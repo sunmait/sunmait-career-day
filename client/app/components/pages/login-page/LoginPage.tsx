@@ -10,8 +10,9 @@ import { FormControl, FormHelperText } from 'material-ui/Form';
 import TextField from 'material-ui/TextField';
 import Visibility from 'material-ui-icons/Visibility';
 import VisibilityOff from 'material-ui-icons/VisibilityOff';
-import { LoginAsEmployee, LoginAsUnitManager } from 'redux/modules/auth/actions';
+import { Login } from 'redux/modules/auth/actions';
 import Header from 'components/common/header';
+import { IUser } from 'redux/modules/auth/reducer';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -35,8 +36,8 @@ const styles = (theme: Theme) => ({
 });
 
 interface IProps {
-  loginAsEmployee: LoginAsEmployee;
-  loginAsUnitManager: LoginAsUnitManager;
+  login: Login;
+  user: IUser;
 }
 
 type ComponentClassNames = 'root' | 'button' | 'textField' | 'errorMessage' | 'underline';
@@ -44,7 +45,8 @@ type ComponentClassNames = 'root' | 'button' | 'textField' | 'errorMessage' | 'u
 interface IState {
   isShowedPassword: boolean;
   password: string;
-  login: string;
+  email: string;
+  isValidUserData: boolean;
 }
 
 type stateKeys = keyof IState;
@@ -55,8 +57,13 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
     this.state = {
       isShowedPassword: false,
       password: '',
-      login: '',
+      email: '',
+      isValidUserData: false,
     };
+  }
+
+  public componentDidMount() {
+    this.setState({ isValidUserData: true });
   }
 
   private handleChangeValue(e: React.ChangeEvent<HTMLInputElement>) {
@@ -69,17 +76,28 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
     this.setState({ isShowedPassword: !this.state.isShowedPassword });
   }
 
-  private handleMouseDownPassword(e: React.MouseEvent<HTMLElement>) {
+  private static handleMouseDownPassword(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
   }
 
   private errorMessage() {
-    // TODO: must come valid or not valid message from server, if not valid, then:
-    return (
-      <FormHelperText id="name-error-text" className={this.props.classes.errorMessage}>
-        Login or password is not valid
-      </FormHelperText>
-    );
+    if (!this.state.isValidUserData) {
+      return (
+        <FormHelperText id="name-error-text" className={this.props.classes.errorMessage}>
+          Login or password is not valid
+        </FormHelperText>
+      );
+    }
+  }
+
+  private verifyUserData() {
+    this.props.login(this.state.email, this.state.password);
+
+    if (this.props.user) {
+      this.setState({ isValidUserData: true });
+    }
+
+    this.setState({ isValidUserData: false });
   }
 
   public render() {
@@ -87,14 +105,15 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
 
     return (
       <div>
-        <Grid container justify="center" spacing={0}>
-          <Header title="Login" />
-          <form onSubmit={() => this.props.loginAsUnitManager()}>
+        <Header title="Login" />
+
+        <Grid container justify="center">
+          <form onSubmit={() => this.props.login(this.state.email, this.state.password)}>
             <div className={classes.root}>
               <TextField
                 label="Login"
                 className={classes.textField}
-                name="login"
+                name="email"
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
               />
 
@@ -110,7 +129,7 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
                     <InputAdornment position="end">
                       <IconButton
                         onClick={() => this.handleClickShowPassword()}
-                        onMouseDown={(e: React.MouseEvent<HTMLElement>) => this.handleMouseDownPassword(e)}
+                        onMouseDown={(e: React.MouseEvent<HTMLElement>) => LoginPage.handleMouseDownPassword(e)}
                       >
                         {this.state.isShowedPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
@@ -130,17 +149,9 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
                 raised
                 color="primary"
                 className={classes.button}
-                onClick={() => this.props.loginAsUnitManager()}
+                onClick={() => this.verifyUserData()}
               >
                 Login
-              </Button>
-              <Button
-                raised
-                color="secondary"
-                className={classes.button}
-                onClick={() => this.props.loginAsEmployee()}
-              >
-                Login as employee
               </Button>
             </div>
           </form>

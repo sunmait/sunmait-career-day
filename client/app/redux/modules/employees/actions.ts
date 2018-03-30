@@ -13,11 +13,14 @@ import {
   IUpdateObjectiveEmployee,
   IObjective,
 } from './reducer';
+import { verifyCredentials } from 'redux/modules/auth/actions';
 
 const axiosRequest: any = axios;
 
 export type GetEmployeesList = () => (dispatch: Dispatch) => void;
 export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => {
+  // verifyCredentials(store.dispatch);
+
   return axiosRequest.get('/api/users/employees')
     .then((res: axios.AxiosResponse<IEmployee[]>) => {
       dispatch({

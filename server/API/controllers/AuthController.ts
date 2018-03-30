@@ -38,13 +38,13 @@ export class AuthController implements interfaces.Controller {
   }
 
   @httpPatch('/refresh/:refreshToken')
-  private async refreshSesstion(
+  private async refreshSession(
     @response() res: express.Response,
     @requestParam('refreshToken') refreshToken: string,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._authService.refreshSesstion(refreshToken));
+      res.json(await this._authService.refreshSession(refreshToken));
     } catch (err) {
       next(err);
     }
