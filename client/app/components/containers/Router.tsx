@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import PrivateRoute from './custom-routes/PrivateRoute';
 import DisabledForAuthorizedUserRoute from './custom-routes/DisabledForAuthorizedUserRoute';
 import AllowedForUnitManagerRoute from './custom-routes/AllowedForUnitManagerRoute';
-import EmployeeHistoryRoute from './custom-routes/EmployeeHistoryRoute';
 import ObjectivesOfEmployeesRoute from './custom-routes/ObjectivesOfEmployeesRoute';
 import AllowedForEmployeeRoute from './custom-routes/AllowedForEmployeeRoute';
 import ErrorRoute from './custom-routes/ErrorRoute';
@@ -74,7 +73,7 @@ const AppComponent = (props: IProps) => {
             path="/employee"
             component={CareerDayPageContainer}
           />
-          <EmployeeHistoryRoute
+          <AllowedForUnitManagerRoute
             exact
             auth={auth}
             path="/employees/:userId"

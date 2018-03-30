@@ -32,6 +32,14 @@ given('I click on {string} link', (linkText) => {
     .click();
 });
 
+given('I see paragraph with {string} message',(message) => {
+  cy.get('p').contains(message);
+});
+
+given('I see {string} page header', (pageHeader) => {
+  cy.get('h1').contains(pageHeader);
+})
+
 when('I click on {string} button', (buttonText) => {
   cy.get('button')
     .contains(buttonText)
@@ -63,6 +71,10 @@ then('I see {string} page header', (pageHeader) => {
   cy.get('h1').contains(pageHeader);
 })
 
+then('I see {string} header', (pageHeader) => {
+  cy.get('h1').contains(pageHeader);
+})
+
 then('I see list', () => {
   cy.get('li');
 });
@@ -83,4 +95,10 @@ then('I see {string} button', (buttonText) => {
 then('I see {string} form input label', (labelText) => {
   cy.get('label')
     .contains(labelText);
+});
+
+then('I click on {string} button', (buttonText) => {
+  cy.get('button')
+    .contains(buttonText)
+    .click();
 });

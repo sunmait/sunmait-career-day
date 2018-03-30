@@ -34,7 +34,7 @@
     "build": "webpack --config webpack/dev.config.js --watch --progress",
     "build-prod": "NODE_ENV=production node_modules/webpack/bin/webpack.js --config webpack/prod.config.js",
     "test": "jest --coverage",
-    "e2e-test": "./node_modules/.bin/cypress open"
+    "e2e-test": "cd ../server && npm run seed:undo && npm run seed && cd ../client && ./node_modules/.bin/cypress open"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^3.4.1",

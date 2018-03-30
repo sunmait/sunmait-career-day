@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Link, match } from 'react-router-dom';
 import { Location } from 'history';
-import * as moment from 'moment';
 import { Theme, withStyles } from 'material-ui/styles';
 import List, {
   ListItem,
@@ -25,6 +24,7 @@ import {
   ICareerDayOfEmployee,
   IEmployee,
 } from 'redux/modules/employees/reducer';
+import {toStandardFormat} from '../../helper/dateTimeHelper';
 import AddCareerDayPopup from './popups/AddCareerDayPopup';
 import ConfirmationPopup from 'components/common/popups/confirmation-popup';
 import IconStatus from 'components/common/icon-status/icon-status-career-day';
@@ -140,16 +140,10 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
   }
 
   private getCurrentDate(item: ICareerDayOfEmployee) {
-    const format = 'DD.MM.YYYY hh:mm A';
-
     if (item.Archived) {
-      return `${moment(item.CreatedAt).format(format)} - ${moment(
-        item.UpdatedAt,
-      ).format(format)}`;
+      return `${toStandardFormat(item.CreatedAt)} - ${toStandardFormat(item.UpdatedAt)}`;
     }
-    return `${moment(item.CreatedAt).format(format)} - ${moment(
-      item.InterviewDate,
-    ).format(format)}`;
+    return `${toStandardFormat(item.CreatedAt)} - ${toStandardFormat(item.InterviewDate)}`;
   }
 
   private renderHistoryOfProgress(classes: IStylesProps) {
@@ -170,14 +164,21 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
           }}
           className={classes.disableLinkStyle}
         >
-          <ListItem  id={item.id.toString()} key={item.id} dense button>
-            <IconStatus isArchived={item.Archived} />
+          <ListItem
+            id={item.id.toString()}
+            key={item.id}
+            name={item.Archived ? 'archived' : 'active'}
+            dense
+            button
+          >
+            <IconStatus isArchived={item.Archived}  />
             <ListItemText primary={this.getCurrentDate(item)} />
             <ListItemSecondaryAction>
               <IconButton disabled={!item.Archived} >
                 <Delete
                   className={classes.options}
                   onClick={e => this.handleClickOnDeleteButton(e, item.id)}
+                  name="delete-icon"
                 />
               </IconButton>
             </ListItemSecondaryAction>
@@ -213,6 +214,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
                       disabled={this.isActiveButton()}
                       raised
                       color="primary"
+                      name="add-career-day"
                       onClick={() => this.togglePopupState('isOpenAddPopup')}
                     >
                       Add career day

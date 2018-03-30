@@ -55,7 +55,7 @@ class ConfirmationPopup extends React.Component<IProps & WithStyles<ComponentCla
             color="default"
             onClick={() => this.handleClosePopup()}
           >
-            Cansel
+            Cancel
           </Button>
           <Button
             color="secondary"
