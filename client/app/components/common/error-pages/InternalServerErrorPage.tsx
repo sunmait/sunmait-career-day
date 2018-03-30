@@ -17,7 +17,7 @@ interface IProps {
   classes: IStyleProps;
 }
 
-const NotFoundPage = (props: IProps) => {
+const InternalServerErrorPage = (props: IProps) => {
   return (
     <Grid container justify="center" direction="column" spacing={0}>
       <div className={props.classes.textAlign}>
@@ -29,4 +29,4 @@ const NotFoundPage = (props: IProps) => {
   );
 };
 
-export default withStyles(styles)(NotFoundPage);
+export default withStyles(styles)(InternalServerErrorPage);
