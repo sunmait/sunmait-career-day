@@ -59,6 +59,7 @@ class AddCareerDayPopup extends React.Component<IProps & WithStyles<ComponentCla
           </Typography>
           <Button
             color="primary"
+            name="popup-add-button"
             className={classes.button}
             onClick={() => this.handleAddCareerDay()}
           >

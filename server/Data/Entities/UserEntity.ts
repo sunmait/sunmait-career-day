@@ -26,14 +26,12 @@ export default class UserEntity extends Model<UserEntity> {
 
   @IsDate
   @AllowNull(false)
-  @Default(new Date())
   @CreatedAt
   @Column(DataType.DATE)
   public CreatedAt: Date;
 
   @IsDate
   @AllowNull(false)
-  @Default(new Date())
   @UpdatedAt
   @Column(DataType.DATE)
   public UpdatedAt: Date;
