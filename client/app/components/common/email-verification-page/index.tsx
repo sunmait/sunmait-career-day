@@ -1,6 +1,4 @@
 import * as React from 'react';
-import Paper from 'material-ui/Paper';
-import Button from 'material-ui/Button';
 import { Link } from 'react-router-dom';
 import { Location } from 'history';
 import Typography from 'material-ui/Typography';
@@ -10,17 +8,22 @@ import { VERIFY_MESSAGE } from './verifyMessageConstant';
 
 const styles = () => ({
   text: {
-    fontSize: 30,
     textAlign: 'center',
   },
   underline: {
     textDecoration: 'none',
   },
+  hover: {
+    '&:hover': {
+      color: '#5a87cb',
+    },
+  },
 });
 
 interface IStylesProps {
   text: string;
-  underline: string;
+  underline: string ;
+  hover: string;
 }
 
 interface IProps {
@@ -50,14 +53,14 @@ class EmailVerificationPage extends React.Component<IProps, IState> {
     const { classes } = this.props;
 
     return (
-      <Paper>
-        <Typography className={classes.text}>
+      <div className={classes.text}>
+        <Typography type="display1" color="inherit">
           {this.parseQueryParams()}
-          <Link to="/login" className={classes.underline}>
-            <Button color="primary">Sign in</Button>
-          </Link>
         </Typography>
-      </Paper>
+        <Link to="/login" className={classes.underline}>
+          <Typography type="subheading" className={classes.hover}>Return to login page</Typography>
+        </Link>
+      </div>
     );
   }
 }

@@ -1,16 +1,17 @@
 import AUTH_ACTIONS from './actionConstants';
+import APP_ACTIONS from '../app/actionConstants';
 import { Dispatch } from 'redux/store';
-import { IUser } from './reducer';
 import { ROLES } from './constants';
 import * as axios from 'axios';
-import { ICareerDayOfEmployee } from 'redux/modules/employees/reducer';
+import { IUser, IRegisteredUser } from './reducer';
+import history from 'components/containers/history';
 
 const axiosRequest: any = axios;
 
 export type LoginAsEmployee = () => (dispatch: Dispatch) => void;
 export const loginAsEmployee: LoginAsEmployee = () => (dispatch: Dispatch) => {
   return axiosRequest.get(`/api/users/employee`)
-    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+    .then((res: axios.AxiosResponse<IUser>) => {
       dispatch({
         type: AUTH_ACTIONS.LOGIN_AS_EMPLOYEE,
         payload: res.data,
@@ -33,4 +34,30 @@ export const loginAsUnitManager: LoginAsUnitManager = () => (dispatch: Dispatch)
     type: AUTH_ACTIONS.LOGIN_AS_UNIT_MANAGER,
     payload: user,
   });
+};
+
+export type SignUp = (registeredUser: IRegisteredUser) => (dispatch: Dispatch) => void;
+export const signUp: SignUp = (registeredUser: IRegisteredUser) => (dispatch: Dispatch) => {
+  return axiosRequest.post('/api/users', registeredUser)
+    .then((res: axios.AxiosResponse<void>) => {
+      if (res.status === 201) {
+        history.push('/success');
+      }
+    })
+    .catch((err: axios.AxiosError) => {
+      if (err.response.status === 400) {
+        dispatch({
+          type: APP_ACTIONS.ADD_NOTIFICATION,
+          payload: { status: err.response.status, message: 'User with the same email already exist' },
+        });
+      } else {
+        dispatch({
+          type: APP_ACTIONS.ADD_NOTIFICATION,
+          payload: { status: err.response.status, message: err.response.statusText },
+        });
+      }
+      console.error(err);
+
+      return err;
+    });
 };

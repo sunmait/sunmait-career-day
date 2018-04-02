@@ -32,6 +32,9 @@ const styles = (theme: Theme) => ({
   underline: {
     textDecoration: 'none',
   },
+  blueColor: {
+    color: '#5a87cb',
+  }
 });
 
 interface IProps {
@@ -39,7 +42,7 @@ interface IProps {
   loginAsUnitManager: LoginAsUnitManager;
 }
 
-type ComponentClassNames = 'root' | 'button' | 'textField' | 'errorMessage' | 'underline';
+type ComponentClassNames = 'root' | 'button' | 'textField' | 'errorMessage' | 'underline' | 'blueColor';
 
 interface IState {
   isShowedPassword: boolean;
@@ -121,7 +124,7 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
               </FormControl>
               <div className={classes.textField}>
                 <Link to="/signup" className={classes.underline}>
-                  <Typography type="subheading" color="primary">Sign up</Typography>
+                  <Typography type="subheading" className={classes.blueColor}>Sign up</Typography>
                 </Link>
               </div>
             </div>

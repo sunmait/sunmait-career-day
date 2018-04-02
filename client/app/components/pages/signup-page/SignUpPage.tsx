@@ -3,8 +3,9 @@ import Grid from 'material-ui/Grid';
 import Button from 'material-ui/Button';
 import Header from 'components/common/header';
 import UserFormInput from './user-form-input';
-import { Theme, withStyles } from 'material-ui/styles';
+import { Theme, withStyles, WithStyles } from 'material-ui/styles';
 import * as regExpHelper from 'components/helper/regExpHelper';
+import { SignUp } from 'redux/modules/auth/actions';
 
 const styles = (theme: Theme) => ({
   button: {
@@ -12,12 +13,8 @@ const styles = (theme: Theme) => ({
   },
 });
 
-interface IStylesProps {
-  button: string;
-}
-
 interface IProps {
-  classes: IStylesProps;
+  signUp: SignUp;
 }
 
 interface IState {
@@ -38,9 +35,10 @@ interface IErrors {
 }
 
 type stateKeys = keyof IState;
+type ComponentClassNames = 'button';
 
-class SignUpPage extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
+  constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {
       firstname: '',
@@ -55,6 +53,27 @@ class SignUpPage extends React.Component<IProps, IState> {
 
   private confirmForm() {
     this.validateForm();
+  }
+
+  private signUpUser() {
+    const user = {
+      FirstName: this.state.firstname,
+      LastName: this.state.lastname,
+      Email: this.state.email,
+      Password: this.state.password,
+    };
+
+    const errors = this.state.errors;
+
+    if (
+      !errors.firstname &&
+      !errors.lastname &&
+      !errors.email &&
+      !errors.password &&
+      !errors.passwordconfirm
+    ) {
+      this.props.signUp(user);
+    }
   }
 
   private validateForm() {
@@ -93,17 +112,17 @@ class SignUpPage extends React.Component<IProps, IState> {
     if (!this.state.email.match(email)) {
       errors.email = 'Email is not valid';
     }
-    this.setState({errors});
+    this.setState({ errors }, () => this.signUpUser());
   }
 
   private onChange(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
     const prop = event.target.name as stateKeys;
-    const newState = {[prop as any]: event.target.value};
+    const newState = { [prop as any]: event.target.value };
     this.setState(newState);
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     return (
       <div>
@@ -179,4 +198,4 @@ class SignUpPage extends React.Component<IProps, IState> {
   }
 }
 
-export default withStyles(styles)(SignUpPage);
+export default withStyles<ComponentClassNames>(styles)(SignUpPage);
