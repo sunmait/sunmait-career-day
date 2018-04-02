@@ -1,6 +1,9 @@
-import AUTH_CONSTANTS from './actionConstants';
+import AUTH_ACTIONS from './actionConstants';
 import { Dispatch } from 'redux/store';
+import APP_ACTIONS from '../app/actionConstants';
 import * as axios from 'axios';
+import { IUser, IRegisteredUser } from './reducer';
+import history from 'components/containers/history';
 import { ILogin } from 'redux/modules/auth/reducer';
 
 const axiosRequest: any = axios;
@@ -73,4 +76,30 @@ export const verifyCredentials: VerifyCredentials = (dispatch: Dispatch) => {
         }
       });
   }
+};
+
+export type SignUp = (registeredUser: IRegisteredUser) => (dispatch: Dispatch) => void;
+export const signUp: SignUp = (registeredUser: IRegisteredUser) => (dispatch: Dispatch) => {
+  return axiosRequest.post('/api/users', registeredUser)
+    .then((res: axios.AxiosResponse<void>) => {
+      if (res.status === 201) {
+        history.push('/success');
+      }
+    })
+    .catch((err: axios.AxiosError) => {
+      if (err.response.status === 400) {
+        dispatch({
+          type: APP_ACTIONS.ADD_NOTIFICATION,
+          payload: { status: err.response.status, message: 'User with the same email already exist' },
+        });
+      } else {
+        dispatch({
+          type: APP_ACTIONS.ADD_NOTIFICATION,
+          payload: { status: err.response.status, message: err.response.statusText },
+        });
+      }
+      console.error(err);
+
+      return err;
+    });
 };

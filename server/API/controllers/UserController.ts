@@ -39,7 +39,7 @@ export class UserController implements interfaces.Controller {
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(
+      res.status(201).json(
         await this._userService.registerUser(
           FirstName,
           LastName,
@@ -114,7 +114,7 @@ export class UserController implements interfaces.Controller {
   }
 
   @httpGet('/employee')
-  private  async loginAsEmployee(
+  private async loginAsEmployee(
     @response() res: express.Response,
   ): Promise<void> {
     res.json(

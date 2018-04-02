@@ -78,3 +78,10 @@ export interface ITokens {
   AccessToken: string;
   RefreshToken: string;
 }
+
+export interface IRegisteredUser {
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  Password: string;
+}
