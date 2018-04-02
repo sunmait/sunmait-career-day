@@ -39,13 +39,21 @@ export class UserServise implements IUserService {
       Email,
       PasswordHash: this._cryptoService.passwordHashing(Password),
     };
-    const user = await this._userRepository.create(new UserEntity(userData));
-    const emailData = {
-      email: user.Email,
-      link: this.createLinkForVerifyEmail(user.Email),
-      name: user.FirstName,
-    };
-    await this._mailerService.sendEmail(emailData);
+    try {
+      const user = await this._userRepository.create(new UserEntity(userData));
+      const emailData = {
+        email: user.Email,
+        link: this.createLinkForVerifyEmail(user.Email),
+        name: user.FirstName,
+      };
+      this._mailerService.sendEmail(emailData);
+    } catch (err) {
+      if (err.message === 'Validation error') {
+        throw ({ status: 400 });
+      } else {
+        throw ({ status: 500, message: err });
+      }
+    }
   }
 
   public async verifyEmail(encrtyptedEmail: string) {

@@ -18,6 +18,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
   updateObjectiveEmployee,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  CareerDayForEmployeePage,
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CareerDayForEmployeePage);
