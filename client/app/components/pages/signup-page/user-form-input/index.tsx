@@ -23,9 +23,10 @@ interface IProps {
 }
 
 const UserFormInput = (props: IProps & WithStyles<ComponentClassNames>) => {
+
   return (
     <FormControl
-      error={props.error.length > 0}
+      error={props.error !== null}
       fullWidth
       className={props.classes.input}
     >
@@ -39,8 +40,8 @@ const UserFormInput = (props: IProps & WithStyles<ComponentClassNames>) => {
         name={props.label}
         type={('type' in props) ? props.type : 'text'}
       />
-      <FormHelperText error={props.error.length > 0}>
-        {(props.error.length > 0) && props.error}
+      <FormHelperText error={props.error !== null}>
+        {(props.error !== null) && props.error}
       </FormHelperText>
     </FormControl>
   );

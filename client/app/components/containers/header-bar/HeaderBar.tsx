@@ -22,15 +22,15 @@ export default class HeaderBar extends React.Component<IProps, IState> {
 
   public renderUserProfile = () => {
     return (
-      <Grid item xs={4}>
-        <Grid container spacing={0} justify="center" alignItems="center">
-          <Grid item xs={9}>
+      <Grid item sm={4} xs={12}>
+        <Grid container spacing={0} justify="flex-end" alignItems="center">
+          <Grid item sm={9}>
             <Typography type="subheading" className="header-bar-username">
               {`${this.props.user.FirstName} ${this.props.user.LastName}`}
             </Typography>
           </Grid>
 
-          <Grid item xs={3}>
+          <Grid item sm={3}>
             <Avatar alt="Username" src={this.props.user.PhotoUrl} />
           </Grid>
         </Grid>
@@ -47,7 +47,7 @@ export default class HeaderBar extends React.Component<IProps, IState> {
         <AppBar position="static" color="default">
           <Toolbar>
             <Grid container spacing={8} justify={justify} alignItems="center">
-              <Grid item xs={4}>
+              <Grid item sm={4} xs={12} className={(this.props.user) ? 'hide-on-mobile' : ''}>
                 <Link to="/employees" className="header-bar-link">
                   <img className="header-bar-image" src={require('assets/images/logo.svg')} />
                 </Link>
@@ -55,7 +55,7 @@ export default class HeaderBar extends React.Component<IProps, IState> {
               {UserProfile}
             </Grid>
           </Toolbar>
-          </AppBar>
+        </AppBar>
       </Grid>
     );
   }
