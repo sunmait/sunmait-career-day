@@ -96,10 +96,7 @@ class CareerDayForManagerPage extends React.Component<
     this.setState({ [propName as any]: !this.state[propName] });
   }
 
-  private handleClickOnDeleteButton(
-    e: React.MouseEvent<SVGSVGElement>,
-    objectiveId: number,
-  ) {
+  private handleClickOnDeleteButton(e: React.MouseEvent<HTMLElement>, objectiveId: number) {
     e.preventDefault();
 
     this.setState({ objectiveId });
@@ -149,7 +146,7 @@ class CareerDayForManagerPage extends React.Component<
         userRole={this.props.user.Roles}
         handleSaveObjective={(objective: IUpdateObjectiveManager) => this.handleSaveObjective(objective)}
         handleDeleteObjective={(
-          e: React.MouseEvent<SVGSVGElement>,
+          e: React.MouseEvent<HTMLElement>,
           objectiveId: number,
         ) => this.handleClickOnDeleteButton(e, objectiveId)}
       />

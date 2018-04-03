@@ -105,9 +105,8 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
 
     return (
       <div>
-        <Header title="Login" />
-
         <Grid container justify="center">
+          <Header title="Login" />
           <form onSubmit={() => this.props.login(this.state.email, this.state.password)}>
             <div className={classes.root}>
               <TextField

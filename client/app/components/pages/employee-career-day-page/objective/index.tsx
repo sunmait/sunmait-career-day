@@ -13,6 +13,7 @@ import Grid from 'material-ui/Grid';
 import IconStatus from 'components/common/icon-status/icon-status-objective';
 import FormInput from 'components/common/form-input';
 import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
 import { IObjective } from 'redux/modules/employees/reducer';
 
 const styles = (theme: Theme) => ({
@@ -20,9 +21,6 @@ const styles = (theme: Theme) => ({
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
     marginLeft: 10,
-  },
-  alignIcons: {
-    margin: 10,
   },
   summary: {
     display: 'flex',
@@ -36,13 +34,13 @@ const styles = (theme: Theme) => ({
   }as React.CSSProperties,
 });
 
-type ComponentClassNames = 'heading' | 'summary' | 'alignIcons' | 'alignFrom';
+type ComponentClassNames = 'heading' | 'summary' | 'alignFrom';
 
 interface IProps {
   objective: IObjective;
   userRole: string;
   handleSaveObjective?: (objective: { title?: string, description?: string, progress?: number, id: number }) => void;
-  handleDeleteObjective?: (e: React.MouseEvent<SVGSVGElement>, objectiveId: number) => void;
+  handleDeleteObjective?: (e: React.MouseEvent<HTMLElement>, objectiveId: number) => void;
 }
 
 interface IState {
@@ -65,13 +63,13 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     };
   }
 
-  private handleEditObjective(e: React.MouseEvent<SVGSVGElement>) {
+  private handleEditObjective(e: React.MouseEvent<HTMLElement>) {
     e.preventDefault();
 
     this.setState({ isEdited: !this.state.isEdited });
   }
 
-  private handleDeleteObjective(e: React.MouseEvent<SVGSVGElement>) {
+  private handleDeleteObjective(e: React.MouseEvent<HTMLElement>) {
     e.stopPropagation();
 
     this.props.handleDeleteObjective(e, this.props.objective.id);
@@ -189,7 +187,26 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
     );
   }
 
-  private objectivePanel() {
+  private renderObjectiveOptions() {
+    return (
+      <div style={{ padding: 0 }}>
+        <IconButton
+          onClick={(e: React.MouseEvent<HTMLElement>) => this.handleEditObjective(e)}
+        >
+          <Edit />
+        </IconButton>
+        {this.props.userRole === 'manager' ?
+          <IconButton
+            onClick={(e: React.MouseEvent<HTMLElement>) => this.handleDeleteObjective(e)}
+          >
+            <Delete />
+          </IconButton>
+        : null}
+      </div>
+    );
+  }
+
+  private renderObjectivePanel() {
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary>
@@ -199,15 +216,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
           </div>
 
           <div style={{ padding: 0 }}>
-            <Edit
-              className={this.props.classes.alignIcons}
-              onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleEditObjective(e)}
-            />
-            {this.props.userRole === 'manager' ?
-              <Delete
-                className={this.props.classes.alignIcons}
-                onClick={(e: React.MouseEvent<SVGSVGElement>) => this.handleDeleteObjective(e)}
-              /> : null}
+            {this.renderObjectiveOptions()}
           </div>
         </ExpansionPanelSummary>
 
@@ -220,7 +229,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
 
   public render() {
     return (
-      <div>{this.state.isEdited ? this.formInputPanel() : this.objectivePanel()}</div>
+      <div>{this.state.isEdited ? this.formInputPanel() : this.renderObjectivePanel()}</div>
     );
   }
 }
