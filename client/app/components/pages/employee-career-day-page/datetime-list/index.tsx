@@ -1,5 +1,4 @@
 import * as React from 'react';
-import * as moment from 'moment';
 import Paper from 'material-ui/Paper';
 import List, {
   ListItem,
@@ -9,6 +8,7 @@ import Avatar from 'material-ui/Avatar';
 import TimeLine from 'material-ui-icons/Timeline';
 import WorkIcon from 'material-ui-icons/Work';
 import BookIcon from 'material-ui-icons/Book';
+import { toStandardFormat } from '../../../helper/dateTimeHelper';
 import { ICareerDayOfEmployee } from 'redux/modules/employees/reducer';
 
 interface IProps {
@@ -16,7 +16,6 @@ interface IProps {
 }
 
 const DatetimeList = (props: IProps) => {
-  const format = 'DD.MM.YYYY hh:mm A';
 
   return (
     <Paper elevation={1}>
@@ -27,7 +26,7 @@ const DatetimeList = (props: IProps) => {
         </Avatar>
         <ListItemText
           primary="Created at"
-          secondary={moment(props.selectedCareerDay.CreatedAt).format(format)}
+          secondary={toStandardFormat(props.selectedCareerDay.CreatedAt)}
         />
       </ListItem>
       <ListItem>
@@ -36,7 +35,7 @@ const DatetimeList = (props: IProps) => {
         </Avatar>
         <ListItemText
           primary="Updated at"
-          secondary={moment(props.selectedCareerDay.UpdatedAt).format(format)}
+          secondary={toStandardFormat(props.selectedCareerDay.UpdatedAt)}
         />
       </ListItem>
       <ListItem>
@@ -45,7 +44,7 @@ const DatetimeList = (props: IProps) => {
         </Avatar>
         <ListItemText
           primary="Interview Date"
-          secondary={moment(props.selectedCareerDay.InterviewDate).format(format)}
+          secondary={toStandardFormat(props.selectedCareerDay.InterviewDate)}
         />
         </ListItem>
       </List>

@@ -20,7 +20,7 @@ Feature: Employee's objectives page
     Given I open objectives page
     When I click on 'Archive' button
     Then I see 'h2' header with 'Archive this career day' text
-    And I see 'Yes' button
+    And I see 'Archive the day' button
 
   Scenario: I add objective
     Given I open objectives page

@@ -4,19 +4,26 @@ then('I see {string} header with {string} text', (header, text) => {
 
 
 given('I open objectives page', () => {
+  cy.server()
+  cy.route('GET','/api/users/employees').as('getEmployees')
+  cy.route('GET','/api/career-days/*').as('getCareerDay')
+  cy.route('GET','/api/objectives/*').as('getObjectives')
+
   cy.visit(`http://localhost:3000/login`)
   .get('button').contains(`Login`)
   .click()
-  .wait(2000)
+  .wait('@getEmployees')
   .get('a')
   .contains('Vasya Pupkin')
   .click()
-  .wait(2000)
+  .wait('@getCareerDay')
   .get('ul')
   .children()
   .first()
   .within(() => {
-    cy.get('li').click();
+    cy.get('li')
+      .click()
+      .wait('@getObjectives')
   });
 });
 
