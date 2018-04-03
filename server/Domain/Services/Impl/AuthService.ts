@@ -11,6 +11,7 @@ import {
 import SessionEntity from '../../../Data/Entities/SessionEntity';
 import { ICryptoService } from '../ICryptoService';
 import UserEntity from '../../../Data/Entities/UserEntity';
+import IUserDecodedFromToken from '../../../API/helper/IUserDecodedFromToken';
 
 @injectable()
 export class AuthService implements IAuthService {
@@ -80,6 +81,36 @@ export class AuthService implements IAuthService {
     }
   }
 
+  public async verifyCredentials({ accessToken, refreshToken }) {
+    if (accessToken && refreshToken) {
+      try {
+        const payload = jwt.verify(
+          accessToken,
+          this._secretKey,
+        ) as IUserDecodedFromToken;
+        return {
+          AccessToken: accessToken,
+          RefreshToken: refreshToken,
+          Data: {
+            id: payload.id,
+            Roles: payload.Roles,
+            FirstName: payload.FirstName,
+            LastName: payload.LastName,
+            PhotoUrl: payload.PhotoUrl,
+          },
+        };
+      } catch (err) {
+        if (err.message === 'jwt expired') {
+          return this.refreshSession(refreshToken);
+        } else {
+          throw { status: 401 };
+        }
+      }
+    } else {
+      throw { status: 401 };
+    }
+  }
+
   private async updateSession(session: SessionEntity) {
     const { AccessToken, RefreshToken } = this.getTokens(
       session.User.get({ plain: true }),
@@ -107,7 +138,9 @@ export class AuthService implements IAuthService {
   }
 
   private getTokens(payload: any) {
-    const AccessToken = jwt.sign(payload, this._secretKey, { expiresIn: '1h' });
+    const AccessToken = jwt.sign(payload, this._secretKey, {
+      expiresIn: '1h',
+    });
     const RefreshToken = this._cryptoService.sha256Hashing(AccessToken);
     return { AccessToken, RefreshToken };
   }

@@ -50,7 +50,7 @@ class EmployeeList extends React.Component<IProps, IState> {
     super(props);
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     this.props.getEmployeesList();
   }
 

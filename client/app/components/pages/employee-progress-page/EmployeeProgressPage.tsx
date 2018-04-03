@@ -96,7 +96,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     };
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     this.props.getSelectedEmployee(this.props.location.state.employee);
     this.props.getCareerDayOfEmployee(this.props.location.state.employee);
   }

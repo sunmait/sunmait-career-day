@@ -50,7 +50,7 @@ class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<Compo
     this.state = {};
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     this.props.getActiveCareerDay(this.props.user.id);
   }
 

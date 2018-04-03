@@ -5,13 +5,22 @@ import { ILogin } from 'redux/modules/auth/reducer';
 
 const axiosRequest: any = axios;
 
-export type Login = (Email: string, Password: string) => (dispatch: Dispatch) => void;
-export const login: Login = (Email: string, Password: string) => (dispatch: Dispatch) => {
-  return axiosRequest.post('/api/auth', { Email, Password })
+export type Login = (
+  Email: string,
+  Password: string,
+) => (dispatch: Dispatch) => void;
+export const login: Login = (Email: string, Password: string) => (
+  dispatch: Dispatch,
+) => {
+  return axiosRequest
+    .post('/api/auth', { Email, Password })
     .then((res: axios.AxiosResponse<ILogin>) => {
-      const serialResponse = JSON.stringify(res.data);
+      const { AccessToken, RefreshToken } = res.data;
+      const User = JSON.stringify(res.data.Data);
 
-      localStorage.setItem('loginData', serialResponse);
+      localStorage.setItem('AccessToken', AccessToken);
+      localStorage.setItem('RefreshToken', RefreshToken);
+      localStorage.setItem('User', User);
 
       dispatch({
         type: AUTH_CONSTANTS.LOGIN,
@@ -23,49 +32,45 @@ export const login: Login = (Email: string, Password: string) => (dispatch: Disp
     });
 };
 
-export type VerifyCredentials = (dispatch: Dispatch) => any;
+export type VerifyCredentials = (dispatch: Dispatch) => void;
 export const verifyCredentials: VerifyCredentials = (dispatch: Dispatch) => {
   const accessToken = localStorage.getItem('AccessToken');
   const refreshToken = localStorage.getItem('RefreshToken');
-  const currentUser = localStorage.getItem('Data');
+  const currentUser = JSON.parse(localStorage.getItem('User'));
 
-  // dispatch({
-  //   type: AUTH_CONSTANTS.VERIFY_CREDENTIALS,
-  //   payload: {
-  //     FirstName: 'Kirill',
-  //     LastName: 'Stasevich',
-  //     PhotoUrl: 'https://vk.com/images/camera_200.png',
-  //     Roles: 'manager',
-  //     id: 4,
-  //   },
-  // });
-
-  return axiosRequest.patch('api/auth/verifyCredentials/access-token', { accessToken })
-    .then(() => {
-      dispatch({
-        type: AUTH_CONSTANTS.VERIFY_CREDENTIALS,
-        payload: currentUser,
-      });
-    })
-    .catch((err: axios.AxiosError) => {
-      if (err.response.status === 401) {
-        axiosRequest.patch('api/auth/refresh', { refreshToken })
-          .then(() => {
-            dispatch({
-              type: AUTH_CONSTANTS.ACCESS_TOKEN_EXPIRED,
-              payload: err.response.data,
-            });
-          })
-          .catch((invalidRefreshToken: axios.AxiosError) => {
-            localStorage.clear();
-
-            dispatch({
-              type: AUTH_CONSTANTS.REFRESH_TOKEN_EXPIRED,
-              payload: invalidRefreshToken.response.data,
-            });
-          });
-      } else {
-        console.error(err);
-      }
+  if (accessToken && refreshToken && currentUser) {
+    dispatch({
+      type: AUTH_CONSTANTS.LOGIN,
+      payload: {
+        AccessToken: accessToken,
+        RefreshToken: refreshToken,
+        Data: currentUser,
+      },
     });
+    axiosRequest
+      .patch('/api/auth/verify-credentials', { accessToken, refreshToken })
+      .then((res: axios.AxiosResponse<ILogin>) => {
+        const { AccessToken, RefreshToken } = res.data;
+        const User = JSON.stringify(res.data.Data);
+
+        localStorage.setItem('AccessToken', AccessToken);
+        localStorage.setItem('RefreshToken', RefreshToken);
+        localStorage.setItem('User', User);
+
+        dispatch({
+          type: AUTH_CONSTANTS.LOGIN,
+          payload: res.data,
+        });
+      })
+      .catch((err: axios.AxiosError) => {
+        if (err.response.status === 401) {
+          localStorage.clear();
+          dispatch({
+            type: AUTH_CONSTANTS.LOGOUT,
+          });
+        } else {
+          console.error(err);
+        }
+      });
+  }
 };

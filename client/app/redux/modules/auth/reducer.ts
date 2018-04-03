@@ -6,13 +6,16 @@ const defaultState: IAuthState = {
   refreshToken: null,
 };
 
-export default function(state: IAuthState = defaultState, { type, payload }: { type: string; payload: any }) {
+export default function(
+  state: IAuthState = defaultState,
+  { type, payload }: { type: string; payload: any },
+) {
   switch (type) {
     case AUTH_ACTIONS.LOGIN:
       return handleLogin(state, payload);
 
-    case AUTH_ACTIONS.VERIFY_CREDENTIALS:
-      return handleVerifyCredentials(state, payload);
+    case AUTH_ACTIONS.LOGOUT:
+      return handleLogout(state);
 
     case AUTH_ACTIONS.ACCESS_TOKEN_EXPIRED:
       return handleAccessTokenExpired(state, payload);
@@ -26,15 +29,29 @@ export default function(state: IAuthState = defaultState, { type, payload }: { t
 }
 
 function handleLogin(state: IAuthState, loginData: ILogin) {
-  return { ...state, user: loginData.Data, accessToken: loginData.AccessToken, refreshToken: loginData.RefreshToken };
+  return {
+    ...state,
+    user: loginData.Data,
+    accessToken: loginData.AccessToken,
+    refreshToken: loginData.RefreshToken,
+  };
 }
 
-function handleVerifyCredentials(state: IAuthState, user: IUser) {
-  return { ...state, user };
+function handleLogout(state: IAuthState) {
+  return {
+    ...state,
+    user: null,
+    accessToken: null,
+    refreshToken: null,
+  } as IAuthState;
 }
 
 function handleAccessTokenExpired(state: IAuthState, tokens: ITokens) {
-  return { ...state, accessToken: tokens.AccessToken, refreshToken: tokens.RefreshToken };
+  return {
+    ...state,
+    accessToken: tokens.AccessToken,
+    refreshToken: tokens.RefreshToken,
+  };
 }
 
 export interface IUser {

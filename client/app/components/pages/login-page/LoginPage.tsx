@@ -100,6 +100,7 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
     this.setState({ isValidUserData: false });
   }
 
+  // TODO: Please, fix input error
   public render() {
     const { classes } = this.props;
 
