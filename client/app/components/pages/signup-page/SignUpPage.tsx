@@ -24,6 +24,7 @@ interface IState {
   password: string;
   passwordconfirm: string;
   errors: IErrors;
+  isConfirmed: boolean;
 }
 
 interface IErrors {
@@ -47,6 +48,7 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
       passwordconfirm: '',
       password: '',
       errors: {},
+      isConfirmed: false,
     };
     this.onChange = this.onChange.bind(this);
   }
@@ -112,13 +114,17 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
     if (!this.state.email.match(email)) {
       errors.email = 'Email is not valid';
     }
-    this.setState({ errors }, () => this.signUpUser());
+    this.setState({ errors, isConfirmed: true }, () => this.signUpUser());
   }
 
   private onChange(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
     const prop = event.target.name as stateKeys;
-    const newState = { [prop as any]: event.target.value };
-    this.setState(newState);
+    const newState = {[prop as any]: event.target.value};
+    this.setState(newState, function() {
+      if (this.state.isConfirmed) {
+        this.validateForm();
+      }
+    });
   }
 
   public render() {

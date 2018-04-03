@@ -103,6 +103,7 @@ const AppComponent = (props: IProps) => {
           />
 
           <Redirect from="/" exact to="/main" />
+          <Redirect from="*" exact to="/error/not-found" />
         </Switch>
       </App>
     </Router>

@@ -49,6 +49,13 @@ const styles = (theme: Theme) => ({
     textDecoration: 'none',
     color: 'black',
     outline: 'none',
+    display: 'inline-table',
+    height: 48,
+    width: '100%',
+  },
+  linkTextStyle: {
+    display: 'table-cell',
+    verticalAlign: 'middle',
   },
 });
 
@@ -57,6 +64,7 @@ interface IStylesProps {
   navigation: string;
   options: string;
   disableLinkStyle: string;
+  linkTextStyle: string;
   button: string;
 }
 
@@ -108,7 +116,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
   }
 
   private handleClickOnDeleteButton(
-    event: React.MouseEvent<SVGSVGElement>,
+    event: React.MouseEvent<HTMLElement>,
     deleteCareerDayId: number,
   ) {
     event.preventDefault();
@@ -155,35 +163,30 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
       );
     } else {
       return this.props.careerDays.map(item => (
-        <Link
-          key={item.id}
-          to={{
-            pathname: `/employees/${
-              this.props.match.params.userId
-            }/career-day/${item.id}`,
-          }}
-          className={classes.disableLinkStyle}
-        >
-          <ListItem
-            id={item.id.toString()}
-            key={item.id}
-            name={item.Archived ? 'archived' : 'active'}
-            dense
-            button
-          >
-            <IconStatus isArchived={item.Archived}  />
-            <ListItemText primary={this.getCurrentDate(item)} />
+          <ListItem  id={item.id.toString()} key={item.id} dense button>
+            <IconStatus isArchived={item.Archived} />
+            <Link
+              to={{
+                pathname: `/employees/${
+                  this.props.match.params.userId
+                }/career-day/${item.id}`,
+              }}
+              className={classes.disableLinkStyle}
+            >
+              <ListItemText primary={this.getCurrentDate(item)} className={classes.linkTextStyle}/>
+            </Link>
             <ListItemSecondaryAction>
-              <IconButton disabled={!item.Archived} >
+              <IconButton
+                disabled={!item.Archived}
+                onClick={e => this.handleClickOnDeleteButton(e, item.id)}
+              >
                 <Delete
                   className={classes.options}
-                  onClick={e => this.handleClickOnDeleteButton(e, item.id)}
                   name="delete-icon"
                 />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
-        </Link>
       ));
     }
   }
