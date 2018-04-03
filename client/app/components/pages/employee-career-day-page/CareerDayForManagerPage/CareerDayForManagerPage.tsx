@@ -147,7 +147,6 @@ class CareerDayForManagerPage extends React.Component<
         key={item.id}
         objective={item}
         userRole={this.props.user.Roles}
-        isArchived={this.props.selectedCareerDay.Archived}
         handleSaveObjective={(objective: IUpdateObjectiveManager) => this.handleSaveObjective(objective)}
         handleDeleteObjective={(
           e: React.MouseEvent<SVGSVGElement>,

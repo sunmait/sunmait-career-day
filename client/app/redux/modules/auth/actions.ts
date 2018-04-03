@@ -26,6 +26,7 @@ export const login: Login = (Email: string, Password: string) => (dispatch: Disp
     })
     .catch((err: axios.AxiosError) => {
       console.error(err);
+      throw  err;
     });
 };
 
@@ -67,6 +68,7 @@ export const verifyCredentials: VerifyCredentials = (dispatch: Dispatch) => {
           });
         } else {
           console.error(err);
+          throw  err;
         }
       });
   }
@@ -93,7 +95,6 @@ export const signUp: SignUp = (registeredUser: IRegisteredUser) => (dispatch: Di
         });
       }
       console.error(err);
-
-      return err;
+      throw  err;
     });
 };
