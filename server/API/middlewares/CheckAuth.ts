@@ -3,7 +3,7 @@ import { container } from '../infrastructure/di/Container';
 import { SettingsProvider } from '../infrastructure/SettingsProvider';
 import * as jwt from 'jsonwebtoken';
 import IRequest from '../helper/IRequest';
-import IUserDecodedFromToken from 'API/helper/IUserDecodedFromToken';
+import IUserDecodedFromToken from '../helper/IUserDecodedFromToken';
 
 const settingsProvider = container.get<SettingsProvider>('SettingsProvider');
 

@@ -31,7 +31,9 @@ export class AuthController implements interfaces.Controller {
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._authService.authWithEmailAndPassword(Email, Password));
+      res.json(
+        await this._authService.authWithEmailAndPassword(Email, Password),
+      );
     } catch (err) {
       next(err);
     }
@@ -45,6 +47,19 @@ export class AuthController implements interfaces.Controller {
   ): Promise<void> {
     try {
       res.json(await this._authService.refreshSession(refreshToken));
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  @httpPatch('/verify-credentials')
+  private async verifyCredentials(
+    @response() res: express.Response,
+    @requestBody() body: any,
+    @nextFn() next: express.NextFunction,
+  ): Promise<void> {
+    try {
+      res.json(await this._authService.verifyCredentials(body));
     } catch (err) {
       next(err);
     }
