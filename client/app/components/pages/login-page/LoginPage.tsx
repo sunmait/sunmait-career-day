@@ -35,7 +35,7 @@ const styles = (theme: Theme) => ({
   },
   blueColor: {
     color: '#5a87cb',
-  }
+  },
 });
 
 interface IProps {

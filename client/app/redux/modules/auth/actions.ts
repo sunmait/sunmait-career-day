@@ -1,20 +1,14 @@
-import AUTH_ACTIONS from './actionConstants';
+import AUTH_CONSTANTS from './actionConstants';
 import { Dispatch } from 'redux/store';
 import APP_ACTIONS from '../app/actionConstants';
 import * as axios from 'axios';
-import { IUser, IRegisteredUser } from './reducer';
+import { IRegisteredUser, ILogin } from './reducer';
 import history from 'components/containers/history';
-import { ILogin } from 'redux/modules/auth/reducer';
 
 const axiosRequest: any = axios;
 
-export type Login = (
-  Email: string,
-  Password: string,
-) => (dispatch: Dispatch) => void;
-export const login: Login = (Email: string, Password: string) => (
-  dispatch: Dispatch,
-) => {
+export type Login = (Email: string, Password: string) => (dispatch: Dispatch) => void;
+export const login: Login = (Email: string, Password: string) => (dispatch: Dispatch) => {
   return axiosRequest
     .post('/api/auth', { Email, Password })
     .then((res: axios.AxiosResponse<ILogin>) => {
