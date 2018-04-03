@@ -37,7 +37,7 @@ export default class UserEntity extends Model<UserEntity> {
   public UpdatedAt: Date;
 
   @AllowNull(false)
-  @Default('employee')
+  @Default('manager')
   @Column(DataType.STRING)
   public Roles: string;
 

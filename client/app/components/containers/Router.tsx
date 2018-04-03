@@ -1,7 +1,8 @@
 import 'assets/styles/backgrounds/defaultBackground.less';
 
 import * as React from 'react';
-import { BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
+import { Router, Switch, Redirect } from 'react-router-dom';
+import history from './history';
 import * as redux from 'redux';
 import { connect } from 'react-redux';
 import PrivateRoute from './custom-routes/PrivateRoute';
@@ -16,7 +17,7 @@ import MainPageContainer from 'components/pages/main-page';
 import CareerDayPageContainer from 'components/pages/employee-career-day-page';
 import EmployeesListPageContainer from 'components/pages/employee-list';
 import LoginPageContainer from 'components/pages/login-page';
-import SignUpPage from '../pages/signup-page/SignUpPage';
+import SignUpPage from '../pages/signup-page';
 import SuccessPage from '../pages/after-registration-page/SuccessPage';
 import NotFoundPage from '../common/error-pages/NotFoundPage';
 import InternalServerErrorPage from '../common/error-pages/InternalServerErrorPage';
@@ -34,7 +35,7 @@ const AppComponent = (props: IProps) => {
   const { auth } = props;
 
   return (
-    <Router>
+    <Router history={history}>
       <App>
         <Switch>
           <PrivateRoute

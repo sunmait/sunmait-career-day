@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Paper from 'material-ui/Paper';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 
@@ -7,10 +6,14 @@ const styles = () => ({
   text: {
     fontSize: 30,
   },
+  alignText: {
+    textAlign: 'center',
+  },
 });
 
 interface IStylesProps {
   text: string;
+  alignText: string;
 }
 
 interface IProps {
@@ -27,16 +30,17 @@ class SuccessPage extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
+
     return (
-      <Paper>
-        <Typography className={classes.text}>
+      <div className={classes.alignText}>
+        <Typography type="display1" color="inherit">
           Your registration was successful
         </Typography>
-        <Typography>
+        <Typography type="subheading">
           Message with instruction was sent on your email.
         </Typography>
-      </Paper>
+      </div>
     );
   }
 }
