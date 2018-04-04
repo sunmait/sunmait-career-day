@@ -2,7 +2,7 @@ then('I see {string} header with {string} text', (header, text) => {
   cy.get(header).contains(text);
 });
 
-given('I open {string}`s objectives page', (name) => {
+given('I open {string} objectives page', (name) => {
   cy.server()
   cy.route('GET','/api/users/employees').as('getEmployees')
   cy.route('GET','/api/career-days/*').as('getCareerDay')

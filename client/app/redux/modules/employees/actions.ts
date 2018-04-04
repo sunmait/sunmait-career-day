@@ -1,6 +1,5 @@
 import * as axios from 'axios';
 import EMPLOYEES_LIST from './actionConstants';
-import APP_ACTIONS from '../app/actionConstants';
 import store, { Dispatch } from 'redux/store';
 import {
   IEmployee,
@@ -13,6 +12,7 @@ import {
   IUpdateObjectiveEmployee,
   IObjective,
 } from './reducer';
+import { addNotification } from 'redux/modules/app/actions';
 
 const axiosRequest: any = axios;
 
@@ -26,14 +26,7 @@ export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => 
       });
     })
     .catch((err: axios.AxiosError) => {
-      console.error(err);
-
-      dispatch({
-        type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: { status: err.response.status, message: err.response.statusText },
-      });
-
-      return err;
+      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
     });
 };
 
@@ -47,13 +40,7 @@ export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employee: IEmplo
       });
     })
     .catch((err: axios.AxiosError) => {
-      console.error(err);
-      dispatch({
-        type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: { status: err.response.status, message: err.response.statusText },
-      });
-
-      return err;
+      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
     });
 };
 
@@ -67,14 +54,7 @@ export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) 
       });
     })
     .catch((err: axios.AxiosError) => {
-      console.error(err);
-
-      dispatch({
-        type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: { status: err.response.status, message: err.response.statusText },
-      });
-
-      return err;
+      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
     });
 };
 
@@ -107,14 +87,7 @@ export const addCareerDay: AddCareerDay = (careerDay: ICareerDay) => (dispatch: 
       });
     })
     .catch((err: axios.AxiosError) => {
-      console.error(err);
-
-      dispatch({
-        type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: { status: err.response.status, message: err.response.statusText },
-      });
-
-      return err;
+      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
     });
 };
 
@@ -133,14 +106,7 @@ export const addObjective: AddObjective = (objective: IObjectiveById) => (dispat
       });
     })
     .catch((err: axios.AxiosError) => {
-      console.error(err);
-
-      dispatch({
-        type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: { status: err.response.status, message: err.response.statusText },
-      });
-
-      return err;
+      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
     });
 };
 
@@ -154,14 +120,7 @@ export const deleteCareerDay: DeleteCareerDay = (careerDayId: number) => (dispat
       });
     })
     .catch((err: axios.AxiosError) => {
-      console.error(err);
-
-      dispatch({
-        type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: { status: err.response.status, message: err.response.statusText },
-      });
-
-      return err;
+      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
     });
 };
 
@@ -178,14 +137,7 @@ export const updateObjectiveEmployee: UpdateObjectiveEmployee = (objective: IUpd
         });
       })
       .catch((err: axios.AxiosError) => {
-        console.error(err);
-
-        dispatch({
-          type: APP_ACTIONS.ADD_NOTIFICATION,
-          payload: { status: err.response.status, message: err.response.statusText },
-        });
-
-        return err;
+        dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
       });
   };
 
@@ -203,14 +155,7 @@ export const updateObjectiveManager: UpdateObjectiveManager = (objective: IUpdat
         });
       })
       .catch((err: axios.AxiosError) => {
-        console.error(err);
-
-        dispatch({
-          type: APP_ACTIONS.ADD_NOTIFICATION,
-          payload: { status: err.response.status, message: err.response.statusText },
-        });
-
-        return err;
+        dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
       });
   };
 
@@ -231,14 +176,7 @@ export const archiveCareerDay: ArchiveCareerDay = (careerDay: IArchiveCareerDay)
       dispatch({ type: EMPLOYEES_LIST.ARCHIVE_CAREER_DAY, payload: { newCareerDaysList, careerDay: res.data } });
     })
     .catch((err: axios.AxiosError) => {
-      console.error(err);
-
-      dispatch({
-        type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: { status: err.response.status, message: err.response.statusText },
-      });
-
-      return err;
+      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
     });
 
 };
@@ -256,14 +194,7 @@ export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterv
       });
     })
     .catch((err: axios.AxiosError) => {
-      console.error(err);
-
-      dispatch({
-        type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: { status: err.response.status, message: err.response.statusText },
-      });
-
-      return err;
+      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
     });
 };
 
@@ -288,13 +219,6 @@ export const deleteObjective: DeleteObjective = (objectiveId: number) => (dispat
       });
     })
     .catch((err: axios.AxiosError) => {
-      console.error(err);
-
-      dispatch({
-        type: APP_ACTIONS.ADD_NOTIFICATION,
-        payload: { status: err.response.status, message: err.response.statusText },
-      });
-
-      return err;
+      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
     });
 };
