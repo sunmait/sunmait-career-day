@@ -105,8 +105,8 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
   private setNumberProgress() {
     const progress = this.state.Progress;
 
-    if (!isNaN(progress)) {
-      if (progress <= 100 && progress >= 0) {
+    if (progress <= 100 && progress >= 0) {
+      if (Number.isInteger(parseFloat(`${progress}`))) {
         return progress;
       }
     }
@@ -179,7 +179,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
         </Grid>
         <Grid item xs={12}>
           <Typography color="textSecondary" align="right">
-            {`Progress: ${this.state.Progress}/100`}
+            {`Progress: ${Number(this.state.Progress)}/100`}
           </Typography>
         </Grid>
         <Grid item xs={12}>
