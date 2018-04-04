@@ -4,15 +4,17 @@ import * as React from 'react';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Menu, { MenuItem } from 'material-ui/Menu';
-import {Link} from 'react-router-dom';
-import {IUser} from 'redux/modules/auth/reducer';
+import { Link } from 'react-router-dom';
+import { IUser } from 'redux/modules/auth/reducer';
 import Avatar from 'material-ui/Avatar';
 import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import { ROLES } from 'redux/modules/auth/constants';
+import { Logout } from 'redux/modules/auth/actions';
 
 interface IProps {
   user: IUser;
+  logout: Logout;
 }
 
 interface IState {
@@ -34,8 +36,9 @@ export default class HeaderBar extends React.Component<IProps, IState> {
   }
 
   private handleLogoutClick = () => {
-    // TODO: logout action
-    this.handleClose();
+    const refreshToken: string = localStorage.getItem('RefreshToken');
+
+    this.props.logout(refreshToken);
   }
 
   private handleClose = () => {
@@ -44,7 +47,7 @@ export default class HeaderBar extends React.Component<IProps, IState> {
 
   public renderUserProfile = () => {
     return (
-      <>
+      <React.Fragment>
         <Grid item sm={4} xs={12}>
           <Grid
             container
@@ -53,7 +56,7 @@ export default class HeaderBar extends React.Component<IProps, IState> {
             alignItems="center"
             onClick={this.handleProfileClick}
           >
-            <Grid item sm={9} >
+            <Grid>
               <Typography type="subheading" className="header-bar-username">
                 {`${this.props.user.FirstName} ${this.props.user.LastName}`}
               </Typography>
@@ -61,8 +64,10 @@ export default class HeaderBar extends React.Component<IProps, IState> {
 
             <Grid item sm={3}>
               <div
-                ref={div => {this.menuRef = div; }}
-                style={{display: 'inline-block'}}
+                ref={div => {
+                  this.menuRef = div;
+                }}
+                style={{ display: 'inline-block' }}
               >
                 <Avatar alt="Username" src={this.props.user.PhotoUrl} />
               </div>
@@ -85,7 +90,7 @@ export default class HeaderBar extends React.Component<IProps, IState> {
         >
           <MenuItem onClick={this.handleLogoutClick}>Logout</MenuItem>
         </Menu>
-      </>
+      </React.Fragment>
     );
   }
 

@@ -98,3 +98,29 @@ export const signUp: SignUp = (registeredUser: IRegisteredUser) => (dispatch: Di
       throw  err;
     });
 };
+
+export type Logout = (refreshToken: string) => (dispatch: Dispatch) => void;
+export const logout: Logout = (refreshToken: string) => (dispatch: Dispatch) => {
+  return axiosRequest.delete(`/api/auth/${refreshToken}`)
+    .then(() => {
+      localStorage.clear();
+
+      dispatch({
+        type: AUTH_CONSTANTS.LOGOUT,
+      });
+    })
+    .catch((err: axios.AxiosError) => {
+      if (err.response.status === 401) {
+        localStorage.clear();
+
+        dispatch({
+          type: AUTH_CONSTANTS.LOGOUT,
+        });
+      } else if (err.response.status === 500) {
+        history.push('/error/server-error"');
+      } else {
+        console.error(err);
+        throw  err;
+      }
+    });
+};

@@ -7,7 +7,7 @@ import {
   response,
   requestParam,
   requestBody,
-  next as nextFn,
+  next as nextFn, httpDelete,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { IAuthService } from '../../Domain/Services';
@@ -60,6 +60,19 @@ export class AuthController implements interfaces.Controller {
   ): Promise<void> {
     try {
       res.json(await this._authService.verifyCredentials(body));
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  @httpDelete('/:refreshToken')
+  private async logout(
+    @response() res: express.Response,
+    @requestParam('refreshToken') refreshToken: string,
+    @nextFn() next: express.NextFunction,
+  ): Promise<void> {
+    try {
+      res.json(await this._authService.logout(refreshToken));
     } catch (err) {
       next(err);
     }

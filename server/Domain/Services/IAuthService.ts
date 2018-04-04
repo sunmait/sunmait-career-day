@@ -8,4 +8,5 @@ export interface IAuthService {
     accessToken: string;
     refreshToken: string;
   }): Promise<any>;
+  logout(RefreshToken: string): Promise<void>;
 }

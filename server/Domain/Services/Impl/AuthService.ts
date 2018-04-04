@@ -144,4 +144,16 @@ export class AuthService implements IAuthService {
     const RefreshToken = this._cryptoService.sha256Hashing(AccessToken);
     return { AccessToken, RefreshToken };
   }
+
+  private async logout(refreshToken: string) {
+    const session = await this._sessionRepository.findOne({
+      where: { refreshToken },
+    });
+
+    if (session) {
+      await this._sessionRepository.remove({ where: { refreshToken } });
+    } else {
+      throw({ status: 401 });
+    }
+  }
 }
