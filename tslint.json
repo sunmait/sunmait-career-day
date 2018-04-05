@@ -18,7 +18,8 @@
       "allow-leading-underscore",
       "allow-pascal-case"
     ],
-    "member-ordering": false
+    "member-ordering": false,
+    "object-literal-key-quotes": [true, "as-needed"]
   },
   "linterOptions": {
     "exclude": ["**/node_modules/**/*.ts"]

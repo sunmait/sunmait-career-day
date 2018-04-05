@@ -103,6 +103,7 @@ export type Logout = (refreshToken: string) => (dispatch: Dispatch) => void;
 export const logout: Logout = (refreshToken: string) => (dispatch: Dispatch) => {
   return axiosRequest.delete(`/api/auth/${refreshToken}`)
     .then(() => {
+      //TODO: emport logout function  from helper
       localStorage.clear();
 
       dispatch({
