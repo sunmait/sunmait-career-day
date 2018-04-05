@@ -6,10 +6,7 @@ const defaultState: IAuthState = {
   refreshToken: null,
 };
 
-export default function(
-  state: IAuthState = defaultState,
-  { type, payload }: { type: string; payload: any },
-) {
+export default function(state: IAuthState = defaultState, { type, payload }: { type: string; payload: any }) {
   switch (type) {
     case AUTH_ACTIONS.LOGIN:
       return handleLogin(state, payload);
