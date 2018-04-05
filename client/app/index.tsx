@@ -8,11 +8,16 @@ import Router from 'components/containers/Router';
 import store from 'redux/store';
 import { verifyCredentials } from 'redux/modules/auth/actions';
 
-verifyCredentials(store.dispatch);
-
-render(
-  <Provider store={store}>
-    <Router />
-  </Provider>,
-  document.getElementById('main') as HTMLElement,
-);
+(async () => {
+  try {
+    await verifyCredentials(store.dispatch);
+    render(
+      <Provider store={store}>
+        <Router />
+      </Provider>,
+      document.getElementById('main') as HTMLElement,
+    );
+  } catch (err) {
+    console.error(err);
+  }
+})();

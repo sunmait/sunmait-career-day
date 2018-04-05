@@ -12,6 +12,7 @@ import {
 import { inject } from 'inversify';
 import { IUserService } from '../../Domain/Services';
 import { ISettingsProvider } from '../infrastructure/index';
+import { CheckAuth } from '../middlewares/CheckAuth';
 
 /**
  * Operations about users.
@@ -74,7 +75,7 @@ export class UserController implements interfaces.Controller {
    * Get employees
    * id: unit manager id
    */
-  @httpGet('/employees')
+  @httpGet('/employees', CheckAuth)
   private async get(
     @requestParam('id') id: string,
     @response() res: express.Response,

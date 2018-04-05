@@ -14,11 +14,12 @@ import {
 import { inject } from 'inversify';
 
 import { IObjectiveService } from './../../Domain/Services/index';
+import { CheckAuth } from '../middlewares/CheckAuth';
 
 /**
  * Operations about objectives.
  */
-@controller('/api/objectives')
+@controller('/api/objectives', CheckAuth)
 export class ObjectiveController implements interfaces.Controller {
   private readonly _objectiveService: IObjectiveService;
 

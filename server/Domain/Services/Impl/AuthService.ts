@@ -77,7 +77,7 @@ export class AuthService implements IAuthService {
         },
       };
     } else {
-      throw { status: 401 };
+      throw { status: 401, message: 'jwt expired' };
     }
   }
 
@@ -145,7 +145,7 @@ export class AuthService implements IAuthService {
     return { AccessToken, RefreshToken };
   }
 
-  private async logout(refreshToken: string) {
+  public async logout(refreshToken: string) {
     const session = await this._sessionRepository.findOne({
       where: { refreshToken },
     });
@@ -153,7 +153,7 @@ export class AuthService implements IAuthService {
     if (session) {
       await this._sessionRepository.remove({ where: { refreshToken } });
     } else {
-      throw({ status: 401 });
+      throw { status: 401 };
     }
   }
 }

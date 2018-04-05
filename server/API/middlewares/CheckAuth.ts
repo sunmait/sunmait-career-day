@@ -16,16 +16,19 @@ export function CheckAuth(
     const header = req.get('Authorization').split(' ');
     if (header[0] === 'Bearer') {
       try {
-        const payload = jwt.verify(header[1], settingsProvider.getSecretKey()) as IUserDecodedFromToken;
+        const payload = jwt.verify(
+          header[1],
+          settingsProvider.getSecretKey(),
+        ) as IUserDecodedFromToken;
         req.user = payload;
         next();
       } catch (err) {
-        next({ status: 401, message: err });
+        next({ status: 401, message: 'jwt expired' });
       }
     } else {
-      next({ status: 401 });
+      next({ status: 401, message: 'jwt expired' });
     }
   } else {
-    next({ status: 401 });
+    next({ status: 401, message: 'jwt expired' });
   }
 }
