@@ -11,6 +11,24 @@ import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import { ROLES } from 'redux/modules/auth/constants';
 import { Logout } from 'redux/modules/auth/actions';
+import { WithStyles, withStyles } from 'material-ui/styles';
+
+const styles = {
+  hover: {
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: '#EBEBEB',
+    },
+    display: 'flex',
+    alignItems: 'center',
+    padding: 15,
+  } as React.CSSProperties,
+  menuDown: {
+    marginTop: 50,
+  },
+};
+
+type ComponentClassNames = 'hover' | 'menuDown';
 
 interface IProps {
   user: IUser;
@@ -19,13 +37,15 @@ interface IProps {
 
 interface IState {
   anchorEl: any;
+  open: boolean;
 }
 
-export default class HeaderBar extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+class HeaderBar extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
+  constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {
       anchorEl: null,
+      open: true,
     };
   }
 
@@ -36,6 +56,7 @@ export default class HeaderBar extends React.Component<IProps, IState> {
   }
 
   private handleLogoutClick = () => {
+    this.handleClose();
     const refreshToken: string = localStorage.getItem('RefreshToken');
 
     this.props.logout(refreshToken);
@@ -56,13 +77,10 @@ export default class HeaderBar extends React.Component<IProps, IState> {
             alignItems="center"
             onClick={this.handleProfileClick}
           >
-            <Grid>
+            <div className={this.props.classes.hover} onClick={this.handleProfileClick}>
               <Typography type="subheading" className="header-bar-username">
                 {`${this.props.user.FirstName} ${this.props.user.LastName}`}
               </Typography>
-            </Grid>
-
-            <Grid item sm={3}>
               <div
                 ref={div => {
                   this.menuRef = div;
@@ -71,19 +89,20 @@ export default class HeaderBar extends React.Component<IProps, IState> {
               >
                 <Avatar alt="Username" src={this.props.user.PhotoUrl} />
               </div>
-            </Grid>
+            </div>
           </Grid>
         </Grid>
         <Menu
           id="simple-menu"
+          className={this.props.classes.menuDown}
           anchorEl={this.state.anchorEl}
           anchorOrigin={{
             vertical: 'top',
-            horizontal: 'center',
+            horizontal: 'right',
           }}
           transformOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center',
+            vertical: 'top',
+            horizontal: 'right',
           }}
           open={Boolean(this.state.anchorEl)}
           onClose={this.handleClose}
@@ -117,3 +136,5 @@ export default class HeaderBar extends React.Component<IProps, IState> {
     );
   }
 }
+
+export default withStyles<ComponentClassNames>(styles)(HeaderBar);

@@ -71,10 +71,7 @@ interface IState {
 
 type stateKeys = keyof IState;
 
-class CareerDayForManagerPage extends React.Component<
-  IProps & WithStyles<ComponentClassNames>,
-  IState
-> {
+class CareerDayForManagerPage extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
   constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {
