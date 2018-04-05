@@ -93,11 +93,12 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
     }
   }
 
-  private verifyUserData() {
-    this.props.login(this.state.email, this.state.password)
-      .catch(() => {
-        this.setState({ isValidUserData: false });
-      });
+  private async verifyUserData() {
+    try {
+      await this.props.login(this.state.email, this.state.password);
+    } catch (err) {
+      this.setState({ isValidUserData: false });
+    }
   }
 
   public render() {
