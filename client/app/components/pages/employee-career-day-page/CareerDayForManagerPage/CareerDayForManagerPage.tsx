@@ -19,6 +19,7 @@ import {
   DeleteObjective,
   ArchiveCareerDay,
   UpdateInterviewDate,
+  GetSelectedEmployee,
 } from 'redux/modules/employees/actions';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 import AddObjectivePopup from '../popups/add-objective-popup/index';
@@ -59,6 +60,8 @@ interface IProps {
   updateObjectiveManager: UpdateObjectiveManager;
   archiveCareerDay: ArchiveCareerDay;
   updateInterviewDate: UpdateInterviewDate;
+  getSelectedEmployee: GetSelectedEmployee;
+  userId: number;
 }
 
 interface IState {
@@ -71,10 +74,8 @@ interface IState {
 
 type stateKeys = keyof IState;
 
-class CareerDayForManagerPage extends React.Component<
-  IProps & WithStyles<ComponentClassNames>,
-  IState
-> {
+class CareerDayForManagerPage extends React.Component<IProps & WithStyles<ComponentClassNames>,
+  IState> {
   constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {
@@ -86,7 +87,8 @@ class CareerDayForManagerPage extends React.Component<
     };
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
+    this.props.getSelectedEmployee(this.props.userId);
     this.props.getSelectedCareerDay(this.props.careerDayId);
   }
 
@@ -140,12 +142,12 @@ class CareerDayForManagerPage extends React.Component<
         key={item.id}
         objective={item}
         userRole={this.props.user.Roles}
-        handleSaveObjective={(objective: IUpdateObjectiveManager) =>
-          this.handleSaveObjective(objective)
-        }
-        handleDeleteObjective={(e: React.MouseEvent<HTMLElement>, objectiveId: number) =>
-          this.handleClickOnDeleteButton(e, objectiveId)
-        }
+        archived={this.props.selectedCareerDay.Archived}
+        handleSaveObjective={(objective: IUpdateObjectiveManager) => this.handleSaveObjective(objective)}
+        handleDeleteObjective={(
+          e: React.MouseEvent<HTMLElement>,
+          objectiveId: number,
+        ) => this.handleClickOnDeleteButton(e, objectiveId)}
       />
     ));
   }
@@ -205,8 +207,10 @@ class CareerDayForManagerPage extends React.Component<
       <div>
         <Grid container justify="center" spacing={0}>
           <Header
-            title={`${this.props.selectedEmployee && this.props.selectedEmployee.FirstName} ${this
-              .props.selectedEmployee && this.props.selectedEmployee.LastName}'s career day`}
+            title={`${this.props.selectedEmployee &&
+            this.props.selectedEmployee.FirstName} ${this.props
+              .selectedEmployee &&
+            this.props.selectedEmployee.LastName}'s career day`}
           />
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="flex-end" className={classes.navigation} spacing={8}>
@@ -247,13 +251,18 @@ class CareerDayForManagerPage extends React.Component<
             <Grid container justify="center">
               <div className={classes.datetime}>
                 {this.props.selectedCareerDay &&
-                  this.props.selectedCareerDay.CreatedAt && (
-                    <DatetimeList selectedCareerDay={this.props.selectedCareerDay} />
-                  )}
+                this.props.selectedCareerDay.CreatedAt && (
+                  <DatetimeList selectedCareerDay={this.props.selectedCareerDay} />
+                )}
               </div>
             </Grid>
 
-            <Grid container justify="flex-end" className={classes.navigation} spacing={8}>
+            <Grid
+              container
+              justify="flex-end"
+              className={classes.navigation}
+              spacing={8}
+            >
               <Grid item>
                 <ControlledTooltips
                   title={'The career day archived.'}
@@ -275,8 +284,8 @@ class CareerDayForManagerPage extends React.Component<
             <Grid container justify="center">
               <div className={classes.root}>
                 {this.props.selectedCareerDay &&
-                  this.props.selectedCareerDay.Objectives &&
-                  this.renderObjectives()}
+                this.props.selectedCareerDay.Objectives &&
+                this.renderObjectives()}
               </div>
             </Grid>
           </Grid>

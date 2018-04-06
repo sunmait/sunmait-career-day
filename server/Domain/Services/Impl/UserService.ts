@@ -67,4 +67,18 @@ export class UserServise implements IUserService {
     const encrtyptedEmail = encodeURIComponent(this._cryptoService.encrtyptAES(email));
     return `${this._hostname}/api/users/verifyEmail/${encrtyptedEmail}`;
   }
+
+  public async selectedEmployee(id: number) {
+    const employee = await this._userRepository.findById(id);
+
+    return {
+      id: employee.id,
+      CreatedAt: employee.CreatedAt,
+      UpdatedAt: employee.UpdatedAt,
+      Roles: employee.Roles,
+      PhotoUrl: employee.PhotoUrl,
+      LastName: employee.LastName,
+      FirstName: employee.FirstName,
+    };
+  }
 }

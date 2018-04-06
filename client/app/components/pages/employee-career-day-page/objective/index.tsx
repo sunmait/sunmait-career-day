@@ -32,16 +32,18 @@ const styles = (theme: Theme) => ({
     flexDirection: 'column',
     width: '100%',
   } as React.CSSProperties,
+  paddingObjective: {
+    paddingRight: '0px !important',
+  },
 });
 
-type ComponentClassNames = 'heading' | 'summary' | 'alignFrom';
+type ComponentClassNames = 'heading' | 'summary' | 'alignFrom' | 'paddingObjective';
 
 interface IProps {
   objective: IObjective;
   userRole: string;
-  handleSaveObjective?: (
-    objective: { title?: string; description?: string; progress?: number; id: number },
-  ) => void;
+  archived?: boolean;
+  handleSaveObjective?: (objective: { title?: string, description?: string, progress?: number, id: number }) => void;
   handleDeleteObjective?: (e: React.MouseEvent<HTMLElement>, objectiveId: number) => void;
 }
 
@@ -118,37 +120,30 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
       <ExpansionPanel>
         <ExpansionPanelSummary>
           <div className={this.props.classes.alignFrom}>
-            {this.props.userRole === 'manager' ? (
+            {this.props.userRole === 'manager' ?
               [
                 <FormInput
                   key={1}
                   label={'Title'}
                   maxLength={50}
                   value={this.state.Title}
-                  handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    this.handleChangeValue(e)
-                  }
+                  handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
                 />,
                 <FormInput
                   key={2}
                   label={'Description'}
                   maxLength={255}
                   value={this.state.Description}
-                  handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    this.handleChangeValue(e)
-                  }
+                  handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
                 />,
-              ]
-            ) : (
+              ] :
               <FormInput
                 label={'Progress'}
                 maxLength={3}
                 value={this.setNumberProgress()}
-                handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  this.handleChangeValue(e)
-                }
+                handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
               />
-            )}
+            }
             <Button
               color="primary"
               disabled={
@@ -182,11 +177,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <LinearProgress
-            color="primary"
-            value={this.props.objective.Progress * 100}
-            mode="determinate"
-          />
+          <LinearProgress color="primary" value={this.props.objective.Progress * 100} mode="determinate" />
         </Grid>
         <Grid item xs={12}>
           <Typography color="textSecondary" align="right">
@@ -202,16 +193,20 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
 
   private renderObjectiveOptions() {
     return (
-      <div style={{ padding: 0 }}>
-        <IconButton onClick={(e: React.MouseEvent<HTMLElement>) => this.handleEditObjective(e)}>
+      <React.Fragment>
+        <IconButton
+          onClick={(e: React.MouseEvent<HTMLElement>) => this.handleEditObjective(e)}
+        >
           <Edit />
         </IconButton>
-        {this.props.userRole === 'manager' ? (
-          <IconButton onClick={(e: React.MouseEvent<HTMLElement>) => this.handleDeleteObjective(e)}>
+        {this.props.userRole === 'manager' ?
+          <IconButton
+            onClick={(e: React.MouseEvent<HTMLElement>) => this.handleDeleteObjective(e)}
+          >
             <Delete />
           </IconButton>
-        ) : null}
-      </div>
+          : null}
+      </React.Fragment>
     );
   }
 
@@ -226,16 +221,22 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
             </Typography>
           </div>
 
-          <div style={{ padding: 0 }}>{this.renderObjectiveOptions()}</div>
+          <div className={this.props.classes.paddingObjective}>
+            {!this.props.archived && this.renderObjectiveOptions()}
+          </div>
         </ExpansionPanelSummary>
 
-        <ExpansionPanelDetails>{this.objectivePanelDetails()}</ExpansionPanelDetails>
+        <ExpansionPanelDetails>
+          {this.objectivePanelDetails()}
+        </ExpansionPanelDetails>
       </ExpansionPanel>
     );
   }
 
   public render() {
-    return <div>{this.state.isEdited ? this.formInputPanel() : this.renderObjectivePanel()}</div>;
+    return (
+      <div>{this.state.isEdited ? this.formInputPanel() : this.renderObjectivePanel()}</div>
+    );
   }
 }
 

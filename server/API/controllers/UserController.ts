@@ -109,4 +109,20 @@ export class UserController implements interfaces.Controller {
       next(err);
     }
   }
+
+  /**
+   * Select employee
+   */
+  @httpGet('/selected-employee/:id')
+  private async selectedEmployee(
+    @requestParam('id') id: number,
+    @response() res: express.Response,
+    @nextFn() next: express.NextFunction,
+  ): Promise<void> {
+    try {
+      res.json(await this._userService.selectedEmployee(id));
+    } catch (err) {
+      next(err);
+    }
+  }
 }

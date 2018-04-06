@@ -23,6 +23,7 @@ export default class AppNotifications extends React.Component<IProps, IState> {
       isOpen: false,
     };
   }
+
   public componentWillReceiveProps(nextProps: IProps) {
     if (nextProps.notification) {
       this.setState({
@@ -31,10 +32,10 @@ export default class AppNotifications extends React.Component<IProps, IState> {
     }
   }
 
-  private handleClose(event: React.SyntheticEvent<HTMLElement>, reason: string) {
+  private handleClose(e: React.SyntheticEvent<HTMLElement>, reason: string) {
     if (reason !== 'clickaway') {
-      if (event) {
-        event.preventDefault();
+      if (e) {
+        e.preventDefault();
       }
 
       this.setState({ isOpen: false });
@@ -42,8 +43,8 @@ export default class AppNotifications extends React.Component<IProps, IState> {
     }
   }
 
-  private handleCloseButton(event: React.MouseEvent<HTMLElement>) {
-    event.preventDefault();
+  private handleCloseButton(e: React.MouseEvent<HTMLElement>) {
+    e.preventDefault();
 
     this.setState({ isOpen: false });
     this.props.deleteNotification();
@@ -61,7 +62,7 @@ export default class AppNotifications extends React.Component<IProps, IState> {
         }}
         open={this.state.isOpen}
         autoHideDuration={5000}
-        onClose={this.handleClose}
+        onClose={(e: React.SyntheticEvent<HTMLElement>, reason: string) => this.handleClose(e, reason)}
         SnackbarContentProps={{
           'aria-describedby': 'message-id',
         }}
@@ -75,7 +76,7 @@ export default class AppNotifications extends React.Component<IProps, IState> {
             key="close"
             aria-label="Close"
             color="inherit"
-            onClick={this.handleCloseButton}
+            onClick={(e: React.MouseEvent<HTMLElement>) => this.handleCloseButton(e)}
           >
             <CloseIcon />
           </IconButton>

@@ -29,11 +29,9 @@ export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => 
     });
 };
 
-export type GetCareerDaysOfEmployee = (employee: IEmployee) => (dispatch: Dispatch) => void;
-export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employee: IEmployee) => (
-  dispatch: Dispatch,
-) => {
-  return sendRequest('get', `/api/career-days/${employee.id}`)
+export type GetCareerDaysOfEmployee = (employeeId: number) => (dispatch: Dispatch) => void;
+export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employeeId: number) => (dispatch: Dispatch) => {
+  return sendRequest('get', `/api/career-days/${employeeId}`)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee[]>) => {
       dispatch({
         type: EMPLOYEES_LIST.GET_CAREER_DAYS,
@@ -71,18 +69,21 @@ export const getActiveCareerDay: GetActiveCareerDay = (employeeId: number) => (
         type: EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY,
         payload: res.data,
       });
-    },
-  );
+    });
 };
 
-export type GetSelectedEmployee = (employee: IEmployee) => (dispatch: Dispatch) => void;
-export const getSelectedEmployee: GetSelectedEmployee = (employee: IEmployee) => (
-  dispatch: Dispatch,
-) => {
-  dispatch({
-    type: EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE,
-    payload: employee,
-  });
+export type GetSelectedEmployee = (employeeId: number) => (dispatch: Dispatch) => void;
+export const getSelectedEmployee: GetSelectedEmployee = (employeeId: number) => (dispatch: Dispatch) => {
+  return sendRequest('get', `/api/users/selected-employee/${employeeId}`)
+    .then((res: axios.AxiosResponse<IEmployee>) => {
+      dispatch({
+        type: EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE,
+        payload: res.data,
+      });
+    })
+    .catch((err: axios.AxiosError) => {
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
+    });
 };
 
 export type AddCareerDay = (careerDay: ICareerDay) => (dispatch: Dispatch) => void;

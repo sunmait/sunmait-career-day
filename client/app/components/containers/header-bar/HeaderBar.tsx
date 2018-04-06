@@ -75,9 +75,9 @@ class HeaderBar extends React.Component<IProps & WithStyles<ComponentClassNames>
             spacing={0}
             justify="flex-end"
             alignItems="center"
-            onClick={this.handleProfileClick}
+            onClick={() => this.handleProfileClick()}
           >
-            <div className={this.props.classes.hover} onClick={this.handleProfileClick}>
+            <div className={this.props.classes.hover} onClick={() => this.handleProfileClick()}>
               <Typography type="subheading" className="header-bar-username">
                 {`${this.props.user.FirstName} ${this.props.user.LastName}`}
               </Typography>
@@ -105,9 +105,9 @@ class HeaderBar extends React.Component<IProps & WithStyles<ComponentClassNames>
             horizontal: 'right',
           }}
           open={Boolean(this.state.anchorEl)}
-          onClose={this.handleClose}
+          onClose={() => this.handleClose()}
         >
-          <MenuItem onClick={this.handleLogoutClick}>Logout</MenuItem>
+          <MenuItem onClick={() => this.handleLogoutClick()}>Logout</MenuItem>
         </Menu>
       </React.Fragment>
     );

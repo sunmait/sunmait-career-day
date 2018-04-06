@@ -36,7 +36,7 @@ class DatePicker extends React.Component<IProps, IState> {
         rightArrowIcon={<KeyboardArrowRight />}
         keyboardIcon={<EventIcon />}
         value={selectedDate}
-        onChange={this.handleChangeDate}
+        onChange={(date: Date) => this.handleChangeDate(date)}
         animateYearScrolling={false}
         minDate={new Date()}
       />

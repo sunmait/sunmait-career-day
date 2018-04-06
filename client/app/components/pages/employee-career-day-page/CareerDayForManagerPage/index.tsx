@@ -9,6 +9,7 @@ import {
   deleteObjective,
   archiveCareerDay,
   updateInterviewDate,
+  getSelectedEmployee,
 } from 'redux/modules/employees/actions';
 import CareerDayForManagerPage from './CareerDayForManagerPage';
 
@@ -18,17 +19,14 @@ const mapStateToProps = (state: IStore) => ({
   selectedEmployee: state.employees.selectedEmployee,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  redux.bindActionCreators(
-    {
-      getSelectedCareerDay,
-      addObjective,
-      updateObjectiveManager,
-      archiveCareerDay,
-      deleteObjective,
-      updateInterviewDate,
-    },
-    dispatch,
-  );
+const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
+  getSelectedCareerDay,
+  addObjective,
+  updateObjectiveManager,
+  archiveCareerDay,
+  deleteObjective,
+  updateInterviewDate,
+  getSelectedEmployee,
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CareerDayForManagerPage);

@@ -6,6 +6,7 @@ import { match } from 'react-router-dom';
 
 interface IMatchParams {
   careerDayId: number;
+  userId: number;
 }
 
 interface IProps {
@@ -24,11 +25,12 @@ class CareerDayPage extends React.Component<IProps, IState> {
   public render() {
     return (
       <div>
-        {this.props.user.Roles === 'manager' ? (
-          <CareerDayForManagerPageContainer careerDayId={this.props.match.params.careerDayId} />
-        ) : (
-          <CareerDayForEmployeePageContainer />
-        )}
+        {this.props.user.Roles === 'manager' ?
+          <CareerDayForManagerPageContainer
+            careerDayId={this.props.match.params.careerDayId}
+            userId={this.props.match.params.userId}
+          /> :
+          <CareerDayForEmployeePageContainer />}
       </div>
     );
   }

@@ -6,10 +6,13 @@ import UserFormInput from './user-form-input';
 import { Theme, withStyles, WithStyles } from 'material-ui/styles';
 import * as regExpHelper from 'components/helper/regExpHelper';
 import { SignUp } from 'redux/modules/auth/actions';
+import backgroundColorHelper from 'components/helper/backgroundColorHelper';
+import Paper from 'material-ui/Paper';
 
 const styles = (theme: Theme) => ({
   button: {
     marginTop: theme.spacing.unit,
+    padding: 15,
   },
 });
 
@@ -130,72 +133,75 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
   public render() {
     const { classes } = this.props;
 
+    backgroundColorHelper();
     return (
       <div>
         <Grid container justify="center" spacing={0}>
           <Header title="Sign Up" />
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="center" direction="column" alignItems="stretch" spacing={0}>
-              <Grid item xs={10}>
-                <UserFormInput
-                  label="firstname"
-                  title="First Name"
-                  value={this.state.firstname}
-                  error={'firstname' in this.state.errors ? this.state.errors.firstname : null}
-                  handleChangeValue={e => this.onChange(e)}
-                />
-              </Grid>
-              <Grid item xs={10}>
-                <UserFormInput
-                  label="lastname"
-                  title="Last Name"
-                  value={this.state.lastname}
-                  error={'lastname' in this.state.errors ? this.state.errors.lastname : null}
-                  handleChangeValue={e => this.onChange(e)}
-                />
-              </Grid>
-              <Grid item xs={10}>
-                <UserFormInput
-                  label="email"
-                  title="Email"
-                  value={this.state.email}
-                  error={'email' in this.state.errors ? this.state.errors.email : null}
-                  handleChangeValue={e => this.onChange(e)}
-                />
-              </Grid>
-              <Grid item xs={10}>
-                <UserFormInput
-                  label="password"
-                  title="Password"
-                  value={this.state.password}
-                  type="password"
-                  error={'password' in this.state.errors ? this.state.errors.password : null}
-                  handleChangeValue={e => this.onChange(e)}
-                />
-              </Grid>
-              <Grid item xs={10}>
-                <UserFormInput
-                  label="passwordconfirm"
-                  title="Password confirmation"
-                  value={this.state.passwordconfirm}
-                  type="password"
-                  error={
-                    'passwordconfirm' in this.state.errors
-                      ? this.state.errors.passwordconfirm
-                      : null
-                  }
-                  handleChangeValue={e => this.onChange(e)}
-                />
-              </Grid>
-              <Grid item className={classes.button}>
-                <Grid container justify="center" alignItems="center" spacing={8}>
-                  <Grid item>
-                    <Button raised color="primary" onClick={() => this.confirmForm()}>
-                      Confirm
-                    </Button>
+              <Paper>
+                <Grid item xs={10} sm={11}>
+                  <UserFormInput
+                    label="firstname"
+                    title="First Name"
+                    value={this.state.firstname}
+                    error={('firstname' in this.state.errors) ? this.state.errors.firstname : null}
+                    handleChangeValue={e => this.onChange(e)}
+                  />
+                </Grid>
+                <Grid item xs={10} sm={11}>
+                  <UserFormInput
+                    label="lastname"
+                    title="Last Name"
+                    value={this.state.lastname}
+                    error={('lastname' in this.state.errors) ? this.state.errors.lastname : null}
+                    handleChangeValue={e => this.onChange(e)}
+                  />
+                </Grid>
+                <Grid item xs={10} sm={11}>
+                  <UserFormInput
+                    label="email"
+                    title="Email"
+                    value={this.state.email}
+                    error={('email' in this.state.errors) ? this.state.errors.email : null}
+                    handleChangeValue={e => this.onChange(e)}
+                  />
+                </Grid>
+                <Grid item xs={10} sm={11}>
+                  <UserFormInput
+                    label="password"
+                    title="Password"
+                    value={this.state.password}
+                    type="password"
+                    error={('password' in this.state.errors) ? this.state.errors.password : null}
+                    handleChangeValue={e => this.onChange(e)}
+                  />
+                </Grid>
+                <Grid item xs={10} sm={11}>
+                  <UserFormInput
+                    label="passwordconfirm"
+                    title="Password confirmation"
+                    value={this.state.passwordconfirm}
+                    type="password"
+                    error={('passwordconfirm' in this.state.errors) ? this.state.errors.passwordconfirm : null}
+                    handleChangeValue={e => this.onChange(e)}
+                  />
+                </Grid>
+                <Grid item className={classes.button}>
+                  <Grid container justify="center" alignItems="center" spacing={8}>
+                    <Grid item>
+                      <Button
+                        raised
+                        color="primary"
+                        onClick={() => this.confirmForm()}
+                      >
+                        Confirm
+                      </Button>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
+              </Paper>
             </Grid>
           </Grid>
         </Grid>

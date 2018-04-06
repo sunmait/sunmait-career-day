@@ -68,7 +68,6 @@ class EmployeeList extends React.Component<IProps, IState> {
         </ListItem>
       </Link>
     ));
-    // TODO: add archived/in progress info in IEmployee (get from server)
   }
 
   public render() {
