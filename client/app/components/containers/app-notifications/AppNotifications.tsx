@@ -3,7 +3,7 @@ import Snackbar from 'material-ui/Snackbar';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui-icons/Close';
 import Typography from 'material-ui/Typography';
-import {INotification} from 'redux/modules/app/reducer';
+import { INotification } from 'redux/modules/app/reducer';
 import { DeleteNotification } from 'redux/modules/app/actions';
 
 interface IProps {
@@ -31,21 +31,21 @@ export default class AppNotifications extends React.Component<IProps, IState> {
     }
   }
 
-  private handleClose = (event: React.SyntheticEvent<HTMLElement>, reason: string) => {
+  private handleClose(event: React.SyntheticEvent<HTMLElement>, reason: string) {
     if (reason !== 'clickaway') {
       if (event) {
         event.preventDefault();
       }
 
-      this.setState({isOpen: false});
+      this.setState({ isOpen: false });
       this.props.deleteNotification();
     }
   }
 
-  private handleCloseButton = (event: React.MouseEvent<HTMLElement>) => {
+  private handleCloseButton(event: React.MouseEvent<HTMLElement>) {
     event.preventDefault();
 
-    this.setState({isOpen: false});
+    this.setState({ isOpen: false });
     this.props.deleteNotification();
   }
 

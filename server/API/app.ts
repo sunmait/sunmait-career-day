@@ -14,40 +14,34 @@ import ErrorHandler from './middlewares/ErrorHandler';
 
 const dbContext = container.get<DbContext>('DbContext');
 
-(async () => {
-  try {
-    await dbContext.connect();
-  } catch (err) {
-    console.error(err);
-  }
-})();
+dbContext
+  .connect()
+  .then(() => {
+    // create server
+    const server = new InversifyExpressServer(container);
 
-// create server
-const server = new InversifyExpressServer(container);
-
-server.setConfig(application => {
-  application.use(bodyParser.urlencoded({ extended: false }));
-  application.use(bodyParser.json());
-});
-
-const app = server.build();
-
-const STATIC_PATH = path.join(__dirname, 'public', process.env.NODE_ENV);
-app.use(express.static(STATIC_PATH));
-
-app.get(
-  '*',
-  (req: express.Request, res: express.Response, next: express.NextFunction) => {
-    fs.readFile(`${STATIC_PATH}/index.html`, (error, html) => {
-      if (error) {
-        return next(error);
-      }
-      res.setHeader('Content-Type', 'text/html');
-      res.end(html);
+    server.setConfig(application => {
+      application.use(bodyParser.urlencoded({ extended: false }));
+      application.use(bodyParser.json());
     });
-  },
-);
 
-app.use(ErrorHandler);
+    const app = server.build();
 
-app.listen(3000);
+    const STATIC_PATH = path.join(__dirname, 'public', process.env.NODE_ENV);
+    app.use(express.static(STATIC_PATH));
+
+    app.get('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      fs.readFile(`${STATIC_PATH}/index.html`, (error, html) => {
+        if (error) {
+          return next(error);
+        }
+        res.setHeader('Content-Type', 'text/html');
+        res.end(html);
+      });
+    });
+
+    app.use(ErrorHandler);
+
+    app.listen(3000);
+  })
+  .catch(err => console.error(err));

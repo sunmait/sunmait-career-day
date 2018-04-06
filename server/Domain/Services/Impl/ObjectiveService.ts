@@ -3,10 +3,7 @@ import { IObjectiveService } from '../IObjectiveService';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 
-import {
-  IObjectiveRepository,
-  ICareerDayRepository,
-} from '../../../Data/Repositories/index';
+import { IObjectiveRepository, ICareerDayRepository } from '../../../Data/Repositories/index';
 
 @injectable()
 export class ObjectiveService implements IObjectiveService {
@@ -33,20 +30,22 @@ export class ObjectiveService implements IObjectiveService {
 
     if (careerDay) {
       if (!careerDay.Archived) {
-        if (data.EmployeeExternalId === careerDay.EmployeeExternalId
-          && data.UnitManagerExternalId === careerDay.UnitManagerExternalId) {
+        if (
+          data.EmployeeId === careerDay.EmployeeId &&
+          data.UnitManagerId === careerDay.UnitManagerId
+        ) {
           const objective = new ObjectiveEntity(data);
 
           return this._objectiveRepository.create(objective);
         }
-        throw ({ status: 403 });
+        throw { status: 403 };
       }
-      throw ({ status: 403 });
+      throw { status: 403 };
     }
-    throw ({ status: 404 });
+    throw { status: 404 };
   }
 
-  public async updateObjectiveEmployee(id: number, progress: number) {
+  public async updateObjectiveEmployee(id: number, progress: number): Promise<ObjectiveEntity> {
     const objective = await this._objectiveRepository.findOne({
       where: { id },
       include: CareerDayEntity,
@@ -60,13 +59,17 @@ export class ObjectiveService implements IObjectiveService {
 
         return this._objectiveRepository.update(objective);
       }
-      throw ({ status: 403 });
+      throw { status: 403 };
     } else {
-      throw ({ status: 404 });
+      throw { status: 404 };
     }
   }
 
-  public async updateObjectiveManager(id: number, title: string, description: string) {
+  public async updateObjectiveManager(
+    id: number,
+    title: string,
+    description: string,
+  ): Promise<ObjectiveEntity> {
     const objective = await this._objectiveRepository.findOne({
       where: { id },
       include: CareerDayEntity,
@@ -81,9 +84,9 @@ export class ObjectiveService implements IObjectiveService {
 
         return this._objectiveRepository.update(objective);
       }
-      throw ({ status: 403 });
+      throw { status: 403 };
     } else {
-      throw ({ status: 404 });
+      throw { status: 404 };
     }
   }
 
@@ -99,10 +102,10 @@ export class ObjectiveService implements IObjectiveService {
       if (!objective.CareerDay.Archived) {
         await this._objectiveRepository.remove({ where: { id } });
       } else {
-        throw ({ status: 403 });
+        throw { status: 403 };
       }
     } else {
-      throw({ status: 404 });
+      throw { status: 404 };
     }
   }
 }

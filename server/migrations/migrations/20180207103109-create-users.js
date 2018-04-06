@@ -6,7 +6,7 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        unique : true,
+        unique: true,
         type: Sequelize.INTEGER,
       },
       Roles: {
@@ -21,16 +21,16 @@ module.exports = {
       LastName: {
         type: Sequelize.STRING,
       },
-      Email:{
-        allowNull: false, 
-        unique : true,
+      Email: {
+        allowNull: false,
+        unique: true,
         type: Sequelize.STRING,
       },
-      PasswordHash:{
+      PasswordHash: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      EmailVerified:{
+      EmailVerified: {
         type: Sequelize.BOOLEAN,
       },
       CreatedAt: {
@@ -41,7 +41,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-
     });
   },
   down: (queryInterface, Sequelize) => {

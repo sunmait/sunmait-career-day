@@ -12,10 +12,10 @@ module.exports = {
       Archived: {
         type: Sequelize.BOOLEAN,
       },
-      EmployeeExternalId: {
+      EmployeeId: {
         type: Sequelize.INTEGER,
       },
-      UnitManagerExternalId: {
+      UnitManagerId: {
         type: Sequelize.INTEGER,
       },
       InterviewDate: {

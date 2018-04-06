@@ -16,7 +16,7 @@ const IconStatus = (props: IProps) => {
         isDisabled={true}
         tooltip={
           <IconButton>
-            <Archive name = "archive-icon"/>
+            <Archive name="archive-icon" />
           </IconButton>
         }
       />
@@ -28,7 +28,7 @@ const IconStatus = (props: IProps) => {
         isDisabled={true}
         tooltip={
           <IconButton>
-            <TimeLine name = "active-icon"/>
+            <TimeLine name="active-icon" />
           </IconButton>
         }
       />

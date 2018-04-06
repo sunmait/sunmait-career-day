@@ -47,8 +47,13 @@ export class CareerDayController implements interfaces.Controller {
   private async getCurrentCareerDay(
     @requestParam('id') id: number,
     @response() res: express.Response,
+    @nextFn() next: express.NextFunction,
   ): Promise<void> {
-    res.json(await this._careerDayService.getCurrentCareerDay(id));
+    try {
+      res.json(await this._careerDayService.getCurrentCareerDay(id));
+    } catch (err) {
+      next(err);
+    }
   }
 
   /**
@@ -105,19 +110,12 @@ export class CareerDayController implements interfaces.Controller {
   @httpPatch('/update-date/:id')
   private async updateDate(
     @requestParam('id') id: number,
-    @requestBody('date') date: any,
-    @requestBody('EmployeeExternalId') employeeId: number,
+    @requestBody() body: any,
     @response() res: express.Response,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(
-        await this._careerDayService.updateCareerDayDate(
-          id,
-          date,
-          employeeId,
-        ),
-      );
+      res.json(await this._careerDayService.updateCareerDayDate(id, body.date, body.EmployeeId));
     } catch (err) {
       next(err);
     }

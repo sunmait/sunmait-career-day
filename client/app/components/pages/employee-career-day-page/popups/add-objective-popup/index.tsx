@@ -19,7 +19,7 @@ type ComponentClassNames = 'alignColumn' | 'button';
 interface IProps {
   handleClosePopup: () => void;
   open: boolean;
-  handleAddObjective: (objective: { Title: string, Description: string }) => void;
+  handleAddObjective: (objective: { Title: string; Description: string }) => void;
 }
 
 interface IState {
@@ -69,14 +69,18 @@ class ObjectivePopup extends React.Component<IProps & WithStyles<ComponentClassN
             label={'Title'}
             maxLength={50}
             value={this.state.Title}
-            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
+            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) =>
+              this.handleChangeValue(e)
+            }
           />
 
           <FormInput
             label={'Description'}
             maxLength={255}
             value={this.state.Description}
-            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
+            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) =>
+              this.handleChangeValue(e)
+            }
           />
 
           <Button

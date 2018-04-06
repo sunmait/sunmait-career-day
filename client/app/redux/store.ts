@@ -7,7 +7,4 @@ import { IStore } from './rootReducer';
 
 export type Dispatch = Dispatch<IStore>;
 
-export default createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(promise(), thunk)),
-);
+export default createStore(rootReducer, composeWithDevTools(applyMiddleware(promise(), thunk)));

@@ -1,7 +1,10 @@
+import CareerDayEntity from '../../Data/Entities/CareerDayEntity';
+import ObjectiveEntity from '../../Data/Entities/ObjectiveEntity';
+
 export interface IObjectiveService {
-  getObjectivesByCareerDayId(CareerDayId: number): Promise<any>;
-  addObjective(data: any): Promise<any>;
-  updateObjectiveManager(id: number, title: string, description: string): Promise<any>;
-  updateObjectiveEmployee(id: number, progress: number): Promise<any>;
+  getObjectivesByCareerDayId(CareerDayId: number): Promise<CareerDayEntity>;
+  addObjective(data: any): Promise<ObjectiveEntity>;
+  updateObjectiveManager(id: number, title: string, description: string): Promise<ObjectiveEntity>;
+  updateObjectiveEmployee(id: number, progress: number): Promise<ObjectiveEntity>;
   deleteObjective(id: number): Promise<void>;
 }

@@ -38,24 +38,14 @@ const AppComponent = (props: IProps) => {
     <Router history={history}>
       <App>
         <Switch>
-          <PrivateRoute
-            exact
-            auth={auth}
-            path="/main"
-            component={MainPageContainer}
-          />
+          <PrivateRoute exact auth={auth} path="/main" component={MainPageContainer} />
           <DisabledForAuthorizedUserRoute
             exact
             auth={auth}
             path="/login"
             component={LoginPageContainer}
           />
-          <DisabledForAuthorizedUserRoute
-            exact
-            auth={auth}
-            path="/signup"
-            component={SignUpPage}
-          />
+          <DisabledForAuthorizedUserRoute exact auth={auth} path="/signup" component={SignUpPage} />
           <DisabledForAuthorizedUserRoute
             exact
             auth={auth}
@@ -86,21 +76,9 @@ const AppComponent = (props: IProps) => {
             path="/employees/:userId/career-day/:careerDayId"
             component={CareerDayPageContainer}
           />
-          <ErrorRoute
-            exact
-            path="/error/not-found"
-            component={NotFoundPage}
-          />
-          <ErrorRoute
-            exact
-            path="/error/server-error"
-            component={InternalServerErrorPage}
-          />
-          <EmailVerificationRoute
-            exact
-            path="/verify-email"
-            component={EmailVerificationPage}
-          />
+          <ErrorRoute exact path="/error/not-found" component={NotFoundPage} />
+          <ErrorRoute exact path="/error/server-error" component={InternalServerErrorPage} />
+          <EmailVerificationRoute exact path="/verify-email" component={EmailVerificationPage} />
 
           <Redirect from="/" exact to="/main" />
           <Redirect from="*" exact to="/error/not-found" />
@@ -114,7 +92,6 @@ const mapStateToProps = (state: IStore) => ({
   auth: state.auth,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  redux.bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppComponent);

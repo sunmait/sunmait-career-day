@@ -2,14 +2,8 @@ import * as React from 'react';
 import { IUser } from 'redux/modules/auth/reducer';
 import Header from 'components/common/header/index';
 import Grid from 'material-ui/Grid';
-import {
-  ICareerDayOfEmployee,
-  IUpdateObjectiveEmployee,
-} from 'redux/modules/employees/reducer';
-import {
-  GetActiveCareerDay,
-  UpdateObjectiveEmployee,
-} from 'redux/modules/employees/actions';
+import { ICareerDayOfEmployee, IUpdateObjectiveEmployee } from 'redux/modules/employees/reducer';
+import { GetActiveCareerDay, UpdateObjectiveEmployee } from 'redux/modules/employees/actions';
 import { withStyles, WithStyles } from 'material-ui/styles';
 import DatetimeList from '../datetime-list/index';
 import Objective from '../objective/index';
@@ -41,10 +35,12 @@ interface IProps {
   updateObjectiveEmployee: UpdateObjectiveEmployee;
 }
 
-interface IState {
-}
+interface IState {}
 
-class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
+class CareerDayForEmployeePage extends React.Component<
+  IProps & WithStyles<ComponentClassNames>,
+  IState
+> {
   constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {};
@@ -64,39 +60,35 @@ class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<Compo
         key={item.id}
         objective={item}
         userRole={this.props.user.Roles}
-        handleSaveObjective={(objective: IUpdateObjectiveEmployee) => this.handleSaveObjective(objective)}
+        handleSaveObjective={(objective: IUpdateObjectiveEmployee) =>
+          this.handleSaveObjective(objective)
+        }
       />
     ));
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
     const activeCareerDay: ICareerDayOfEmployee = this.props.activeCareerDay;
 
     backgroundColorHelper();
     return (
       <div>
         <Grid container justify="center" spacing={0}>
-          <Header
-            title={`${this.props.user.FirstName} ${
-              this.props.user.LastName
-              }'s career day`}
-          />
+          <Header title={`${this.props.user.FirstName} ${this.props.user.LastName}'s career day`} />
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="center">
               <div className={classes.datetime}>
                 {activeCareerDay &&
-                 activeCareerDay.CreatedAt &&
-                <DatetimeList selectedCareerDay={activeCareerDay} />}
+                  activeCareerDay.CreatedAt && <DatetimeList selectedCareerDay={activeCareerDay} />}
               </div>
             </Grid>
 
             <Grid container justify="center">
               <div className={classes.root}>
-                {(
-                  this.props.activeCareerDay &&
-                  this.props.activeCareerDay.Objectives) &&
-                this.renderObjectives()}
+                {this.props.activeCareerDay &&
+                  this.props.activeCareerDay.Objectives &&
+                  this.renderObjectives()}
               </div>
             </Grid>
           </Grid>

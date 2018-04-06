@@ -3,15 +3,12 @@ import * as jwt from 'jsonwebtoken';
 import * as moment from 'moment';
 
 import { ISettingsProvider } from '../../../API/infrastructure/index';
-import { IAuthService } from '../index';
-import {
-  ISessionRepository,
-  IUserRepository,
-} from '../../../Data/Repositories';
+import { ISessionRepository, IUserRepository } from '../../../Data/Repositories';
 import SessionEntity from '../../../Data/Entities/SessionEntity';
 import { ICryptoService } from '../ICryptoService';
 import UserEntity from '../../../Data/Entities/UserEntity';
 import IUserDecodedFromToken from '../../../API/helper/IUserDecodedFromToken';
+import { IAuthData, IAuthService } from '../IAuthService';
 
 @injectable()
 export class AuthService implements IAuthService {
@@ -52,7 +49,7 @@ export class AuthService implements IAuthService {
           LastName: user.LastName,
           PhotoUrl: user.PhotoUrl,
         },
-      };
+      } as IAuthData;
     } else {
       throw { status: 401 };
     }
@@ -75,7 +72,7 @@ export class AuthService implements IAuthService {
           LastName: updatedSession.User.LastName,
           PhotoUrl: updatedSession.User.PhotoUrl,
         },
-      };
+      } as IAuthData;
     } else {
       throw { status: 401, message: 'jwt expired' };
     }
@@ -84,10 +81,7 @@ export class AuthService implements IAuthService {
   public async verifyCredentials({ accessToken, refreshToken }) {
     if (accessToken && refreshToken) {
       try {
-        const payload = jwt.verify(
-          accessToken,
-          this._secretKey,
-        ) as IUserDecodedFromToken;
+        const payload = jwt.verify(accessToken, this._secretKey) as IUserDecodedFromToken;
         return {
           AccessToken: accessToken,
           RefreshToken: refreshToken,
@@ -98,7 +92,7 @@ export class AuthService implements IAuthService {
             LastName: payload.LastName,
             PhotoUrl: payload.PhotoUrl,
           },
-        };
+        } as IAuthData;
       } catch (err) {
         if (err.message === 'jwt expired') {
           return this.refreshSession(refreshToken);
@@ -112,9 +106,7 @@ export class AuthService implements IAuthService {
   }
 
   private async updateSession(session: SessionEntity) {
-    const { AccessToken, RefreshToken } = this.getTokens(
-      session.User.get({ plain: true }),
-    );
+    const { AccessToken, RefreshToken } = this.getTokens(session.User.get({ plain: true }));
     session.LastRefresh = moment().toDate();
     session.ExpiresIn = moment()
       .add(20, 'day')

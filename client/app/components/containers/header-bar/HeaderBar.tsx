@@ -51,22 +51,22 @@ class HeaderBar extends React.Component<IProps & WithStyles<ComponentClassNames>
 
   private menuRef: HTMLElement;
 
-  private handleProfileClick = () => {
+  private handleProfileClick() {
     this.setState({ anchorEl: this.menuRef });
   }
 
-  private handleLogoutClick = () => {
+  private handleLogoutClick() {
     this.handleClose();
     const refreshToken: string = localStorage.getItem('RefreshToken');
 
     this.props.logout(refreshToken);
   }
 
-  private handleClose = () => {
+  private handleClose() {
     this.setState({ anchorEl: null });
   }
 
-  public renderUserProfile = () => {
+  public renderUserProfile() {
     return (
       <React.Fragment>
         <Grid item sm={4} xs={12}>
@@ -114,16 +114,17 @@ class HeaderBar extends React.Component<IProps & WithStyles<ComponentClassNames>
   }
 
   public render() {
-    const UserProfile = (this.props.user) ? this.renderUserProfile() : null;
-    const justify = (this.props.user) ? 'flex-end' : 'center';
-    const link = (this.props.user && (this.props.user.Roles === ROLES.UNIT_MANAGER)) ? '/employees' : '/employee';
+    const UserProfile = this.props.user ? this.renderUserProfile() : null;
+    const justify = this.props.user ? 'flex-end' : 'center';
+    const link =
+      this.props.user && this.props.user.Roles === ROLES.UNIT_MANAGER ? '/employees' : '/employee';
 
     return (
       <Grid item xs={12} id="header-bar">
         <AppBar position="static" color="default">
           <Toolbar>
             <Grid container spacing={8} justify={justify} alignItems="center">
-              <Grid item sm={4} xs={12} className={(this.props.user) ? 'hide-on-mobile' : ''}>
+              <Grid item sm={4} xs={12} className={this.props.user ? 'hide-on-mobile' : ''}>
                 <Link to={link} className="header-bar-link">
                   <img className="header-bar-image" src={require('assets/images/logo.svg')} />
                 </Link>

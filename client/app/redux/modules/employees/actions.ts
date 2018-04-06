@@ -17,7 +17,6 @@ import sendRequest from 'components/helper/authRequest';
 
 export type GetEmployeesList = () => (dispatch: Dispatch) => void;
 export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => {
-
   return sendRequest('get', '/api/users/employees')
     .then((res: axios.AxiosResponse<IEmployee[]>) => {
       dispatch({
@@ -26,12 +25,14 @@ export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => 
       });
     })
     .catch((err: axios.AxiosError) => {
-      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
     });
 };
 
 export type GetCareerDaysOfEmployee = (employee: IEmployee) => (dispatch: Dispatch) => void;
-export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employee: IEmployee) => (dispatch: Dispatch) => {
+export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employee: IEmployee) => (
+  dispatch: Dispatch,
+) => {
   return sendRequest('get', `/api/career-days/${employee.id}`)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee[]>) => {
       dispatch({
@@ -40,12 +41,14 @@ export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employee: IEmplo
       });
     })
     .catch((err: axios.AxiosError) => {
-      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
     });
 };
 
 export type GetSelectedCareerDay = (careerDayId: number) => (dispatch: Dispatch) => void;
-export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) => (dispatch: Dispatch) => {
+export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) => (
+  dispatch: Dispatch,
+) => {
   return sendRequest('get', `/api/objectives/${careerDayId}`)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
@@ -54,23 +57,28 @@ export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) 
       });
     })
     .catch((err: axios.AxiosError) => {
-      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
     });
 };
 
 export type GetActiveCareerDay = (employeeId: number) => (dispatch: Dispatch) => void;
-export const getActiveCareerDay: GetActiveCareerDay = (employeeId: number) => (dispatch: Dispatch) => {
-  return sendRequest('get', `/api/career-days/active-day/${employeeId}`)
-    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+export const getActiveCareerDay: GetActiveCareerDay = (employeeId: number) => (
+  dispatch: Dispatch,
+) => {
+  return sendRequest('get', `/api/career-days/active-day/${employeeId}`).then(
+    (res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
         type: EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY,
         payload: res.data,
       });
-    });
+    },
+  );
 };
 
 export type GetSelectedEmployee = (employee: IEmployee) => (dispatch: Dispatch) => void;
-export const getSelectedEmployee: GetSelectedEmployee = (employee: IEmployee) => (dispatch: Dispatch) => {
+export const getSelectedEmployee: GetSelectedEmployee = (employee: IEmployee) => (
+  dispatch: Dispatch,
+) => {
   dispatch({
     type: EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE,
     payload: employee,
@@ -87,7 +95,7 @@ export const addCareerDay: AddCareerDay = (careerDay: ICareerDay) => (dispatch: 
       });
     })
     .catch((err: axios.AxiosError) => {
-      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
     });
 };
 
@@ -106,7 +114,7 @@ export const addObjective: AddObjective = (objective: IObjectiveById) => (dispat
       });
     })
     .catch((err: axios.AxiosError) => {
-      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
     });
 };
 
@@ -120,69 +128,83 @@ export const deleteCareerDay: DeleteCareerDay = (careerDayId: number) => (dispat
       });
     })
     .catch((err: axios.AxiosError) => {
-      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
     });
 };
 
-export type UpdateObjectiveEmployee = (objective: IUpdateObjectiveEmployee) => (dispatch: Dispatch) => void;
-export const updateObjectiveEmployee: UpdateObjectiveEmployee = (objective: IUpdateObjectiveEmployee) =>
-  (dispatch: Dispatch) => {
-    return sendRequest('patch', `/api/objectives/progress/${objective.id}`, {
-      progress: objective.progress,
-    })
-      .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
-        dispatch({
-          type: EMPLOYEES_LIST.UPDATE_OBJECTIVE_EMPLOYEE,
-          payload: res.data,
-        });
-      })
-      .catch((err: axios.AxiosError) => {
-        dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
+export type UpdateObjectiveEmployee = (
+  objective: IUpdateObjectiveEmployee,
+) => (dispatch: Dispatch) => void;
+export const updateObjectiveEmployee: UpdateObjectiveEmployee = (
+  objective: IUpdateObjectiveEmployee,
+) => (dispatch: Dispatch) => {
+  return sendRequest('patch', `/api/objectives/progress/${objective.id}`, {
+    progress: objective.progress,
+  })
+    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+      dispatch({
+        type: EMPLOYEES_LIST.UPDATE_OBJECTIVE_EMPLOYEE,
+        payload: res.data,
       });
-  };
+    })
+    .catch((err: axios.AxiosError) => {
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
+    });
+};
 
-export type UpdateObjectiveManager = (objective: IUpdateObjectiveManager) => (dispatch: Dispatch) => void;
-export const updateObjectiveManager: UpdateObjectiveManager = (objective: IUpdateObjectiveManager) =>
-  (dispatch: Dispatch) => {
-    return sendRequest('patch', `/api/objectives/${objective.id}`, {
-      title: objective.title,
-      description: objective.description,
-    })
-      .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
-        dispatch({
-          type: EMPLOYEES_LIST.UPDATE_OBJECTIVE_MANAGER,
-          payload: res.data,
-        });
-      })
-      .catch((err: axios.AxiosError) => {
-        dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
+export type UpdateObjectiveManager = (
+  objective: IUpdateObjectiveManager,
+) => (dispatch: Dispatch) => void;
+export const updateObjectiveManager: UpdateObjectiveManager = (
+  objective: IUpdateObjectiveManager,
+) => (dispatch: Dispatch) => {
+  return sendRequest('patch', `/api/objectives/${objective.id}`, {
+    title: objective.title,
+    description: objective.description,
+  })
+    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+      dispatch({
+        type: EMPLOYEES_LIST.UPDATE_OBJECTIVE_MANAGER,
+        payload: res.data,
       });
-  };
+    })
+    .catch((err: axios.AxiosError) => {
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
+    });
+};
 
 export type ArchiveCareerDay = (careerDay: IArchiveCareerDay) => (dispatch: Dispatch) => void;
-export const archiveCareerDay: ArchiveCareerDay = (careerDay: IArchiveCareerDay) => (dispatch: Dispatch) => {
+export const archiveCareerDay: ArchiveCareerDay = (careerDay: IArchiveCareerDay) => (
+  dispatch: Dispatch,
+) => {
   return sendRequest('patch', `/api/career-days/archive/${careerDay.id}`, careerDay)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       const newCareerDay: ICareerDayOfEmployee = res.data;
 
-      const newCareerDaysList = store.getState().employees.careerDays.map((item: ICareerDayOfEmployee) => {
-        if (item.id === res.data.id) {
-          return newCareerDay.id;
-        } else {
-          return newCareerDay;
-        }
-      });
+      const newCareerDaysList = store
+        .getState()
+        .employees.careerDays.map((item: ICareerDayOfEmployee) => {
+          if (item.id === res.data.id) {
+            return newCareerDay.id;
+          } else {
+            return newCareerDay;
+          }
+        });
 
-      dispatch({ type: EMPLOYEES_LIST.ARCHIVE_CAREER_DAY, payload: { newCareerDaysList, careerDay: res.data } });
+      dispatch({
+        type: EMPLOYEES_LIST.ARCHIVE_CAREER_DAY,
+        payload: { newCareerDaysList, careerDay: res.data },
+      });
     })
     .catch((err: axios.AxiosError) => {
-      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
     });
-
 };
 
 export type UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (dispatch: Dispatch) => void;
-export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (dispatch: Dispatch) => {
+export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (
+  dispatch: Dispatch,
+) => {
   return sendRequest('patch', `/api/career-days/update-date/${datetime.id}`, datetime)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       const updatedCareerDay = { ...store.getState().employees.selectedCareerDay };
@@ -194,7 +216,7 @@ export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterv
       });
     })
     .catch((err: axios.AxiosError) => {
-      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
     });
 };
 
@@ -219,6 +241,6 @@ export const deleteObjective: DeleteObjective = (objectiveId: number) => (dispat
       });
     })
     .catch((err: axios.AxiosError) => {
-      dispatch(addNotification({status: err.response.status, message: err.response.statusText}));
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
     });
 };

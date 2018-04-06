@@ -21,9 +21,13 @@ const NotFoundPage = (props: IProps) => {
   return (
     <Grid container justify="center" direction="column" spacing={0}>
       <div className={props.classes.textAlign}>
-        <Typography type="display4">404</Typography><br />
-        <Typography type="display3">Whoops... Page Not Found !!!</Typography><br />
-        <Typography type="subheading">We're sorry, but the page you are looking for doesn't exist.</Typography>
+        <Typography type="display4">404</Typography>
+        <br />
+        <Typography type="display3">Whoops... Page Not Found !!!</Typography>
+        <br />
+        <Typography type="subheading">
+          We're sorry, but the page you are looking for doesn't exist.
+        </Typography>
       </div>
     </Grid>
   );

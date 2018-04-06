@@ -45,11 +45,11 @@ export default class CareerDayEntity extends Model<CareerDayEntity> {
 
   @AllowNull(false)
   @Column(DataType.INTEGER)
-  public EmployeeExternalId: number;
+  public EmployeeId: number;
 
   @AllowNull(false)
   @Column(DataType.INTEGER)
-  public UnitManagerExternalId: number;
+  public UnitManagerId: number;
 
   @IsDate
   @IsAfter('2018-01-01')

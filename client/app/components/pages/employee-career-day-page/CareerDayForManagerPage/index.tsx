@@ -18,15 +18,17 @@ const mapStateToProps = (state: IStore) => ({
   selectedEmployee: state.employees.selectedEmployee,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
-  getSelectedCareerDay,
-  addObjective,
-  updateObjectiveManager,
-  archiveCareerDay,
-  deleteObjective,
-  updateInterviewDate,
-}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  redux.bindActionCreators(
+    {
+      getSelectedCareerDay,
+      addObjective,
+      updateObjectiveManager,
+      archiveCareerDay,
+      deleteObjective,
+      updateInterviewDate,
+    },
+    dispatch,
+  );
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  CareerDayForManagerPage,
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CareerDayForManagerPage);

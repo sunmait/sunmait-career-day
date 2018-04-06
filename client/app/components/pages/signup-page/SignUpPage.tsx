@@ -119,7 +119,7 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
 
   private onChange(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
     const prop = event.target.name as stateKeys;
-    const newState = {[prop as any]: event.target.value};
+    const newState = { [prop as any]: event.target.value };
     this.setState(newState, function() {
       if (this.state.isConfirmed) {
         this.validateForm();
@@ -141,7 +141,7 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
                   label="firstname"
                   title="First Name"
                   value={this.state.firstname}
-                  error={('firstname' in this.state.errors) ? this.state.errors.firstname : null}
+                  error={'firstname' in this.state.errors ? this.state.errors.firstname : null}
                   handleChangeValue={e => this.onChange(e)}
                 />
               </Grid>
@@ -150,7 +150,7 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
                   label="lastname"
                   title="Last Name"
                   value={this.state.lastname}
-                  error={('lastname' in this.state.errors) ? this.state.errors.lastname : null}
+                  error={'lastname' in this.state.errors ? this.state.errors.lastname : null}
                   handleChangeValue={e => this.onChange(e)}
                 />
               </Grid>
@@ -159,7 +159,7 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
                   label="email"
                   title="Email"
                   value={this.state.email}
-                  error={('email' in this.state.errors) ? this.state.errors.email : null}
+                  error={'email' in this.state.errors ? this.state.errors.email : null}
                   handleChangeValue={e => this.onChange(e)}
                 />
               </Grid>
@@ -169,7 +169,7 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
                   title="Password"
                   value={this.state.password}
                   type="password"
-                  error={('password' in this.state.errors) ? this.state.errors.password : null}
+                  error={'password' in this.state.errors ? this.state.errors.password : null}
                   handleChangeValue={e => this.onChange(e)}
                 />
               </Grid>
@@ -179,18 +179,18 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
                   title="Password confirmation"
                   value={this.state.passwordconfirm}
                   type="password"
-                  error={('passwordconfirm' in this.state.errors) ? this.state.errors.passwordconfirm : null}
+                  error={
+                    'passwordconfirm' in this.state.errors
+                      ? this.state.errors.passwordconfirm
+                      : null
+                  }
                   handleChangeValue={e => this.onChange(e)}
                 />
               </Grid>
               <Grid item className={classes.button}>
                 <Grid container justify="center" alignItems="center" spacing={8}>
                   <Grid item>
-                    <Button
-                      raised
-                      color="primary"
-                      onClick={() => this.confirmForm()}
-                    >
+                    <Button raised color="primary" onClick={() => this.confirmForm()}>
                       Confirm
                     </Button>
                   </Grid>

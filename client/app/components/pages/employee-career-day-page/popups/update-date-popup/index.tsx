@@ -50,11 +50,11 @@ class DatetimePopup extends React.Component<IProps & WithStyles<ComponentClassNa
   }
 
   private handleChangeDate(date: Date) {
-    this.setState({interviewDate: date});
+    this.setState({ interviewDate: date });
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     return (
       <Dialog open={this.props.open} onClose={() => this.handleClosePopup()}>
@@ -67,11 +67,7 @@ class DatetimePopup extends React.Component<IProps & WithStyles<ComponentClassNa
             />
           </Typography>
 
-          <Button
-            color="primary"
-            className={classes.button}
-            onClick={() => this.updateDateClick()}
-          >
+          <Button color="primary" className={classes.button} onClick={() => this.updateDateClick()}>
             Update
           </Button>
         </DialogContent>

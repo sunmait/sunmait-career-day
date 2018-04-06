@@ -200,8 +200,8 @@ describe('employees action', () => {
 
   describe('method addCareerDay', () => {
     const careerDay = {
-      EmployeeExternalId: 1,
-      UnitManagerExternalId: 1,
+      EmployeeId: 1,
+      UnitManagerId: 1,
       InterviewDate: new Date(),
     };
 

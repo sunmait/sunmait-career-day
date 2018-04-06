@@ -8,7 +8,7 @@ interface IProps {
 
 const App = (props: IProps) => {
   return (
-    <div >
+    <div>
       <HeaderBar />
       {props.children}
       <AppNotifications />

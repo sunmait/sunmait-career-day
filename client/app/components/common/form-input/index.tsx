@@ -45,7 +45,9 @@ const FormInput = (props: IProps & WithStyles<ComponentClassNames>) => {
       />
       <div className={props.classes.helperText}>
         <FormHelperText>{`Max ${props.maxLength} characters`}</FormHelperText>
-        <FormHelperText>{`${props.maxLength - props.value.toString().length}/${props.maxLength}`}</FormHelperText>
+        <FormHelperText>{`${props.maxLength - props.value.toString().length}/${
+          props.maxLength
+        }`}</FormHelperText>
       </div>
     </FormControl>
   );

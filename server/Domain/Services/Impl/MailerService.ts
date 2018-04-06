@@ -1,10 +1,7 @@
 import { injectable, inject } from 'inversify';
 import { IMailerService } from '../IMailerService';
 import * as nodemailer from 'nodemailer';
-import {
-  ISettingsProvider,
-  IEmailCredentials,
-} from '../../../API/infrastructure/index';
+import { ISettingsProvider, IEmailCredentials } from '../../../API/infrastructure/index';
 
 @injectable()
 export class MailerService implements IMailerService {
@@ -22,11 +19,9 @@ export class MailerService implements IMailerService {
     });
   }
 
-  public async sendEmail(data) {
+  public async sendEmail(data: any) {
     const message = `Hi ${data.name}!<br/>
-      Help us secure your account by verifying your email address (${
-        data.email
-      }).
+      Help us secure your account by verifying your email address (${data.email}).
       This lets you access all of features.<br/>
       <a href="${data.link}">Verify email address</a>
       <hr/>

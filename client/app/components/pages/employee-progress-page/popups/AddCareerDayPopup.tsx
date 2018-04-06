@@ -44,11 +44,11 @@ class AddCareerDayPopup extends React.Component<IProps & WithStyles<ComponentCla
   }
 
   private handleChangeDate(date: Date) {
-    this.setState({selectedDate: date});
+    this.setState({ selectedDate: date });
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     return (
       <Dialog open={this.props.open} onClose={() => this.handleClosePopup()}>

@@ -20,8 +20,7 @@ interface IProps {
   classes: IStylesProps;
 }
 
-interface IState {
-}
+interface IState {}
 
 class SuccessPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -37,9 +36,7 @@ class SuccessPage extends React.Component<IProps, IState> {
         <Typography type="display1" color="inherit">
           Your registration was successful
         </Typography>
-        <Typography type="subheading">
-          Message with instruction was sent on your email.
-        </Typography>
+        <Typography type="subheading">Message with instruction was sent on your email.</Typography>
       </div>
     );
   }

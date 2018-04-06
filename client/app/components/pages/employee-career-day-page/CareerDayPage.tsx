@@ -13,8 +13,7 @@ interface IProps {
   match: match<IMatchParams>;
 }
 
-interface IState {
-}
+interface IState {}
 
 class CareerDayPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -25,9 +24,11 @@ class CareerDayPage extends React.Component<IProps, IState> {
   public render() {
     return (
       <div>
-        {this.props.user.Roles === 'manager' ?
-          <CareerDayForManagerPageContainer careerDayId={this.props.match.params.careerDayId} /> :
-          <CareerDayForEmployeePageContainer />}
+        {this.props.user.Roles === 'manager' ? (
+          <CareerDayForManagerPageContainer careerDayId={this.props.match.params.careerDayId} />
+        ) : (
+          <CareerDayForEmployeePageContainer />
+        )}
       </div>
     );
   }

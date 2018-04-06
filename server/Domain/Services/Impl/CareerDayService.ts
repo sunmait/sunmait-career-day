@@ -8,30 +8,27 @@ import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
 export class CareerDayService implements ICareerDayService {
   private readonly _careerDayRepository: ICareerDayRepository;
 
-  constructor(
-    @inject('CareerDayRepository') careerDayRepository: ICareerDayRepository,
-  ) {
+  constructor(@inject('CareerDayRepository') careerDayRepository: ICareerDayRepository) {
     this._careerDayRepository = careerDayRepository;
   }
 
-  public async getCareerDaysWithId(EmployeeExternalId: number): Promise<CareerDayEntity[]> {
+  public async getCareerDaysWithId(EmployeeId: number): Promise<CareerDayEntity[]> {
     return this._careerDayRepository.findAll({
-      where: { EmployeeExternalId },
+      where: { EmployeeId },
       order: [['CreatedAt', 'DESC']],
     });
   }
 
-  public async getCurrentCareerDay(EmployeeExternalId: number): Promise<CareerDayEntity> {
-    const activeDay = await this._careerDayRepository.findOne({
-      where: {EmployeeExternalId, Archived: false},
+  public async getCurrentCareerDay(EmployeeId: number): Promise<CareerDayEntity> {
+    return this._careerDayRepository.findOne({
+      where: { EmployeeId, Archived: false },
       include: ObjectiveEntity,
     });
-    return activeDay;
   }
 
   public async addCareerDay(data: any): Promise<CareerDayEntity> {
     const activeCareerDay = await this._careerDayRepository.findAll({
-      where: { EmployeeExternalId: data.EmployeeExternalId, Archived: false },
+      where: { EmployeeId: data.EmployeeId, Archived: false },
     });
 
     // TODO: manager validation
@@ -40,7 +37,7 @@ export class CareerDayService implements ICareerDayService {
       const careerDay = new CareerDayEntity(data);
       return this._careerDayRepository.create(careerDay);
     }
-    throw ({ status: 403 });
+    throw { status: 403 };
   }
 
   public async deleteCareerDay(id: number): Promise<void> {
@@ -50,10 +47,10 @@ export class CareerDayService implements ICareerDayService {
       if (careerDay.Archived) {
         await this._careerDayRepository.remove({ where: { id } });
       } else {
-        throw ({ status: 403 });
+        throw { status: 403 };
       }
     } else {
-      throw ({ status: 404 });
+      throw { status: 404 };
     }
   }
 
@@ -70,23 +67,27 @@ export class CareerDayService implements ICareerDayService {
       });
       return this._careerDayRepository.update(careerDay);
     }
-    throw ({ status: 403 });
+    throw { status: 403 };
   }
 
-  public async updateCareerDayDate(id: number, date: any, employeeId: number) {
+  public async updateCareerDayDate(
+    id: number,
+    date: string,
+    employeeId: number,
+  ): Promise<CareerDayEntity> {
     const careerDay = await this._careerDayRepository.findById(id);
 
     if (careerDay) {
       if (!careerDay.Archived) {
-        if (employeeId === careerDay.EmployeeExternalId) {
+        if (employeeId === careerDay.EmployeeId) {
           careerDay.InterviewDate = new Date(date);
           return this._careerDayRepository.update(careerDay);
         }
-        throw ({ status: 403 });
+        throw { status: 403 };
       }
-      throw ({ status: 403 });
+      throw { status: 403 };
     } else {
-      throw ({ status: 404 });
+      throw { status: 404 };
     }
   }
 }

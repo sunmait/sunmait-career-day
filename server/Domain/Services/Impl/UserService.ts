@@ -1,8 +1,6 @@
 import { injectable, inject } from 'inversify';
 import { IUserService } from '../IUserService';
-import {
-  IUserRepository,
-} from '../../../Data/Repositories/index';
+import { IUserRepository } from '../../../Data/Repositories/index';
 import UserEntity from '../../../Data/Entities/UserEntity';
 import { ICryptoService } from '../ICryptoService';
 import { IMailerService } from '../IMailerService';
@@ -27,12 +25,7 @@ export class UserServise implements IUserService {
     this._hostname = settingsProvider.getHostname();
   }
 
-  public async registerUser(
-    FirstName: string,
-    LastName: string,
-    Email: string,
-    Password: string,
-  ) {
+  public async registerUser(FirstName: string, LastName: string, Email: string, Password: string) {
     const userData = {
       FirstName,
       LastName,
@@ -49,9 +42,9 @@ export class UserServise implements IUserService {
       this._mailerService.sendEmail(emailData);
     } catch (err) {
       if (err.message === 'Validation error') {
-        throw ({ status: 400 });
+        throw { status: 400 };
       } else {
-        throw ({ status: 500, message: err });
+        throw { status: 500, message: err };
       }
     }
   }
@@ -71,18 +64,7 @@ export class UserServise implements IUserService {
   }
 
   private createLinkForVerifyEmail(email: string) {
-    const encrtyptedEmail = encodeURIComponent(
-      this._cryptoService.encrtyptAES(email),
-    );
+    const encrtyptedEmail = encodeURIComponent(this._cryptoService.encrtyptAES(email));
     return `${this._hostname}/api/users/verifyEmail/${encrtyptedEmail}`;
   }
-
-  public async loginAsEmployee() {
-    const user = await this._userRepository.findById(1);
-    if (user) {
-      return user;
-    }
-    return false;
-  }
-
 }

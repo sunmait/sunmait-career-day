@@ -14,8 +14,8 @@ describe('employeesReducer', () => {
   const careerDayOfEmployee = {
     id: 1,
     Archived: true,
-    EmployeeExternalId: '1',
-    UnitManagerExternalId: '1',
+    EmployeeId: '1',
+    UnitManagerId: '1',
     InterviewDate: new Date(),
     CreatedAt: new Date(),
     UpdatedAt: new Date(),
@@ -300,8 +300,8 @@ describe('employeesReducer', () => {
       const notEqualCareerDayOfEmployee = {
         id: 2,
         Archived: true,
-        EmployeeExternalId: '1',
-        UnitManagerExternalId: '1',
+        EmployeeId: '1',
+        UnitManagerId: '1',
         InterviewDate: new Date(),
         CreatedAt: new Date(),
         UpdatedAt: new Date(),

@@ -12,8 +12,7 @@ module.exports = {
           FirstName: 'Vasya',
           PhotoUrl: 'https://vk.com/images/camera_200.png',
           Email: 'pupkin@mail.com',
-          PasswordHash:
-            'sha1$80e57d04$1$8b7d4c62c2723c3725cb1be59ff9d62e0a88ccc9',
+          PasswordHash: 'sha1$80e57d04$1$8b7d4c62c2723c3725cb1be59ff9d62e0a88ccc9',
           EmailVerified: true,
           CreatedAt: new Date('December 18, 2017 16:41:56'),
           UpdatedAt: new Date('December 21, 2017 11:41:33'),
@@ -25,8 +24,7 @@ module.exports = {
           FirstName: 'Petya',
           PhotoUrl: 'https://vk.com/images/camera_200.png',
           Email: 'pipkin@mail.com',
-          PasswordHash:
-            'sha1$80e57d04$1$8b7d4c62c2723c3725cb1be59ff9d62e0a88ccc9',
+          PasswordHash: 'sha1$80e57d04$1$8b7d4c62c2723c3725cb1be59ff9d62e0a88ccc9',
           EmailVerified: true,
           CreatedAt: new Date('December 18, 2017 16:41:56'),
           UpdatedAt: new Date('December 21, 2017 11:41:33'),
@@ -36,11 +34,9 @@ module.exports = {
           Roles: 'employee',
           LastName: 'Tsvirko',
           FirstName: 'Alexandra',
-          PhotoUrl:
-            'https://pp.userapi.com/c836738/v836738191/6de55/3wEYIHussZI.jpg',
+          PhotoUrl: 'https://pp.userapi.com/c836738/v836738191/6de55/3wEYIHussZI.jpg',
           Email: 'tsvirko1997@mail.ru',
-          PasswordHash:
-            'sha1$80e57d04$1$8b7d4c62c2723c3725cb1be59ff9d62e0a88ccc9',
+          PasswordHash: 'sha1$80e57d04$1$8b7d4c62c2723c3725cb1be59ff9d62e0a88ccc9',
           EmailVerified: true,
           CreatedAt: new Date('December 18, 2017 16:41:56'),
           UpdatedAt: new Date('December 21, 2017 11:41:33'),
@@ -52,8 +48,7 @@ module.exports = {
           FirstName: 'Kirill',
           PhotoUrl: 'https://vk.com/images/camera_200.png',
           Email: 'stasevich@mail.com',
-          PasswordHash:
-            'sha1$80e57d04$1$8b7d4c62c2723c3725cb1be59ff9d62e0a88ccc9',
+          PasswordHash: 'sha1$80e57d04$1$8b7d4c62c2723c3725cb1be59ff9d62e0a88ccc9',
           EmailVerified: true,
           CreatedAt: new Date('December 18, 2017 16:41:56'),
           UpdatedAt: new Date('December 21, 2017 11:41:33'),

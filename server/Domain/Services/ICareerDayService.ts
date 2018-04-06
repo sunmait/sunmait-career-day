@@ -1,8 +1,10 @@
+import CareerDayEntity from '../../Data/Entities/CareerDayEntity';
+
 export interface ICareerDayService {
-  getCareerDaysWithId(employeeId: number): Promise<any>;
-  addCareerDay(data: any): Promise<any>;
-  deleteCareerDay(id: number): Promise<any>;
-  updateCareerDayDate(id: number, date: any, employeeId: number): Promise<any>;
-  archiveCareerDay(id: number): Promise<any>;
-  getCurrentCareerDay(id: number): Promise<any>;
+  getCareerDaysWithId(EmployeeId: number): Promise<CareerDayEntity[]>;
+  addCareerDay(data: any): Promise<CareerDayEntity>;
+  deleteCareerDay(id: number): Promise<void>;
+  updateCareerDayDate(id: number, date: string, employeeId: number): Promise<CareerDayEntity>;
+  archiveCareerDay(id: number): Promise<CareerDayEntity>;
+  getCurrentCareerDay(EmployeeId: number): Promise<CareerDayEntity>;
 }

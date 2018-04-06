@@ -7,7 +7,8 @@ import {
   response,
   requestParam,
   requestBody,
-  next as nextFn, httpDelete,
+  next as nextFn,
+  httpDelete,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { IAuthService } from '../../Domain/Services';
@@ -26,14 +27,11 @@ export class AuthController implements interfaces.Controller {
   @httpPost('/')
   private async auth(
     @response() res: express.Response,
-    @requestBody('Email') Email: string,
-    @requestBody('Password') Password: string,
+    @requestBody() body: any,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(
-        await this._authService.authWithEmailAndPassword(Email, Password),
-      );
+      res.json(await this._authService.authWithEmailAndPassword(body.Email, body.Password));
     } catch (err) {
       next(err);
     }

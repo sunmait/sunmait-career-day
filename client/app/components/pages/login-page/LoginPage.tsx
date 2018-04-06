@@ -43,7 +43,13 @@ interface IProps {
   user: IUser;
 }
 
-type ComponentClassNames = 'root' | 'button' | 'textField' | 'errorMessage' | 'underline' | 'blueColor';
+type ComponentClassNames =
+  | 'root'
+  | 'button'
+  | 'textField'
+  | 'errorMessage'
+  | 'underline'
+  | 'blueColor';
 
 interface IState {
   isShowedPassword: boolean;
@@ -129,7 +135,9 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
                     <InputAdornment position="end">
                       <IconButton
                         onClick={() => this.handleClickShowPassword()}
-                        onMouseDown={(e: React.MouseEvent<HTMLElement>) => LoginPage.handleMouseDownPassword(e)}
+                        onMouseDown={(e: React.MouseEvent<HTMLElement>) =>
+                          LoginPage.handleMouseDownPassword(e)
+                        }
                       >
                         {this.state.isShowedPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
@@ -140,7 +148,9 @@ class LoginPage extends React.Component<IProps & WithStyles<ComponentClassNames>
               </FormControl>
               <div className={classes.textField}>
                 <Link to="/signup" className={classes.underline}>
-                  <Typography type="subheading" className={classes.blueColor}>Sign up</Typography>
+                  <Typography type="subheading" className={classes.blueColor}>
+                    Sign up
+                  </Typography>
                 </Link>
               </div>
             </div>

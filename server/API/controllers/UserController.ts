@@ -33,21 +33,20 @@ export class UserController implements interfaces.Controller {
   @httpPost('/')
   private async register(
     @response() res: express.Response,
-    @requestBody('FirstName') FirstName: string,
-    @requestBody('LastName') LastName: string,
-    @requestBody('Email') Email: string,
-    @requestBody('Password') Password: string,
+    @requestBody() body: any,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.status(201).json(
-        await this._userService.registerUser(
-          FirstName,
-          LastName,
-          Email,
-          Password,
-        ),
-      );
+      res
+        .status(201)
+        .json(
+          await this._userService.registerUser(
+            body.FirstName,
+            body.LastName,
+            body.Email,
+            body.Password,
+          ),
+        );
     } catch (err) {
       next(err);
     }
@@ -61,10 +60,8 @@ export class UserController implements interfaces.Controller {
   ): Promise<void> {
     try {
       if (await this._userService.verifyEmail(decodeURIComponent(hash))) {
-        // redirect to front page
         res.redirect(`${this._hostname}/verify-email?successful=true`);
       }
-      // link is not valid
       res.redirect(`${this._hostname}/verify-email?successful=false`);
     } catch (err) {
       next(err);
@@ -104,22 +101,12 @@ export class UserController implements interfaces.Controller {
           Roles: 'employee',
           LastName: 'Tsvirko',
           FirstName: 'Alexandra',
-          PhotoUrl:
-            'https://pp.userapi.com/c836738/v836738191/6de55/3wEYIHussZI.jpg',
+          PhotoUrl: 'https://pp.userapi.com/c836738/v836738191/6de55/3wEYIHussZI.jpg',
           AccessToken: 'token',
         },
       ]);
     } catch (err) {
       next(err);
     }
-  }
-
-  @httpGet('/employee')
-  private async loginAsEmployee(
-    @response() res: express.Response,
-  ): Promise<void> {
-    res.json(
-      await this._userService.loginAsEmployee(),
-    );
   }
 }

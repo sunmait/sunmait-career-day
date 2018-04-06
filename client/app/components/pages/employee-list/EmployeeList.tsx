@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom';
 import { IUser } from 'redux/modules/auth/reducer';
 import { IEmployee } from 'redux/modules/employees/reducer';
 import { Theme, withStyles } from 'material-ui/styles';
-import List, {
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-} from 'material-ui/List';
+import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Header from 'components/common/header';
@@ -42,8 +38,7 @@ interface IProps {
   getEmployeesList: GetEmployeesList;
 }
 
-interface IState {
-}
+interface IState {}
 
 class EmployeeList extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -60,7 +55,7 @@ class EmployeeList extends React.Component<IProps, IState> {
         key={item.id}
         to={{
           pathname: `/employees/${item.id}`,
-          state: {employee: item},
+          state: { employee: item },
         }}
         className={classes.disableLinkStyle}
       >
@@ -77,7 +72,7 @@ class EmployeeList extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     backgroundColorHelper();
 

@@ -71,7 +71,10 @@ interface IState {
 
 type stateKeys = keyof IState;
 
-class CareerDayForManagerPage extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
+class CareerDayForManagerPage extends React.Component<
+  IProps & WithStyles<ComponentClassNames>,
+  IState
+> {
   constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {
@@ -109,10 +112,8 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
     const objectiveByCareerDayId = {
       ...objective,
       CareerDayId: this.props.careerDayId,
-      EmployeeExternalId: Number(
-        this.props.selectedCareerDay.EmployeeExternalId,
-      ),
-      UnitManagerExternalId: this.props.user.id,
+      EmployeeId: Number(this.props.selectedCareerDay.EmployeeId),
+      UnitManagerId: this.props.user.id,
     };
 
     this.props.addObjective(objectiveByCareerDayId);
@@ -126,10 +127,8 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
     const interviewDate = {
       ...datetime,
       id: this.props.careerDayId,
-      EmployeeExternalId: Number(
-        this.props.selectedCareerDay.EmployeeExternalId,
-      ),
-      UnitManagerExternalId: Number(this.props.user.id),
+      EmployeeId: Number(this.props.selectedCareerDay.EmployeeId),
+      UnitManagerId: Number(this.props.user.id),
     };
 
     this.props.updateInterviewDate(interviewDate);
@@ -141,11 +140,12 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
         key={item.id}
         objective={item}
         userRole={this.props.user.Roles}
-        handleSaveObjective={(objective: IUpdateObjectiveManager) => this.handleSaveObjective(objective)}
-        handleDeleteObjective={(
-          e: React.MouseEvent<HTMLElement>,
-          objectiveId: number,
-        ) => this.handleClickOnDeleteButton(e, objectiveId)}
+        handleSaveObjective={(objective: IUpdateObjectiveManager) =>
+          this.handleSaveObjective(objective)
+        }
+        handleDeleteObjective={(e: React.MouseEvent<HTMLElement>, objectiveId: number) =>
+          this.handleClickOnDeleteButton(e, objectiveId)
+        }
       />
     ));
   }
@@ -161,7 +161,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
   private handleArchiveCareerDay() {
     const dayInfo = {
       id: this.props.selectedCareerDay.id,
-      UnitManagerExternalId: this.props.user.id,
+      UnitManagerId: this.props.user.id,
     };
 
     this.props.archiveCareerDay(dayInfo);
@@ -205,10 +205,8 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
       <div>
         <Grid container justify="center" spacing={0}>
           <Header
-            title={`${this.props.selectedEmployee &&
-              this.props.selectedEmployee.FirstName} ${this.props
-              .selectedEmployee &&
-              this.props.selectedEmployee.LastName}'s career day`}
+            title={`${this.props.selectedEmployee && this.props.selectedEmployee.FirstName} ${this
+              .props.selectedEmployee && this.props.selectedEmployee.LastName}'s career day`}
           />
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="flex-end" className={classes.navigation} spacing={8}>
@@ -221,9 +219,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
                       disabled={this.isActiveArchiveButton()}
                       raised
                       color="primary"
-                      onClick={() =>
-                        this.togglePopupState('isOpenArchiveCDPopup')
-                      }
+                      onClick={() => this.togglePopupState('isOpenArchiveCDPopup')}
                     >
                       {this.archiveButtonText()}
                     </Button>
@@ -252,19 +248,12 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
               <div className={classes.datetime}>
                 {this.props.selectedCareerDay &&
                   this.props.selectedCareerDay.CreatedAt && (
-                    <DatetimeList
-                      selectedCareerDay={this.props.selectedCareerDay}
-                    />
+                    <DatetimeList selectedCareerDay={this.props.selectedCareerDay} />
                   )}
               </div>
             </Grid>
 
-            <Grid
-              container
-              justify="flex-end"
-              className={classes.navigation}
-              spacing={8}
-            >
+            <Grid container justify="flex-end" className={classes.navigation} spacing={8}>
               <Grid item>
                 <ControlledTooltips
                   title={'The career day archived.'}
@@ -306,9 +295,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
         {this.state.isOpenAddPopup && (
           <AddObjectivePopup
             handleClosePopup={() => this.togglePopupState('isOpenAddPopup')}
-            handleAddObjective={(objective: IObjectiveById) =>
-              this.handleAddObjective(objective)
-            }
+            handleAddObjective={(objective: IObjectiveById) => this.handleAddObjective(objective)}
             open={this.state.isOpenAddPopup}
           />
         )}
@@ -318,15 +305,13 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
             handleConfirm={() => this.handleDeleteObjective()}
             open={this.state.isOpenDeletePopup}
             title={'Delete this objective?'}
-            description={'After deleting, you can\'t come back objective!'}
+            description="After deleting, you can't come back objective!"
             confirmTitle={'Delete objective'}
           />
         )}
         {this.state.isOpenArchiveCDPopup && (
           <ConfirmationPopup
-            handleClosePopup={() =>
-              this.togglePopupState('isOpenArchiveCDPopup')
-            }
+            handleClosePopup={() => this.togglePopupState('isOpenArchiveCDPopup')}
             handleConfirm={() => this.handleArchiveCareerDay()}
             open={this.state.isOpenArchiveCDPopup}
             title="Archive this career day?"

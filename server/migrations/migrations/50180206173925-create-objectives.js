@@ -5,7 +5,7 @@ module.exports = {
       id: {
         allowNull: false,
         autoIncrement: true,
-        unique : true,
+        unique: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
@@ -25,7 +25,7 @@ module.exports = {
         references: { model: 'Statuses', key: 'id' },
       },
       Progress: {
-        type: Sequelize.FLOAT ,
+        type: Sequelize.FLOAT,
       },
       CreatedAt: {
         allowNull: false,

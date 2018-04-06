@@ -6,7 +6,7 @@ const defaultState: IAppState = {
 
 export default function(
   state: IAppState = defaultState,
-  {type, payload}: { type: string; payload: any },
+  { type, payload }: { type: string; payload: any },
 ) {
   switch (type) {
     case APP_ACTIONS.ADD_NOTIFICATION:

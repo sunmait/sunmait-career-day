@@ -7,10 +7,7 @@ import history from 'components/containers/history';
 
 const axiosRequest: any = axios;
 
-export type Login = (
-  Email: string,
-  Password: string,
-) => (dispatch: Dispatch) => axios.AxiosPromise;
+export type Login = (Email: string, Password: string) => (dispatch: Dispatch) => axios.AxiosPromise;
 
 export function login(Email: string, Password: string) {
   return (dispatch: Dispatch) => {
@@ -37,9 +34,7 @@ export function login(Email: string, Password: string) {
 }
 
 export type VerifyCredentials = (dispatch: Dispatch) => void;
-export const verifyCredentials: VerifyCredentials = async (
-  dispatch: Dispatch,
-) => {
+export const verifyCredentials: VerifyCredentials = async (dispatch: Dispatch) => {
   const accessToken = localStorage.getItem('AccessToken');
   const refreshToken = localStorage.getItem('RefreshToken');
   const currentUser = JSON.parse(localStorage.getItem('User'));
@@ -116,9 +111,7 @@ export const signUp: SignUp = (registeredUser: IRegisteredUser) => (dispatch: Di
 };
 
 export type Logout = (refreshToken: string) => (dispatch: Dispatch) => void;
-export const logout: Logout = (refreshToken: string) => (
-  dispatch: Dispatch,
-) => {
+export const logout: Logout = (refreshToken: string) => (dispatch: Dispatch) => {
   return axiosRequest
     .delete(`/api/auth/${refreshToken}`)
     .then(() => {

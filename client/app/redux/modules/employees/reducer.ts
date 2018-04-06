@@ -7,7 +7,10 @@ const defaultState: IEmployeesState = {
   selectedEmployee: null,
 };
 
-export default function(state: IEmployeesState = defaultState, { type, payload }: { type: string; payload: any }) {
+export default function(
+  state: IEmployeesState = defaultState,
+  { type, payload }: { type: string; payload: any },
+) {
   switch (type) {
     case EMPLOYEES_LIST.GET_EMPLOYEES_LIST:
       return handleGetEmployeesList(state, payload);
@@ -27,7 +30,7 @@ export default function(state: IEmployeesState = defaultState, { type, payload }
     case EMPLOYEES_LIST.ADD_CAREER_DAY:
       return handleAddCareerDay(state, payload);
 
-    case  EMPLOYEES_LIST.ADD_OBJECTIVE:
+    case EMPLOYEES_LIST.ADD_OBJECTIVE:
       return handleAddObjective(state, payload);
 
     case EMPLOYEES_LIST.DELETE_CAREER_DAY:
@@ -61,7 +64,10 @@ function handleGetCareerDaysOfEmployee(state: IEmployeesState, careerDays: ICare
   return { ...state, careerDays };
 }
 
-function handleGetSelectedCareerDay(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
+function handleGetSelectedCareerDay(
+  state: IEmployeesState,
+  selectedCareerDay: ICareerDayOfEmployee,
+) {
   return { ...state, selectedCareerDay };
 }
 
@@ -109,7 +115,10 @@ function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
   return { ...state, selectedCareerDay: updatedSelectedCareerDay };
 }
 
-function handleUpdateInterviewDate(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
+function handleUpdateInterviewDate(
+  state: IEmployeesState,
+  selectedCareerDay: ICareerDayOfEmployee,
+) {
   return { ...state, selectedCareerDay };
 }
 
@@ -125,8 +134,8 @@ export interface IEmployee {
 export interface ICareerDayOfEmployee {
   id: number;
   Archived: boolean;
-  EmployeeExternalId: string;
-  UnitManagerExternalId: string;
+  EmployeeId: string;
+  UnitManagerId: string;
   InterviewDate: Date;
   CreatedAt: Date;
   UpdatedAt: Date;
@@ -148,8 +157,8 @@ export interface IObjectiveById {
   Title: string;
   Description: string;
   CareerDayId: number;
-  EmployeeExternalId: number;
-  UnitManagerExternalId: number;
+  EmployeeId: number;
+  UnitManagerId: number;
 }
 
 export interface IEmployeesState {
@@ -160,14 +169,14 @@ export interface IEmployeesState {
 }
 
 export interface ICareerDay {
-  EmployeeExternalId: number;
-  UnitManagerExternalId: number;
+  EmployeeId: number;
+  UnitManagerId: number;
   InterviewDate: Date;
 }
 
 export interface IArchiveCareerDay {
   id: number;
-  UnitManagerExternalId: number;
+  UnitManagerId: number;
 }
 
 export interface IUpdateObjectiveManager {
@@ -184,6 +193,6 @@ export interface IUpdateObjectiveEmployee {
 export interface IUpdateInterviewDate {
   id: number;
   date: Date;
-  EmployeeExternalId: number;
-  UnitManagerExternalId: number;
+  EmployeeId: number;
+  UnitManagerId: number;
 }

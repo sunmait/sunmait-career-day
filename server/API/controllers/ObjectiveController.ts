@@ -85,13 +85,14 @@ export class ObjectiveController implements interfaces.Controller {
   @httpPatch('/:id')
   private async updateObjectiveManager(
     @requestParam('id') id: number,
-    @requestBody('title') title: string,
-    @requestBody('description') description: string,
+    @requestBody() body: any,
     @response() res: express.Response,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._objectiveService.updateObjectiveManager(id, title, description));
+      res.json(
+        await this._objectiveService.updateObjectiveManager(id, body.title, body.description),
+      );
     } catch (err) {
       next(err);
     }

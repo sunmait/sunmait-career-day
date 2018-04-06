@@ -25,10 +25,7 @@ function sendRequest(method: string, url: string, body?: any) {
           resolve(res);
         })
         .catch((err: axios.AxiosError) => {
-          if (
-            err.response.status === 401 &&
-            err.response.statusText === 'jwt expired'
-          ) {
+          if (err.response.status === 401 && err.response.statusText === 'jwt expired') {
             refreshTokens(method, url, body)
               .then((res: any) => resolve(res))
               .catch((error: any) => reject(error));
@@ -66,10 +63,7 @@ function refreshTokens(method: string, url: string, body?: any) {
           .catch((err: any) => reject(err));
       })
       .catch((err: axios.AxiosError) => {
-        if (
-          err.response.status === 401 &&
-          err.response.statusText === 'jwt expired'
-        ) {
+        if (err.response.status === 401 && err.response.statusText === 'jwt expired') {
           logout();
         } else {
           reject(err);

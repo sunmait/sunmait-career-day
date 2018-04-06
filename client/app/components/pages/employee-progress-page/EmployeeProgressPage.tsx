@@ -2,11 +2,7 @@ import * as React from 'react';
 import { Link, match } from 'react-router-dom';
 import { Location } from 'history';
 import { Theme, withStyles } from 'material-ui/styles';
-import List, {
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-} from 'material-ui/List';
+import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Delete from 'material-ui-icons/Delete';
@@ -20,11 +16,8 @@ import {
   AddCareerDay,
   DeleteCareerDay,
 } from 'redux/modules/employees/actions';
-import {
-  ICareerDayOfEmployee,
-  IEmployee,
-} from 'redux/modules/employees/reducer';
-import {toStandardFormat} from '../../helper/dateTimeHelper';
+import { ICareerDayOfEmployee, IEmployee } from 'redux/modules/employees/reducer';
+import { toStandardFormat } from '../../helper/dateTimeHelper';
 import AddCareerDayPopup from './popups/AddCareerDayPopup';
 import ConfirmationPopup from 'components/common/popups/confirmation-popup';
 import IconStatus from 'components/common/icon-status/icon-status-career-day';
@@ -127,8 +120,8 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
 
   private handleAddCareerDay(date: Date) {
     this.props.addCareerDay({
-      UnitManagerExternalId: this.props.user.id,
-      EmployeeExternalId: this.props.selectedEmployee.id,
+      UnitManagerId: this.props.user.id,
+      EmployeeId: this.props.selectedEmployee.id,
       InterviewDate: date,
     });
     this.togglePopupState('isOpenAddPopup');
@@ -156,43 +149,34 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
 
   private renderHistoryOfProgress(classes: IStylesProps) {
     if (this.props.careerDays.length === 0) {
-      return (
-        <Typography align="center">
-          This employee doesn't have career days.
-        </Typography>
-      );
+      return <Typography align="center">This employee doesn't have career days.</Typography>;
     } else {
       return this.props.careerDays.map(item => (
-          <ListItem  id={item.id.toString()} key={item.id} dense button>
-            <IconStatus isArchived={item.Archived} />
-            <Link
-              to={{
-                pathname: `/employees/${
-                  this.props.match.params.userId
-                }/career-day/${item.id}`,
-              }}
-              className={classes.disableLinkStyle}
+        <ListItem id={item.id.toString()} key={item.id} dense button>
+          <IconStatus isArchived={item.Archived} />
+          <Link
+            to={{
+              pathname: `/employees/${this.props.match.params.userId}/career-day/${item.id}`,
+            }}
+            className={classes.disableLinkStyle}
+          >
+            <ListItemText primary={this.getCurrentDate(item)} className={classes.linkTextStyle} />
+          </Link>
+          <ListItemSecondaryAction>
+            <IconButton
+              disabled={!item.Archived}
+              onClick={e => this.handleClickOnDeleteButton(e, item.id)}
             >
-              <ListItemText primary={this.getCurrentDate(item)} className={classes.linkTextStyle}/>
-            </Link>
-            <ListItemSecondaryAction>
-              <IconButton
-                disabled={!item.Archived}
-                onClick={e => this.handleClickOnDeleteButton(e, item.id)}
-              >
-                <Delete
-                  className={classes.options}
-                  name="delete-icon"
-                />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
+              <Delete className={classes.options} name="delete-icon" />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
       ));
     }
   }
 
   public render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     backgroundColorHelper();
 
@@ -230,10 +214,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
             <Grid container justify="center" spacing={0}>
               <Grid item className={classes.root}>
                 <Paper elevation={1}>
-                  <List>
-                    {this.props.careerDays &&
-                      this.renderHistoryOfProgress(classes)}
-                  </List>
+                  <List>{this.props.careerDays && this.renderHistoryOfProgress(classes)}</List>
                 </Paper>
               </Grid>
             </Grid>
@@ -252,7 +233,9 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
             handleConfirm={() => this.handleDeleteCareerDay()}
             open={this.state.isOpenDeletePopup}
             title={'Remove this career day?'}
-            description={'Also, along with the career day, the objectives that belong to this will be removed!'}
+            description={
+              'Also, along with the career day, the objectives that belong to this will be removed!'
+            }
             confirmTitle={'Delete the day'}
           />
         )}

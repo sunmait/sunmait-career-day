@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Location } from 'history';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
-import * as  queryString from 'query-string';
+import * as queryString from 'query-string';
 import { VERIFY_MESSAGE } from './verifyMessageConstant';
 
 const styles = () => ({
@@ -22,7 +22,7 @@ const styles = () => ({
 
 interface IStylesProps {
   text: string;
-  underline: string ;
+  underline: string;
   hover: string;
 }
 
@@ -31,8 +31,7 @@ interface IProps {
   location: Location;
 }
 
-interface IState {
-}
+interface IState {}
 
 class EmailVerificationPage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -58,7 +57,9 @@ class EmailVerificationPage extends React.Component<IProps, IState> {
           {this.parseQueryParams()}
         </Typography>
         <Link to="/login" className={classes.underline}>
-          <Typography type="subheading" className={classes.hover}>Return to login page</Typography>
+          <Typography type="subheading" className={classes.hover}>
+            Return to login page
+          </Typography>
         </Link>
       </div>
     );

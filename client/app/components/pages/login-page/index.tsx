@@ -9,8 +9,12 @@ const mapStateToProps = (state: IStore) => ({
   user: state.auth.user,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
-  login,
-}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+  redux.bindActionCreators(
+    {
+      login,
+    },
+    dispatch,
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

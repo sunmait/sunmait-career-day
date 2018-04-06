@@ -21,7 +21,7 @@ class DatePicker extends React.Component<IProps, IState> {
     };
   }
 
-  public handleChangeDate = (date: Date) => {
+  public handleChangeDate(date: Date) {
     this.setState({ selectedDate: date });
     this.props.handleChangeDate(date);
   }

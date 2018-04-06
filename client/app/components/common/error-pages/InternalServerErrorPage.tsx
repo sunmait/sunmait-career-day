@@ -21,9 +21,13 @@ const InternalServerErrorPage = (props: IProps) => {
   return (
     <Grid container justify="center" direction="column" spacing={0}>
       <div className={props.classes.textAlign}>
-        <Typography type="display4">500</Typography><br />
-        <Typography type="display3">Internal Server Error</Typography><br />
-        <Typography type="subheading">We're working towards creating something better. We won't be long</Typography>
+        <Typography type="display4">500</Typography>
+        <br />
+        <Typography type="display3">Internal Server Error</Typography>
+        <br />
+        <Typography type="subheading">
+          We're working towards creating something better. We won't be long
+        </Typography>
       </div>
     </Grid>
   );

@@ -8,9 +8,6 @@ const mapStateToProps = (state: IStore) => ({
   user: state.auth.user,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
-}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  CareerDayPage,
-);
+export default connect(mapStateToProps, mapDispatchToProps)(CareerDayPage);

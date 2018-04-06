@@ -11,14 +11,12 @@ export class CryptoService implements ICryptoService {
     this._sectetKey = settingsProvider.getSecretKey();
   }
 
-  public encrtyptAES(data) {
+  public encrtyptAES(data: string) {
     return CryptoJS.AES.encrypt(data, this._sectetKey).toString();
   }
 
-  public decryptAES(data) {
-    return CryptoJS.AES.decrypt(data, this._sectetKey).toString(
-      CryptoJS.enc.Utf8,
-    );
+  public decryptAES(data: string) {
+    return CryptoJS.AES.decrypt(data, this._sectetKey).toString(CryptoJS.enc.Utf8);
   }
 
   public passwordHashing(password: string) {
