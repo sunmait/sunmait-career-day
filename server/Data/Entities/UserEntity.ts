@@ -13,7 +13,9 @@ import {
   IsDate,
   UpdatedAt,
   Unique,
+  BelongsToMany,
 } from 'sequelize-typescript';
+import ManagerEmployeesEntity from './ManagerEmployeesEntity';
 
 @Table({ tableName: 'Users' })
 export default class UserEntity extends Model<UserEntity> {
@@ -69,4 +71,7 @@ export default class UserEntity extends Model<UserEntity> {
   @Default(false)
   @Column(DataType.BOOLEAN)
   public EmailVerified: boolean;
+
+  @BelongsToMany(() => UserEntity, () => ManagerEmployeesEntity, 'UnitManagerId')
+  public Employees: UserEntity[];
 }

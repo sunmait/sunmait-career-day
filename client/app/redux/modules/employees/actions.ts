@@ -44,9 +44,7 @@ export const getCareerDayOfEmployee: GetCareerDaysOfEmployee = (employeeId: numb
 };
 
 export type GetSelectedCareerDay = (careerDayId: number) => (dispatch: Dispatch) => void;
-export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) => (
-  dispatch: Dispatch,
-) => {
+export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) => (dispatch: Dispatch) => {
   return sendRequest('get', `/api/objectives/${careerDayId}`)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
@@ -60,9 +58,7 @@ export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) 
 };
 
 export type GetActiveCareerDay = (employeeId: number) => (dispatch: Dispatch) => void;
-export const getActiveCareerDay: GetActiveCareerDay = (employeeId: number) => (
-  dispatch: Dispatch,
-) => {
+export const getActiveCareerDay: GetActiveCareerDay = (employeeId: number) => (dispatch: Dispatch) => {
   return sendRequest('get', `/api/career-days/active-day/${employeeId}`).then(
     (res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
@@ -133,12 +129,10 @@ export const deleteCareerDay: DeleteCareerDay = (careerDayId: number) => (dispat
     });
 };
 
-export type UpdateObjectiveEmployee = (
-  objective: IUpdateObjectiveEmployee,
-) => (dispatch: Dispatch) => void;
-export const updateObjectiveEmployee: UpdateObjectiveEmployee = (
-  objective: IUpdateObjectiveEmployee,
-) => (dispatch: Dispatch) => {
+export type UpdateObjectiveEmployee = (objective: IUpdateObjectiveEmployee) => (dispatch: Dispatch) => void;
+export const updateObjectiveEmployee: UpdateObjectiveEmployee = (objective: IUpdateObjectiveEmployee) => (
+  dispatch: Dispatch,
+) => {
   return sendRequest('patch', `/api/objectives/progress/${objective.id}`, {
     progress: objective.progress,
   })
@@ -153,12 +147,10 @@ export const updateObjectiveEmployee: UpdateObjectiveEmployee = (
     });
 };
 
-export type UpdateObjectiveManager = (
-  objective: IUpdateObjectiveManager,
-) => (dispatch: Dispatch) => void;
-export const updateObjectiveManager: UpdateObjectiveManager = (
-  objective: IUpdateObjectiveManager,
-) => (dispatch: Dispatch) => {
+export type UpdateObjectiveManager = (objective: IUpdateObjectiveManager) => (dispatch: Dispatch) => void;
+export const updateObjectiveManager: UpdateObjectiveManager = (objective: IUpdateObjectiveManager) => (
+  dispatch: Dispatch,
+) => {
   return sendRequest('patch', `/api/objectives/${objective.id}`, {
     title: objective.title,
     description: objective.description,
@@ -175,22 +167,18 @@ export const updateObjectiveManager: UpdateObjectiveManager = (
 };
 
 export type ArchiveCareerDay = (careerDay: IArchiveCareerDay) => (dispatch: Dispatch) => void;
-export const archiveCareerDay: ArchiveCareerDay = (careerDay: IArchiveCareerDay) => (
-  dispatch: Dispatch,
-) => {
+export const archiveCareerDay: ArchiveCareerDay = (careerDay: IArchiveCareerDay) => (dispatch: Dispatch) => {
   return sendRequest('patch', `/api/career-days/archive/${careerDay.id}`, careerDay)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       const newCareerDay: ICareerDayOfEmployee = res.data;
 
-      const newCareerDaysList = store
-        .getState()
-        .employees.careerDays.map((item: ICareerDayOfEmployee) => {
-          if (item.id === res.data.id) {
-            return newCareerDay.id;
-          } else {
-            return newCareerDay;
-          }
-        });
+      const newCareerDaysList = store.getState().employees.careerDays.map((item: ICareerDayOfEmployee) => {
+        if (item.id === res.data.id) {
+          return newCareerDay.id;
+        } else {
+          return newCareerDay;
+        }
+      });
 
       dispatch({
         type: EMPLOYEES_LIST.ARCHIVE_CAREER_DAY,
@@ -203,9 +191,7 @@ export const archiveCareerDay: ArchiveCareerDay = (careerDay: IArchiveCareerDay)
 };
 
 export type UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (dispatch: Dispatch) => void;
-export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (
-  dispatch: Dispatch,
-) => {
+export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterviewDate) => (dispatch: Dispatch) => {
   return sendRequest('patch', `/api/career-days/update-date/${datetime.id}`, datetime)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       const updatedCareerDay = { ...store.getState().employees.selectedCareerDay };

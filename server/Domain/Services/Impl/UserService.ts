@@ -63,9 +63,23 @@ export class UserServise implements IUserService {
     return false;
   }
 
-  private createLinkForVerifyEmail(email: string) {
-    const encrtyptedEmail = encodeURIComponent(this._cryptoService.encrtyptAES(email));
-    return `${this._hostname}/api/users/verifyEmail/${encrtyptedEmail}`;
+  public async getEmployees(unitManagerId: number): Promise<UserEntity[]> {
+    const manager = await this._userRepository.findOne({
+      where: {
+        id: unitManagerId,
+      },
+      include: UserEntity,
+    });
+
+    return manager.Employees.map(
+      (user: UserEntity) =>
+        ({
+          id: user.id,
+          FirstName: user.FirstName,
+          LastName: user.LastName,
+          PhotoUrl: user.PhotoUrl,
+        } as UserEntity),
+    );
   }
 
   public async selectedEmployee(id: number) {
@@ -79,6 +93,11 @@ export class UserServise implements IUserService {
       PhotoUrl: employee.PhotoUrl,
       LastName: employee.LastName,
       FirstName: employee.FirstName,
-    };
+    } as UserEntity;
+  }
+
+  private createLinkForVerifyEmail(email: string) {
+    const encrtyptedEmail = encodeURIComponent(this._cryptoService.encrtyptAES(email));
+    return `${this._hostname}/api/users/verifyEmail/${encrtyptedEmail}`;
   }
 }

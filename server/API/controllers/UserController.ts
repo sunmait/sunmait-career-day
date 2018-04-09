@@ -8,11 +8,13 @@ import {
   httpPost,
   requestBody,
   next as nextFn,
+  request,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { IUserService } from '../../Domain/Services';
 import { ISettingsProvider } from '../infrastructure/index';
 import { CheckAuth } from '../middlewares/CheckAuth';
+import IRequest from '../helper/IRequest';
 
 /**
  * Operations about users.
@@ -39,14 +41,7 @@ export class UserController implements interfaces.Controller {
     try {
       res
         .status(201)
-        .json(
-          await this._userService.registerUser(
-            body.FirstName,
-            body.LastName,
-            body.Email,
-            body.Password,
-          ),
-        );
+        .json(await this._userService.registerUser(body.FirstName, body.LastName, body.Email, body.Password));
     } catch (err) {
       next(err);
     }
@@ -73,38 +68,17 @@ export class UserController implements interfaces.Controller {
    * id: unit manager id
    */
   @httpGet('/employees', CheckAuth)
-  private async get(
-    @requestParam('id') id: string,
+  private async getEmployees(
     @response() res: express.Response,
+    @request() req: IRequest,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json([
-        {
-          id: 1,
-          Roles: 'employee',
-          LastName: 'Pupkin',
-          FirstName: 'Vasya',
-          PhotoUrl: 'https://vk.com/images/camera_200.png',
-          AccessToken: 'token',
-        },
-        {
-          id: 2,
-          Roles: 3,
-          LastName: 'Pupkin',
-          FirstName: 'Petya',
-          PhotoUrl: 'https://vk.com/images/camera_200.png',
-          AccessToken: 'token',
-        },
-        {
-          id: 3,
-          Roles: 'employee',
-          LastName: 'Tsvirko',
-          FirstName: 'Alexandra',
-          PhotoUrl: 'https://pp.userapi.com/c836738/v836738191/6de55/3wEYIHussZI.jpg',
-          AccessToken: 'token',
-        },
-      ]);
+      if (req.user.Roles === 'manager') {
+        res.json(await this._userService.getEmployees(req.user.id));
+      } else {
+        throw { status: 403 };
+      }
     } catch (err) {
       next(err);
     }
