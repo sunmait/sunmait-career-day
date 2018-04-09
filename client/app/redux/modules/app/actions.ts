@@ -3,9 +3,7 @@ import { Dispatch } from 'redux/store';
 import { INotification } from './reducer';
 
 export type AddNotification = (notification: INotification) => (dispatch: Dispatch) => void;
-export const addNotification: AddNotification = (notification: INotification) => (
-  dispatch: Dispatch,
-) => {
+export const addNotification: AddNotification = (notification: INotification) => (dispatch: Dispatch) => {
   if (notification.status === 403) {
     notification.message = 'You don\'t have access to this action';
   } else if (notification.status === 404) {

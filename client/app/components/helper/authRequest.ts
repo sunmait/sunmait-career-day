@@ -13,8 +13,8 @@ function sendRequest(method: string, url: string, body?: any) {
       const params = [];
 
       params.push(url);
-      if (body) {
-        params.push(body);
+      if (body || method === 'patch' || method === 'post') {
+        params.push(body || {});
       }
       params.push({
         headers: { Authorization: `Bearer ${accessToken}` },
