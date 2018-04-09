@@ -155,9 +155,9 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
   private isArchived() {
     if (this.props.selectedCareerDay) {
       return this.props.selectedCareerDay.Archived;
+    } else {
+      return true;
     }
-
-    return true;
   }
 
   private handleArchiveCareerDay() {
