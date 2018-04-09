@@ -77,13 +77,11 @@ export class CareerDayService implements ICareerDayService {
   ): Promise<CareerDayEntity> {
     const careerDay = await this._careerDayRepository.findById(id);
 
-    if (careerDay) {
-      if (!careerDay.Archived) {
-        if (employeeId === careerDay.EmployeeId) {
-          careerDay.InterviewDate = new Date(date);
-          return this._careerDayRepository.update(careerDay);
-        }
-        throw { status: 403 };
+    if (careerDay && !careerDay.Archived) {
+      if (employeeId === careerDay.EmployeeId) {
+        careerDay.InterviewDate = new Date(date);
+
+        return this._careerDayRepository.update(careerDay);
       }
       throw { status: 403 };
     } else {

@@ -7,10 +7,7 @@ const defaultState: IEmployeesState = {
   selectedEmployee: null,
 };
 
-export default function(
-  state: IEmployeesState = defaultState,
-  { type, payload }: { type: string; payload: any },
-) {
+export default function(state: IEmployeesState = defaultState, { type, payload }: { type: string; payload: any }) {
   switch (type) {
     case EMPLOYEES_LIST.GET_EMPLOYEES_LIST:
       return handleGetEmployeesList(state, payload);
@@ -64,10 +61,7 @@ function handleGetCareerDaysOfEmployee(state: IEmployeesState, careerDays: ICare
   return { ...state, careerDays };
 }
 
-function handleGetSelectedCareerDay(
-  state: IEmployeesState,
-  selectedCareerDay: ICareerDayOfEmployee,
-) {
+function handleGetSelectedCareerDay(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
   return { ...state, selectedCareerDay };
 }
 
@@ -115,10 +109,7 @@ function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
   return { ...state, selectedCareerDay: updatedSelectedCareerDay };
 }
 
-function handleUpdateInterviewDate(
-  state: IEmployeesState,
-  selectedCareerDay: ICareerDayOfEmployee,
-) {
+function handleUpdateInterviewDate(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
   return { ...state, selectedCareerDay };
 }
 

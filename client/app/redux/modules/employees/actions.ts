@@ -210,6 +210,7 @@ export const updateInterviewDate: UpdateInterviewDate = (datetime: IUpdateInterv
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       const updatedCareerDay = { ...store.getState().employees.selectedCareerDay };
       updatedCareerDay.InterviewDate = res.data.InterviewDate;
+      updatedCareerDay.UpdatedAt = res.data.UpdatedAt;
 
       dispatch({
         type: EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME,

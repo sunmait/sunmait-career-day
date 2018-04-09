@@ -65,11 +65,7 @@ export class ObjectiveService implements IObjectiveService {
     }
   }
 
-  public async updateObjectiveManager(
-    id: number,
-    title: string,
-    description: string,
-  ): Promise<ObjectiveEntity> {
+  public async updateObjectiveManager(id: number, title: string, description: string): Promise<ObjectiveEntity> {
     const objective = await this._objectiveRepository.findOne({
       where: { id },
       include: CareerDayEntity,

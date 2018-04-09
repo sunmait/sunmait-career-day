@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import { IUser } from 'redux/modules/auth/reducer';
 import { IEmployee } from 'redux/modules/employees/reducer';
 import { Theme, withStyles } from 'material-ui/styles';
-import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Header from 'components/common/header';
 import Avatar from 'material-ui/Avatar';
-import IconStatus from 'components/common/icon-status/icon-status-career-day';
 import { GetEmployeesList } from 'redux/modules/employees/actions';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 
@@ -38,7 +37,8 @@ interface IProps {
   getEmployeesList: GetEmployeesList;
 }
 
-interface IState {}
+interface IState {
+}
 
 class EmployeeList extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -62,9 +62,6 @@ class EmployeeList extends React.Component<IProps, IState> {
         <ListItem dense button>
           <Avatar alt={item.LastName} src={item.PhotoUrl} />
           <ListItemText primary={`${item.FirstName} ${item.LastName}`} />
-          <ListItemSecondaryAction>
-            <IconStatus isArchived={false} />
-          </ListItemSecondaryAction>
         </ListItem>
       </Link>
     ));
