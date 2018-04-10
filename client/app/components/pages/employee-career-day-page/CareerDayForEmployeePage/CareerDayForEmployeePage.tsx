@@ -5,6 +5,8 @@ import Grid from 'material-ui/Grid';
 import { ICareerDayOfEmployee, IUpdateObjectiveEmployee } from 'redux/modules/employees/reducer';
 import { GetActiveCareerDay, UpdateObjectiveEmployee } from 'redux/modules/employees/actions';
 import { withStyles, WithStyles } from 'material-ui/styles';
+import Typography from 'material-ui/Typography';
+import Paper from 'material-ui/Paper';
 import DatetimeList from '../datetime-list/index';
 import Objective from '../objective/index';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
@@ -24,9 +26,13 @@ const styles = {
     marginTop: 10,
     marginBottom: 10,
   },
+  paper: {
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
 };
 
-type ComponentClassNames = 'root' | 'navigation' | 'datetime';
+type ComponentClassNames = 'root' | 'navigation' | 'datetime' | 'paper';
 
 interface IProps {
   user: IUser;
@@ -35,12 +41,10 @@ interface IProps {
   updateObjectiveEmployee: UpdateObjectiveEmployee;
 }
 
-interface IState {}
+interface IState {
+}
 
-class CareerDayForEmployeePage extends React.Component<
-  IProps & WithStyles<ComponentClassNames>,
-  IState
-> {
+class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
   constructor(props: IProps & WithStyles<ComponentClassNames>) {
     super(props);
     this.state = {};
@@ -55,16 +59,25 @@ class CareerDayForEmployeePage extends React.Component<
   }
 
   private renderObjectives() {
-    return this.props.activeCareerDay.Objectives.map(item => (
-      <Objective
-        key={item.id}
-        objective={item}
-        userRole={this.props.user.Roles}
-        handleSaveObjective={(objective: IUpdateObjectiveEmployee) =>
-          this.handleSaveObjective(objective)
-        }
-      />
-    ));
+    if (this.props.activeCareerDay && this.props.activeCareerDay.Objectives) {
+      return this.props.activeCareerDay.Objectives.map(item => (
+        <Objective
+          key={item.id}
+          objective={item}
+          userRole={this.props.user.Roles}
+          handleSaveObjective={(objective: IUpdateObjectiveEmployee) =>
+            this.handleSaveObjective(objective)
+          }
+        />
+      ));
+    }
+    return (
+      <Paper elevation={1}>
+        <Typography align="center" className={this.props.classes.paper}>
+          This employee doesn't have career day.
+        </Typography>
+      </Paper>
+    );
   }
 
   public render() {
@@ -80,15 +93,13 @@ class CareerDayForEmployeePage extends React.Component<
             <Grid container justify="center">
               <div className={classes.datetime}>
                 {activeCareerDay &&
-                  activeCareerDay.CreatedAt && <DatetimeList selectedCareerDay={activeCareerDay} />}
+                activeCareerDay.CreatedAt && <DatetimeList selectedCareerDay={activeCareerDay} />}
               </div>
             </Grid>
 
             <Grid container justify="center">
               <div className={classes.root}>
-                {this.props.activeCareerDay &&
-                  this.props.activeCareerDay.Objectives &&
-                  this.renderObjectives()}
+                {this.renderObjectives()}
               </div>
             </Grid>
           </Grid>

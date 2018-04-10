@@ -10,13 +10,9 @@ const mapStateToProps = (state: IStore) => ({
   activeCareerDay: state.employees.selectedCareerDay,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  redux.bindActionCreators(
-    {
-      getActiveCareerDay,
-      updateObjectiveEmployee,
-    },
-    dispatch,
-  );
+const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({
+  getActiveCareerDay,
+  updateObjectiveEmployee,
+}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CareerDayForEmployeePage);

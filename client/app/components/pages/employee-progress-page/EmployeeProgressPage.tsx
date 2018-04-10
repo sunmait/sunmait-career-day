@@ -112,10 +112,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     this.setState({ [propName as any]: !this.state[propName] });
   }
 
-  private handleClickOnDeleteButton(
-    event: React.MouseEvent<HTMLElement>,
-    deleteCareerDayId: number,
-  ) {
+  private handleClickOnDeleteButton(event: React.MouseEvent<HTMLElement>, deleteCareerDayId: number) {
     event.preventDefault();
 
     this.setState({ deleteCareerDayId });
@@ -158,34 +155,33 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
           This employee doesn't have career days.
         </Typography>
       );
-    } else {
-      return this.props.careerDays.map(item => (
-          <ListItem  id={item.id.toString()} key={item.id} dense button>
-            <IconStatus isArchived={item.Archived} />
-            <Link
-              to={{
-                pathname: `/employees/${
-                  this.props.match.params.userId
-                }/career-day/${item.id}`,
-              }}
-              className={classes.disableLinkStyle}
-            >
-              <ListItemText primary={this.getCurrentDate(item)} className={classes.linkTextStyle}/>
-            </Link>
-            <ListItemSecondaryAction>
-              <IconButton
-                disabled={!item.Archived}
-                onClick={e => this.handleClickOnDeleteButton(e, item.id)}
-              >
-                <Delete
-                  className={classes.options}
-                  name="delete-icon"
-                />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-      ));
     }
+    return this.props.careerDays.map(item => (
+      <ListItem id={item.id.toString()} key={item.id} dense button>
+        <IconStatus isArchived={item.Archived} />
+        <Link
+          to={{
+            pathname: `/employees/${
+              this.props.match.params.userId
+              }/career-day/${item.id}`,
+          }}
+          className={classes.disableLinkStyle}
+        >
+          <ListItemText primary={this.getCurrentDate(item)} className={classes.linkTextStyle} />
+        </Link>
+        <ListItemSecondaryAction>
+          <IconButton
+            disabled={!item.Archived}
+            onClick={e => this.handleClickOnDeleteButton(e, item.id)}
+          >
+            <Delete
+              className={classes.options}
+              name="delete-icon"
+            />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
+    ));
   }
 
   public render() {
@@ -229,7 +225,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
                 <Paper elevation={1}>
                   <List>
                     {this.props.careerDays &&
-                      this.renderHistoryOfProgress(classes)}
+                    this.renderHistoryOfProgress(classes)}
                   </List>
                 </Paper>
               </Grid>
