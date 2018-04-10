@@ -29,12 +29,14 @@ const styles = (theme: Theme) => ({
     flexDirection: 'column',
     width: '100%',
   } as React.CSSProperties,
-  paddingObjective: {
-    paddingRight: '0px !important',
-  },
+  paddingSummary: {
+    '&:last-child': {
+      paddingRight: 0,
+    } as React.CSSProperties,
+  } as React.CSSProperties,
 });
 
-type ComponentClassNames = 'heading' | 'summary' | 'alignFrom' | 'paddingObjective';
+type ComponentClassNames = 'heading' | 'summary' | 'alignFrom' | 'paddingSummary' ;
 
 interface IProps {
   objective: IObjective;
@@ -213,7 +215,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
             <Typography className={this.props.classes.heading}>{this.props.objective.Title}</Typography>
           </div>
 
-          <div className={this.props.classes.paddingObjective}>
+          <div className={this.props.classes.paddingSummary}>
             {!this.props.archived && this.renderObjectiveOptions()}
           </div>
         </ExpansionPanelSummary>

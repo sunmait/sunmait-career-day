@@ -59,12 +59,15 @@ export const getSelectedCareerDay: GetSelectedCareerDay = (careerDayId: number) 
 
 export type GetActiveCareerDay = (employeeId: number) => (dispatch: Dispatch) => void;
 export const getActiveCareerDay: GetActiveCareerDay = (employeeId: number) => (dispatch: Dispatch) => {
-  return sendRequest('get', `/api/career-days/active-day/${employeeId}`).then(
-    (res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
+  return sendRequest('get', `/api/career-days/active-day/${employeeId}`)
+    .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       dispatch({
         type: EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY,
         payload: res.data,
       });
+    })
+    .catch((err: axios.AxiosError) => {
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
     });
 };
 
