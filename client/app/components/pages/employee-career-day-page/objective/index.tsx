@@ -4,10 +4,7 @@ import { Theme, withStyles, WithStyles } from 'material-ui/styles';
 import Typography from 'material-ui/Typography';
 import Edit from 'material-ui-icons/Edit';
 import Delete from 'material-ui-icons/Delete';
-import ExpansionPanel, {
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-} from 'material-ui/ExpansionPanel';
+import ExpansionPanel, { ExpansionPanelSummary, ExpansionPanelDetails } from 'material-ui/ExpansionPanel';
 import { LinearProgress } from 'material-ui/Progress';
 import Grid from 'material-ui/Grid';
 import IconStatus from 'components/common/icon-status/icon-status-objective';
@@ -43,7 +40,7 @@ interface IProps {
   objective: IObjective;
   userRole: string;
   archived?: boolean;
-  handleSaveObjective?: (objective: { title?: string, description?: string, progress?: number, id: number }) => void;
+  handleSaveObjective?: (objective: { title?: string; description?: string; progress?: number; id: number }) => void;
   handleDeleteObjective?: (e: React.MouseEvent<HTMLElement>, objectiveId: number) => void;
 }
 
@@ -120,7 +117,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
       <ExpansionPanel>
         <ExpansionPanelSummary>
           <div className={this.props.classes.alignFrom}>
-            {this.props.userRole === 'manager' ?
+            {this.props.userRole === 'manager' ? (
               [
                 <FormInput
                   key={1}
@@ -136,14 +133,15 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
                   value={this.state.Description}
                   handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
                 />,
-              ] :
+              ]
+            ) : (
               <FormInput
                 label={'Progress'}
                 maxLength={3}
                 value={this.setNumberProgress()}
                 handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) => this.handleChangeValue(e)}
               />
-            }
+            )}
             <Button
               color="primary"
               disabled={
@@ -194,18 +192,14 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
   private renderObjectiveOptions() {
     return (
       <React.Fragment>
-        <IconButton
-          onClick={(e: React.MouseEvent<HTMLElement>) => this.handleEditObjective(e)}
-        >
+        <IconButton onClick={(e: React.MouseEvent<HTMLElement>) => this.handleEditObjective(e)}>
           <Edit />
         </IconButton>
-        {this.props.userRole === 'manager' ?
-          <IconButton
-            onClick={(e: React.MouseEvent<HTMLElement>) => this.handleDeleteObjective(e)}
-          >
+        {this.props.userRole === 'manager' ? (
+          <IconButton onClick={(e: React.MouseEvent<HTMLElement>) => this.handleDeleteObjective(e)}>
             <Delete />
           </IconButton>
-          : null}
+        ) : null}
       </React.Fragment>
     );
   }
@@ -216,9 +210,7 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
         <ExpansionPanelSummary>
           <div className={this.props.classes.summary}>
             <IconStatus statusId={this.props.objective.StatusId} />
-            <Typography className={this.props.classes.heading}>
-              {this.props.objective.Title}
-            </Typography>
+            <Typography className={this.props.classes.heading}>{this.props.objective.Title}</Typography>
           </div>
 
           <div className={this.props.classes.paddingObjective}>
@@ -226,17 +218,13 @@ class Objective extends React.Component<IProps & WithStyles<ComponentClassNames>
           </div>
         </ExpansionPanelSummary>
 
-        <ExpansionPanelDetails>
-          {this.objectivePanelDetails()}
-        </ExpansionPanelDetails>
+        <ExpansionPanelDetails>{this.objectivePanelDetails()}</ExpansionPanelDetails>
       </ExpansionPanel>
     );
   }
 
   public render() {
-    return (
-      <div>{this.state.isEdited ? this.formInputPanel() : this.renderObjectivePanel()}</div>
-    );
+    return <div>{this.state.isEdited ? this.formInputPanel() : this.renderObjectivePanel()}</div>;
   }
 }
 

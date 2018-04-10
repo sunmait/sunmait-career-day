@@ -5,6 +5,16 @@ import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 
 import { IObjectiveRepository, ICareerDayRepository } from '../../../Data/Repositories/index';
 
+enum ObjectiveProgress {
+  COMPLETED = 1,
+  NOT_STARTED = 0,
+}
+
+enum ObjectiveStatuses {
+  IN_PROGRESS = 1,
+  ACTIVE = 2,
+  DONE = 3,
+}
 @injectable()
 export class ObjectiveService implements IObjectiveService {
   private readonly _objectiveRepository: IObjectiveRepository;
@@ -30,10 +40,7 @@ export class ObjectiveService implements IObjectiveService {
 
     if (careerDay) {
       if (!careerDay.Archived) {
-        if (
-          data.EmployeeId === careerDay.EmployeeId &&
-          data.UnitManagerId === careerDay.UnitManagerId
-        ) {
+        if (data.EmployeeId === careerDay.EmployeeId && data.UnitManagerId === careerDay.UnitManagerId) {
           const objective = new ObjectiveEntity(data);
 
           return this._objectiveRepository.create(objective);
@@ -56,6 +63,14 @@ export class ObjectiveService implements IObjectiveService {
     if (objective && objective.CareerDay) {
       if (!objective.CareerDay.Archived) {
         objective.Progress = progress;
+
+        if (objective.Progress === ObjectiveProgress.NOT_STARTED) {
+          objective.StatusId = ObjectiveStatuses.ACTIVE;
+        } else if (objective.Progress === ObjectiveProgress.COMPLETED) {
+          objective.StatusId = ObjectiveStatuses.DONE;
+        } else {
+          objective.StatusId = ObjectiveStatuses.IN_PROGRESS;
+        }
 
         return this._objectiveRepository.update(objective);
       }

@@ -5,12 +5,18 @@ import Done from 'material-ui-icons/Done';
 import IconButton from 'material-ui/IconButton';
 import TimeLine from 'material-ui-icons/Timeline';
 
+enum ObjectiveStatuses {
+  QUEUE = 2,
+  IN_PROGRESS = 1,
+  DONE = 3,
+}
+
 interface IProps {
   statusId: number;
 }
 
 const IconStatus = (props: IProps) => {
-  if (props.statusId === 1) {
+  if (props.statusId === ObjectiveStatuses.QUEUE) {
     return (
       <ControlledTooltips
         title="Queue"
@@ -22,7 +28,7 @@ const IconStatus = (props: IProps) => {
         }
       />
     );
-  } else if (props.statusId === 2) {
+  } else if (props.statusId === ObjectiveStatuses.IN_PROGRESS) {
     return (
       <ControlledTooltips
         title="In progress"
@@ -34,7 +40,7 @@ const IconStatus = (props: IProps) => {
         }
       />
     );
-  } else {
+  } else if (props.statusId === ObjectiveStatuses.DONE) {
     return (
       <ControlledTooltips
         title="Done"
