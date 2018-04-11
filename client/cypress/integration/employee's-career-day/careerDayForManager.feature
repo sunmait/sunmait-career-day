@@ -1,8 +1,15 @@
 Feature: Employee's career days page for manager
 
-  Scenario: I see 'Vasya Pupkin' career days
-    Given I logged in as 'unit manager' with waiting for response
-    And I click on 'Vasya Pupkin' link
+  Background: I logged in as unit manager
+    Given I open 'login' page
+    When I typing in 'email' field: 'stasevich@mail.com'
+    And I typing in 'password' field: 'qwerty'
+    And I click on 'Login' button
+    Then I am redirected to 'employees' page
+
+  Scenario: I see 'Vasya Pupkin's' progress days
+#    Given I logged in as 'unit manager' with waiting for response
+    When I click on 'Vasya Pupkin' link
     When I see 'employees/1' page
     Then I see 'Vasya Pupkin' page header
     And I see list

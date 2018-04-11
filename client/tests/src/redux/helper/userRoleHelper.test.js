@@ -1,18 +1,21 @@
-import * as actions from 'redux/modules/auth/actions';
-import axios from 'axios';
-import userRoleHelper from 'components/helper/userRoleHelper.ts';
+import { isAuthAsManager, isAuthAsEmployee } from 'components/helper/userRoleHelper.ts';
 
 describe('User role helper', () => {
-  test('should return true if auth as manager', () => {
-    const dispatchSpy = jest.fn();
-
-    const params = {
-      Email: 'tsv@gmail.com',
-      Password: '123456',
+  test('should return true if user is manager', () => {
+    const user = {
+      Role: 'manager',
     };
+    const manager = isAuthAsManager(user);
 
-    // const user = userRoleHelper(dispatchSpy.mock.calls[0][0].payload);
-    //
-    // expect(user).toEqual(true);
+    expect(manager).toEqual(true);
+  });
+
+  test('should return true if user is employee', () => {
+    const user = {
+      Role: 'employee',
+    };
+    const employee = isAuthAsEmployee(user);
+
+    expect(employee).toEqual(true);
   });
 });

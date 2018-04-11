@@ -1,7 +1,8 @@
 import EMPLOYEES_LIST from 'redux/modules/employees/actionConstants';
 import * as actions from 'redux/modules/employees/actions';
 import axios from 'axios';
-import localStorage from './localStorageMock';
+import store from 'redux/store';
+import '../../../../__mocks__/localStorage';
 
 describe('employees action', () => {
   beforeEach(() => {
@@ -10,9 +11,11 @@ describe('employees action', () => {
     axios.delete.mockReturnValue(Promise.resolve({status: 200, body: {}}));
     axios.patch.mockReturnValue(Promise.resolve({status: 200, body: {}}));
 
-    console.error = jest.fn((error) => {
-    });
+    store.getState().employees.careerDays = [{id: 1}];
+    store.getState().employees.selectedCareerDay = {Objectives: [{id: 1}], InterviewDate: '', UpdatedAt: ''};
   });
+
+  const date = '2018-04-11T13:00:08.598Z';
 
   describe('method getEmployeesList', () => {
     test('should send GET request to `/api/employee`', () => {
@@ -281,7 +284,7 @@ describe('employees action', () => {
     const careerDay = {
       EmployeeId: 1,
       UnitManagerId: 1,
-      InterviewDate: new Date(),
+      InterviewDate: date,
     };
 
     test('should sent POST request to `/api/career-days`', () => {
@@ -334,72 +337,66 @@ describe('employees action', () => {
     });
   });
 
-  // describe('method addObjective', () => {
-  //   const objective = {
-  //     Title: 'objective',
-  //     Description: 'description',
-  //     CareerDayId: 4,
-  //     EmployeeId: 1,
-  //     UnitManagerId: 4,
-  //   };
-  //
-  //   test('should sent POST request to `/api/objectives`', () => {
-  //     const dispatchSpy = jest.fn();
-  //
-  //     return actions.addObjective(objective)(dispatchSpy)
-  //       .then(() => {
-  //         const expectedUrl = axios.post.mock.calls[0][0];
-  //         console.log(axios.post.mock.calls[0][0]);
-  //
-  //         return expect(expectedUrl).toBe('/api/objectives');
-  //       });
-  //   });
-  //
-  //   test('should dispatch correct action in case of success response', () => {
-  //     const dispatchSpy = jest.fn();
-  //     const fakeResponse = {
-  //       body: {},
-  //       status: 200,
-  //     };
-  //
-  //     return actions.addObjective(objective)(dispatchSpy)
-  //       .then(() => {
-  //         const type = dispatchSpy.mock.calls[0][0].type;
-  //
-  //         return expect(type).toEqual(EMPLOYEES_LIST.ADD_OBJECTIVE);
-  //       });
-  //   });
-  //
-  //
-  //   test('should dispatch correct payload in case of success response', () =>
-  //     const fakeResponse = {
-  //       body: {},
-  //       status: 200,
-  //     };
-  //     const dispatchSpy = jest.fn();
-  //
-  //     return actions.addObjective(objective)(dispatchSpy)
-  //       .then(() => expect(axios.post()).resolves.toEqual(fakeResponse));
-  //
-  //   });
-  //
-  //   test('should return rejected promise in case of error in request', () => {
-  //     const dispatchSpy = jest.fn();
-  //     const fakeResponse = {
-  //       body: {},
-  //       response: {
-  //         status: 500,
-  //         statusText: 'error',
-  //       },
-  //     };
-  //
-  //     axios.post.mockReturnValue(Promise.reject(fakeResponse));
-  //
-  //     return actions.addObjective(objective)(dispatchSpy)
-  //       .then(() => expect(axios.post()).rejects.toEqual(fakeResponse));
-  //   });
-  // });
-  //
+  describe('method addObjective', () => {
+    const objective = {
+      Title: 'objective',
+      Description: 'description',
+      CareerDayId: 4,
+      EmployeeId: 1,
+      UnitManagerId: 4,
+    };
+
+    test('should sent POST request to `/api/objectives`', () => {
+      const dispatchSpy = jest.fn();
+
+      return actions.addObjective(objective)(dispatchSpy)
+        .then(() => {
+          const expectedUrl = axios.post.mock.calls[0][0];
+
+          return expect(expectedUrl).toBe('/api/objectives');
+        });
+    });
+
+    test('should dispatch correct action in case of success response', () => {
+      const dispatchSpy = jest.fn();
+
+      return actions.addObjective(objective)(dispatchSpy)
+        .then(() => {
+          const type = dispatchSpy.mock.calls[0][0].type;
+
+          return expect(type).toEqual(EMPLOYEES_LIST.ADD_OBJECTIVE);
+        });
+    });
+
+    test('should dispatch correct payload in case of success response', () => {
+      const fakeResponse = {
+        body: {},
+        status: 200,
+      };
+      const dispatchSpy = jest.fn();
+
+      return actions.addObjective(objective)(dispatchSpy)
+        .then(() => expect(axios.post()).resolves.toEqual(fakeResponse));
+
+    });
+
+    test('should return rejected promise in case of error in request', () => {
+      const dispatchSpy = jest.fn();
+      const fakeResponse = {
+        body: {},
+        response: {
+          status: 500,
+          statusText: 'error',
+        },
+      };
+
+      axios.post.mockReturnValue(Promise.reject(fakeResponse));
+
+      return actions.addObjective(objective)(dispatchSpy)
+        .then(() => expect(axios.post()).rejects.toEqual(fakeResponse));
+    });
+  });
+
   describe('method deleteCareerDay', () => {
     const careerDayId = 1;
 
@@ -565,7 +562,6 @@ describe('employees action', () => {
         .then(() => expect(axios.patch()).rejects.toEqual(fakeResponse));
     });
   });
-  //////////////////////////
 
   describe('method archiveCareerDay', () => {
     const careerDay = {
@@ -573,8 +569,10 @@ describe('employees action', () => {
       UnitManagerId: 4,
     };
 
-    test('should sent PATCH request to `/api/career-days/archive/id`', () => {
+    test('should sent PATCH request to `/api/career-days/archive/careerDayId`', () => {
       const dispatchSpy = jest.fn();
+
+      axios.patch.mockReturnValue(Promise.resolve({data: {id: 1}}));
 
       return actions.archiveCareerDay(careerDay)(dispatchSpy)
         .then(() => {
@@ -584,204 +582,192 @@ describe('employees action', () => {
         });
     });
 
-    // test('should dispatch correct action in case of success response', () => {
-    //   const dispatchSpy = jest.fn();
-    //
-    //   return actions.archiveCareerDay(careerDay)(dispatchSpy)
-    //     .then(() => {
-    //       const type = dispatchSpy.mock.calls[0][0].type;
-    //
-    //       return expect(type).toEqual(EMPLOYEES_LIST.ARCHIVE_CAREER_DAY);
-    //     });
-    // });
-    //
-    // test('should dispatch correct payload in case of success response', () => {
-    //   const dispatchSpy = jest.fn();
-    //   const fakeResponse = {
-    //     body: {},
-    //     status: 200,
-    //   };
-    //
-    //   return actions.archiveCareerDay(careerDay)(dispatchSpy)
-    //     .then(() => expect(axios.patch()).resolves.toEqual(fakeResponse));
-    // });
-    //
-    // test('should return rejected promise in case of error in request', () => {
-    //   const dispatchSpy = jest.fn();
-    //   const fakeResponse = {
-    //     body: {},
-    //     response: {
-    //       status: 500,
-    //       statusText: 'error',
-    //     },
-    //   };
-    //
-    //   axios.patch.mockReturnValue(Promise.reject(fakeResponse));
-    //
-    //   return actions.archiveCareerDay(objective)(dispatchSpy)
-    //     .then(() => expect(axios.patch()).rejects.toEqual(fakeResponse));
-    // });
+    test('should dispatch correct action in case of success response', () => {
+      const dispatchSpy = jest.fn();
+
+      axios.patch.mockReturnValue(Promise.resolve({data: {id: 1}}));
+
+      return actions.archiveCareerDay(careerDay)(dispatchSpy)
+        .then(() => {
+          const type = dispatchSpy.mock.calls[0][0].type;
+
+          return expect(type).toEqual(EMPLOYEES_LIST.ARCHIVE_CAREER_DAY);
+        });
+    });
+
+    test('should dispatch correct payload in case of success response if `id` are equal', () => {
+      const dispatchSpy = jest.fn();
+      const fakeResponse = {
+        body: {},
+        data: {
+          id: 1,
+        },
+      };
+      axios.patch.mockReturnValue(Promise.resolve(fakeResponse));
+
+      return actions.archiveCareerDay(careerDay)(dispatchSpy)
+        .then(() => expect(axios.patch()).resolves.toEqual(fakeResponse));
+    });
+
+    test('should dispatch correct payload in case of success response if `id` aren\'t equal', () => {
+      const dispatchSpy = jest.fn();
+      const fakeResponse = {
+        body: {},
+        data: {
+          id: 2,
+        },
+      };
+      axios.patch.mockReturnValue(Promise.resolve(fakeResponse));
+
+      return actions.archiveCareerDay(careerDay)(dispatchSpy)
+        .then(() => expect(axios.patch()).resolves.toEqual(fakeResponse));
+    });
+
+    test('should return rejected promise in case of error in request', () => {
+      const dispatchSpy = jest.fn();
+      const fakeResponse = {
+        body: {},
+        response: {
+          status: 500,
+          statusText: 'error',
+        },
+      };
+
+      axios.patch.mockReturnValue(Promise.reject(fakeResponse));
+
+      return actions.archiveCareerDay(careerDay)(dispatchSpy)
+        .then(() => expect(axios.patch()).rejects.toEqual(fakeResponse));
+    });
   });
 
-  // describe('method updateInterviewDate', () => {
-  //   const careerDay = {
-  //     id: 1,
-  //     date: new Date(),
-  //   }
-  //
-  //   test('should sent PATCH request to `/api/career-days/update-date/id`', () => {
-  //     const dispatchSpy = jest.fn();
-  //
-  //     return actions.updateInterviewDate(careerDay)(dispatchSpy)
-  //       .then(() => {
-  //         const expectedUrl = axios.patch.mock.calls[0][0];
-  //
-  //         return expect(expectedUrl).toBe(`/api/career-days/update-date/${careerDay.id}`);
-  //       });
-  //   });
-  //
-  //   test('should dispatch correct action in case of success response', () => {
-  //     const dispatchSpy = jest.fn();
-  //
-  //     return actions.updateInterviewDate(careerDay)(dispatchSpy)
-  //       .then(() => {
-  //         const type = dispatchSpy.mock.calls[0][0].type;
-  //
-  //         return expect(type).toEqual(EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME);
-  //       });
-  //   });
-  //
-  //   test('should dispatch correct payload in case of success response', () => {
-  //     const dispatchSpy = jest.fn();
-  //     const fakeResponse = {
-  //       body: {},
-  //       status: 200,
-  //     };
-  //
-  //     return actions.updateInterviewDate(careerDay)(dispatchSpy)
-  //       .then(() => expect(axios.patch()).resolves.toEqual(fakeResponse));
-  //   });
-  //
-  //   test('should return rejected promise in case of error in request', () => {
-  //     const dispatchSpy = jest.fn();
-  //     const fakeResponse = {
-  //       body: {},
-  //       response: {
-  //         status: 500,
-  //         statusText: 'error',
-  //       },
-  //     };
-  //
-  //     axios.patch.mockReturnValue(Promise.reject(fakeResponse));
-  //
-  //     return actions.updateInterviewDate(careerDay)(dispatchSpy)
-  //       .then(() => expect(axios.patch()).rejects.toEqual(fakeResponse));
-  //   });
-  // });
-  //
-  // describe('method archiveCareerDay', () => {
-  //   const careerDayId = 1;
-  //
-  //   test('should sent PATCH request to `/api/career-days/archive/careerDayId`', () => {
-  //     const dispatchSpy = jest.fn();
-  //
-  //     return actions.archiveCareerDay(careerDayId)(dispatchSpy)
-  //       .then(() => {
-  //         const expectedUrl = axios.patch.mock.calls[0][0];
-  //
-  //         return expect(expectedUrl).toBe(`/api/career-days/archive/${careerDayId}`);
-  //       });
-  //   });
-  //
-  //   test('should dispatch correct action in case of success response', () => {
-  //     const dispatchSpy = jest.fn();
-  //
-  //     return actions.archiveCareerDay(careerDayId)(dispatchSpy)
-  //       .then(() => {
-  //         const type = dispatchSpy.mock.calls[0][0].type;
-  //
-  //         return expect(type).toEqual(EMPLOYEES_LIST.ARCHIVE_CAREER_DAY);
-  //       });
-  //   });
-  //
-  //   test('should dispatch correct payload in case of success response', () => {
-  //     const dispatchSpy = jest.fn();
-  //     const fakeResponse = {
-  //       body: {},
-  //       status: 200,
-  //     };
-  //
-  //     return actions.archiveCareerDay(careerDayId)(dispatchSpy)
-  //       .then(() => expect(axios.patch()).resolves.toEqual(fakeResponse));
-  //   });
-  //
-  //   test('should return rejected promise in case of error in request', () => {
-  //     const dispatchSpy = jest.fn();
-  //     const fakeResponse = {
-  //       body: {},
-  //       response: {
-  //         status: 500,
-  //         statusText: 'error',
-  //       },
-  //     };
-  //
-  //     axios.patch.mockReturnValue(Promise.reject(fakeResponse));
-  //
-  //     return actions.archiveCareerDay(careerDayId)(dispatchSpy)
-  //       .then(() => expect(axios.patch()).rejects.toEqual(fakeResponse));
-  //   });
-  // });
-  //
-  // describe('method deleteObjective', () => {
-  //   const objectiveId = 1;
-  //
-  //   test('should sent DELETE request to `/api/objectives/objectiveId`', () => {
-  //     const dispatchSpy = jest.fn();
-  //
-  //     return actions.deleteObjective(objectiveId)(dispatchSpy)
-  //       .then(() => {
-  //         const expectedUrl = axios.delete.mock.calls[0][0];
-  //
-  //         return expect(expectedUrl).toBe(`/api/objectives/${objectiveId}`);
-  //       });
-  //   });
-  //
-  //   test('should dispatch correct action in case of success response', () => {
-  //     const dispatchSpy = jest.fn();
-  //
-  //     return actions.deleteObjective(objectiveId)(dispatchSpy)
-  //       .then(() => {
-  //         const type = dispatchSpy.mock.calls[0][0].type;
-  //
-  //         return expect(type).toEqual(EMPLOYEES_LIST.DELETE_OBJECTIVE);
-  //       });
-  //   });
-  //
-  //   test('should dispatch correct payload in case of success response', () => {
-  //     const dispatchSpy = jest.fn();
-  //     const fakeResponse = {
-  //       body: {},
-  //       status: 200,
-  //     };
-  //
-  //     return actions.deleteObjective(objectiveId)(dispatchSpy)
-  //       .then(() => expect(axios.delete()).resolves.toEqual(fakeResponse));
-  //   });
-  //
-  //   test('should return rejected promise in case of error in request', () => {
-  //     const dispatchSpy = jest.fn();
-  //     const fakeResponse = {
-  //       body: {},
-  //       response: {
-  //         status: 500,
-  //         statusText: 'error',
-  //       },
-  //     };
-  //
-  //     axios.delete.mockReturnValue(Promise.reject(fakeResponse));
-  //
-  //     return actions.deleteObjective(objectiveId)(dispatchSpy)
-  //       .then(() => expect(axios.delete()).rejects.toEqual(fakeResponse));
-  //   });
-  // });
+  describe('method updateInterviewDate', () => {
+    const careerDay = {
+      id: 1,
+      date: date,
+      EmployeeId: 1,
+      UnitManagerId: 4,
+    };
+
+    test('should sent PATCH request to `/api/career-days/update-date/id`', () => {
+      const dispatchSpy = jest.fn();
+
+      axios.patch.mockReturnValue(Promise.resolve({data: {InterviewDate: date, UpdatedAt: date}}));
+
+      return actions.updateInterviewDate(careerDay)(dispatchSpy)
+        .then(() => {
+          const expectedUrl = axios.patch.mock.calls[0][0];
+
+          return expect(expectedUrl).toBe(`/api/career-days/update-date/${careerDay.id}`);
+        });
+    });
+
+    test('should dispatch correct action in case of success response', () => {
+      const dispatchSpy = jest.fn();
+
+      axios.patch.mockReturnValue(Promise.resolve({data: {InterviewDate: date, UpdatedAt: date}}));
+
+      return actions.updateInterviewDate(careerDay)(dispatchSpy)
+        .then(() => {
+          const type = dispatchSpy.mock.calls[0][0].type;
+
+          return expect(type).toEqual(EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME);
+        });
+    });
+
+    test('should dispatch correct payload in case of success response', () => {
+      const dispatchSpy = jest.fn();
+      const fakeResponse = {
+        data: {
+          InterviewDate: date,
+          UpdatedAt: date,
+        },
+      };
+
+      axios.patch.mockReturnValue(Promise.resolve({data: {InterviewDate: date, UpdatedAt: date}}));
+
+      return actions.updateInterviewDate(careerDay)(dispatchSpy)
+        .then(() => expect(axios.patch()).resolves.toEqual(fakeResponse));
+    });
+
+    test('should return rejected promise in case of error in request', () => {
+      const dispatchSpy = jest.fn();
+      const fakeResponse = {
+        body: {},
+        response: {
+          status: 500,
+          statusText: 'error',
+        },
+      };
+
+      axios.patch.mockReturnValue(Promise.reject(fakeResponse));
+
+      return actions.updateInterviewDate(careerDay)(dispatchSpy)
+        .then(() => expect(axios.patch()).rejects.toEqual(fakeResponse));
+    });
+  });
+
+  describe('method deleteObjective', () => {
+    const objectiveId = 1;
+
+    test('should sent DELETE request to `/api/objectives/objectiveId`', () => {
+      const dispatchSpy = jest.fn();
+
+      return actions.deleteObjective(objectiveId)(dispatchSpy)
+        .then(() => {
+          const expectedUrl = axios.delete.mock.calls[0][0];
+
+          return expect(expectedUrl).toBe(`/api/objectives/${objectiveId}`);
+        });
+    });
+
+    test('should dispatch correct action in case of success response', () => {
+      const dispatchSpy = jest.fn();
+
+      return actions.deleteObjective(objectiveId)(dispatchSpy)
+        .then(() => {
+          const type = dispatchSpy.mock.calls[0][0].type;
+
+          return expect(type).toEqual(EMPLOYEES_LIST.DELETE_OBJECTIVE);
+        });
+    });
+
+    test('should dispatch correct payload in case of success response if `id` are equal', () => {
+      const dispatchSpy = jest.fn();
+      const fakeResponse = {
+        body: {},
+        status: 200,
+      };
+
+      return actions.deleteObjective(objectiveId)(dispatchSpy)
+        .then(() => expect(axios.delete()).resolves.toEqual(fakeResponse));
+    });
+
+    test('should dispatch correct payload in case of success response if `id` aren\'t equal', () => {
+      const dispatchSpy = jest.fn();
+      const fakeResponse = {
+        body: {},
+        status: 200,
+      };
+      const objectiveId = 3;
+
+      return actions.deleteObjective(objectiveId)(dispatchSpy)
+        .then(() => expect(axios.delete()).resolves.toEqual(fakeResponse));
+    });
+
+    test('should return rejected promise in case of error in request', () => {
+      const dispatchSpy = jest.fn();
+      const fakeResponse = {
+        body: {},
+        response: {
+          status: 500,
+          statusText: 'error',
+        },
+      };
+
+      axios.delete.mockReturnValue(Promise.reject(fakeResponse));
+
+      return actions.deleteObjective(objectiveId)(dispatchSpy)
+        .then(() => expect(axios.delete()).rejects.toEqual(fakeResponse));
+    });
+  });
 });

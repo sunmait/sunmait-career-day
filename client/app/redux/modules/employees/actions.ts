@@ -122,9 +122,12 @@ export type DeleteCareerDay = (careerDayId: number) => (dispatch: Dispatch) => v
 export const deleteCareerDay: DeleteCareerDay = (careerDayId: number) => (dispatch: Dispatch) => {
   return sendRequest('delete', `/api/career-days/${careerDayId}`)
     .then(() => {
+      const newCareerDaysList = store.getState().employees.careerDays
+        .filter(careerDay => careerDay.id !== careerDayId);
+
       dispatch({
         type: EMPLOYEES_LIST.DELETE_CAREER_DAY,
-        payload: careerDayId,
+        payload: newCareerDaysList,
       });
     })
     .catch((err: axios.AxiosError) => {

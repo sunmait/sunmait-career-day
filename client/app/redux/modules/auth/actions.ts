@@ -1,10 +1,10 @@
 import AUTH_CONSTANTS from './actionConstants';
 import { Dispatch } from 'redux/store';
-import APP_ACTIONS from '../app/actionConstants';
 import * as axios from 'axios';
 import { IRegisteredUser, ILogin } from './reducer';
 import history from 'components/containers/history';
 import { logout as logoutUser } from 'components/helper/authRequest';
+import { addNotification } from 'redux/modules/app/actions';
 
 const axiosRequest: any = axios;
 
@@ -12,8 +12,7 @@ export type Login = (Email: string, Password: string) => (dispatch: Dispatch) =>
 
 export function login(Email: string, Password: string) {
   return (dispatch: Dispatch) => {
-    return axiosRequest
-      .post('/api/auth', { Email, Password })
+    return axiosRequest.post('/api/auth', { Email, Password })
       .then((res: axios.AxiosResponse<ILogin>) => {
         const { AccessToken, RefreshToken } = res.data;
         const User = JSON.stringify(res.data.Data);
@@ -28,6 +27,7 @@ export function login(Email: string, Password: string) {
         });
       })
       .catch((err: axios.AxiosError) => {
+        // TODO: addNotification
         console.error(err);
         throw err;
       });
@@ -67,10 +67,7 @@ export const verifyCredentials: VerifyCredentials = async (dispatch: Dispatch) =
       });
     } catch (err) {
       if (err.response.status === 401) {
-        localStorage.clear();
-        dispatch({
-          type: AUTH_CONSTANTS.LOGOUT,
-        });
+        logoutUser();
       } else {
         console.error(err);
         throw err;
@@ -83,57 +80,29 @@ export const verifyCredentials: VerifyCredentials = async (dispatch: Dispatch) =
 
 export type SignUp = (registeredUser: IRegisteredUser) => (dispatch: Dispatch) => void;
 export const signUp: SignUp = (registeredUser: IRegisteredUser) => (dispatch: Dispatch) => {
-  return axiosRequest
-    .post('/api/users', registeredUser)
+  return axiosRequest.post('/api/users', registeredUser)
     .then((res: axios.AxiosResponse<void>) => {
       if (res.status === 201) {
         history.push('/success');
       }
     })
     .catch((err: axios.AxiosError) => {
-      if (err.response.status === 400) {
-        dispatch({
-          type: APP_ACTIONS.ADD_NOTIFICATION,
-          payload: {
-            status: err.response.status,
-            message: 'User with the same email already exist',
-          },
-        });
-      } else {
-        dispatch({
-          type: APP_ACTIONS.ADD_NOTIFICATION,
-          payload: {
-            status: err.response.status,
-            message: err.response.statusText,
-          },
-        });
-      }
-      console.error(err);
+      dispatch(addNotification({ status: err.response.status, message: err.response.statusText }));
       throw err;
     });
 };
 
 export type Logout = (refreshToken: string) => (dispatch: Dispatch) => void;
-export const logout: Logout = (refreshToken: string) => (dispatch: Dispatch) => {
-  return axiosRequest
-    .delete(`/api/auth/${refreshToken}`)
+export const logout: Logout = (refreshToken: string) => () => {
+  return axiosRequest.delete(`/api/auth/${refreshToken}`)
     .then(() => {
-      // TODO: import logout function from helper
-      localStorage.clear();
-
-      dispatch({
-        type: AUTH_CONSTANTS.LOGOUT,
-      });
+      logoutUser();
     })
     .catch((err: axios.AxiosError) => {
       if (err.response.status === 401) {
-        localStorage.clear();
-
-        dispatch({
-          type: AUTH_CONSTANTS.LOGOUT,
-        });
+        logoutUser();
       } else if (err.response.status === 500) {
-        history.push('/error/server-error"');
+        history.push('/error/server-error');
       } else {
         console.error(err);
         throw err;

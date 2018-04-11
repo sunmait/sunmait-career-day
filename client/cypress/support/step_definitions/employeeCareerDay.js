@@ -1,30 +1,29 @@
 let openPage = (page) => {
-  cy.visit(`http://localhost:3000/${page}/\d`);
+  cy.visit(`/${page}/\d`);
 };
 
 let checkPage = (page) => {
-  cy.url(`http://localhost:3000/${page}`);
-}
+  cy.url(`/${page}`);
+};
 
 
 given('I open {string} page', openPage);
 
-given('I see {string} page', (checkPage));
+given('I see {string} page', (
+  checkPage));
 
 given('I see {string} page header', (pageHeader) => {
   cy.get('h1').contains(pageHeader);
-})
+});
 
 given('I logged in as {string} with waiting for response', () => {
   cy.server()
-  cy.route('GET', '/api/users/employees').as('getEmployees')
-
-  cy.visit(`http://localhost:3000/login`)
+  cy.route('GET', '/api/users/employees').as('getEmployees');
+  cy.visit(`/login`)
     .get('button').contains(`Login`)
     .click()
     .wait('@getEmployees')
 });
-
 
 given('I click on first employee link', () => {
   cy.get('ul')
@@ -57,7 +56,7 @@ when('I click on delete icon of archived career day', () => {
         })
 
     })
-})
+});
 
 when('I click on delete icon near the archived career day with date {string}', (date) => {
   cy.get('ul')
@@ -73,16 +72,16 @@ when('I click on delete icon near the archived career day with date {string}', (
             .click()
         })
     })
-})
+});
 
 when('I see modal dialog for deleting the career day', () => {
   cy.get('h2')
     .contains('Remove this career day?')
-})
+});
 
 when('I see {string} header', (pageHeader) => {
   cy.get('h2').contains(pageHeader);
-})
+});
 
 then('I click on {string} button waiting for response', (buttonText) => {
   cy.server()

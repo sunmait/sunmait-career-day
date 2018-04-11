@@ -8,7 +8,7 @@ given('I open {string} objectives page', (name) => {
   cy.route('GET','/api/career-days/*').as('getCareerDay')
   cy.route('GET','/api/objectives/*').as('getObjectives')
 
-  cy.visit(`http://localhost:3000/login`)
+  cy.visit(`/login`)
   .get('button').contains(`Login`)
   .click()
   .wait('@getEmployees')

@@ -26,9 +26,7 @@ function sendRequest(method: string, url: string, body?: any) {
         })
         .catch((err: axios.AxiosError) => {
           if (err.response.status === 401 && err.response.statusText === 'jwt expired') {
-            refreshTokens(method, url, body)
-              .then((res: any) => resolve(res))
-              .catch((error: any) => reject(error));
+            return refreshTokens(method, url, body);
           } else {
             reject(err);
           }
@@ -39,7 +37,7 @@ function sendRequest(method: string, url: string, body?: any) {
   });
 }
 
-function refreshTokens(method: string, url: string, body?: any) {
+export function refreshTokens(method: string, url: string, body?: any) {
   const refreshToken = localStorage.getItem('RefreshToken');
 
   return new Promise((resolve, reject) => {

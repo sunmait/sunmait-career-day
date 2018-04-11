@@ -1,24 +1,26 @@
 Feature: Employee list page
 
-  Scenario: I see user profile section in header
-    Given I logged in as 'unit manager'
-    When I see 'employees' page
-    Then I see 'Kirill Stasivich' username in app header
+  Scenario: I logged in as unit manager
+    Given I open 'login' page
+    When I typing in 'email' field: 'stasevich@mail.com'
+    And I typing in 'password' field: 'qwerty'
+    And I click on 'Login' button
+    Then I should redirect like unit manager to 'employees' page
 
-  Scenario: I see 'Employee list' page header
-    Given I logged in as 'unit manager'
+  Scenario: I see user profile section in header
+    When I see 'employees' page
+    Then I see 'Kirill Stasevich' username in app header
+
+  Scenario: I see list of Employee page
     When I see 'employees' page
     Then I see 'List Of Employees' page header
+    Then I see links
 
-  Scenario: I see employee list
-    Given I logged in as 'unit manager'
-    When I see 'employees' page
-    Then I see list
+  Scenario: I am redirected to progress page by click on selected employee
+    When I click like UM on 'Alexandra Tsvirko' link
+#    Then I am redirected to 'employee/3' page
 
-  Scenario: I see employee data in list of employees
+#    Then I should redirect to selected employee 'employee/3' page
 
-  Scenario: I am redirected to career day page by click on employee
-    Given I logged in as 'unit manager'
-    And I see 'employees' page
-    When I click on 'Alexandra Tsvirko' link
-    Then I am redirected to 'employees/3' page
+#    Then I am redirected to 'employees/3' page
+#    Then I see 'Alexandra Tsvirko's progress days' page header

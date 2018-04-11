@@ -33,17 +33,17 @@ export default function(state: IEmployeesState = defaultState, { type, payload }
     case EMPLOYEES_LIST.DELETE_CAREER_DAY:
       return handleDeleteCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.UPDATE_OBJECTIVE_MANAGER:
-      return handleUpdateObjective(state, payload);
-
-    case EMPLOYEES_LIST.UPDATE_OBJECTIVE_EMPLOYEE:
-      return handleUpdateObjective(state, payload);
-
     case EMPLOYEES_LIST.DELETE_OBJECTIVE:
       return handleDeleteObjective(state, payload);
 
     case EMPLOYEES_LIST.ARCHIVE_CAREER_DAY:
       return handleArchiveCareerDay(state, payload);
+
+    case EMPLOYEES_LIST.UPDATE_OBJECTIVE_MANAGER:
+      return handleUpdateObjective(state, payload);
+
+    case EMPLOYEES_LIST.UPDATE_OBJECTIVE_EMPLOYEE:
+      return handleUpdateObjective(state, payload);
 
     case EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME:
       return handleUpdateInterviewDate(state, payload);
@@ -81,10 +81,8 @@ function handleAddObjective(state: IEmployeesState, selectedCareerDay: IObjectiv
   return { ...state, selectedCareerDay };
 }
 
-function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
-  const newCareerDaysList = state.careerDays.filter(careerDay => careerDay.id !== careerDayId);
-
-  return { ...state, careerDays: newCareerDaysList };
+function handleDeleteCareerDay(state: IEmployeesState, careerDays: ICareerDayOfEmployee) {
+  return { ...state, careerDays };
 }
 
 function handleDeleteObjective(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {

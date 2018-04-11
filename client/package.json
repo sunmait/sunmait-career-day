@@ -68,6 +68,9 @@
     "webpack-merge": "^4.1.1"
   },
   "jest": {
+    "setupFiles": [
+      "<rootDir>/tests/__mocks__/localStorage.js"
+    ],
     "transform": {
       "^.+\\.tsx?$": "ts-jest",
       "^.+\\.js$": "babel-jest"
