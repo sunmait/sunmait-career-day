@@ -9,7 +9,7 @@ module.exports = {
         unique: true,
         type: Sequelize.INTEGER,
       },
-      Roles: {
+      Role: {
         type: Sequelize.STRING,
       },
       PhotoUrl: {

@@ -14,7 +14,7 @@ import { inject } from 'inversify';
 import { IUserService } from '../../Domain/Services';
 import { ISettingsProvider } from '../infrastructure/index';
 import { CheckAuth } from '../middlewares/CheckAuth';
-import IRequest from '../helper/IRequest';
+import { IRequest } from '../helpers/index';
 
 /**
  * Operations about users.
@@ -74,11 +74,7 @@ export class UserController implements interfaces.Controller {
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      if (req.user.Roles === 'manager') {
-        res.json(await this._userService.getEmployees(req.user.id));
-      } else {
-        throw { status: 403 };
-      }
+      res.json(await this._userService.getEmployees(req.user));
     } catch (err) {
       next(err);
     }
@@ -87,7 +83,7 @@ export class UserController implements interfaces.Controller {
   /**
    * Select employee
    */
-  @httpGet('/selected-employee/:id')
+  @httpGet('/selected-employee/:id', CheckAuth)
   private async selectedEmployee(
     @requestParam('id') id: number,
     @response() res: express.Response,

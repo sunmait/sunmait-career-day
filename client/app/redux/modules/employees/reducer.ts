@@ -115,7 +115,7 @@ function handleUpdateInterviewDate(state: IEmployeesState, selectedCareerDay: IC
 
 export interface IEmployee {
   id: number;
-  Roles: string;
+  Role: string;
   LastName: string;
   FirstName: string;
   PhotoUrl: string;

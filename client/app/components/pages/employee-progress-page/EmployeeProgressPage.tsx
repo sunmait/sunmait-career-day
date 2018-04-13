@@ -2,11 +2,7 @@ import * as React from 'react';
 import { Link, match } from 'react-router-dom';
 import { Location } from 'history';
 import { Theme, withStyles } from 'material-ui/styles';
-import List, {
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-} from 'material-ui/List';
+import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import Delete from 'material-ui-icons/Delete';
@@ -150,34 +146,22 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
 
   private renderHistoryOfProgress(classes: IStylesProps) {
     if (this.props.careerDays.length === 0) {
-      return (
-        <Typography align="center">
-          This employee doesn't have career days.
-        </Typography>
-      );
+      return <Typography align="center">This employee doesn't have career days.</Typography>;
     }
     return this.props.careerDays.map(item => (
       <ListItem id={item.id.toString()} key={item.id} dense button>
         <IconStatus isArchived={item.Archived} />
         <Link
           to={{
-            pathname: `/employees/${
-              this.props.match.params.userId
-              }/career-day/${item.id}`,
+            pathname: `/employees/${this.props.match.params.userId}/career-day/${item.id}`,
           }}
           className={classes.disableLinkStyle}
         >
           <ListItemText primary={this.getCurrentDate(item)} className={classes.linkTextStyle} />
         </Link>
         <ListItemSecondaryAction>
-          <IconButton
-            disabled={!item.Archived}
-            onClick={e => this.handleClickOnDeleteButton(e, item.id)}
-          >
-            <Delete
-              className={classes.options}
-              name="delete-icon"
-            />
+          <IconButton disabled={!item.Archived} onClick={e => this.handleClickOnDeleteButton(e, item.id)}>
+            <Delete className={classes.options} name="delete-icon" />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
@@ -194,9 +178,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
         <Grid container justify="center" spacing={0}>
           {this.props.selectedEmployee && (
             <Header
-              title={`${this.props.selectedEmployee.FirstName} ${
-                this.props.selectedEmployee.LastName
-                }'s progress days`}
+              title={`${this.props.selectedEmployee.FirstName} ${this.props.selectedEmployee.LastName}'s progress days`}
             />
           )}
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
@@ -223,10 +205,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
             <Grid container justify="center" spacing={0}>
               <Grid item className={classes.root}>
                 <Paper elevation={1}>
-                  <List>
-                    {this.props.careerDays &&
-                    this.renderHistoryOfProgress(classes)}
-                  </List>
+                  <List>{this.props.careerDays && this.renderHistoryOfProgress(classes)}</List>
                 </Paper>
               </Grid>
             </Grid>

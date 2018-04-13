@@ -11,7 +11,7 @@ import {
   httpDelete,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
-import { IAuthService } from '../../Domain/Services';
+import { IAuthService } from '../../Domain/Services/index';
 
 /**
  * Operations about objectives.

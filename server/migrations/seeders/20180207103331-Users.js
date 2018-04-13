@@ -7,7 +7,7 @@ module.exports = {
       [
         {
           id: 1,
-          Roles: 'employee',
+          Role: 'employee',
           LastName: 'Pupkin',
           FirstName: 'Vasya',
           PhotoUrl: 'https://vk.com/images/camera_200.png',
@@ -19,7 +19,7 @@ module.exports = {
         },
         {
           id: 2,
-          Roles: 'employee',
+          Role: 'employee',
           LastName: 'Pipkin',
           FirstName: 'Petya',
           PhotoUrl: 'https://vk.com/images/camera_200.png',
@@ -31,7 +31,7 @@ module.exports = {
         },
         {
           id: 3,
-          Roles: 'employee',
+          Role: 'employee',
           LastName: 'Tsvirko',
           FirstName: 'Alexandra',
           PhotoUrl: 'https://pp.userapi.com/c836738/v836738191/6de55/3wEYIHussZI.jpg',
@@ -43,7 +43,7 @@ module.exports = {
         },
         {
           id: 4,
-          Roles: 'manager',
+          Role: 'manager',
           LastName: 'Stasevich',
           FirstName: 'Kirill',
           PhotoUrl: 'https://vk.com/images/camera_200.png',

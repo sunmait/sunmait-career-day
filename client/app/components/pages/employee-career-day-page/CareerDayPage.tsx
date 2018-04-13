@@ -25,7 +25,7 @@ class CareerDayPage extends React.Component<IProps, IState> {
   public render() {
     return (
       <div>
-        {this.props.user.Roles === 'manager' ?
+        {this.props.user.Role === 'manager' ?
           <CareerDayForManagerPageContainer
             careerDayId={this.props.match.params.careerDayId}
             userId={this.props.match.params.userId}

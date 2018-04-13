@@ -2,19 +2,9 @@ import { injectable, inject } from 'inversify';
 import { IObjectiveService } from '../IObjectiveService';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
-
 import { IObjectiveRepository, ICareerDayRepository } from '../../../Data/Repositories/index';
+import { IUserDecodedFromToken, ObjectiveProgress, ObjectiveStatuses, UserRoles } from '../../helpers/index';
 
-enum ObjectiveProgress {
-  COMPLETED = 1,
-  NOT_STARTED = 0,
-}
-
-enum ObjectiveStatuses {
-  IN_PROGRESS = 1,
-  ACTIVE = 2,
-  DONE = 3,
-}
 @injectable()
 export class ObjectiveService implements IObjectiveService {
   private readonly _objectiveRepository: IObjectiveRepository;
@@ -28,95 +18,128 @@ export class ObjectiveService implements IObjectiveService {
     this._careerDayRepository = careerDayRepository;
   }
 
-  public async getObjectivesByCareerDayId(CareerDayId: number): Promise<CareerDayEntity> {
-    return this._careerDayRepository.findOne({
-      where: { id: CareerDayId },
-      include: ObjectiveEntity,
-    });
+  public async getObjectivesByCareerDayId(CareerDayId: number, user: IUserDecodedFromToken): Promise<CareerDayEntity> {
+    if (user.Role === UserRoles.MANAGER) {
+      const careerDay = await this._careerDayRepository.findOne({
+        where: { id: CareerDayId },
+        include: ObjectiveEntity,
+      });
+      if (careerDay) {
+        if (careerDay.UnitManagerId === user.id) {
+          return careerDay;
+        } else {
+          throw { status: 403 };
+        }
+      } else {
+        throw { status: 404 };
+      }
+    } else {
+      throw { status: 403 };
+    }
   }
 
-  public async addObjective(data: any): Promise<ObjectiveEntity> {
-    const careerDay = await this._careerDayRepository.findById(data.CareerDayId);
+  public async addObjective(data: any, user: IUserDecodedFromToken): Promise<ObjectiveEntity> {
+    if (user.Role === UserRoles.MANAGER && user.id === data.UnitManagerId) {
+      const careerDay = await this._careerDayRepository.findById(data.CareerDayId);
 
-    if (careerDay) {
-      if (!careerDay.Archived) {
-        if (data.EmployeeId === careerDay.EmployeeId && data.UnitManagerId === careerDay.UnitManagerId) {
+      if (careerDay) {
+        if (!careerDay.Archived && data.EmployeeId === careerDay.EmployeeId && user.id === careerDay.UnitManagerId) {
           const objective = new ObjectiveEntity(data);
 
           return this._objectiveRepository.create(objective);
-        }
-        throw { status: 403 };
-      }
-      throw { status: 403 };
-    }
-    throw { status: 404 };
-  }
-
-  public async updateObjectiveEmployee(id: number, progress: number): Promise<ObjectiveEntity> {
-    const objective = await this._objectiveRepository.findOne({
-      where: { id },
-      include: CareerDayEntity,
-    });
-
-    // TODO: can edit only init manager
-
-    if (objective && objective.CareerDay) {
-      if (!objective.CareerDay.Archived) {
-        objective.Progress = progress;
-
-        if (objective.Progress === ObjectiveProgress.NOT_STARTED) {
-          objective.StatusId = ObjectiveStatuses.ACTIVE;
-        } else if (objective.Progress === ObjectiveProgress.COMPLETED) {
-          objective.StatusId = ObjectiveStatuses.DONE;
         } else {
-          objective.StatusId = ObjectiveStatuses.IN_PROGRESS;
+          throw { status: 403 };
         }
-
-        return this._objectiveRepository.update(objective);
-      }
-      throw { status: 403 };
-    } else {
-      throw { status: 404 };
-    }
-  }
-
-  public async updateObjectiveManager(id: number, title: string, description: string): Promise<ObjectiveEntity> {
-    const objective = await this._objectiveRepository.findOne({
-      where: { id },
-      include: CareerDayEntity,
-    });
-
-    // TODO: can edit only init manager
-
-    if (objective && objective.CareerDay) {
-      if (!objective.CareerDay.Archived) {
-        objective.Title = title;
-        objective.Description = description;
-
-        return this._objectiveRepository.update(objective);
-      }
-      throw { status: 403 };
-    } else {
-      throw { status: 404 };
-    }
-  }
-
-  public async deleteObjective(id: number): Promise<void> {
-    const objective = await this._objectiveRepository.findOne({
-      where: { id },
-      include: CareerDayEntity,
-    });
-
-    // TODO: can delete only init manager
-
-    if (objective.CareerDay) {
-      if (!objective.CareerDay.Archived) {
-        await this._objectiveRepository.remove({ where: { id } });
       } else {
-        throw { status: 403 };
+        throw { status: 404 };
       }
     } else {
-      throw { status: 404 };
+      throw { status: 403 };
+    }
+  }
+
+  public async updateObjectiveEmployee(
+    id: number,
+    progress: number,
+    user: IUserDecodedFromToken,
+  ): Promise<ObjectiveEntity> {
+    if (user.Role === UserRoles.EMPLOYEE) {
+      const objective = await this._objectiveRepository.findOne({
+        where: { id },
+        include: CareerDayEntity,
+      });
+
+      if (objective && objective.CareerDay) {
+        if (!objective.CareerDay.Archived && objective.CareerDay.EmployeeId === user.id) {
+          objective.Progress = progress;
+
+          if (objective.Progress === ObjectiveProgress.NOT_STARTED) {
+            objective.StatusId = ObjectiveStatuses.ACTIVE;
+          } else if (objective.Progress === ObjectiveProgress.COMPLETED) {
+            objective.StatusId = ObjectiveStatuses.DONE;
+          } else {
+            objective.StatusId = ObjectiveStatuses.IN_PROGRESS;
+          }
+
+          return this._objectiveRepository.update(objective);
+        } else {
+          throw { status: 403 };
+        }
+      } else {
+        throw { status: 404 };
+      }
+    } else {
+      throw { status: 403 };
+    }
+  }
+
+  public async updateObjectiveManager(
+    id: number,
+    title: string,
+    description: string,
+    user: IUserDecodedFromToken,
+  ): Promise<ObjectiveEntity> {
+    if (user.Role === UserRoles.MANAGER) {
+      const objective = await this._objectiveRepository.findOne({
+        where: { id },
+        include: CareerDayEntity,
+      });
+
+      if (objective && objective.CareerDay) {
+        if (!objective.CareerDay.Archived && objective.CareerDay.UnitManagerId === user.id) {
+          objective.Title = title;
+          objective.Description = description;
+
+          return this._objectiveRepository.update(objective);
+        } else {
+          throw { status: 403 };
+        }
+      } else {
+        throw { status: 404 };
+      }
+    } else {
+      throw { status: 403 };
+    }
+  }
+
+  public async deleteObjective(id: number, user: IUserDecodedFromToken): Promise<void> {
+    if (user.Role === UserRoles.MANAGER) {
+      const objective = await this._objectiveRepository.findOne({
+        where: { id },
+        include: CareerDayEntity,
+      });
+
+      if (objective && objective.CareerDay) {
+        if (!objective.CareerDay.Archived && objective.CareerDay.UnitManagerId === user.id) {
+          await this._objectiveRepository.remove({ where: { id } });
+        } else {
+          throw { status: 403 };
+        }
+      } else {
+        throw { status: 404 };
+      }
+    } else {
+      throw { status: 403 };
     }
   }
 }

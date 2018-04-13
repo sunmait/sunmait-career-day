@@ -141,7 +141,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
       <Objective
         key={item.id}
         objective={item}
-        userRole={this.props.user.Roles}
+        userRole={this.props.user.Role}
         archived={this.props.selectedCareerDay.Archived}
         handleSaveObjective={(objective: IUpdateObjectiveManager) => this.handleSaveObjective(objective)}
         handleDeleteObjective={(

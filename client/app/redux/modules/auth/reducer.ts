@@ -56,7 +56,7 @@ function handleAccessTokenExpired(state: IAuthState, tokens: ITokens) {
 
 export interface IUser {
   id: number;
-  Roles: string;
+  Role: string;
   FirstName: string;
   LastName: string;
   PhotoUrl: string;

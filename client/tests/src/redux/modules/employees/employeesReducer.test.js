@@ -4,7 +4,7 @@ import EMPLOYEES_ACTION from 'redux/modules/employees/actionConstants';
 describe('employeesReducer', () => {
   const employees = {
     id: 1,
-    Roles: '1',
+    Role: '1',
     LastName: 'Tsvirko',
     FirstName: 'Alex',
     PhotoUrl: 'my-avatar',

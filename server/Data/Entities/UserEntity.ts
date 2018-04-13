@@ -41,7 +41,7 @@ export default class UserEntity extends Model<UserEntity> {
   @AllowNull(false)
   @Default('manager')
   @Column(DataType.STRING)
-  public Roles: string;
+  public Role: string;
 
   @IsUrl
   @AllowNull(false)

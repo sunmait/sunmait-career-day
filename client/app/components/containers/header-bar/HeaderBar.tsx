@@ -117,7 +117,7 @@ class HeaderBar extends React.Component<IProps & WithStyles<ComponentClassNames>
     const UserProfile = this.props.user ? this.renderUserProfile() : null;
     const justify = this.props.user ? 'flex-end' : 'center';
     const link =
-      this.props.user && this.props.user.Roles === ROLES.UNIT_MANAGER ? '/employees' : '/employee';
+      this.props.user && this.props.user.Role === ROLES.UNIT_MANAGER ? '/employees' : '/employee';
 
     return (
       <Grid item xs={12} id="header-bar">

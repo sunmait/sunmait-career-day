@@ -5,6 +5,7 @@ import UserEntity from '../../../Data/Entities/UserEntity';
 import { ICryptoService } from '../ICryptoService';
 import { IMailerService } from '../IMailerService';
 import { ISettingsProvider } from '../../../API/infrastructure';
+import { IUserDecodedFromToken, UserRoles } from '../../helpers/index';
 
 @injectable()
 export class UserServise implements IUserService {
@@ -25,7 +26,7 @@ export class UserServise implements IUserService {
     this._hostname = settingsProvider.getHostname();
   }
 
-  public async registerUser(FirstName: string, LastName: string, Email: string, Password: string) {
+  public async registerUser(FirstName: string, LastName: string, Email: string, Password: string): Promise<void> {
     const userData = {
       FirstName,
       LastName,
@@ -39,7 +40,8 @@ export class UserServise implements IUserService {
         link: this.createLinkForVerifyEmail(user.Email),
         name: user.FirstName,
       };
-      this._mailerService.sendEmail(emailData);
+
+      await this._mailerService.sendEmail(emailData);
     } catch (err) {
       if (err.message === 'Validation error') {
         throw { status: 400 };
@@ -49,55 +51,62 @@ export class UserServise implements IUserService {
     }
   }
 
-  public async verifyEmail(encrtyptedEmail: string) {
+  public async verifyEmail(encrtyptedEmail: string): Promise<boolean> {
     const email = this._cryptoService.decryptAES(encrtyptedEmail);
     const user = await this._userRepository.findOne({
       where: { Email: email },
     });
+
     if (user && !user.EmailVerified) {
       user.EmailVerified = true;
       await this._userRepository.update(user);
+
       return true;
     }
 
     return false;
   }
 
-  public async getEmployees(unitManagerId: number): Promise<UserEntity[]> {
-    const manager = await this._userRepository.findOne({
-      where: {
-        id: unitManagerId,
-      },
-      include: UserEntity,
-    });
-
-    return manager.Employees.map(
-      (user: UserEntity) =>
-        ({
+  public async getEmployees(user: IUserDecodedFromToken): Promise<UserEntity[]> {
+    if (user.Role === UserRoles.MANAGER) {
+      const managerWithEmployees = await this._userRepository.findOne({
+        where: {
           id: user.id,
-          FirstName: user.FirstName,
-          LastName: user.LastName,
-          PhotoUrl: user.PhotoUrl,
-        } as UserEntity),
-    );
+        },
+        include: UserEntity,
+      });
+
+      return managerWithEmployees.Employees.map(
+        (employee: UserEntity) =>
+          ({
+            id: employee.id,
+            FirstName: employee.FirstName,
+            LastName: employee.LastName,
+            PhotoUrl: employee.PhotoUrl,
+          } as UserEntity),
+      );
+    } else {
+      throw { status: 403 };
+    }
   }
 
-  public async selectedEmployee(id: number) {
+  public async selectedEmployee(id: number): Promise<UserEntity> {
     const employee = await this._userRepository.findById(id);
 
     return {
       id: employee.id,
       CreatedAt: employee.CreatedAt,
       UpdatedAt: employee.UpdatedAt,
-      Roles: employee.Roles,
+      Role: employee.Role,
       PhotoUrl: employee.PhotoUrl,
       LastName: employee.LastName,
       FirstName: employee.FirstName,
     } as UserEntity;
   }
 
-  private createLinkForVerifyEmail(email: string) {
+  private createLinkForVerifyEmail(email: string): string {
     const encrtyptedEmail = encodeURIComponent(this._cryptoService.encrtyptAES(email));
+
     return `${this._hostname}/api/users/verifyEmail/${encrtyptedEmail}`;
   }
 }

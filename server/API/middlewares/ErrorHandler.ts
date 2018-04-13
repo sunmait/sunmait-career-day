@@ -1,6 +1,6 @@
 import express = require('express');
 
-import IErrorAPIWithMessage from '../helper/IErrorAPIWithMessage';
+import { IErrorAPIWithMessage } from '../helpers/index';
 
 function ErrorHandler(
   err: IErrorAPIWithMessage,

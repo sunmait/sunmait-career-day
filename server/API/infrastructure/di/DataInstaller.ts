@@ -6,7 +6,6 @@ import {
   UserRepository,
   SessionRepository,
 } from '../../../Data/Repositories/Impl/index';
-
 import {
   ICareerDayRepository,
   IObjectiveRepository,
@@ -14,7 +13,6 @@ import {
   IUserRepository,
   ISessionRepository,
 } from '../../../Data/Repositories/index';
-
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
 import StatusEntity from '../../../Data/Entities/StatusEntity';
@@ -22,6 +20,7 @@ import UserEntity from '../../../Data/Entities/UserEntity';
 import SessionEntity from '../../../Data/Entities/SessionEntity';
 
 import { DbContext } from '../../../Data/DbContext';
+
 export class DataInstaller extends InstallerBase {
   public install(): void {
     this.container

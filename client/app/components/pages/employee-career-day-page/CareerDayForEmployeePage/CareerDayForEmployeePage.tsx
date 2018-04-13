@@ -64,7 +64,7 @@ class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<Compo
         <Objective
           key={item.id}
           objective={item}
-          userRole={this.props.user.Roles}
+          userRole={this.props.user.Role}
           handleSaveObjective={(objective: IUpdateObjectiveEmployee) =>
             this.handleSaveObjective(objective)
           }

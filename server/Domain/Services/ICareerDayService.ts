@@ -1,10 +1,16 @@
 import CareerDayEntity from '../../Data/Entities/CareerDayEntity';
+import { IUserDecodedFromToken } from '../helpers/index';
 
 export interface ICareerDayService {
-  getCareerDaysWithId(EmployeeId: number): Promise<CareerDayEntity[]>;
-  addCareerDay(data: any): Promise<CareerDayEntity>;
-  deleteCareerDay(id: number): Promise<void>;
-  updateCareerDayDate(id: number, date: string, employeeId: number): Promise<CareerDayEntity>;
-  archiveCareerDay(id: number): Promise<CareerDayEntity>;
-  getCurrentCareerDay(EmployeeId: number): Promise<CareerDayEntity>;
+  getCareerDaysByEmployeeId(EmployeeId: number, user: IUserDecodedFromToken): Promise<CareerDayEntity[]>;
+  addCareerDay(data: any, user: IUserDecodedFromToken): Promise<CareerDayEntity>;
+  deleteCareerDay(id: number, user: IUserDecodedFromToken): Promise<void>;
+  updateCareerDayDate(
+    id: number,
+    date: string,
+    employeeId: number,
+    user: IUserDecodedFromToken,
+  ): Promise<CareerDayEntity>;
+  archiveCareerDay(id: number, user: IUserDecodedFromToken): Promise<CareerDayEntity>;
+  getActiveCareerDay(EmployeeId: string, user: IUserDecodedFromToken): Promise<CareerDayEntity>;
 }

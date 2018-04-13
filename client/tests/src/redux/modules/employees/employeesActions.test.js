@@ -65,7 +65,7 @@ describe('employees action', () => {
   describe('method getCareerDayOfEmployee', () => {
     const employee = {
       id: 1,
-      Roles: '1',
+      Role: '1',
       LastName: 'Tsvirko',
       FirstName: 'Alex',
       PhotoUrl: 'my-avatar',
@@ -172,7 +172,7 @@ describe('employees action', () => {
   describe('method getSelectedEmployee', () => {
     const employee = {
       id: 1,
-      Roles: '1',
+      Role: '1',
       LastName: 'Tsvirko',
       FirstName: 'Alex',
       PhotoUrl: 'my-avatar',

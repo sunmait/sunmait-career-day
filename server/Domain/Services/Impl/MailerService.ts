@@ -19,7 +19,7 @@ export class MailerService implements IMailerService {
     });
   }
 
-  public async sendEmail(data: any) {
+  public async sendEmail(data: any): Promise<void> {
     const message = `Hi ${data.name}!<br/>
       Help us secure your account by verifying your email address (${data.email}).
       This lets you access all of features.<br/>

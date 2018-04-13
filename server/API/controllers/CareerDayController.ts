@@ -10,11 +10,13 @@ import {
   httpDelete,
   httpPatch,
   next as nextFn,
+  request,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 
 import { ICareerDayService } from './../../Domain/Services/index';
 import { CheckAuth } from '../middlewares/CheckAuth';
+import { IRequest } from '../helpers/index';
 
 /**
  * Operations about Career days.
@@ -34,23 +36,25 @@ export class CareerDayController implements interfaces.Controller {
   private async get(
     @requestParam('id') id: number,
     @response() res: express.Response,
+    @request() req: IRequest,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._careerDayService.getCareerDaysWithId(id));
+      res.json(await this._careerDayService.getCareerDaysByEmployeeId(id, req.user));
     } catch (err) {
       next(err);
     }
   }
 
   @httpGet('/active-day/:id')
-  private async getCurrentCareerDay(
+  private async getActiveCareerDay(
     @requestParam('id') id: number,
     @response() res: express.Response,
+    @request() req: IRequest,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._careerDayService.getCurrentCareerDay(id));
+      res.json(await this._careerDayService.getActiveCareerDay(id, req.user));
     } catch (err) {
       next(err);
     }
@@ -63,10 +67,11 @@ export class CareerDayController implements interfaces.Controller {
   private async add(
     @requestBody() body: any,
     @response() res: express.Response,
+    @request() req: IRequest,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._careerDayService.addCareerDay(body));
+      res.json(await this._careerDayService.addCareerDay(body, req.user));
     } catch (err) {
       next(err);
     }
@@ -79,10 +84,11 @@ export class CareerDayController implements interfaces.Controller {
   private async delete(
     @requestParam('id') id: number,
     @response() res: express.Response,
+    @request() req: IRequest,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._careerDayService.deleteCareerDay(id));
+      res.json(await this._careerDayService.deleteCareerDay(id, req.user));
     } catch (err) {
       next(err);
     }
@@ -95,10 +101,11 @@ export class CareerDayController implements interfaces.Controller {
   private async archive(
     @requestParam('id') id: number,
     @response() res: express.Response,
+    @request() req: IRequest,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._careerDayService.archiveCareerDay(id));
+      res.json(await this._careerDayService.archiveCareerDay(id, req.user));
     } catch (err) {
       next(err);
     }
@@ -112,10 +119,11 @@ export class CareerDayController implements interfaces.Controller {
     @requestParam('id') id: number,
     @requestBody() body: any,
     @response() res: express.Response,
+    @request() req: IRequest,
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._careerDayService.updateCareerDayDate(id, body.date, body.EmployeeId));
+      res.json(await this._careerDayService.updateCareerDayDate(id, body.date, body.EmployeeId, req.user));
     } catch (err) {
       next(err);
     }
