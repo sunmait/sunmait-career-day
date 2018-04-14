@@ -4,6 +4,7 @@ import APP_ACTIONS from '../app/actionConstants';
 import * as axios from 'axios';
 import { IRegisteredUser, ILogin } from './reducer';
 import history from 'components/containers/history';
+import { logout as logoutUser } from 'components/helper/authRequest';
 
 const axiosRequest: any = axios;
 
@@ -75,6 +76,8 @@ export const verifyCredentials: VerifyCredentials = async (dispatch: Dispatch) =
         throw err;
       }
     }
+  } else {
+    logoutUser();
   }
 };
 
