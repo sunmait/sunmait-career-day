@@ -2,8 +2,7 @@
 
 ### Installation
 
-To run server locally install nodejs version >= 8.6.0.
-Also you need to have MySQL running on your local machine. MySQL server config file located in:
+You need to have MySQL running on your local machine. MySQL server config file located in:
 
 ```sh
 /API/config/default.example

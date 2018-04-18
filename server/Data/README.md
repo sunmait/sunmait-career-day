@@ -1,3 +1,0 @@
-﻿# Sunmait.Boilerplate.Data
-
-
