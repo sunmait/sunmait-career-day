@@ -7,14 +7,14 @@
     "name": "pavel"
   },
   "dependencies": {
-    "inversify": "^4.10.0",
-    "mysql2": "^1.5.1",
+    "inversify": "^4.13.0",
+    "mysql2": "^1.5.3",
     "reflect-metadata": "^0.1.12",
-    "sequelize": "^4.32.3"
+    "sequelize": "^4.37.10"
   },
   "devDependencies": {
-    "@types/node": "^6.0.87",
+    "@types/node": "^10.3.2",
     "@types/sequelize": "^4.27.4",
-    "sequelize-typescript": "^0.6.2"
+    "sequelize-typescript": "^0.6.5"
   }
 }

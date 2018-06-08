@@ -63,9 +63,6 @@ export default class AppNotifications extends React.Component<IProps, IState> {
         open={this.state.isOpen}
         autoHideDuration={5000}
         onClose={(e: React.SyntheticEvent<HTMLElement>, reason: string) => this.handleClose(e, reason)}
-        SnackbarContentProps={{
-          'aria-describedby': 'message-id',
-        }}
         message={
           <Typography color="inherit">
             {`${this.props.notification.status}: ${this.props.notification.message}`}
