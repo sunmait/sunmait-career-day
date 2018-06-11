@@ -24,6 +24,12 @@ export class CareerDayService implements ICareerDayService {
     }
   }
 
+  public async getActiveDays(): Promise<CareerDayEntity[]> {
+    return this._careerDayRepository.findAll({
+      where: { Archived: false },
+    });
+  }
+
   public async getActiveCareerDay(EmployeeId: string, user: IUserDecodedFromToken): Promise<CareerDayEntity> {
     if (user.Role === UserRoles.EMPLOYEE && user.id.toString(10) === EmployeeId) {
       return this._careerDayRepository.findOne({

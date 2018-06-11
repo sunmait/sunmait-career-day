@@ -22,6 +22,7 @@
   },
   "main": "./API/app.js",
   "devDependencies": {
+    "@types/cron": "^1.3.0",
     "cross-env": "^5.1.6",
     "husky": "^0.14.3",
     "nodemon": "^1.17.5",

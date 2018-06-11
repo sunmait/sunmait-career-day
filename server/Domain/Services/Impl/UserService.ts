@@ -41,7 +41,8 @@ export class UserServise implements IUserService {
         name: user.FirstName,
       };
 
-      await this._mailerService.sendEmail(emailData);
+      const emailMessage = this._mailerService.combineVerifyEmailMessage(emailData);
+      await this._mailerService.sendEmail(emailMessage);
     } catch (err) {
       if (err.message === 'Validation error') {
         throw { status: 400 };

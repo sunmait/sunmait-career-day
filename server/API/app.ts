@@ -11,6 +11,7 @@ import { container } from './infrastructure/di/Container';
 import { DbContext } from '../Data/DbContext';
 
 import ErrorHandler from './middlewares/ErrorHandler';
+import './middlewares/CronJob.js';
 
 const dbContext = container.get<DbContext>('DbContext');
 
