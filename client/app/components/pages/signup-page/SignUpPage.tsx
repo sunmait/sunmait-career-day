@@ -1,23 +1,15 @@
 import * as React from 'react';
-import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Header from 'components/common/header';
 import UserFormInput from './user-form-input';
-import { Theme, withStyles, WithStyles } from 'material-ui/styles';
 import * as regExpHelper from 'components/helper/regExpHelper';
-import { SignUp } from 'redux/modules/auth/actions';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
-import Paper from 'material-ui/Paper';
+import Paper from '@material-ui/core/Paper';
+import { ConnectProps } from './ConnectContainer';
+import { StylesProps } from './StylesContainer';
 
-const styles = (theme: Theme) => ({
-  button: {
-    marginTop: theme.spacing.unit,
-    padding: 15,
-  },
-});
-
-interface IProps {
-  signUp: SignUp;
+interface IProps extends ConnectProps, StylesProps {
 }
 
 interface IState {
@@ -39,10 +31,9 @@ interface IErrors {
 }
 
 type stateKeys = keyof IState;
-type ComponentClassNames = 'button';
 
-class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
-  constructor(props: IProps & WithStyles<ComponentClassNames>) {
+class SignUpPage extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       firstname: '',
@@ -122,7 +113,7 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
 
   private onChange(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) {
     const prop = event.target.name as stateKeys;
-    const newState = { [prop as any]: event.target.value };
+    const newState = { [prop as any]: event.target.value } as Pick<IState, stateKeys>;
     this.setState(newState, function() {
       if (this.state.isConfirmed) {
         this.validateForm();
@@ -192,7 +183,7 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
                   <Grid container justify="center" alignItems="center" spacing={8}>
                     <Grid item>
                       <Button
-                        raised
+                        variant="contained"
                         color="primary"
                         onClick={() => this.confirmForm()}
                       >
@@ -210,4 +201,4 @@ class SignUpPage extends React.Component<IProps & WithStyles<ComponentClassNames
   }
 }
 
-export default withStyles<ComponentClassNames>(styles)(SignUpPage);
+export default SignUpPage;

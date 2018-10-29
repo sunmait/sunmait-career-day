@@ -1,7 +1,8 @@
 import * as React from 'react';
-import TextField from 'material-ui/TextField';
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import { Theme, withStyles, WithStyles } from 'material-ui/styles';
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import { Theme, withStyles, WithStyles } from '@material-ui/core/styles';
 
 const styles = (theme: Theme) => ({
   textField: {
@@ -14,19 +15,17 @@ const styles = (theme: Theme) => ({
     margin: '0 5px 0 10px',
     display: 'flex',
     justifyContent: 'space-between',
-  } as React.CSSProperties,
+  },
 });
 
-type ComponentClassNames = 'textField' | 'helperText';
-
-interface IProps {
+interface IProps extends WithStyles<typeof styles> {
   label: string;
   maxLength: number;
   value: string | number;
   handleChangeValue: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const FormInput = (props: IProps & WithStyles<ComponentClassNames>) => {
+const FormInput = (props: IProps) => {
   return (
     <FormControl>
       <TextField
@@ -53,4 +52,4 @@ const FormInput = (props: IProps & WithStyles<ComponentClassNames>) => {
   );
 };
 
-export default withStyles<ComponentClassNames>(styles)(FormInput);
+export default withStyles(styles)(FormInput);

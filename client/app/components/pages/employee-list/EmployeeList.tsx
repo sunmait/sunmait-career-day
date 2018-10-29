@@ -1,44 +1,20 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { IUser } from 'redux/modules/auth/reducer';
 import { IEmployee } from 'redux/modules/employees/reducer';
-import { Theme, withStyles } from 'material-ui/styles';
-import List, { ListItem, ListItemText } from 'material-ui/List';
-import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Header from 'components/common/header';
-import Avatar from 'material-ui/Avatar';
-import { GetEmployeesList } from 'redux/modules/employees/actions';
+import Avatar from '@material-ui/core/Avatar';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
+import { ConnectProps } from './ConnectContainer';
+import { StylesProps } from './StylesContainer';
 
-const styles = (theme: Theme) => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  disableLinkStyle: {
-    textDecoration: 'none',
-    color: 'black',
-    outline: 'none',
-  },
-});
+interface IProps extends StylesProps, ConnectProps {}
 
-interface IStyleProps {
-  root: string;
-  disableLinkStyle: string;
-}
-
-interface IProps {
-  classes: IStyleProps;
-  user: IUser;
-  employees: IEmployee[];
-  getEmployeesList: GetEmployeesList;
-}
-
-interface IState {
-}
+interface IState {}
 
 class EmployeeList extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -49,8 +25,10 @@ class EmployeeList extends React.Component<IProps, IState> {
     this.props.getEmployeesList();
   }
 
-  private renderEmployeeProfile(classes: IStyleProps) {
-    return this.props.employees.map((item: IEmployee) => (
+  private renderEmployeeProfile() {
+    const { employees, classes } = this.props;
+
+    return employees.map((item: IEmployee) => (
       <Link
         key={item.id}
         to={{
@@ -80,7 +58,9 @@ class EmployeeList extends React.Component<IProps, IState> {
             <Grid container justify="center">
               <div className={classes.root}>
                 <Paper elevation={1}>
-                  <List>{this.props.employees && this.renderEmployeeProfile(classes)}</List>
+                  <List>
+                    {this.props.employees && this.renderEmployeeProfile()}
+                  </List>
                 </Paper>
               </div>
             </Grid>
@@ -91,4 +71,4 @@ class EmployeeList extends React.Component<IProps, IState> {
   }
 }
 
-export default withStyles(styles)(EmployeeList);
+export default EmployeeList;

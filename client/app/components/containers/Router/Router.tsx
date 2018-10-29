@@ -2,36 +2,31 @@ import 'assets/styles/backgrounds/defaultBackground.less';
 
 import * as React from 'react';
 import { Router, Switch, Redirect } from 'react-router-dom';
-import history from './history';
-import * as redux from 'redux';
-import { connect } from 'react-redux';
-import PrivateRoute from './custom-routes/PrivateRoute';
-import DisabledForAuthorizedUserRoute from './custom-routes/DisabledForAuthorizedUserRoute';
-import AllowedForUnitManagerRoute from './custom-routes/AllowedForUnitManagerRoute';
-import ObjectivesOfEmployeesRoute from './custom-routes/ObjectivesOfEmployeesRoute';
-import AllowedForEmployeeRoute from './custom-routes/AllowedForEmployeeRoute';
-import ErrorRoute from './custom-routes/ErrorRoute';
-import EmailVerificationRoute from './custom-routes/EmailVerificationRoute';
+import history from '../history';
+import PrivateRoute from '../custom-routes/PrivateRoute';
+import DisabledForAuthorizedUserRoute from '../custom-routes/DisabledForAuthorizedUserRoute';
+import AllowedForUnitManagerRoute from '../custom-routes/AllowedForUnitManagerRoute';
+import ObjectivesOfEmployeesRoute from '../custom-routes/ObjectivesOfEmployeesRoute';
+import AllowedForEmployeeRoute from '../custom-routes/AllowedForEmployeeRoute';
+import ErrorRoute from '../custom-routes/ErrorRoute';
+import EmailVerificationRoute from '../custom-routes/EmailVerificationRoute';
 import EmployeeProgressPageContainer from 'components/pages/employee-progress-page';
 import MainPageContainer from 'components/pages/main-page';
 import CareerDayPageContainer from 'components/pages/employee-career-day-page';
 import EmployeesListPageContainer from 'components/pages/employee-list';
 import LoginPageContainer from 'components/pages/login-page';
-import SignUpPage from '../pages/signup-page';
-import SuccessPage from '../pages/after-registration-page/SuccessPage';
-import NotFoundPage from '../common/error-pages/NotFoundPage';
-import InternalServerErrorPage from '../common/error-pages/InternalServerErrorPage';
-import EmailVerificationPage from '../common/email-verification-page';
+import SignUpPage from '../../pages/signup-page';
+import SuccessPage from '../../pages/after-registration-page';
+import NotFoundPage from '../../common/error-pages/NotFoundPage';
+import InternalServerErrorPage from '../../common/error-pages/InternalServerErrorPage';
+import EmailVerificationPage from '../../common/email-verification-page';
 import App from 'components/common/app';
-import { IAuthState } from 'redux/modules/auth/reducer';
-import { IStore } from 'redux/rootReducer';
-import { Dispatch } from 'redux/store';
+import { ConnectProps } from './ConnectContainer';
 
-interface IProps {
-  auth: IAuthState;
+interface IProps extends ConnectProps {
 }
 
-const AppComponent = (props: IProps) => {
+const RouterComponent = (props: IProps) => {
   const { auth } = props;
 
   return (
@@ -88,10 +83,4 @@ const AppComponent = (props: IProps) => {
   );
 };
 
-const mapStateToProps = (state: IStore) => ({
-  auth: state.auth,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => redux.bindActionCreators({}, dispatch);
-
-export default connect(mapStateToProps, mapDispatchToProps)(AppComponent);
+export default RouterComponent;

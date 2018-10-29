@@ -1,8 +1,10 @@
 import * as React from 'react';
-import Dialog, { DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
-import Button from 'material-ui/Button';
-import { withStyles } from 'material-ui/styles';
-import { WithStyles } from 'material-ui';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 
 const styles = {
   button: {
@@ -11,9 +13,7 @@ const styles = {
   },
 };
 
-type ComponentClassNames = 'button';
-
-interface IProps {
+interface IProps extends WithStyles<typeof styles> {
   title: string;
   description: string;
   confirmTitle: string;
@@ -24,8 +24,8 @@ interface IProps {
 
 interface IState {}
 
-class ConfirmationPopup extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
-  constructor(props: IProps & WithStyles<ComponentClassNames>) {
+class ConfirmationPopup extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
   }
 
@@ -66,4 +66,4 @@ class ConfirmationPopup extends React.Component<IProps & WithStyles<ComponentCla
   }
 }
 
-export default withStyles<ComponentClassNames>(styles)(ConfirmationPopup);
+export default withStyles(styles)(ConfirmationPopup);

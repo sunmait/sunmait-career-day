@@ -1,82 +1,34 @@
 import * as React from 'react';
 import { Link, match } from 'react-router-dom';
 import { Location } from 'history';
-import { Theme, withStyles } from 'material-ui/styles';
-import List, { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
-import Grid from 'material-ui/Grid';
-import Paper from 'material-ui/Paper';
-import Delete from 'material-ui-icons/Delete';
-import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Delete from '@material-ui/icons/Delete';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import ControlledTooltips from 'components/common/controlled-tooltips';
 import Header from 'components/common/header';
-import {
-  GetCareerDaysOfEmployee,
-  AddCareerDay,
-  DeleteCareerDay,
-  GetSelectedEmployee,
-} from 'redux/modules/employees/actions';
-import { ICareerDayOfEmployee, IEmployee } from 'redux/modules/employees/reducer';
+import { ICareerDayOfEmployee } from 'redux/modules/employees/reducer';
 import { toStandardFormat } from '../../helper/dateTimeHelper';
 import AddCareerDayPopup from './popups/AddCareerDayPopup';
 import ConfirmationPopup from 'components/common/popups/confirmation-popup';
 import IconStatus from 'components/common/icon-status/icon-status-career-day';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
-import Typography from 'material-ui/Typography';
-import { IUser } from 'redux/modules/auth/reducer';
-
-const styles = (theme: Theme) => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  navigation: {
-    marginTop: 20,
-  },
-  options: {
-    margin: 10,
-  },
-  disableLinkStyle: {
-    textDecoration: 'none',
-    color: 'black',
-    outline: 'none',
-    display: 'inline-table',
-    height: 48,
-    width: '100%',
-  },
-  linkTextStyle: {
-    display: 'table-cell',
-    verticalAlign: 'middle',
-  },
-});
-
-interface IStylesProps {
-  root: string;
-  navigation: string;
-  options: string;
-  disableLinkStyle: string;
-  linkTextStyle: string;
-  button: string;
-}
+import Typography from '@material-ui/core/Typography';
+import { ConnectProps } from './ConnectContainer';
+import { StylesProps } from './StylesContainer';
 
 interface IMatchParams {
-  userId: number;
+  userId: string;
 }
 
-interface IProps {
-  classes: IStylesProps;
-  tooltip: JSX.Element;
-  getCareerDayOfEmployee: GetCareerDaysOfEmployee;
-  careerDays: ICareerDayOfEmployee[];
-  addCareerDay: AddCareerDay;
-  deleteCareerDay: DeleteCareerDay;
+interface IProps extends ConnectProps, StylesProps {
   match: match<IMatchParams>;
   location: Location;
-  user: IUser;
-  selectedEmployee: IEmployee;
-  getSelectedEmployee: GetSelectedEmployee;
 }
 
 interface IState {
@@ -104,8 +56,9 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
 
   private togglePopupState(name: any) {
     const propName = name as stateKeys;
+    const updateState = { [propName as any]: !this.state[propName] } as Pick<IState, stateKeys>;
 
-    this.setState({ [propName as any]: !this.state[propName] });
+    this.setState(updateState);
   }
 
   private handleClickOnDeleteButton(event: React.MouseEvent<HTMLElement>, deleteCareerDayId: number) {
@@ -144,16 +97,18 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     return `${toStandardFormat(item.CreatedAt)} - ${toStandardFormat(item.InterviewDate)}`;
   }
 
-  private renderHistoryOfProgress(classes: IStylesProps) {
-    if (this.props.careerDays.length === 0) {
+  private renderHistoryOfProgress() {
+    const { classes, careerDays, match: { params: { userId } } } = this.props;
+
+    if (careerDays.length === 0) {
       return <Typography align="center">This employee doesn't have career days.</Typography>;
     }
-    return this.props.careerDays.map(item => (
+    return careerDays.map(item => (
       <ListItem id={item.id.toString()} key={item.id} dense button>
         <IconStatus isArchived={item.Archived} />
         <Link
           to={{
-            pathname: `/employees/${this.props.match.params.userId}/career-day/${item.id}`,
+            pathname: `/employees/${userId}/career-day/${item.id}`,
           }}
           className={classes.disableLinkStyle}
         >
@@ -190,7 +145,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
                   tooltip={
                     <Button
                       disabled={this.isActiveButton()}
-                      raised
+                      variant="contained"
                       color="primary"
                       name="add-career-day"
                       onClick={() => this.togglePopupState('isOpenAddPopup')}
@@ -205,7 +160,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
             <Grid container justify="center" spacing={0}>
               <Grid item className={classes.root}>
                 <Paper elevation={1}>
-                  <List>{this.props.careerDays && this.renderHistoryOfProgress(classes)}</List>
+                  <List>{this.props.careerDays && this.renderHistoryOfProgress()}</List>
                 </Paper>
               </Grid>
             </Grid>
@@ -214,14 +169,14 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
         {this.state.isOpenAddPopup && (
           <AddCareerDayPopup
             handleClosePopup={() => this.togglePopupState('isOpenAddPopup')}
-            handleAddCareerDay={(date: Date) => this.handleAddCareerDay(date)}
+            handleAddCareerDay={this.handleAddCareerDay}
             open={this.state.isOpenAddPopup}
           />
         )}
         {this.state.isOpenDeletePopup && (
           <ConfirmationPopup
             handleClosePopup={() => this.togglePopupState('isOpenDeletePopup')}
-            handleConfirm={() => this.handleDeleteCareerDay()}
+            handleConfirm={this.handleDeleteCareerDay}
             open={this.state.isOpenDeletePopup}
             title={'Remove this career day?'}
             description={'Also, along with the career day, the objectives that belong to this will be removed!'}
@@ -233,4 +188,4 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
   }
 }
 
-export default withStyles(styles)(EmployeeProgressPage);
+export default EmployeeProgressPage;

@@ -1,14 +1,11 @@
 import * as React from 'react';
-import Snackbar from 'material-ui/Snackbar';
-import IconButton from 'material-ui/IconButton';
-import CloseIcon from 'material-ui-icons/Close';
-import Typography from 'material-ui/Typography';
-import { INotification } from 'redux/modules/app/reducer';
-import { DeleteNotification } from 'redux/modules/app/actions';
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import Typography from '@material-ui/core/Typography';
+import { ConnectProps } from './ConnectContainer';
 
-interface IProps {
-  notification: INotification;
-  deleteNotification: DeleteNotification;
+interface IProps extends ConnectProps {
 }
 
 interface IState {

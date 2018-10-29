@@ -1,23 +1,13 @@
 import * as React from 'react';
-import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
-import Button from 'material-ui/Button';
-import { Theme, withStyles, WithStyles } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import DatePicker from 'components/common/date-picker';
+import { StylesProps } from './StylesContainer';
 
-const styles = (theme: Theme) => ({
-  button: {
-    marginTop: theme.spacing.unit,
-  },
-  alignColumn: {
-    display: 'flex',
-    flexDirection: 'column',
-  } as React.CSSProperties,
-});
-
-type ComponentClassNames = 'alignColumn' | 'button';
-
-interface IProps {
+interface IProps extends StylesProps {
   handleClosePopup: () => void;
   handleAddCareerDay: (date: Date) => void;
   open: boolean;
@@ -27,8 +17,8 @@ interface IState {
   selectedDate: Date;
 }
 
-class AddCareerDayPopup extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
-  constructor(props: IProps & WithStyles<ComponentClassNames>) {
+class AddCareerDayPopup extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       selectedDate: new Date(),
@@ -54,8 +44,10 @@ class AddCareerDayPopup extends React.Component<IProps & WithStyles<ComponentCla
       <Dialog open={this.props.open} onClose={() => this.handleClosePopup()}>
         <DialogTitle id="alert-dialog-title">Add career day</DialogTitle>
         <DialogContent className={classes.alignColumn}>
-          <Typography type="subheading" align="center">
-            <DatePicker handleChangeDate={(date: Date) => this.handleChangeDate(date)} />
+          <Typography variant="subtitle1" align="center">
+            <DatePicker
+              handleChangeDate={(date: Date) => this.handleChangeDate(date)}
+            />
           </Typography>
           <Button
             color="primary"
@@ -71,4 +63,4 @@ class AddCareerDayPopup extends React.Component<IProps & WithStyles<ComponentCla
   }
 }
 
-export default withStyles<ComponentClassNames>(styles)(AddCareerDayPopup);
+export default AddCareerDayPopup;

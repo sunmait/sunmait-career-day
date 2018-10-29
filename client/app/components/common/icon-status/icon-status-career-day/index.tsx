@@ -1,8 +1,8 @@
 import * as React from 'react';
 import ControlledTooltips from 'components/common/controlled-tooltips';
-import Archive from 'material-ui-icons/Archive';
-import IconButton from 'material-ui/IconButton';
-import TimeLine from 'material-ui-icons/Timeline';
+import Archive from '@material-ui/icons/Archive';
+import IconButton from '@material-ui/core/IconButton';
+import TimeLine from '@material-ui/icons/Timeline';
 
 interface IProps {
   isArchived: boolean;

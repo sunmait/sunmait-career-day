@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Tooltip from 'material-ui/Tooltip';
+import Tooltip from '@material-ui/core/Tooltip';
 
 interface IProps {
   title: string;
@@ -11,7 +11,7 @@ const ControlledTooltips = (props: IProps) => {
   return (
     <Tooltip
       id="tooltip-controlled"
-      disableTriggerHover={!props.isDisabled}
+      disableHoverListener={!props.isDisabled}
       title={props.title}
       enterDelay={200}
       leaveDelay={200}

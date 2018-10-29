@@ -10,18 +10,15 @@
     "baseUrl": "./app",
     "rootDir": "./app",
     "paths": {
-      "app/*": [ "app/*" ],
-      "redux/*": [ "redux/*" ],
-      "components/*": [ "components/*" ],
-      "types/*": [ "types/*" ]
+      "app/*": ["app/*"],
+      "redux/*": ["redux/*"],
+      "components/*": ["components/*"],
+      "types/*": ["types/*"]
     },
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "esModuleInterop": true
   },
-  "include": [
-    "./app/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./app/**/*"],
+  "exclude": ["node_modules"]
 }

@@ -1,38 +1,19 @@
 import 'assets/styles/headerBar.less';
 
 import * as React from 'react';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Menu, { MenuItem } from 'material-ui/Menu';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import { Link } from 'react-router-dom';
-import { IUser } from 'redux/modules/auth/reducer';
-import Avatar from 'material-ui/Avatar';
-import Grid from 'material-ui/Grid';
-import Typography from 'material-ui/Typography';
+import Avatar from '@material-ui/core/Avatar';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 import { ROLES } from 'redux/modules/auth/constants';
-import { Logout } from 'redux/modules/auth/actions';
-import { WithStyles, withStyles } from 'material-ui/styles';
+import { ConnectProps } from './ConnectContainer';
+import { StylesProps } from './StylesContainer';
 
-const styles = {
-  hover: {
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: '#EBEBEB',
-    },
-    display: 'flex',
-    alignItems: 'center',
-    padding: 15,
-  } as React.CSSProperties,
-  menuDown: {
-    marginTop: 50,
-  },
-};
-
-type ComponentClassNames = 'hover' | 'menuDown';
-
-interface IProps {
-  user: IUser;
-  logout: Logout;
+interface IProps extends ConnectProps, StylesProps {
 }
 
 interface IState {
@@ -40,8 +21,8 @@ interface IState {
   open: boolean;
 }
 
-class HeaderBar extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
-  constructor(props: IProps & WithStyles<ComponentClassNames>) {
+class HeaderBar extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       anchorEl: null,
@@ -78,7 +59,7 @@ class HeaderBar extends React.Component<IProps & WithStyles<ComponentClassNames>
             onClick={() => this.handleProfileClick()}
           >
             <div className={this.props.classes.hover} onClick={() => this.handleProfileClick()}>
-              <Typography type="subheading" className="header-bar-username">
+              <Typography variant="subtitle1" className="header-bar-username">
                 {`${this.props.user.FirstName} ${this.props.user.LastName}`}
               </Typography>
               <div
@@ -138,4 +119,4 @@ class HeaderBar extends React.Component<IProps & WithStyles<ComponentClassNames>
   }
 }
 
-export default withStyles<ComponentClassNames>(styles)(HeaderBar);
+export default HeaderBar;

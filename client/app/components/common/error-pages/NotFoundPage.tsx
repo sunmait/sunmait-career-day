@@ -1,31 +1,26 @@
 import * as React from 'react';
-import Grid from 'material-ui/Grid';
-import { withStyles } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
+import Grid from '@material-ui/core/Grid';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
 const styles = {
   textAlign: {
-    textAlign: 'center',
+    textAlign: 'center' as React.CSSProperties['textAlign'],
   },
 };
 
-interface IStyleProps {
-  textAlign: string;
-}
-
-interface IProps {
-  classes: IStyleProps;
+interface IProps extends WithStyles<typeof styles> {
 }
 
 const NotFoundPage = (props: IProps) => {
   return (
     <Grid container justify="center" direction="column" spacing={0}>
       <div className={props.classes.textAlign}>
-        <Typography type="display4">404</Typography>
+        <Typography variant="h1">404</Typography>
         <br />
-        <Typography type="display3">Whoops... Page Not Found !!!</Typography>
+        <Typography variant="h2">Whoops... Page Not Found !!!</Typography>
         <br />
-        <Typography type="subheading">
+        <Typography variant="subtitle1">
           We're sorry, but the page you are looking for doesn't exist.
         </Typography>
       </div>

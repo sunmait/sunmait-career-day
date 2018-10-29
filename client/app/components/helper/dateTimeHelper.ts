@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 
 export function toStandardFormat(dateTime: Date) {
   const format = 'DD.MM.YYYY hh:mm A';

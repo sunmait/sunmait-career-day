@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Location } from 'history';
-import Typography from 'material-ui/Typography';
-import { withStyles } from 'material-ui/styles';
+import Typography from '@material-ui/core/Typography';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 import * as queryString from 'query-string';
 import { VERIFY_MESSAGE } from './verifyMessageConstant';
 
 const styles = () => ({
   text: {
-    textAlign: 'center',
+    textAlign: 'center' as React.CSSProperties['textAlign'],
   },
   underline: {
     textDecoration: 'none',
@@ -20,14 +20,7 @@ const styles = () => ({
   },
 });
 
-interface IStylesProps {
-  text: string;
-  underline: string;
-  hover: string;
-}
-
-interface IProps {
-  classes: IStylesProps;
+interface IProps extends WithStyles<typeof styles> {
   location: Location;
 }
 
@@ -53,11 +46,11 @@ class EmailVerificationPage extends React.Component<IProps, IState> {
 
     return (
       <div className={classes.text}>
-        <Typography type="display1" color="inherit">
+        <Typography variant="h4" color="inherit">
           {this.parseQueryParams()}
         </Typography>
         <Link to="/login" className={classes.underline}>
-          <Typography type="subheading" className={classes.hover}>
+          <Typography variant="subtitle1" className={classes.hover}>
             Return to login page
           </Typography>
         </Link>

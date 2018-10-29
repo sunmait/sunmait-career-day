@@ -1,7 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const env = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : 'development';
 
@@ -32,9 +32,12 @@ module.exports = {
         },
       },
       {
-        test: /\.tsx?$/,
+        test: /\.ts(x?)$/,
         loader: 'awesome-typescript-loader',
         exclude: /node_modules/,
+        options: {
+          useBabel: true,
+        },
       },
       {
         enforce: 'pre',
@@ -42,30 +45,26 @@ module.exports = {
         loader: 'source-map-loader',
       },
       {
-        test: /\.jsx?$/,
+        test: /\.js(x?)$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
       },
       {
         test: /\.less$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {loader: 'css-loader', options: {minimize: true}},
-            'postcss-loader',
-            'less-loader',
-          ],
-        }),
+        use: [
+          MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { minimize: true } },
+          'postcss-loader',
+          'less-loader',
+        ],
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {loader: 'css-loader', options: {minimize: true}},
-            'postcss-loader',
-          ],
-        }),
+        use: [
+          MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { minimize: true } },
+          'postcss-loader',
+        ],
       },
       {
         test: /\.(png|jpg|gif|ico|svg)$/,
@@ -74,23 +73,26 @@ module.exports = {
     ],
   },
 
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all',
+        },
+      },
+    },
+  },
+
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(app, 'index.html'),
       favicon: 'app/favicon.ico',
     }),
 
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
-      allChunks: true,
-    }),
-
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      filename: 'vendor.[chunkhash].js',
-      minChunks(module) {
-        return module.context && module.context.indexOf('node_modules') >= 0;
-      },
     }),
   ],
 };

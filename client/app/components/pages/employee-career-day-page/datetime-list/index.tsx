@@ -1,10 +1,12 @@
 import * as React from 'react';
-import Paper from 'material-ui/Paper';
-import List, { ListItem, ListItemText } from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
-import TimeLine from 'material-ui-icons/Timeline';
-import WorkIcon from 'material-ui-icons/Work';
-import BookIcon from 'material-ui-icons/Book';
+import Paper from '@material-ui/core/Paper';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
+import TimeLine from '@material-ui/icons/Timeline';
+import WorkIcon from '@material-ui/icons/Work';
+import BookIcon from '@material-ui/icons/Book';
 import { toStandardFormat } from '../../../helper/dateTimeHelper';
 import { ICareerDayOfEmployee } from 'redux/modules/employees/reducer';
 

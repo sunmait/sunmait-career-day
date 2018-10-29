@@ -1,24 +1,8 @@
 import * as React from 'react';
-import Typography from 'material-ui/Typography';
-import { withStyles } from 'material-ui/styles';
+import Typography from '@material-ui/core/Typography';
+import { StylesProps } from './StylesContainer';
 
-const styles = () => ({
-  text: {
-    fontSize: 30,
-  },
-  alignText: {
-    textAlign: 'center',
-  },
-});
-
-interface IStylesProps {
-  text: string;
-  alignText: string;
-}
-
-interface IProps {
-  classes: IStylesProps;
-}
+interface IProps extends StylesProps {}
 
 interface IState {}
 
@@ -33,13 +17,15 @@ class SuccessPage extends React.Component<IProps, IState> {
 
     return (
       <div className={classes.alignText}>
-        <Typography type="display1" color="inherit">
+        <Typography variant="h4" color="inherit">
           Your registration was successful
         </Typography>
-        <Typography type="subheading">Message with instruction was sent on your email.</Typography>
+        <Typography variant="subtitle1">
+          Message with instruction was sent on your email.
+        </Typography>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(SuccessPage);
+export default SuccessPage;

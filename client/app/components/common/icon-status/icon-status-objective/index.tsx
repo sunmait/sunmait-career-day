@@ -1,9 +1,9 @@
 import * as React from 'react';
 import ControlledTooltips from 'components/common/controlled-tooltips';
-import Queue from 'material-ui-icons/QueryBuilder';
-import Done from 'material-ui-icons/Done';
-import IconButton from 'material-ui/IconButton';
-import TimeLine from 'material-ui-icons/Timeline';
+import Queue from '@material-ui/icons/QueryBuilder';
+import Done from '@material-ui/icons/Done';
+import IconButton from '@material-ui/core/IconButton';
+import TimeLine from '@material-ui/icons/Timeline';
 
 enum ObjectiveStatuses {
   QUEUE = 2,

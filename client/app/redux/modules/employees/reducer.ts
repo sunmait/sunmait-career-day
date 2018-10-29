@@ -53,7 +53,7 @@ export default function(state: IEmployeesState = defaultState, { type, payload }
   }
 }
 
-function handleGetEmployeesList(state: IEmployeesState, employees: IEmployee) {
+function handleGetEmployeesList(state: IEmployeesState, employees: IEmployee[]) {
   return { ...state, employees };
 }
 

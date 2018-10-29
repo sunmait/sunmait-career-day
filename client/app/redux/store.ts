@@ -1,10 +1,22 @@
-import { applyMiddleware, createStore, Dispatch } from 'redux';
+import { applyMiddleware, createStore, Dispatch, ActionCreator } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import promise from 'redux-promise-middleware';
-import thunk from 'redux-thunk';
-import rootReducer from 'redux/rootReducer';
-import { IStore } from './rootReducer';
+import thunk, { ThunkDispatch, ThunkAction } from 'redux-thunk';
+import rootReducer, { IStore } from './rootReducer';
+import APP_ACTIONS from './modules/app/actionConstants';
+import AUTH_ACTIONS from './modules/auth/actionConstants';
+import EMPLOYEES_LIST from './modules/employees/actionConstants';
 
-export type Dispatch = Dispatch<IStore>;
+interface IAction {
+  type: APP_ACTIONS | AUTH_ACTIONS | EMPLOYEES_LIST;
+}
+
+interface IThunkExtraParams {}
+
+export type Action<R> = ThunkAction<R, IStore, IThunkExtraParams, IAction>;
+
+export type Dispatch = ThunkDispatch<IStore, IThunkExtraParams, IAction>;
+
+export type ActionCreator<R> = ActionCreator<Action<R>>;
 
 export default createStore(rootReducer, composeWithDevTools(applyMiddleware(promise(), thunk)));

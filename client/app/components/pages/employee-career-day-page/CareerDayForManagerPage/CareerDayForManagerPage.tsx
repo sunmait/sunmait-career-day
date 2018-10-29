@@ -1,26 +1,13 @@
 import * as React from 'react';
-import { withStyles, WithStyles } from 'material-ui/styles';
-import * as moment from 'moment';
+import moment from 'moment';
 import Header from 'components/common/header/index';
-import Grid from 'material-ui/Grid';
-import Button from 'material-ui/Button';
-import { IUser } from 'redux/modules/auth/reducer';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import {
-  ICareerDayOfEmployee,
-  IEmployee,
   IObjectiveById,
   IUpdateObjectiveManager,
   IUpdateInterviewDate,
 } from 'redux/modules/employees/reducer';
-import {
-  GetSelectedCareerDay,
-  AddObjective,
-  UpdateObjectiveManager,
-  DeleteObjective,
-  ArchiveCareerDay,
-  UpdateInterviewDate,
-  GetSelectedEmployee,
-} from 'redux/modules/employees/actions';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
 import AddObjectivePopup from '../popups/add-objective-popup/index';
 import Objective from '../objective/index';
@@ -28,39 +15,11 @@ import ConfirmationPopup from 'components/common/popups/confirmation-popup/index
 import ControlledTooltips from 'components/common/controlled-tooltips/index';
 import EditDatetimePopup from '../popups/update-date-popup/index';
 import DatetimeList from '../datetime-list/index';
+import { ConnectProps } from './ConnectContainer';
+import { StylesProps } from './StylesContainer';
 
-const styles = {
-  root: {
-    flexGrow: 1,
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  navigation: {
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  datetime: {
-    width: '100%',
-    marginTop: 10,
-    marginBottom: 10,
-  },
-};
-
-type ComponentClassNames = 'root' | 'navigation' | 'datetime';
-
-interface IProps {
-  tooltip?: JSX.Element;
-  user: IUser;
-  addObjective: AddObjective;
-  selectedCareerDay: ICareerDayOfEmployee;
-  selectedEmployee: IEmployee;
-  getSelectedCareerDay: GetSelectedCareerDay;
-  deleteObjective: DeleteObjective;
+interface IProps extends ConnectProps, StylesProps {
   careerDayId: number;
-  updateObjectiveManager: UpdateObjectiveManager;
-  archiveCareerDay: ArchiveCareerDay;
-  updateInterviewDate: UpdateInterviewDate;
-  getSelectedEmployee: GetSelectedEmployee;
   userId: number;
 }
 
@@ -74,9 +33,8 @@ interface IState {
 
 type stateKeys = keyof IState;
 
-class CareerDayForManagerPage extends React.Component<IProps & WithStyles<ComponentClassNames>,
-  IState> {
-  constructor(props: IProps & WithStyles<ComponentClassNames>) {
+class CareerDayForManagerPage extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       isOpenAddPopup: false,
@@ -95,7 +53,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
   private togglePopupState(name: any) {
     const propName = name as stateKeys;
 
-    this.setState({ [propName as any]: !this.state[propName] });
+    this.setState({ [propName as any]: !this.state[propName] } as Pick<IState, stateKeys>);
   }
 
   private handleClickOnDeleteButton(e: React.MouseEvent<HTMLElement>, objectiveId: number) {
@@ -143,11 +101,8 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
         objective={item}
         userRole={this.props.user.Role}
         archived={this.props.selectedCareerDay.Archived}
-        handleSaveObjective={(objective: IUpdateObjectiveManager) => this.handleSaveObjective(objective)}
-        handleDeleteObjective={(
-          e: React.MouseEvent<HTMLElement>,
-          objectiveId: number,
-        ) => this.handleClickOnDeleteButton(e, objectiveId)}
+        handleSaveObjective={this.handleSaveObjective}
+        handleDeleteObjective={this.handleClickOnDeleteButton}
       />
     ));
   }
@@ -221,7 +176,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
                   tooltip={
                     <Button
                       disabled={this.isActiveArchiveButton()}
-                      raised
+                      variant="contained"
                       color="primary"
                       onClick={() => this.togglePopupState('isOpenArchiveCDPopup')}
                     >
@@ -237,7 +192,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
                   tooltip={
                     <Button
                       disabled={this.isArchived()}
-                      raised
+                      variant="contained"
                       color="primary"
                       onClick={() => this.togglePopupState('isOpenDatePopup')}
                     >
@@ -269,7 +224,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
                   isDisabled={this.isArchived()}
                   tooltip={
                     <Button
-                      raised
+                      variant="contained"
                       disabled={this.isArchived()}
                       color="primary"
                       onClick={() => this.togglePopupState('isOpenAddPopup')}
@@ -294,9 +249,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
         {this.state.isOpenDatePopup && (
           <EditDatetimePopup
             handleClosePopup={() => this.togglePopupState('isOpenDatePopup')}
-            handleUpdateDatetime={(datetime: IUpdateInterviewDate) =>
-              this.handleUpdateDatetime(datetime)
-            }
+            handleUpdateDatetime={this.handleUpdateDatetime}
             open={this.state.isOpenDatePopup}
             interviewDate={this.props.selectedCareerDay.InterviewDate}
           />
@@ -304,14 +257,14 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
         {this.state.isOpenAddPopup && (
           <AddObjectivePopup
             handleClosePopup={() => this.togglePopupState('isOpenAddPopup')}
-            handleAddObjective={(objective: IObjectiveById) => this.handleAddObjective(objective)}
+            handleAddObjective={this.handleAddObjective}
             open={this.state.isOpenAddPopup}
           />
         )}
         {this.state.isOpenDeletePopup && (
           <ConfirmationPopup
             handleClosePopup={() => this.togglePopupState('isOpenDeletePopup')}
-            handleConfirm={() => this.handleDeleteObjective()}
+            handleConfirm={this.handleDeleteObjective}
             open={this.state.isOpenDeletePopup}
             title={'Delete this objective?'}
             description="After deleting, you can't come back objective!"
@@ -321,7 +274,7 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
         {this.state.isOpenArchiveCDPopup && (
           <ConfirmationPopup
             handleClosePopup={() => this.togglePopupState('isOpenArchiveCDPopup')}
-            handleConfirm={() => this.handleArchiveCareerDay()}
+            handleConfirm={this.handleArchiveCareerDay}
             open={this.state.isOpenArchiveCDPopup}
             title="Archive this career day?"
             description="After archiving, you can't edit a career day!"
@@ -333,4 +286,4 @@ class CareerDayForManagerPage extends React.Component<IProps & WithStyles<Compon
   }
 }
 
-export default withStyles<ComponentClassNames>(styles)(CareerDayForManagerPage);
+export default CareerDayForManagerPage;

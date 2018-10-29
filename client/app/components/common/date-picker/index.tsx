@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as Picker from 'material-ui-pickers';
-import EventIcon from 'material-ui-icons/Event';
-import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
-import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
+import EventIcon from '@material-ui/icons/Event';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 interface IProps {
   handleChangeDate: (date: Date) => void;

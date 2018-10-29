@@ -1,51 +1,21 @@
 import * as React from 'react';
-import { IUser } from 'redux/modules/auth/reducer';
 import Header from 'components/common/header/index';
-import Grid from 'material-ui/Grid';
-import { ICareerDayOfEmployee, IUpdateObjectiveEmployee } from 'redux/modules/employees/reducer';
-import { GetActiveCareerDay, UpdateObjectiveEmployee } from 'redux/modules/employees/actions';
-import { withStyles, WithStyles } from 'material-ui/styles';
-import Typography from 'material-ui/Typography';
-import Paper from 'material-ui/Paper';
+import Grid from '@material-ui/core/Grid';
+import { IUpdateObjectiveEmployee } from 'redux/modules/employees/reducer';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
 import DatetimeList from '../datetime-list/index';
 import Objective from '../objective/index';
 import backgroundColorHelper from 'components/helper/backgroundColorHelper';
+import { ConnectProps } from './ConnectContainer';
+import { StylesProps } from './StylesContainer';
 
-const styles = {
-  root: {
-    flexGrow: 1,
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  navigation: {
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  datetime: {
-    width: '100%',
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  paper: {
-    paddingTop: 10,
-    paddingBottom: 10,
-  },
-};
+interface IProps extends ConnectProps, StylesProps {}
 
-type ComponentClassNames = 'root' | 'navigation' | 'datetime' | 'paper';
+interface IState {}
 
-interface IProps {
-  user: IUser;
-  activeCareerDay: ICareerDayOfEmployee;
-  getActiveCareerDay: GetActiveCareerDay;
-  updateObjectiveEmployee: UpdateObjectiveEmployee;
-}
-
-interface IState {
-}
-
-class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<ComponentClassNames>, IState> {
-  constructor(props: IProps & WithStyles<ComponentClassNames>) {
+class CareerDayForEmployeePage extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {};
   }
@@ -54,7 +24,9 @@ class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<Compo
     this.props.getActiveCareerDay(this.props.user.id);
   }
 
-  private handleSaveObjective(updatedObjectiveProgress: IUpdateObjectiveEmployee) {
+  private handleSaveObjective(
+    updatedObjectiveProgress: IUpdateObjectiveEmployee,
+  ) {
     this.props.updateObjectiveEmployee(updatedObjectiveProgress);
   }
 
@@ -65,9 +37,7 @@ class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<Compo
           key={item.id}
           objective={item}
           userRole={this.props.user.Role}
-          handleSaveObjective={(objective: IUpdateObjectiveEmployee) =>
-            this.handleSaveObjective(objective)
-          }
+          handleSaveObjective={this.handleSaveObjective}
         />
       ));
     }
@@ -81,26 +51,29 @@ class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<Compo
   }
 
   public render() {
-    const { classes } = this.props;
-    const activeCareerDay: ICareerDayOfEmployee = this.props.activeCareerDay;
+    const { classes, activeCareerDay } = this.props;
 
     backgroundColorHelper();
     return (
       <div>
         <Grid container justify="center" spacing={0}>
-          <Header title={`${this.props.user.FirstName} ${this.props.user.LastName}'s career day`} />
+          <Header
+            title={`${this.props.user.FirstName} ${
+              this.props.user.LastName
+            }'s career day`}
+          />
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="center">
               <div className={classes.datetime}>
                 {activeCareerDay &&
-                activeCareerDay.CreatedAt && <DatetimeList selectedCareerDay={activeCareerDay} />}
+                  activeCareerDay.CreatedAt && (
+                    <DatetimeList selectedCareerDay={activeCareerDay} />
+                  )}
               </div>
             </Grid>
 
             <Grid container justify="center">
-              <div className={classes.root}>
-                {this.renderObjectives()}
-              </div>
+              <div className={classes.root}>{this.renderObjectives()}</div>
             </Grid>
           </Grid>
         </Grid>
@@ -109,4 +82,4 @@ class CareerDayForEmployeePage extends React.Component<IProps & WithStyles<Compo
   }
 }
 
-export default withStyles<ComponentClassNames>(styles)(CareerDayForEmployeePage);
+export default CareerDayForEmployeePage;

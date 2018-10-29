@@ -1,6 +1,6 @@
 import * as axios from 'axios';
 import EMPLOYEES_LIST from './actionConstants';
-import store, { Dispatch } from 'redux/store';
+import store, { Dispatch, ActionCreator } from 'redux/store';
 import {
   IEmployee,
   ICareerDayOfEmployee,
@@ -15,7 +15,7 @@ import {
 import { addNotification } from 'redux/modules/app/actions';
 import sendRequest from 'components/helper/authRequest';
 
-export type GetEmployeesList = () => (dispatch: Dispatch) => void;
+export type GetEmployeesList = ActionCreator<void>;
 export const getEmployeesList: GetEmployeesList = () => (dispatch: Dispatch) => {
   return sendRequest('get', '/api/users/employees')
     .then((res: axios.AxiosResponse<IEmployee[]>) => {
