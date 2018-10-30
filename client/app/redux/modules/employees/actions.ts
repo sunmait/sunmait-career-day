@@ -1,6 +1,6 @@
 import * as axios from 'axios';
 import EMPLOYEES_LIST from './actionConstants';
-import store, { Dispatch } from 'redux/store';
+import { Dispatch, GetState } from 'redux/store';
 import {
   IEmployee,
   ICareerDayOfEmployee,
@@ -90,11 +90,11 @@ export const addCareerDay = (careerDay: ICareerDay) => (dispatch: Dispatch) => {
     });
 };
 
-export const addObjective = (objective: IObjectiveById) => (dispatch: Dispatch) => {
+export const addObjective = (objective: IObjectiveById) => (dispatch: Dispatch, getState: GetState) => {
   return sendRequest('post', `/api/objectives`, objective)
     .then((res: axios.AxiosResponse<IObjective>) => {
       const newObjective: IObjective = res.data;
-      const updatedSelectedCareerDay = { ...store.getState().employees.selectedCareerDay };
+      const updatedSelectedCareerDay = { ...getState().employees.selectedCareerDay };
 
       updatedSelectedCareerDay.Objectives.push(newObjective);
 
@@ -156,12 +156,12 @@ export const updateObjectiveManager = (objective: IUpdateObjectiveManager) => (
     });
 };
 
-export const archiveCareerDay = (careerDay: IArchiveCareerDay) => (dispatch: Dispatch) => {
+export const archiveCareerDay = (careerDay: IArchiveCareerDay) => (dispatch: Dispatch, getState: GetState) => {
   return sendRequest('patch', `/api/career-days/archive/${careerDay.id}`)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
       const newCareerDay: ICareerDayOfEmployee = res.data;
 
-      const newCareerDaysList = store.getState().employees.careerDays.map((item: ICareerDayOfEmployee) => {
+      const newCareerDaysList = getState().employees.careerDays.map((item: ICareerDayOfEmployee) => {
         if (item.id === res.data.id) {
           return newCareerDay;
         }
@@ -180,10 +180,11 @@ export const archiveCareerDay = (careerDay: IArchiveCareerDay) => (dispatch: Dis
 
 export const updateInterviewDate = (datetime: IUpdateInterviewDate) => (
   dispatch: Dispatch,
+  getState: GetState,
 ) => {
   return sendRequest('patch', `/api/career-days/update-date/${datetime.id}`, datetime)
     .then((res: axios.AxiosResponse<ICareerDayOfEmployee>) => {
-      const updatedCareerDay = { ...store.getState().employees.selectedCareerDay };
+      const updatedCareerDay = { ...getState().employees.selectedCareerDay };
       updatedCareerDay.InterviewDate = res.data.InterviewDate;
       updatedCareerDay.UpdatedAt = res.data.UpdatedAt;
 
@@ -197,10 +198,10 @@ export const updateInterviewDate = (datetime: IUpdateInterviewDate) => (
     });
 };
 
-export const deleteObjective = (objectiveId: number) => (dispatch: Dispatch) => {
+export const deleteObjective = (objectiveId: number) => (dispatch: Dispatch, getState: GetState) => {
   return sendRequest('delete', `/api/objectives/${objectiveId}`)
     .then(() => {
-      const newSelectedCareerDay = { ...store.getState().employees.selectedCareerDay };
+      const newSelectedCareerDay = { ...getState().employees.selectedCareerDay };
 
       newSelectedCareerDay.Objectives.find((objective: IObjective, index: number): boolean => {
         if (objective.id === objectiveId) {

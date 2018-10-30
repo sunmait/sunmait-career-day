@@ -15,6 +15,8 @@ interface IThunkExtraParams {}
 
 export type Action<R> = ThunkAction<R, IStore, IThunkExtraParams, IAction>;
 
+export type GetState = () => IStore;
+
 export type Dispatch = ThunkDispatch<IStore, IThunkExtraParams, IAction>;
 
 export default createStore(

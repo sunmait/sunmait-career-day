@@ -11,7 +11,9 @@ describe('appActions', () => {
 
     actions.addNotification(notification)(dispatchSpy);
 
-    expect(dispatchSpy.mock.calls[0][0].type).toEqual(APP_ACTIONS.ADD_NOTIFICATION);
+    expect(dispatchSpy.mock.calls[0][0].type).toEqual(
+      APP_ACTIONS.ADD_NOTIFICATION,
+    );
   });
 
   test('Should delete notification', () => {
@@ -19,6 +21,8 @@ describe('appActions', () => {
 
     actions.deleteNotification()(dispatchSpy);
 
-    expect(dispatchSpy.mock.calls[0][0].type).toEqual(APP_ACTIONS.DELETE_NOTIFICATION);
+    expect(dispatchSpy.mock.calls[0][0].type).toEqual(
+      APP_ACTIONS.DELETE_NOTIFICATION,
+    );
   });
 });

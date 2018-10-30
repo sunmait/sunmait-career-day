@@ -100,7 +100,7 @@ function handleAddCareerDay(
 
 function handleAddObjective(
   state: IEmployeesState,
-  selectedCareerDay: IObjective,
+  selectedCareerDay: ICareerDayOfEmployee,
 ) {
   return { ...state, selectedCareerDay };
 }
@@ -120,7 +120,10 @@ function handleDeleteObjective(
   return { ...state, selectedCareerDay };
 }
 
-function handleArchiveCareerDay(state: IEmployeesState, payload: any) {
+function handleArchiveCareerDay(
+  state: IEmployeesState,
+  payload: { careerDay: ICareerDay; selectedCareerDay: ICareerDayOfEmployee },
+) {
   return {
     ...state,
     careerDays: payload.careerDay,
