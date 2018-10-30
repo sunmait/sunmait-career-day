@@ -8,34 +8,29 @@ import { logout as logoutUser } from 'components/helper/authRequest';
 
 const axiosRequest: any = axios;
 
-export type Login = (Email: string, Password: string) => (dispatch: Dispatch) => axios.AxiosPromise;
+export const login = (Email: string, Password: string) => (dispatch: Dispatch) => {
+  return axiosRequest
+    .post('/api/auth', { Email, Password })
+    .then((res: axios.AxiosResponse<ILogin>) => {
+      const { AccessToken, RefreshToken } = res.data;
+      const User = JSON.stringify(res.data.Data);
 
-export function login(Email: string, Password: string) {
-  return (dispatch: Dispatch) => {
-    return axiosRequest
-      .post('/api/auth', { Email, Password })
-      .then((res: axios.AxiosResponse<ILogin>) => {
-        const { AccessToken, RefreshToken } = res.data;
-        const User = JSON.stringify(res.data.Data);
+      localStorage.setItem('AccessToken', AccessToken);
+      localStorage.setItem('RefreshToken', RefreshToken);
+      localStorage.setItem('User', User);
 
-        localStorage.setItem('AccessToken', AccessToken);
-        localStorage.setItem('RefreshToken', RefreshToken);
-        localStorage.setItem('User', User);
-
-        dispatch({
-          type: AUTH_CONSTANTS.LOGIN,
-          payload: res.data,
-        });
-      })
-      .catch((err: axios.AxiosError) => {
-        console.error(err);
-        throw err;
+      dispatch({
+        type: AUTH_CONSTANTS.LOGIN,
+        payload: res.data,
       });
-  };
-}
+    })
+    .catch((err: axios.AxiosError) => {
+      console.error(err);
+      throw err;
+    });
+};
 
-export type VerifyCredentials = (dispatch: Dispatch) => void;
-export const verifyCredentials: VerifyCredentials = async (dispatch: Dispatch) => {
+export const verifyCredentials = async (dispatch: Dispatch) => {
   const accessToken = localStorage.getItem('AccessToken');
   const refreshToken = localStorage.getItem('RefreshToken');
   const currentUser = JSON.parse(localStorage.getItem('User'));
@@ -81,8 +76,7 @@ export const verifyCredentials: VerifyCredentials = async (dispatch: Dispatch) =
   }
 };
 
-export type SignUp = (registeredUser: IRegisteredUser) => (dispatch: Dispatch) => void;
-export const signUp: SignUp = (registeredUser: IRegisteredUser) => (dispatch: Dispatch) => {
+export const signUp = (registeredUser: IRegisteredUser) => (dispatch: Dispatch) => {
   return axiosRequest
     .post('/api/users', registeredUser)
     .then((res: axios.AxiosResponse<void>) => {
@@ -113,8 +107,7 @@ export const signUp: SignUp = (registeredUser: IRegisteredUser) => (dispatch: Di
     });
 };
 
-export type Logout = (refreshToken: string) => (dispatch: Dispatch) => void;
-export const logout: Logout = (refreshToken: string) => (dispatch: Dispatch) => {
+export const logout = (refreshToken: string) => (dispatch: Dispatch) => {
   return axiosRequest
     .delete(`/api/auth/${refreshToken}`)
     .then(() => {

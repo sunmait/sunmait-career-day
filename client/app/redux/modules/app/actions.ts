@@ -2,8 +2,7 @@ import APP_ACTIONS from './actionConstants';
 import { Dispatch } from 'redux/store';
 import { INotification } from './reducer';
 
-export type AddNotification = (notification: INotification) => (dispatch: Dispatch) => void;
-export const addNotification: AddNotification = (notification: INotification) => (dispatch: Dispatch) => {
+export const addNotification = (notification: INotification) => (dispatch: Dispatch) => {
   if (notification.status === 403) {
     notification.message = 'You don\'t have access to this action';
   } else if (notification.status === 404) {
@@ -17,8 +16,7 @@ export const addNotification: AddNotification = (notification: INotification) =>
   });
 };
 
-export type DeleteNotification = () => (dispatch: Dispatch) => void;
-export const deleteNotification: DeleteNotification = () => (dispatch: Dispatch) => {
+export const deleteNotification = () => (dispatch: Dispatch) => {
   dispatch({
     type: APP_ACTIONS.DELETE_NOTIFICATION,
   });

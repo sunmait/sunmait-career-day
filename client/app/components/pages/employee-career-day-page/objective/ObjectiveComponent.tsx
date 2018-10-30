@@ -203,7 +203,7 @@ class Objective extends React.Component<IProps, IState> {
   }
 
   public render() {
-    return <div>{this.state.isEdited ? this.formInputPanel() : this.renderObjectivePanel()}</div>;
+    return this.state.isEdited ? this.formInputPanel() : this.renderObjectivePanel();
   }
 }
 

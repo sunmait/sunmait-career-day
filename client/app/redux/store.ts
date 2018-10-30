@@ -1,4 +1,4 @@
-import { applyMiddleware, createStore, Dispatch, ActionCreator } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import promise from 'redux-promise-middleware';
 import thunk, { ThunkDispatch, ThunkAction } from 'redux-thunk';
@@ -17,6 +17,7 @@ export type Action<R> = ThunkAction<R, IStore, IThunkExtraParams, IAction>;
 
 export type Dispatch = ThunkDispatch<IStore, IThunkExtraParams, IAction>;
 
-export type ActionCreator<R> = ActionCreator<Action<R>>;
-
-export default createStore(rootReducer, composeWithDevTools(applyMiddleware(promise(), thunk)));
+export default createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(promise(), thunk)),
+);

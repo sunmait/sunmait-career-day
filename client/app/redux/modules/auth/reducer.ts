@@ -8,7 +8,7 @@ const defaultState: IAuthState = {
 
 export default function(
   state: IAuthState = defaultState,
-  { type, payload }: { type: string; payload: any },
+  { type, payload }: { type: AUTH_ACTIONS; payload: any },
 ) {
   switch (type) {
     case AUTH_ACTIONS.LOGIN:

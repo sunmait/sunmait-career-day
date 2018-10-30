@@ -7,7 +7,10 @@ const defaultState: IEmployeesState = {
   selectedEmployee: null,
 };
 
-export default function(state: IEmployeesState = defaultState, { type, payload }: { type: string; payload: any }) {
+export default function(
+  state: IEmployeesState = defaultState,
+  { type, payload }: { type: EMPLOYEES_LIST; payload: any },
+) {
   switch (type) {
     case EMPLOYEES_LIST.GET_EMPLOYEES_LIST:
       return handleGetEmployeesList(state, payload);
@@ -53,63 +56,98 @@ export default function(state: IEmployeesState = defaultState, { type, payload }
   }
 }
 
-function handleGetEmployeesList(state: IEmployeesState, employees: IEmployee[]) {
+function handleGetEmployeesList(
+  state: IEmployeesState,
+  employees: IEmployee[],
+) {
   return { ...state, employees };
 }
 
-function handleGetCareerDaysOfEmployee(state: IEmployeesState, careerDays: ICareerDayOfEmployee) {
+function handleGetCareerDaysOfEmployee(
+  state: IEmployeesState,
+  careerDays: ICareerDayOfEmployee,
+) {
   return { ...state, careerDays };
 }
 
-function handleGetSelectedCareerDay(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
+function handleGetSelectedCareerDay(
+  state: IEmployeesState,
+  selectedCareerDay: ICareerDayOfEmployee,
+) {
   return { ...state, selectedCareerDay };
 }
 
-function handleGetActiveCareerDay(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
+function handleGetActiveCareerDay(
+  state: IEmployeesState,
+  selectedCareerDay: ICareerDayOfEmployee,
+) {
   return { ...state, selectedCareerDay };
 }
 
-function handleGetSelectedEmployee(state: IEmployeesState, selectedEmployee: IEmployee) {
+function handleGetSelectedEmployee(
+  state: IEmployeesState,
+  selectedEmployee: IEmployee,
+) {
   return { ...state, selectedEmployee };
 }
 
-function handleAddCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEmployee) {
+function handleAddCareerDay(
+  state: IEmployeesState,
+  newCareerDay: ICareerDayOfEmployee,
+) {
   return { ...state, careerDays: [newCareerDay, ...state.careerDays] };
 }
 
-function handleAddObjective(state: IEmployeesState, selectedCareerDay: IObjective) {
+function handleAddObjective(
+  state: IEmployeesState,
+  selectedCareerDay: IObjective,
+) {
   return { ...state, selectedCareerDay };
 }
 
 function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
-  const newCareerDaysList = state.careerDays.filter(careerDay => careerDay.id !== careerDayId);
+  const newCareerDaysList = state.careerDays.filter(
+    careerDay => careerDay.id !== careerDayId,
+  );
 
   return { ...state, careerDays: newCareerDaysList };
 }
 
-function handleDeleteObjective(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
+function handleDeleteObjective(
+  state: IEmployeesState,
+  selectedCareerDay: ICareerDayOfEmployee,
+) {
   return { ...state, selectedCareerDay };
 }
 
 function handleArchiveCareerDay(state: IEmployeesState, payload: any) {
-  return { ...state, careerDays: payload.careerDay, selectedCareerDay: payload.selectedCareerDay };
+  return {
+    ...state,
+    careerDays: payload.careerDay,
+    selectedCareerDay: payload.selectedCareerDay,
+  };
 }
 
 function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
   const updatedSelectedCareerDay = { ...state.selectedCareerDay };
-  updatedSelectedCareerDay.Objectives.find((item: IObjective, index: number): boolean => {
-    if (item.id === objective.id) {
-      updatedSelectedCareerDay.Objectives[index] = objective;
+  updatedSelectedCareerDay.Objectives.find(
+    (item: IObjective, index: number): boolean => {
+      if (item.id === objective.id) {
+        updatedSelectedCareerDay.Objectives[index] = objective;
 
-      return true;
-    }
-    return false;
-  });
+        return true;
+      }
+      return false;
+    },
+  );
 
   return { ...state, selectedCareerDay: updatedSelectedCareerDay };
 }
 
-function handleUpdateInterviewDate(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
+function handleUpdateInterviewDate(
+  state: IEmployeesState,
+  selectedCareerDay: ICareerDayOfEmployee,
+) {
   return { ...state, selectedCareerDay };
 }
 
