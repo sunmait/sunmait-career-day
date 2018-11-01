@@ -23,7 +23,7 @@ After node installation clone project, you need to build client app. For that mo
 
 ```sh
 npm i
-npm run build
+npm run start
 ```
 
 Next you need to run server, to do this read readme file in 'server' folder.
