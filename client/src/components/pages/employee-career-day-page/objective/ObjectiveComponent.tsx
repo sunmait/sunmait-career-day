@@ -53,13 +53,13 @@ class Objective extends React.Component<IProps, IState> {
     };
   }
 
-  private handleEditObjective(e: React.MouseEvent<HTMLElement>) {
+  private handleEditObjective = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     this.setState({ isEdited: !this.state.isEdited });
   }
 
-  private handleDeleteObjective(e: React.MouseEvent<HTMLElement>) {
+  private handleDeleteObjective = (e: React.MouseEvent<HTMLElement>) => {
     const { handleDeleteObjective } = this.props;
     if (!handleDeleteObjective) {
       return;
@@ -69,7 +69,7 @@ class Objective extends React.Component<IProps, IState> {
     handleDeleteObjective(e, this.props.objective.id);
   }
 
-  private handleChangeValue(e: React.ChangeEvent<HTMLInputElement>) {
+  private handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const propName = e.target.name as stateKeys;
     const newState = { [propName as any]: e.target.value } as Pick<
       IState,
@@ -78,7 +78,7 @@ class Objective extends React.Component<IProps, IState> {
     this.setState(newState);
   }
 
-  private saveObjectiveClick() {
+  private saveObjectiveClick = () => {
     const { handleSaveObjective, userRole, objective } = this.props;
     if (userRole === ROLES.UNIT_MANAGER) {
       handleSaveObjective({
@@ -96,7 +96,7 @@ class Objective extends React.Component<IProps, IState> {
     this.setState({ isEdited: false });
   }
 
-  private setNumberProgress() {
+  private setNumberProgress = () => {
     const progress = this.state.Progress;
 
     if (progress <= 100 && progress >= 0) {
@@ -107,7 +107,7 @@ class Objective extends React.Component<IProps, IState> {
     return '';
   }
 
-  private formInputPanel() {
+  private formInputPanel = () => {
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary>
@@ -119,18 +119,14 @@ class Objective extends React.Component<IProps, IState> {
                   label={'Title'}
                   maxLength={50}
                   value={this.state.Title}
-                  handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    this.handleChangeValue(e)
-                  }
+                  handleChangeValue={this.handleChangeValue}
                 />,
                 <FormInput
                   key={2}
                   label={'Description'}
                   maxLength={255}
                   value={this.state.Description}
-                  handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    this.handleChangeValue(e)
-                  }
+                  handleChangeValue={this.handleChangeValue}
                 />,
               ]
             ) : (
@@ -138,9 +134,7 @@ class Objective extends React.Component<IProps, IState> {
                 label={'Progress'}
                 maxLength={3}
                 value={this.setNumberProgress()}
-                handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  this.handleChangeValue(e)
-                }
+                handleChangeValue={this.handleChangeValue}
               />
             )}
             <Button
@@ -150,7 +144,7 @@ class Objective extends React.Component<IProps, IState> {
                 this.state.Description.length === 0 ||
                 this.state.Progress.toString().length === 0
               }
-              onClick={() => this.saveObjectiveClick()}
+              onClick={this.saveObjectiveClick}
             >
               Save
             </Button>
@@ -160,7 +154,7 @@ class Objective extends React.Component<IProps, IState> {
     );
   }
 
-  private objectivePanelDetails() {
+  private objectivePanelDetails = () => {
     const format = 'DD.MM.YYYY';
 
     return (
@@ -200,22 +194,14 @@ class Objective extends React.Component<IProps, IState> {
     );
   }
 
-  private renderObjectiveOptions() {
+  private renderObjectiveOptions = () => {
     return (
       <React.Fragment>
-        <IconButton
-          onClick={(e: React.MouseEvent<HTMLElement>) =>
-            this.handleEditObjective(e)
-          }
-        >
+        <IconButton onClick={this.handleEditObjective}>
           <Edit />
         </IconButton>
         {this.props.userRole === 'manager' ? (
-          <IconButton
-            onClick={(e: React.MouseEvent<HTMLElement>) =>
-              this.handleDeleteObjective(e)
-            }
-          >
+          <IconButton onClick={this.handleDeleteObjective}>
             <Delete />
           </IconButton>
         ) : null}
@@ -223,7 +209,7 @@ class Objective extends React.Component<IProps, IState> {
     );
   }
 
-  private renderObjectivePanel() {
+  private renderObjectivePanel = () => {
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary>

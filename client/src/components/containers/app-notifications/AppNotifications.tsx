@@ -29,7 +29,7 @@ export default class AppNotifications extends React.Component<IProps, IState> {
     }
   }
 
-  private handleClose(e: React.SyntheticEvent<HTMLElement>, reason: string) {
+  private handleClose = (e: React.SyntheticEvent<HTMLElement>, reason: string) => {
     if (reason !== 'clickaway') {
       if (e) {
         e.preventDefault();
@@ -40,7 +40,7 @@ export default class AppNotifications extends React.Component<IProps, IState> {
     }
   }
 
-  private handleCloseButton(e: React.MouseEvent<HTMLElement>) {
+  private handleCloseButton = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
     this.setState({ isOpen: false });
@@ -59,7 +59,7 @@ export default class AppNotifications extends React.Component<IProps, IState> {
         }}
         open={this.state.isOpen}
         autoHideDuration={5000}
-        onClose={(e: React.SyntheticEvent<HTMLElement>, reason: string) => this.handleClose(e, reason)}
+        onClose={this.handleClose}
         message={
           <Typography color="inherit">
             {`${this.props.notification.status}: ${this.props.notification.message}`}
@@ -70,7 +70,7 @@ export default class AppNotifications extends React.Component<IProps, IState> {
             key="close"
             aria-label="Close"
             color="inherit"
-            onClick={(e: React.MouseEvent<HTMLElement>) => this.handleCloseButton(e)}
+            onClick={this.handleCloseButton}
           >
             <CloseIcon />
           </IconButton>

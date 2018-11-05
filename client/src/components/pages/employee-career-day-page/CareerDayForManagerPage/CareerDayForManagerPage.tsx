@@ -51,7 +51,7 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     this.props.getSelectedCareerDay(this.props.careerDayId);
   }
 
-  private togglePopupState(name: any) {
+  private togglePopupState = (name: any) => {
     const propName = name as stateKeys;
 
     this.setState({ [propName as any]: !this.state[propName] } as Pick<
@@ -60,26 +60,26 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     >);
   }
 
-  private handleClickOnDeleteButton(
+  private handleClickOnDeleteButton = (
     e: React.MouseEvent<HTMLElement>,
     objectiveId: number,
-  ) {
+  ) => {
     e.preventDefault();
 
     this.setState({ objectiveId });
     this.togglePopupState('isOpenDeletePopup');
   }
 
-  private handleDeleteObjective() {
+  private handleDeleteObjective = () => {
     if (this.state.objectiveId) {
       this.props.deleteObjective(this.state.objectiveId);
     }
     this.togglePopupState('isOpenDeletePopup');
   }
 
-  private handleAddObjective(
+  private handleAddObjective = (
     objective: Pick<IObjectiveById, 'Title' | 'Description'>,
-  ) {
+  ) => {
     if (!this.props.user || !this.props.selectedCareerDay) {
       throw new Error('Cannot add objective without manager or the career day');
     }
@@ -93,15 +93,15 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     this.props.addObjective(objectiveByCareerDayId);
   }
 
-  private handleSaveObjective(
+  private handleSaveObjective = (
     updatedObjective: IUpdateObjectiveManager | IUpdateObjectiveEmployee,
-  ) {
+  ) => {
     this.props.updateObjectiveManager(
       updatedObjective as IUpdateObjectiveManager,
     );
   }
 
-  private handleUpdateDatetime(datetime: Pick<IUpdateInterviewDate, 'date'>) {
+  private handleUpdateDatetime = (datetime: Pick<IUpdateInterviewDate, 'date'>) => {
     if (!this.props.user || !this.props.selectedCareerDay) {
       throw new Error(
         'Cannot update interview date without manager or the career day',
@@ -117,7 +117,7 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     this.props.updateInterviewDate(interviewDate);
   }
 
-  private renderObjectives() {
+  private renderObjectives = () => {
     const { selectedCareerDay, user } = this.props;
     if (!selectedCareerDay || !selectedCareerDay.Objectives || !user) {
       return null;
@@ -135,7 +135,7 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     ));
   }
 
-  private isArchived() {
+  private isArchived = () => {
     if (this.props.selectedCareerDay) {
       return this.props.selectedCareerDay.Archived;
     }
@@ -143,7 +143,7 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     return true;
   }
 
-  private handleArchiveCareerDay() {
+  private handleArchiveCareerDay = () => {
     if (!this.props.user || !this.props.selectedCareerDay) {
       throw new Error(
         'Cannot archive career day without manager or the career day',
@@ -158,7 +158,7 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     this.togglePopupState('isOpenArchiveCDPopup');
   }
 
-  private isActiveArchiveButton() {
+  private isActiveArchiveButton = () => {
     if (this.props.selectedCareerDay) {
       return moment(this.props.selectedCareerDay.InterviewDate) < moment()
         ? this.props.selectedCareerDay.Archived
@@ -168,7 +168,7 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     return true;
   }
 
-  private archiveButtonText() {
+  private archiveButtonText = () => {
     if (this.props.selectedCareerDay && this.props.selectedCareerDay.Archived) {
       return 'Archived';
     }
@@ -176,7 +176,7 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     return 'Archive';
   }
 
-  private getArchiveButtonTitle() {
+  private getArchiveButtonTitle = () => {
     if (
       this.props.selectedCareerDay &&
       moment(this.props.selectedCareerDay.InterviewDate) > moment()

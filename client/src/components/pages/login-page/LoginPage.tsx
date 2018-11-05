@@ -18,8 +18,7 @@ import Paper from '@material-ui/core/Paper';
 import { ConnectProps } from './ConnectContainer';
 import { StylesProps } from './StylesContainer';
 
-interface IProps extends ConnectProps, StylesProps {
-}
+interface IProps extends ConnectProps, StylesProps {}
 
 interface IState {
   isShowedPassword: boolean;
@@ -45,7 +44,7 @@ class LoginPage extends React.Component<IProps, IState> {
     this.setState({ isValidUserData: true });
   }
 
-  private handleChangeValue(e: React.ChangeEvent<HTMLInputElement>) {
+  private handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const propName = e.target.name as stateKeys;
     const newState = { [propName as any]: e.target.value } as Pick<
       IState,
@@ -54,15 +53,11 @@ class LoginPage extends React.Component<IProps, IState> {
     this.setState(newState);
   }
 
-  private handleClickShowPassword() {
+  private handleClickShowPassword = () => {
     this.setState({ isShowedPassword: !this.state.isShowedPassword });
   }
 
-  private static handleMouseDownPassword(e: React.MouseEvent<HTMLElement>) {
-    e.preventDefault();
-  }
-
-  private errorMessage() {
+  private errorMessage = () => {
     if (!this.state.isValidUserData) {
       return (
         <FormHelperText
@@ -75,7 +70,7 @@ class LoginPage extends React.Component<IProps, IState> {
     }
   }
 
-  private async verifyUserData() {
+  private verifyUserData = async () => {
     try {
       if (
         this.state.email.length !== 0 &&
@@ -107,9 +102,7 @@ class LoginPage extends React.Component<IProps, IState> {
                   label="Login"
                   className={classes.textField}
                   name="email"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    this.handleChangeValue(e)
-                  }
+                  onChange={this.handleChangeValue}
                 />
 
                 <FormControl className={classes.textField}>
@@ -119,17 +112,10 @@ class LoginPage extends React.Component<IProps, IState> {
                     name="password"
                     type={this.state.isShowedPassword ? 'text' : 'password'}
                     value={this.state.password}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      this.handleChangeValue(e)
-                    }
+                    onChange={this.handleChangeValue}
                     endAdornment={
                       <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => this.handleClickShowPassword()}
-                          onMouseDown={(e: React.MouseEvent<HTMLElement>) =>
-                            LoginPage.handleMouseDownPassword(e)
-                          }
-                        >
+                        <IconButton onClick={this.handleClickShowPassword}>
                           {this.state.isShowedPassword ? (
                             <VisibilityOff />
                           ) : (
@@ -147,17 +133,14 @@ class LoginPage extends React.Component<IProps, IState> {
                   variant="contained"
                   color="primary"
                   className={classes.button}
-                  onClick={() => this.verifyUserData()}
+                  onClick={this.verifyUserData}
                 >
                   Login
                 </Button>
               </div>
               <div className={classes.root}>
                 <Link to="/signup" className={classes.underline}>
-                  <Typography
-                    variant="subtitle1"
-                    className={classes.blueColor}
-                  >
+                  <Typography variant="subtitle1" className={classes.blueColor}>
                     Sign up
                   </Typography>
                 </Link>

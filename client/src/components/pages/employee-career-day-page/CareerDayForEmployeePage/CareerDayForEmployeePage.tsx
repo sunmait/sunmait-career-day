@@ -29,17 +29,17 @@ class CareerDayForEmployeePage extends React.Component<IProps, IState> {
     }
   }
 
-  private handleSaveObjective(
+  private handleSaveObjective = (
     updatedObjectiveProgress:
       | IUpdateObjectiveEmployee
       | IUpdateObjectiveManager,
-  ) {
+  ) => {
     this.props.updateObjectiveEmployee(
       updatedObjectiveProgress as IUpdateObjectiveEmployee,
     );
   }
 
-  private renderObjectives() {
+  private renderObjectives = () => {
     const { user, activeCareerDay } = this.props;
     if (user && activeCareerDay && activeCareerDay.Objectives) {
       return activeCareerDay.Objectives.map(item => (

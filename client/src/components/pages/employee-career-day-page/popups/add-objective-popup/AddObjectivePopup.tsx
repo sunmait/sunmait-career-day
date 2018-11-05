@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import FormInput from '../../../../common/form-input';
 import { StylesProps } from './StylesContainer';
 import { IObjectiveById } from '../../../../../redux/modules/employees/reducer';
+import DialogActions from '@material-ui/core/DialogActions';
 
 interface IProps extends StylesProps {
   handleClosePopup: () => void;
@@ -31,7 +32,7 @@ class ObjectivePopup extends React.Component<IProps, IState> {
     };
   }
 
-  private addObjectiveClick() {
+  private addObjectiveClick = () => {
     const objective = {
       Title: this.state.Title,
       Description: this.state.Description,
@@ -41,11 +42,11 @@ class ObjectivePopup extends React.Component<IProps, IState> {
     this.handleClosePopup();
   }
 
-  private handleClosePopup() {
+  private handleClosePopup = () => {
     this.props.handleClosePopup();
   }
 
-  private handleChangeValue(e: React.ChangeEvent<HTMLInputElement>) {
+  private handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const propName = e.target.name as stateKeys;
     const newState = { [propName]: e.target.value } as Pick<IState, stateKeys>;
     this.setState(newState);
@@ -55,27 +56,24 @@ class ObjectivePopup extends React.Component<IProps, IState> {
     const { classes } = this.props;
 
     return (
-      <Dialog open={this.props.open} onClose={() => this.handleClosePopup()}>
+      <Dialog open={this.props.open} onClose={this.handleClosePopup}>
         <DialogTitle id="alert-dialog-title">Add objective</DialogTitle>
         <DialogContent className={classes.alignColumn}>
           <FormInput
             label={'Title'}
             maxLength={50}
             value={this.state.Title}
-            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) =>
-              this.handleChangeValue(e)
-            }
+            handleChangeValue={this.handleChangeValue}
           />
 
           <FormInput
             label={'Description'}
             maxLength={255}
             value={this.state.Description}
-            handleChangeValue={(e: React.ChangeEvent<HTMLInputElement>) =>
-              this.handleChangeValue(e)
-            }
+            handleChangeValue={this.handleChangeValue}
           />
-
+        </DialogContent>
+        <DialogActions>
           <Button
             color="primary"
             className={classes.button}
@@ -83,11 +81,11 @@ class ObjectivePopup extends React.Component<IProps, IState> {
               this.state.Title.length === 0 ||
               this.state.Description.length === 0
             }
-            onClick={() => this.addObjectiveClick()}
+            onClick={this.addObjectiveClick}
           >
             Add
           </Button>
-        </DialogContent>
+        </DialogActions>
       </Dialog>
     );
   }

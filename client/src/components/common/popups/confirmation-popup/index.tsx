@@ -5,11 +5,12 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { withStyles, WithStyles } from '@material-ui/core/styles';
+import DialogActions from '@material-ui/core/DialogActions';
 
 const styles = {
   button: {
-    margin: '20px',
-    width: '140px',
+    margin: 20,
+    minWidth: 140,
   },
 };
 
@@ -29,11 +30,11 @@ class ConfirmationPopup extends React.Component<IProps, IState> {
     super(props);
   }
 
-  private handleClosePopup() {
+  private handleClosePopup = () => {
     this.props.handleClosePopup();
   }
 
-  private handleConfirm() {
+  private handleConfirm = () => {
     this.props.handleConfirm();
   }
 
@@ -42,7 +43,7 @@ class ConfirmationPopup extends React.Component<IProps, IState> {
     return (
       <Dialog
         open={this.props.open}
-        onClose={() => this.handleClosePopup()}
+        onClose={this.handleClosePopup}
         style={{ textAlign: 'center' }}
       >
         <DialogTitle id="alert-dialog-title">{this.props.title}</DialogTitle>
@@ -50,17 +51,23 @@ class ConfirmationPopup extends React.Component<IProps, IState> {
           <DialogContentText id="alert-dialog-description">
             {this.props.description}
           </DialogContentText>
+        </DialogContent>
+        <DialogActions>
           <Button
             className={classes.button}
             color="default"
-            onClick={() => this.handleClosePopup()}
+            onClick={this.handleClosePopup}
           >
             Cancel
           </Button>
-          <Button color="secondary" onClick={() => this.handleConfirm()}>
+          <Button
+            className={classes.button}
+            color="secondary"
+            onClick={this.handleConfirm}
+          >
             {this.props.confirmTitle}
           </Button>
-        </DialogContent>
+        </DialogActions>
       </Dialog>
     );
   }

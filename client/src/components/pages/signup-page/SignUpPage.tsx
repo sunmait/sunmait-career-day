@@ -43,14 +43,13 @@ class SignUpPage extends React.Component<IProps, IState> {
       errors: {},
       isConfirmed: false,
     };
-    this.onChange = this.onChange.bind(this);
   }
 
-  private confirmForm() {
+  private confirmForm = () => {
     this.validateForm();
   }
 
-  private signUpUser() {
+  private signUpUser = () => {
     const user = {
       FirstName: this.state.firstname,
       LastName: this.state.lastname,
@@ -71,7 +70,7 @@ class SignUpPage extends React.Component<IProps, IState> {
     }
   }
 
-  private validateForm() {
+  private validateForm = () => {
     const letters = /^[A-Za-z]+$/;
     const email = regExpHelper.email;
     const errors: IErrors = {};
@@ -112,9 +111,9 @@ class SignUpPage extends React.Component<IProps, IState> {
     this.setState({ errors, isConfirmed: true }, () => this.signUpUser());
   }
 
-  private onChange(
+  private onChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) {
+  ) => {
     const prop = event.target.name as stateKeys;
     const newState = { [prop as any]: event.target.value } as Pick<
       IState,
@@ -158,7 +157,7 @@ class SignUpPage extends React.Component<IProps, IState> {
                     title="First Name"
                     value={firstname}
                     error={errors.firstname || null}
-                    handleChangeValue={e => this.onChange(e)}
+                    handleChangeValue={this.onChange}
                   />
                 </Grid>
                 <Grid item xs={10} sm={11}>
@@ -167,7 +166,7 @@ class SignUpPage extends React.Component<IProps, IState> {
                     title="Last Name"
                     value={lastname}
                     error={errors.lastname || null}
-                    handleChangeValue={e => this.onChange(e)}
+                    handleChangeValue={this.onChange}
                   />
                 </Grid>
                 <Grid item xs={10} sm={11}>
@@ -176,7 +175,7 @@ class SignUpPage extends React.Component<IProps, IState> {
                     title="Email"
                     value={email}
                     error={errors.email || null}
-                    handleChangeValue={e => this.onChange(e)}
+                    handleChangeValue={this.onChange}
                   />
                 </Grid>
                 <Grid item xs={10} sm={11}>
@@ -186,7 +185,7 @@ class SignUpPage extends React.Component<IProps, IState> {
                     value={password}
                     type="password"
                     error={errors.password || null}
-                    handleChangeValue={e => this.onChange(e)}
+                    handleChangeValue={this.onChange}
                   />
                 </Grid>
                 <Grid item xs={10} sm={11}>
@@ -196,7 +195,7 @@ class SignUpPage extends React.Component<IProps, IState> {
                     value={passwordconfirm}
                     type="password"
                     error={errors.passwordconfirm || null}
-                    handleChangeValue={e => this.onChange(e)}
+                    handleChangeValue={this.onChange}
                   />
                 </Grid>
                 <Grid item className={classes.button}>
@@ -210,7 +209,7 @@ class SignUpPage extends React.Component<IProps, IState> {
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => this.confirmForm()}
+                        onClick={this.confirmForm}
                       >
                         Confirm
                       </Button>

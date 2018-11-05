@@ -25,15 +25,15 @@ class AddCareerDayPopup extends React.Component<IProps, IState> {
     };
   }
 
-  private handleClosePopup() {
+  private handleClosePopup = () => {
     this.props.handleClosePopup();
   }
 
-  private handleAddCareerDay() {
+  private handleAddCareerDay = () => {
     this.props.handleAddCareerDay(this.state.selectedDate);
   }
 
-  private handleChangeDate(date: Date) {
+  private handleChangeDate = (date: Date) => {
     this.setState({ selectedDate: date });
   }
 
@@ -41,19 +41,17 @@ class AddCareerDayPopup extends React.Component<IProps, IState> {
     const { classes } = this.props;
 
     return (
-      <Dialog open={this.props.open} onClose={() => this.handleClosePopup()}>
+      <Dialog open={this.props.open} onClose={this.handleClosePopup}>
         <DialogTitle id="alert-dialog-title">Add career day</DialogTitle>
         <DialogContent className={classes.alignColumn}>
           <Typography variant="subtitle1" align="center">
-            <DatePicker
-              handleChangeDate={(date: Date) => this.handleChangeDate(date)}
-            />
+            <DatePicker handleChangeDate={this.handleChangeDate} />
           </Typography>
           <Button
             color="primary"
             name="popup-add-button"
             className={classes.button}
-            onClick={() => this.handleAddCareerDay()}
+            onClick={this.handleAddCareerDay}
           >
             Add
           </Button>

@@ -33,22 +33,22 @@ class HeaderBar extends React.Component<IProps, IState> {
 
   private menuRef: HTMLElement | null;
 
-  private handleProfileClick() {
+  private handleProfileClick = () => {
     this.setState({ anchorEl: this.menuRef });
   }
 
-  private handleLogoutClick() {
+  private handleLogoutClick = () => {
     this.handleClose();
     const refreshToken: string = localStorage.getItem('RefreshToken') || '';
 
     this.props.logout(refreshToken);
   }
 
-  private handleClose() {
+  private handleClose = () => {
     this.setState({ anchorEl: null });
   }
 
-  public renderUserProfile() {
+  public renderUserProfile = () => {
     return (
       <React.Fragment>
         <Grid item sm={4} xs={12}>
@@ -57,11 +57,11 @@ class HeaderBar extends React.Component<IProps, IState> {
             spacing={0}
             justify="flex-end"
             alignItems="center"
-            onClick={() => this.handleProfileClick()}
+            onClick={this.handleProfileClick}
           >
             <div
               className={this.props.classes.hover}
-              onClick={() => this.handleProfileClick()}
+              onClick={this.handleProfileClick}
             >
               <Typography variant="subtitle1" className="header-bar-username">
                 {this.props.user &&
@@ -94,9 +94,9 @@ class HeaderBar extends React.Component<IProps, IState> {
             horizontal: 'right',
           }}
           open={Boolean(this.state.anchorEl)}
-          onClose={() => this.handleClose()}
+          onClose={this.handleClose}
         >
-          <MenuItem onClick={() => this.handleLogoutClick()}>Logout</MenuItem>
+          <MenuItem onClick={this.handleLogoutClick}>Logout</MenuItem>
         </Menu>
       </React.Fragment>
     );

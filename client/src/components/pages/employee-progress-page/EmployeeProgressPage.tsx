@@ -54,7 +54,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     this.props.getCareerDayOfEmployee(this.props.location.state.employee.id);
   }
 
-  private togglePopupState(name: any) {
+  private togglePopupState = (name: any) => {
     const propName = name as stateKeys;
     const updateState = { [propName as any]: !this.state[propName] } as Pick<
       IState,
@@ -64,17 +64,17 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     this.setState(updateState);
   }
 
-  private handleClickOnDeleteButton(
+  private handleClickOnDeleteButton = (
     event: React.MouseEvent<HTMLElement>,
     deleteCareerDayId: number,
-  ) {
+  ) => {
     event.preventDefault();
 
     this.setState({ deleteCareerDayId });
     this.togglePopupState('isOpenDeletePopup');
   }
 
-  private handleAddCareerDay(date: Date) {
+  private handleAddCareerDay = (date: Date) => {
     const { user, selectedEmployee, addCareerDay } = this.props;
     if (!user || !selectedEmployee) {
       throw new Error('Cannot archive career day without manager or employee');
@@ -87,7 +87,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     this.togglePopupState('isOpenAddPopup');
   }
 
-  private handleDeleteCareerDay() {
+  private handleDeleteCareerDay = () => {
     const { deleteCareerDayId } = this.state;
     if (deleteCareerDayId) {
       this.props.deleteCareerDay(deleteCareerDayId);
@@ -95,7 +95,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     this.togglePopupState('isOpenDeletePopup');
   }
 
-  private isActiveButton() {
+  private isActiveButton = () => {
     if (this.props.careerDays) {
       return this.props.careerDays.some(item => item.Archived === false);
     } else {
@@ -103,7 +103,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     }
   }
 
-  private getCurrentDate(item: ICareerDayOfEmployee) {
+  private getCurrentDate = (item: ICareerDayOfEmployee) => {
     if (item.Archived) {
       return `${toStandardFormat(item.CreatedAt)} - ${toStandardFormat(
         item.UpdatedAt,
@@ -114,7 +114,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     )}`;
   }
 
-  private renderHistoryOfProgress() {
+  private renderHistoryOfProgress = () => {
     const {
       classes,
       careerDays,

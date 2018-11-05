@@ -32,7 +32,7 @@ class EmailVerificationPage extends React.Component<IProps, IState> {
     this.state = {};
   }
 
-  private parseQueryParams() {
+  private parseQueryParams = () => {
     const status = queryString.parse(this.props.location.search).successful;
 
     if (status === 'true') {

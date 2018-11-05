@@ -17,11 +17,13 @@ class DatePicker extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      selectedDate: this.props.displayedDate ? this.props.displayedDate : new Date(),
+      selectedDate: this.props.displayedDate
+        ? this.props.displayedDate
+        : new Date(),
     };
   }
 
-  public handleChangeDate(date: Date) {
+  private handleChangeDate = (date: Date) => {
     this.setState({ selectedDate: date });
     this.props.handleChangeDate(date);
   }
@@ -36,7 +38,7 @@ class DatePicker extends React.Component<IProps, IState> {
         rightArrowIcon={<KeyboardArrowRight />}
         keyboardIcon={<EventIcon />}
         value={selectedDate}
-        onChange={(date: Date) => this.handleChangeDate(date)}
+        onChange={this.handleChangeDate}
         animateYearScrolling={false}
         minDate={new Date()}
       />

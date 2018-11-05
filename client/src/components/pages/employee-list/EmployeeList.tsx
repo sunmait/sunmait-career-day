@@ -25,7 +25,7 @@ class EmployeeList extends React.Component<IProps, IState> {
     this.props.getEmployeesList();
   }
 
-  private renderEmployeeProfile() {
+  private renderEmployeeProfile = () => {
     const { employees, classes } = this.props;
     if (!employees) {
       return null;

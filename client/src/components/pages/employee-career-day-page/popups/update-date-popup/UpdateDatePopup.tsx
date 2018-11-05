@@ -7,11 +7,14 @@ import DatePicker from '../../../../common/date-picker';
 import Typography from '@material-ui/core/Typography';
 import { StylesProps } from './StylesContainer';
 import { IUpdateInterviewDate } from '../../../../../redux/modules/employees/reducer';
+import DialogActions from '@material-ui/core/DialogActions';
 
 interface IProps extends StylesProps {
   handleClosePopup: () => void;
   open: boolean;
-  handleUpdateDatetime: (interviewDate: Pick<IUpdateInterviewDate, 'date'>) => void;
+  handleUpdateDatetime: (
+    interviewDate: Pick<IUpdateInterviewDate, 'date'>,
+  ) => void;
   interviewDate: Date;
 }
 
@@ -27,7 +30,7 @@ class DatetimePopup extends React.Component<IProps, IState> {
     };
   }
 
-  private updateDateClick() {
+  private updateDateClick = () => {
     const interviewDate = {
       date: this.state.interviewDate,
     };
@@ -36,11 +39,11 @@ class DatetimePopup extends React.Component<IProps, IState> {
     this.handleClosePopup();
   }
 
-  private handleClosePopup() {
+  private handleClosePopup = () => {
     this.props.handleClosePopup();
   }
 
-  private handleChangeDate(date: Date) {
+  private handleChangeDate = (date: Date) => {
     this.setState({ interviewDate: date });
   }
 
@@ -48,24 +51,25 @@ class DatetimePopup extends React.Component<IProps, IState> {
     const { classes } = this.props;
 
     return (
-      <Dialog open={this.props.open} onClose={() => this.handleClosePopup()}>
+      <Dialog open={this.props.open} onClose={this.handleClosePopup}>
         <DialogTitle id="alert-dialog-title">Change interview date</DialogTitle>
         <DialogContent className={classes.alignColumn}>
           <Typography variant="subtitle1" align="center">
             <DatePicker
-              handleChangeDate={(date: Date) => this.handleChangeDate(date)}
+              handleChangeDate={this.handleChangeDate}
               displayedDate={this.props.interviewDate}
             />
           </Typography>
-
+        </DialogContent>
+        <DialogActions>
           <Button
             color="primary"
             className={classes.button}
-            onClick={() => this.updateDateClick()}
+            onClick={this.updateDateClick}
           >
             Update
           </Button>
-        </DialogContent>
+        </DialogActions>
       </Dialog>
     );
   }
