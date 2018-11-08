@@ -1,17 +1,18 @@
 Feature: Employee's objectives page
 
   Scenario: I see 'Vasya Pupkin' objectives page
-    Given I open objectives page of 'Vasya Pupkin' with id '1'
-    Then I see 'career day' page header
+    Given I logged in as 'unit manager' with waiting for response
+    And I go to 'Vasya Pupkin' active career day
+    Then I see "Vasya Pupkin's career day" page header
 
   Scenario: I see datetime information
-    Given I open 'Vasya Pupkin' objectives page
-    Then I see 'h3' header with 'Created at' text
-    And I see 'h3' header with 'Updated at' text
-    And I see 'h3' header with 'Interview Date' text
+    Given I logged in as 'employee' with waiting for response
+    Then I see information item with 'Created at' text
+    And I see information item with 'Updated at' text
+    And I see information item with 'Interview Date' text
 
   Scenario: I change interview datetime
-    Given I open 'Vasya Pupkin' objectives page
+    Given I logged in as 'employee' with waiting for response
     When I click on 'Change interview date' button
     Then I see 'h2' header with 'Change interview date' text
     And I see 'Update' button

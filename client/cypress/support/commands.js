@@ -23,3 +23,30 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+const userCredentials = {
+  'unit manager': {
+    email: 'stasevich@mail.com',
+    password: 'qwerty',
+  },
+  employee: {
+    email: 'pupkin@mail.com',
+    password: 'qwerty',
+  },
+};
+
+Cypress.Commands.add('login', role => {
+  return cy
+    .visit(`http://localhost:3001/login`)
+    .get(`input[name=email]`)
+    .type(userCredentials[role].email)
+    .get(`input[name=password]`)
+    .type(userCredentials[role].password)
+    .get('button')
+    .contains(`Login`)
+    .click();
+});
+
+Cypress.Commands.add('resetDB', () => {
+  cy.exec('cd ../server && npm run seed:undo && npm run seed');
+});
