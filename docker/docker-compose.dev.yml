@@ -1,0 +1,38 @@
+version: '3.1'
+services:
+  sunmait-career-day-dev:
+    image: sunmait-career-day-dev
+    ports:
+      - 3000:3000
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+      args:
+        NODE_ENV: development
+    networks:
+      - career-day-network
+    depends_on:
+      - sunmait-career-day-devdb
+
+  sunmait-career-day-devdb:
+    image: mysql:5.6
+    environment:
+      MYSQL_DATABASE: sunmait_career_days_development
+      MYSQL_ROOT_PASSWORD: my_password
+    ports:
+      - 3306:3306
+    container_name: sunmait-career-day-devdb
+    networks:
+      - career-day-network
+
+  sunmait-career-day-seed:
+    image: sunmait-career-day-dev:latest
+    command: ./wait-for-db.sh sunmait-career-day-devdb:3306 -- npm run migrate && npm run seed
+    networks:
+      - career-day-network
+    depends_on:
+      - sunmait-career-day-devdb
+
+networks:
+  career-day-network:
+    driver: bridge

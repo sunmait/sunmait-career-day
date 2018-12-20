@@ -1,5 +1,16 @@
 {
   "database": {
-    "connectionString": "prod connection string"
-  }
+    "dialect": "mysql",
+    "database": "sunmait_career_days",
+    "username": "root",
+    "password": "my_password",
+    "host": "sunmait-career-day-db",
+    "port": "3306"
+  },
+  "email": {
+    "username": "denis.zhidis@gmail.com",
+    "password": "1q2w3e1q2w3e"
+  },
+  "secretKey": "asdaasd",
+  "hostname": "http://localhost:3000"
 }
