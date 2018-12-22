@@ -28,6 +28,19 @@ npm run start
 
 Next you need to run server, to do this read readme file in 'server' folder.
 
+### Run project in the Docker
+
+To run project in the Docker you need to install Docker and docker-compose
+
+After that you can run following scripts from the project root folder.
+
+```sh
+npm run start       # Start project in production mode
+npm run start-dev   # Start project in development mode
+npm run build       # Rebuild and start project in production mode
+npm run build-dev   # Rebuild and start project in development mode
+```
+
 ---
 
 [TypeScript]: https://www.typescriptlang.org/

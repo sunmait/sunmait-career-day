@@ -1,0 +1,22 @@
+{
+  "name": "sunmait-career-day",
+  "version": "1.0.0",
+  "description": "The \"Sunmait career day\" project is needed to improve the skills of employees. You can register and invite your employees, add career day for them with interview date and add tasks that they must meet by that date. The employee when sign in will see his active career day with an tasks and can edit task progress.",
+  "scripts": {
+    "start": "docker-compose -f ./docker/docker-compose.prod.yml up",
+    "start-dev": "docker-compose -f ./docker/docker-compose.prod.yml up",
+    "build": "docker-compose -f ./docker/docker-compose.prod.yml up --build",
+    "build-dev": "docker-compose -f ./docker/docker-compose.prod.yml up --build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sunmait/sunmait-career-day.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sunmait/sunmait-career-day/issues"
+  },
+  "homepage": "https://github.com/sunmait/sunmait-career-day#readme"
+}
