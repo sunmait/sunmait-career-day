@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { IEmployee } from '../../../redux/modules/employees/reducer';
+import {
+  IEmployee,
+  ICareerDay,
+} from '../../../redux/modules/employees/reducer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -25,6 +28,17 @@ class EmployeeList extends React.Component<IProps, IState> {
     this.props.getEmployeesList();
   }
 
+  private formatActiveCareerDayDate = (activeCareerDay: ICareerDay | null) => {
+    if (!activeCareerDay) {
+      return 'no career day';
+    }
+    return new Date(activeCareerDay.InterviewDate).toLocaleString('en', {
+      month: 'long',
+      day: '2-digit',
+      year: 'numeric',
+    });
+  }
+
   private renderEmployeeProfile = () => {
     const { employees, classes } = this.props;
     if (!employees) {
@@ -42,7 +56,12 @@ class EmployeeList extends React.Component<IProps, IState> {
       >
         <ListItem dense button>
           <Avatar alt={item.LastName} src={item.PhotoUrl} />
-          <ListItemText primary={`${item.FirstName} ${item.LastName}`} />
+          <ListItemText
+            primary={`${item.FirstName} ${item.LastName}`}
+            secondary={`Career day: ${this.formatActiveCareerDayDate(
+              item.ActiveCareerDay,
+            )}`}
+          />
         </ListItem>
       </Link>
     ));

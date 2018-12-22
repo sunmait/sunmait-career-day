@@ -172,7 +172,7 @@ export interface IEmployee {
   LastName: string;
   FirstName: string;
   PhotoUrl: string;
-  AccessToken: string;
+  ActiveCareerDay: ICareerDay | null;
 }
 
 export interface ICareerDayOfEmployee {

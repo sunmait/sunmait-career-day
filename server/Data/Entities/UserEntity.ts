@@ -14,8 +14,10 @@ import {
   UpdatedAt,
   Unique,
   BelongsToMany,
+  HasMany,
 } from 'sequelize-typescript';
 import ManagerEmployeesEntity from './ManagerEmployeesEntity';
+import CareerDayEntity from './CareerDayEntity';
 
 @Table({ tableName: 'Users' })
 export default class UserEntity extends Model<UserEntity> {
@@ -74,4 +76,7 @@ export default class UserEntity extends Model<UserEntity> {
 
   @BelongsToMany(() => UserEntity, () => ManagerEmployeesEntity, 'UnitManagerId')
   public Employees: UserEntity[];
+
+  @HasMany(() => CareerDayEntity)
+  public CareerDays: CareerDayEntity[];
 }

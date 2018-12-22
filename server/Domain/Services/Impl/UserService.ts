@@ -1,11 +1,12 @@
 import { injectable, inject } from 'inversify';
-import { IUserService } from '../IUserService';
+import { IUserService, IUserEntityWithActiveCareerDay } from '../IUserService';
 import { IUserRepository } from '../../../Data/Repositories/index';
 import UserEntity from '../../../Data/Entities/UserEntity';
 import { ICryptoService } from '../ICryptoService';
 import { IMailerService } from '../IMailerService';
 import { ISettingsProvider } from '../../../API/infrastructure';
 import { IUserDecodedFromToken, UserRoles } from '../../helpers/index';
+import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 
 @injectable()
 export class UserServise implements IUserService {
@@ -26,7 +27,12 @@ export class UserServise implements IUserService {
     this._hostname = settingsProvider.getHostname();
   }
 
-  public async registerUser(FirstName: string, LastName: string, Email: string, Password: string): Promise<void> {
+  public async registerUser(
+    FirstName: string,
+    LastName: string,
+    Email: string,
+    Password: string,
+  ): Promise<void> {
     const userData = {
       FirstName,
       LastName,
@@ -67,13 +73,24 @@ export class UserServise implements IUserService {
     return false;
   }
 
-  public async getEmployees(user: IUserDecodedFromToken): Promise<UserEntity[]> {
+  public async getEmployees(
+    user: IUserDecodedFromToken,
+  ): Promise<IUserEntityWithActiveCareerDay[]> {
     if (user.Role === UserRoles.MANAGER) {
       const managerWithEmployees = await this._userRepository.findOne({
         where: {
           id: user.id,
         },
-        include: UserEntity,
+        include: [
+          {
+            model: UserEntity,
+            include: {
+              model: CareerDayEntity,
+              where: { Archived: false },
+              required: false,
+            },
+          },
+        ],
       });
 
       return managerWithEmployees.Employees.map(
@@ -83,7 +100,8 @@ export class UserServise implements IUserService {
             FirstName: employee.FirstName,
             LastName: employee.LastName,
             PhotoUrl: employee.PhotoUrl,
-          } as UserEntity),
+            ActiveCareerDay: employee.CareerDays[0] || null,
+          } as IUserEntityWithActiveCareerDay),
       );
     } else {
       throw { status: 403 };
@@ -105,7 +123,9 @@ export class UserServise implements IUserService {
   }
 
   private createLinkForVerifyEmail(email: string): string {
-    const encrtyptedEmail = encodeURIComponent(this._cryptoService.encrtyptAES(email));
+    const encrtyptedEmail = encodeURIComponent(
+      this._cryptoService.encrtyptAES(email),
+    );
 
     return `${this._hostname}/api/users/verifyEmail/${encrtyptedEmail}`;
   }

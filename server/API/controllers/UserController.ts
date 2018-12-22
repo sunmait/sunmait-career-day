@@ -41,7 +41,14 @@ export class UserController implements interfaces.Controller {
     try {
       res
         .status(201)
-        .json(await this._userService.registerUser(body.FirstName, body.LastName, body.Email, body.Password));
+        .json(
+          await this._userService.registerUser(
+            body.FirstName,
+            body.LastName,
+            body.Email,
+            body.Password,
+          ),
+        );
     } catch (err) {
       next(err);
     }

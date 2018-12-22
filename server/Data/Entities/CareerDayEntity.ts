@@ -13,8 +13,11 @@ import {
   HasMany,
   Default,
   AutoIncrement,
+  BelongsTo,
+  ForeignKey,
 } from 'sequelize-typescript';
 import ObjectiveEntity from '../Entities/ObjectiveEntity';
+import UserEntity from './UserEntity';
 
 @Table({ tableName: 'CareerDays' })
 export default class CareerDayEntity extends Model<CareerDayEntity> {
@@ -44,6 +47,7 @@ export default class CareerDayEntity extends Model<CareerDayEntity> {
   public Archived: boolean;
 
   @AllowNull(false)
+  @ForeignKey(() => UserEntity)
   @Column(DataType.INTEGER)
   public EmployeeId: number;
 
@@ -59,4 +63,7 @@ export default class CareerDayEntity extends Model<CareerDayEntity> {
 
   @HasMany(() => ObjectiveEntity)
   public Objectives: ObjectiveEntity[];
+
+  @BelongsTo(() => UserEntity)
+  public Employee: UserEntity;
 }
