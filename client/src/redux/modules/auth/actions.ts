@@ -1,32 +1,19 @@
 import AUTH_CONSTANTS from './actionConstants';
 import { Dispatch } from '../../store';
 import APP_ACTIONS from '../app/actionConstants';
-import * as axios from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import { IRegisteredUser, ILogin } from './reducer';
 import history from '../../../components/containers/history';
-import { logout as logoutUser } from '../../../components/helper/authRequest';
-
-const axiosRequest: any = axios;
 
 export const login = (Email: string, Password: string) => (
   dispatch: Dispatch,
 ) => {
-  return axiosRequest
+  return axios
     .post('/api/auth', { Email, Password })
-    .then((res: axios.AxiosResponse<ILogin>) => {
-      const { AccessToken, RefreshToken } = res.data;
-      const User = JSON.stringify(res.data.Data);
-
-      localStorage.setItem('AccessToken', AccessToken);
-      localStorage.setItem('RefreshToken', RefreshToken);
-      localStorage.setItem('User', User);
-
-      dispatch({
-        type: AUTH_CONSTANTS.LOGIN,
-        payload: res.data,
-      });
+    .then((res: AxiosResponse<ILogin>) => {
+      return dispatch(setAuthData(res.data));
     })
-    .catch((err: axios.AxiosError) => {
+    .catch((err: AxiosError) => {
       console.error(err);
       throw err;
     });
@@ -47,48 +34,35 @@ export const verifyCredentials = async (dispatch: Dispatch) => {
       },
     });
     try {
-      const res = await axiosRequest.patch('/api/auth/verify-credentials', {
+      const res = await axios.patch('/api/auth/verify-credentials', {
         accessToken,
         refreshToken,
       });
-      const { AccessToken, RefreshToken } = res.data;
-      const User = JSON.stringify(res.data.Data);
-
-      localStorage.setItem('AccessToken', AccessToken);
-      localStorage.setItem('RefreshToken', RefreshToken);
-      localStorage.setItem('User', User);
-
-      dispatch({
-        type: AUTH_CONSTANTS.LOGIN,
-        payload: res.data,
-      });
+      return dispatch(setAuthData(res.data));
     } catch (err) {
       if (err.response.status === 401) {
-        localStorage.clear();
-        dispatch({
-          type: AUTH_CONSTANTS.LOGOUT,
-        });
+        return dispatch(clearAuthData());
       } else {
         console.error(err);
         throw err;
       }
     }
   } else {
-    logoutUser();
+    return dispatch(clearAuthData());
   }
 };
 
 export const signUp = (registeredUser: IRegisteredUser) => (
   dispatch: Dispatch,
 ) => {
-  return axiosRequest
+  return axios
     .post('/api/users', registeredUser)
-    .then((res: axios.AxiosResponse<void>) => {
+    .then((res: AxiosResponse<void>) => {
       if (res.status === 201) {
         history.push('/success');
       }
     })
-    .catch((err: axios.AxiosError) => {
+    .catch((err: AxiosError) => {
       if (err.response && err.response.status === 400) {
         const message =
           err.response.status === 400
@@ -109,23 +83,14 @@ export const signUp = (registeredUser: IRegisteredUser) => (
 };
 
 export const logout = (refreshToken: string) => (dispatch: Dispatch) => {
-  return axiosRequest
+  return axios
     .delete(`/api/auth/${refreshToken}`)
     .then(() => {
-      // TODO: import logout function from helper
-      localStorage.clear();
-
-      dispatch({
-        type: AUTH_CONSTANTS.LOGOUT,
-      });
+      dispatch(clearAuthData());
     })
-    .catch((err: axios.AxiosError) => {
+    .catch((err: AxiosError) => {
       if (err.response && err.response.status === 401) {
-        localStorage.clear();
-
-        dispatch({
-          type: AUTH_CONSTANTS.LOGOUT,
-        });
+        dispatch(clearAuthData());
       } else if (err.response && err.response.status === 500) {
         history.push('/error/server-error"');
       } else {
@@ -133,4 +98,26 @@ export const logout = (refreshToken: string) => (dispatch: Dispatch) => {
         throw err;
       }
     });
+};
+
+export const setAuthData = (loginData: ILogin) => (dispatch: Dispatch) => {
+  const { AccessToken, RefreshToken, Data } = loginData;
+  const User = JSON.stringify(Data);
+
+  localStorage.setItem('AccessToken', AccessToken);
+  localStorage.setItem('RefreshToken', RefreshToken);
+  localStorage.setItem('User', User);
+
+  return dispatch({
+    type: AUTH_CONSTANTS.LOGIN,
+    payload: loginData,
+  });
+};
+
+export const clearAuthData = () => (dispatch: Dispatch) => {
+  localStorage.clear();
+
+  return dispatch({
+    type: AUTH_CONSTANTS.LOGOUT,
+  });
 };

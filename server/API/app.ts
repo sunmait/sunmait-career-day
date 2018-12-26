@@ -10,7 +10,10 @@ import './controllers/index';
 import { container } from './infrastructure/di/Container';
 import { DbContext } from '../Data/DbContext';
 
-import ErrorHandler from './middlewares/ErrorHandler';
+import {
+  ErrorHandler,
+  ValidationErrorHandler,
+} from './middlewares/ErrorHandlers';
 
 const dbContext = container.get<DbContext>('DbContext');
 
@@ -30,16 +33,24 @@ dbContext
     const STATIC_PATH = path.join(__dirname, 'public', process.env.NODE_ENV);
     app.use(express.static(STATIC_PATH));
 
-    app.get('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
-      fs.readFile(`${STATIC_PATH}/index.html`, (error, html) => {
-        if (error) {
-          return next(error);
-        }
-        res.setHeader('Content-Type', 'text/html');
-        res.end(html);
-      });
-    });
+    app.get(
+      '*',
+      (
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction,
+      ) => {
+        fs.readFile(`${STATIC_PATH}/index.html`, (error, html) => {
+          if (error) {
+            return next(error);
+          }
+          res.setHeader('Content-Type', 'text/html');
+          res.end(html);
+        });
+      },
+    );
 
+    app.use(ValidationErrorHandler);
     app.use(ErrorHandler);
 
     app.listen(3000);

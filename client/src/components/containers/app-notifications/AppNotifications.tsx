@@ -5,8 +5,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import { ConnectProps } from './ConnectContainer';
 
-interface IProps extends ConnectProps {
-}
+interface IProps extends ConnectProps {}
 
 interface IState {
   isOpen: boolean;
@@ -21,15 +20,19 @@ export default class AppNotifications extends React.Component<IProps, IState> {
     };
   }
 
-  public componentWillReceiveProps(nextProps: IProps) {
-    if (nextProps.notification) {
-      this.setState({
-        isOpen: true,
-      });
-    }
+  public static getDerivedStateFromProps(props: IProps) {
+    return {
+      isOpen:
+        !!props.notification &&
+        !!props.notification.message &&
+        !!props.notification.status,
+    };
   }
 
-  private handleClose = (e: React.SyntheticEvent<HTMLElement>, reason: string) => {
+  private handleClose = (
+    e: React.SyntheticEvent<HTMLElement>,
+    reason: string,
+  ) => {
     if (reason !== 'clickaway') {
       if (e) {
         e.preventDefault();
@@ -62,7 +65,9 @@ export default class AppNotifications extends React.Component<IProps, IState> {
         onClose={this.handleClose}
         message={
           <Typography color="inherit">
-            {`${this.props.notification.status}: ${this.props.notification.message}`}
+            {`${this.props.notification.status}: ${
+              this.props.notification.message
+            }`}
           </Typography>
         }
         action={

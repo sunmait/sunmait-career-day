@@ -2,7 +2,9 @@ import APP_ACTIONS from './actionConstants';
 import { Dispatch } from '../../store';
 import { INotification } from './reducer';
 
-export const addNotification = (notification: INotification) => (dispatch: Dispatch) => {
+export const addNotification = (notification: INotification) => (
+  dispatch: Dispatch,
+) => {
   if (notification.status === 403) {
     notification.message = 'You don\'t have access to this action';
   } else if (notification.status === 404) {

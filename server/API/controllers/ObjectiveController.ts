@@ -40,7 +40,9 @@ export class ObjectiveController implements interfaces.Controller {
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._objectiveService.getObjectivesByCareerDayId(id, req.user));
+      res.json(
+        await this._objectiveService.getObjectivesByCareerDayId(id, req.user),
+      );
     } catch (err) {
       next(err);
     }
@@ -76,7 +78,13 @@ export class ObjectiveController implements interfaces.Controller {
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._objectiveService.updateObjectiveEmployee(id, body.progress, req.user));
+      res.json(
+        await this._objectiveService.updateObjectiveEmployee(
+          id,
+          body.progress,
+          req.user,
+        ),
+      );
     } catch (err) {
       next(err);
     }
@@ -95,7 +103,14 @@ export class ObjectiveController implements interfaces.Controller {
     @nextFn() next: express.NextFunction,
   ): Promise<void> {
     try {
-      res.json(await this._objectiveService.updateObjectiveManager(id, body.title, body.description, req.user));
+      res.json(
+        await this._objectiveService.updateObjectiveManager(
+          id,
+          body.title,
+          body.description,
+          req.user,
+        ),
+      );
     } catch (err) {
       next(err);
     }

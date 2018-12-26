@@ -1,6 +1,7 @@
 import express = require('express');
 
-import { IErrorAPIWithMessage } from '../helpers/index';
+import { IErrorAPIWithMessage } from '../../helpers/index';
+import { IErrorResponse } from './IErrorResponse';
 
 function ErrorHandler(
   err: IErrorAPIWithMessage,
@@ -14,10 +15,15 @@ function ErrorHandler(
     res.statusCode = code;
     res.statusMessage = err.message;
   }
+  const data: IErrorResponse = {
+    status: 'error',
+    code,
+    message: err.message,
+  };
 
   console.error(err);
 
-  res.status(code);
+  res.status(code).send(data);
   res.end();
 }
 
