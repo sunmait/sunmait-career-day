@@ -34,7 +34,7 @@ export class CareerDayController implements interfaces.Controller {
    */
   @httpGet('/:id')
   private async get(
-    @requestParam('id') id: number,
+    @requestParam('id') id: string,
     @response() res: express.Response,
     @request() req: IRequest,
     @nextFn() next: express.NextFunction,
@@ -48,7 +48,7 @@ export class CareerDayController implements interfaces.Controller {
 
   @httpGet('/active-day/:id')
   private async getActiveCareerDay(
-    @requestParam('id') id: number,
+    @requestParam('id') id: string,
     @response() res: express.Response,
     @request() req: IRequest,
     @nextFn() next: express.NextFunction,

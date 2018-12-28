@@ -13,10 +13,10 @@ module.exports = {
         type: Sequelize.BOOLEAN,
       },
       EmployeeId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       UnitManagerId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       InterviewDate: {
         allowNull: false,

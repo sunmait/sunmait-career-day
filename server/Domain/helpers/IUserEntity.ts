@@ -1,6 +1,7 @@
 import { UserRoles } from './UserRoles';
 
-export interface IUserDecodedFromToken {
+export interface IUserEntity {
   id: string;
   role: UserRoles;
+  email: string;
 }

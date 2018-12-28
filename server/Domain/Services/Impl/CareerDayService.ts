@@ -9,12 +9,17 @@ import { IUserDecodedFromToken, UserRoles } from '../../helpers/index';
 export class CareerDayService implements ICareerDayService {
   private readonly _careerDayRepository: ICareerDayRepository;
 
-  constructor(@inject('CareerDayRepository') careerDayRepository: ICareerDayRepository) {
+  constructor(
+    @inject('CareerDayRepository') careerDayRepository: ICareerDayRepository,
+  ) {
     this._careerDayRepository = careerDayRepository;
   }
 
-  public async getCareerDaysByEmployeeId(EmployeeId: number, user: IUserDecodedFromToken): Promise<CareerDayEntity[]> {
-    if (user.Role === UserRoles.MANAGER) {
+  public async getCareerDaysByEmployeeId(
+    EmployeeId: string,
+    user: IUserDecodedFromToken,
+  ): Promise<CareerDayEntity[]> {
+    if (user.role === UserRoles.MANAGER) {
       return this._careerDayRepository.findAll({
         where: { EmployeeId },
         order: [['CreatedAt', 'DESC']],
@@ -24,8 +29,11 @@ export class CareerDayService implements ICareerDayService {
     }
   }
 
-  public async getActiveCareerDay(EmployeeId: string, user: IUserDecodedFromToken): Promise<CareerDayEntity> {
-    if (user.Role === UserRoles.EMPLOYEE && user.id.toString(10) === EmployeeId) {
+  public async getActiveCareerDay(
+    EmployeeId: string,
+    user: IUserDecodedFromToken,
+  ): Promise<CareerDayEntity> {
+    if (user.role === UserRoles.EMPLOYEE && user.id === EmployeeId) {
       return this._careerDayRepository.findOne({
         where: { EmployeeId, Archived: false },
         include: ObjectiveEntity,
@@ -35,8 +43,11 @@ export class CareerDayService implements ICareerDayService {
     }
   }
 
-  public async addCareerDay(data: any, user: IUserDecodedFromToken): Promise<CareerDayEntity> {
-    if (user.Role === UserRoles.MANAGER && user.id === data.UnitManagerId) {
+  public async addCareerDay(
+    data: any,
+    user: IUserDecodedFromToken,
+  ): Promise<CareerDayEntity> {
+    if (user.role === UserRoles.MANAGER && user.id === data.UnitManagerId) {
       const activeCareerDay = await this._careerDayRepository.findAll({
         where: { EmployeeId: data.EmployeeId, Archived: false },
       });
@@ -53,8 +64,11 @@ export class CareerDayService implements ICareerDayService {
     }
   }
 
-  public async deleteCareerDay(id: number, user: IUserDecodedFromToken): Promise<void> {
-    if (user.Role === UserRoles.MANAGER) {
+  public async deleteCareerDay(
+    id: number,
+    user: IUserDecodedFromToken,
+  ): Promise<void> {
+    if (user.role === UserRoles.MANAGER) {
       const careerDay = await this._careerDayRepository.findById(id);
 
       if (careerDay && careerDay.UnitManagerId === user.id) {
@@ -71,14 +85,21 @@ export class CareerDayService implements ICareerDayService {
     }
   }
 
-  public async archiveCareerDay(id: number, user: IUserDecodedFromToken): Promise<CareerDayEntity> {
-    if (user.Role === UserRoles.MANAGER) {
+  public async archiveCareerDay(
+    id: number,
+    user: IUserDecodedFromToken,
+  ): Promise<CareerDayEntity> {
+    if (user.role === UserRoles.MANAGER) {
       const careerDay = (await this._careerDayRepository.findAll({
         where: { id },
         include: ObjectiveEntity,
       }))[0];
 
-      if (careerDay && careerDay.UnitManagerId === user.id && careerDay.InterviewDate.getTime() - Date.now() <= 0) {
+      if (
+        careerDay &&
+        careerDay.UnitManagerId === user.id &&
+        careerDay.InterviewDate.getTime() - Date.now() <= 0
+      ) {
         careerDay.Archived = true;
         careerDay.Objectives.forEach(item => {
           item.StatusId = 3;
@@ -96,13 +117,17 @@ export class CareerDayService implements ICareerDayService {
   public async updateCareerDayDate(
     id: number,
     date: string,
-    employeeId: number,
+    employeeId: string,
     user: IUserDecodedFromToken,
   ): Promise<CareerDayEntity> {
-    if (user.Role === UserRoles.MANAGER) {
+    if (user.role === UserRoles.MANAGER) {
       const careerDay = await this._careerDayRepository.findById(id);
 
-      if (careerDay && careerDay.UnitManagerId === user.id && !careerDay.Archived) {
+      if (
+        careerDay &&
+        careerDay.UnitManagerId === user.id &&
+        !careerDay.Archived
+      ) {
         if (employeeId === careerDay.EmployeeId) {
           careerDay.InterviewDate = new Date(date);
 

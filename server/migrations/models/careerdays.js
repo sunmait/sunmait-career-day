@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: DataTypes.INTEGER,
       Archived: DataTypes.BOOLEAN,
-      EmployeeId: DataTypes.INTEGER,
-      UnitManagerId: DataTypes.INTEGER,
+      EmployeeId: DataTypes.UUID,
+      UnitManagerId: DataTypes.UUID,
       InterviewDate: DataTypes.DATE,
       CreatedAt: DataTypes.DATE,
       UpdatedAt: DataTypes.DATE,

@@ -13,11 +13,8 @@ import {
   HasMany,
   Default,
   AutoIncrement,
-  BelongsTo,
-  ForeignKey,
 } from 'sequelize-typescript';
 import ObjectiveEntity from '../Entities/ObjectiveEntity';
-import UserEntity from './UserEntity';
 
 @Table({ tableName: 'CareerDays' })
 export default class CareerDayEntity extends Model<CareerDayEntity> {
@@ -47,13 +44,12 @@ export default class CareerDayEntity extends Model<CareerDayEntity> {
   public Archived: boolean;
 
   @AllowNull(false)
-  @ForeignKey(() => UserEntity)
-  @Column(DataType.INTEGER)
-  public EmployeeId: number;
+  @Column(DataType.UUID)
+  public EmployeeId: string;
 
   @AllowNull(false)
-  @Column(DataType.INTEGER)
-  public UnitManagerId: number;
+  @Column(DataType.UUID)
+  public UnitManagerId: string;
 
   @IsDate
   @IsAfter('2018-01-01')
@@ -63,7 +59,4 @@ export default class CareerDayEntity extends Model<CareerDayEntity> {
 
   @HasMany(() => ObjectiveEntity)
   public Objectives: ObjectiveEntity[];
-
-  @BelongsTo(() => UserEntity)
-  public Employee: UserEntity;
 }

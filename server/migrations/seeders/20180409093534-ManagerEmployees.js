@@ -6,16 +6,12 @@ module.exports = {
       'ManagerEmployees',
       [
         {
-          UnitManagerId: 4,
-          EmployeeId: 1,
+          UnitManagerId: '05323518-63cb-4fcc-b5e2-aae56b89fec5',
+          EmployeeId: '02d1437c-4c60-4109-9c9a-473bb36e74bb',
         },
         {
-          UnitManagerId: 4,
-          EmployeeId: 2,
-        },
-        {
-          UnitManagerId: 4,
-          EmployeeId: 3,
+          UnitManagerId: '05323518-63cb-4fcc-b5e2-aae56b89fec5',
+          EmployeeId: 'c64e0924-d531-421d-a415-f717ac91fbfa',
         },
       ],
       {},

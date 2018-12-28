@@ -3,8 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   var ManagerEmployees = sequelize.define(
     'ManagerEmployees',
     {
-      UnitManagerId: DataTypes.INTEGER,
-      EmployeeId: DataTypes.INTEGER,
+      UnitManagerId: DataTypes.UUID,
+      EmployeeId: DataTypes.UUID,
     },
     {
       classMethods: {

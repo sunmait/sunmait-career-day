@@ -5,17 +5,13 @@ module.exports = {
       UnitManagerId: {
         primaryKey: true,
         allowNull: false,
-        type: Sequelize.INTEGER,
-        references: { model: 'Users', key: 'id' },
-        onDelete: 'CASCADE',
+        type: Sequelize.UUID,
       },
       EmployeeId: {
         primaryKey: true,
         allowNull: false,
         unique: true,
-        type: Sequelize.INTEGER,
-        references: { model: 'Users', key: 'id' },
-        onDelete: 'CASCADE',
+        type: Sequelize.UUID,
       },
     });
   },

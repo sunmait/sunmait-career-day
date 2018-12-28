@@ -36,7 +36,7 @@ dbContext
     app.get(
       '*',
       (
-        req: express.Request,
+        _req: express.Request,
         res: express.Response,
         next: express.NextFunction,
       ) => {
