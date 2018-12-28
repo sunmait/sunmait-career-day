@@ -11,7 +11,7 @@ import {
 } from '../../../../redux/modules/employees/actions';
 
 const mapStateToProps = (state: IStore) => ({
-  user: state.auth.user,
+  user: state.oidc.user,
   selectedCareerDay: state.employees.selectedCareerDay,
   selectedEmployee: state.employees.selectedEmployee,
 });

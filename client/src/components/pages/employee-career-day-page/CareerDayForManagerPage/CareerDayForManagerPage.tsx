@@ -21,7 +21,7 @@ import { StylesProps } from './StylesContainer';
 
 interface IProps extends ConnectProps, StylesProps {
   careerDayId: number;
-  userId: number;
+  userId: string;
 }
 
 interface IState {
@@ -86,8 +86,8 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     const objectiveByCareerDayId = {
       ...objective,
       CareerDayId: this.props.careerDayId,
-      EmployeeId: Number(this.props.selectedCareerDay.EmployeeId),
-      UnitManagerId: this.props.user.id,
+      EmployeeId: this.props.selectedCareerDay.EmployeeId,
+      UnitManagerId: this.props.user.profile.id,
     };
 
     this.props.addObjective(objectiveByCareerDayId);
@@ -101,7 +101,9 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     );
   }
 
-  private handleUpdateDatetime = (datetime: Pick<IUpdateInterviewDate, 'date'>) => {
+  private handleUpdateDatetime = (
+    datetime: Pick<IUpdateInterviewDate, 'date'>,
+  ) => {
     if (!this.props.user || !this.props.selectedCareerDay) {
       throw new Error(
         'Cannot update interview date without manager or the career day',
@@ -110,8 +112,8 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     const interviewDate = {
       ...datetime,
       id: this.props.careerDayId,
-      EmployeeId: Number(this.props.selectedCareerDay.EmployeeId),
-      UnitManagerId: Number(this.props.user.id),
+      EmployeeId: this.props.selectedCareerDay.EmployeeId,
+      UnitManagerId: this.props.user.profile.id,
     };
 
     this.props.updateInterviewDate(interviewDate);
@@ -127,7 +129,7 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
       <Objective
         key={item.id}
         objective={item}
-        userRole={user.Role}
+        userRole={user.profile.role}
         archived={selectedCareerDay.Archived}
         handleSaveObjective={this.handleSaveObjective}
         handleDeleteObjective={this.handleClickOnDeleteButton}
@@ -151,7 +153,7 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     }
     const dayInfo = {
       id: this.props.selectedCareerDay.id,
-      UnitManagerId: this.props.user.id,
+      UnitManagerId: this.props.user.profile.id,
     };
 
     this.props.archiveCareerDay(dayInfo);

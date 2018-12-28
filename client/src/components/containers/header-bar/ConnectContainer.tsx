@@ -1,14 +1,11 @@
 import { connect } from 'react-redux';
 import { IStore } from '../../../redux/rootReducer';
-import { logout } from '../../../redux/modules/auth/actions';
 
 const mapStateToProps = (state: IStore) => ({
-  user: state.auth.user,
+  user: state.oidc.user,
 });
 
-const mapDispatchToProps = {
-  logout,
-};
+const mapDispatchToProps = {};
 
 export type ConnectProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps;

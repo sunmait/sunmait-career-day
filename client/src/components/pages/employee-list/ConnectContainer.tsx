@@ -3,7 +3,6 @@ import { IStore } from '../../../redux/rootReducer';
 import { getEmployeesList } from '../../../redux/modules/employees/actions';
 
 const mapStateToProps = (state: IStore) => ({
-  user: state.auth.user,
   employees: state.employees.employees,
 });
 

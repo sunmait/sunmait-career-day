@@ -4,16 +4,18 @@ import './assets/images/logo.svg';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import { OidcProvider } from 'redux-oidc';
 import Router from './components/containers/Router';
 import store from './redux/store';
-import { verifyCredentials } from './redux/modules/auth/actions';
+import userManager from './utils/oidcUserManager';
 
 (async () => {
   try {
-    await verifyCredentials(store.dispatch);
     render(
       <Provider store={store}>
-        <Router />
+        <OidcProvider store={store} userManager={userManager}>
+          <Router />
+        </OidcProvider>
       </Provider>,
       document.getElementById('main') as HTMLElement,
     );

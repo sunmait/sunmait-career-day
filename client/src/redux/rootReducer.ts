@@ -1,21 +1,24 @@
 import { IAction } from './rootReducer';
 import { combineReducers } from 'redux';
-import auth, { IAuthState, IAuthAction } from './modules/auth/reducer';
-import employees, { IEmployeesState, IEmployeesAction } from './modules/employees/reducer';
+import employees, {
+  IEmployeesState,
+  IEmployeesAction,
+} from './modules/employees/reducer';
 import app, { IAppState, IAppAction } from './modules/app/reducer';
+import oidc, { IOidcState } from './modules/oidc/reducer';
 
 const rootReducer = combineReducers<IStore>({
   app,
-  auth,
   employees,
+  oidc,
 });
 
 export default rootReducer;
 
 export interface IStore {
   app: IAppState;
-  auth: IAuthState;
   employees: IEmployeesState;
+  oidc: IOidcState;
 }
 
-export type IAction = IAuthAction | IEmployeesAction | IAppAction;
+export type IAction = IEmployeesAction | IAppAction;

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { IStore } from '../../../redux/rootReducer';
 
 const mapStateToProps = (state: IStore) => ({
-  auth: state.auth,
+  user: state.oidc.user,
 });
 
 const mapDispatchToProps = {};

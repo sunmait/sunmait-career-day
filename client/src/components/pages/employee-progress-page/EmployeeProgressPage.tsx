@@ -80,7 +80,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
       throw new Error('Cannot archive career day without manager or employee');
     }
     addCareerDay({
-      UnitManagerId: user.id,
+      UnitManagerId: user.profile.id,
       EmployeeId: selectedEmployee.id,
       InterviewDate: date,
     });

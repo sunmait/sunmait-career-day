@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { Route, RouteProps, Redirect } from 'react-router-dom';
-import { IAuthState } from '../../../redux/modules/auth/reducer';
+import { IUser } from '../../../redux/modules/oidc/reducer';
 
 interface IProps extends RouteProps {
-  auth: IAuthState;
+  user?: IUser;
 }
 
 const DisabledForAuthorizedUserRoute = (props: IProps) => {
-  const { component: Component, auth, ...rest } = props;
+  const { component: Component, user, ...rest } = props;
 
   return (
     <Route
       {...rest}
       render={routeProps => {
-        if (!auth.user && Component) {
+        if (!user && Component) {
           return <Component {...routeProps} />;
         }
 

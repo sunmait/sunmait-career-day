@@ -18,7 +18,7 @@ import {
   IUpdateObjectiveManager,
 } from '../../../../redux/modules/employees/reducer';
 import { StylesProps } from './StylesContainer';
-import { ROLES } from '../../../../redux/modules/auth/constants';
+import { ROLES } from '../../../../redux/modules/oidc/constants';
 
 interface IProps extends StylesProps {
   objective: IObjective;

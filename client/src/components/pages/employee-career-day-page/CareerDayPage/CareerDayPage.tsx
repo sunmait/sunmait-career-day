@@ -3,7 +3,7 @@ import CareerDayForManagerPageContainer from '../CareerDayForManagerPage';
 import CareerDayForEmployeePageContainer from '../CareerDayForEmployeePage';
 import { match } from 'react-router-dom';
 import { ConnectProps } from './ConnectContainer';
-import { ROLES } from '../../../../redux/modules/auth/constants';
+import { ROLES } from '../../../../redux/modules/oidc/constants';
 
 interface IMatchParams {
   careerDayId: string;
@@ -23,12 +23,14 @@ class CareerDayPage extends React.Component<IProps, IState> {
   }
 
   public render() {
+    const { user } = this.props;
+
     return (
       <div>
-        {this.props.user && this.props.user.Role === ROLES.UNIT_MANAGER ? (
+        {user && user.profile.role === ROLES.UNIT_MANAGER ? (
           <CareerDayForManagerPageContainer
             careerDayId={Number(this.props.match.params.careerDayId)}
-            userId={Number(this.props.match.params.userId)}
+            userId={this.props.match.params.userId}
           />
         ) : (
           <CareerDayForEmployeePageContainer />

@@ -1,3 +1,4 @@
 import MainPage from './MainPage';
+import ConnectContainer from './ConnectContainer';
 
-export default MainPage;
+export default ConnectContainer(MainPage);

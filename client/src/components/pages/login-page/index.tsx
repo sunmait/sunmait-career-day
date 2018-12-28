@@ -1,5 +1,4 @@
 import LoginPage from './LoginPage';
 import ConnectContainer from './ConnectContainer';
-import StylesContainer from './StylesContainer';
 
-export default ConnectContainer(StylesContainer(LoginPage));
+export default ConnectContainer(LoginPage);

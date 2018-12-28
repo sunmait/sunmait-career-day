@@ -24,15 +24,14 @@ class CareerDayForEmployeePage extends React.Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    if (this.props.user) {
-      this.props.getActiveCareerDay(this.props.user.id);
+    const { user, getActiveCareerDay } = this.props;
+    if (user) {
+      getActiveCareerDay(user.profile.id);
     }
   }
 
   private handleSaveObjective = (
-    updatedObjectiveProgress:
-      | IUpdateObjectiveEmployee
-      | IUpdateObjectiveManager,
+    updatedObjectiveProgress: IUpdateObjectiveEmployee | IUpdateObjectiveManager,
   ) => {
     this.props.updateObjectiveEmployee(
       updatedObjectiveProgress as IUpdateObjectiveEmployee,
@@ -46,7 +45,7 @@ class CareerDayForEmployeePage extends React.Component<IProps, IState> {
         <Objective
           key={item.id}
           objective={item}
-          userRole={user.Role}
+          userRole={user.profile.role}
           handleSaveObjective={this.handleSaveObjective}
         />
       ));
@@ -69,7 +68,10 @@ class CareerDayForEmployeePage extends React.Component<IProps, IState> {
         <Grid container justify="center" spacing={0}>
           <Header
             title={
-              (user && `${user.FirstName} ${user.LastName}'s career day`) ||
+              (user &&
+                `${user.profile.given_name} ${
+                  user.profile.family_name
+                }'s career day`) ||
               'Career day'
             }
           />

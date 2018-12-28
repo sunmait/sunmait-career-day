@@ -1,11 +1,6 @@
-import axios, { AxiosInstance, AxiosError, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosError } from 'axios';
 import CONFIG from './config';
 import store from '../../../redux/store';
-import { ILogin } from '../../../redux/modules/auth/reducer';
-import {
-  setAuthData,
-  clearAuthData,
-} from '../../../redux/modules/auth/actions';
 import { addNotification } from '../../../redux/modules/app/actions';
 
 class SendRequestHelper {
@@ -22,51 +17,17 @@ class SendRequestHelper {
 
   private registerAuthTokenInterceptor = () => {
     this.axiosInstance.interceptors.request.use(config => {
-      const accessToken = localStorage.getItem('AccessToken');
-      const headers = {
-        ...config.headers,
-        Authorization: `Bearer ${accessToken}`,
-      };
-      return { ...config, headers };
-    });
-
-    this.axiosInstance.interceptors.response.use(
-      response => response,
-      async (error: AxiosError) => {
-        if (this.isTokenExpireError(error)) {
-          await this.refreshTokens();
-          return this.axiosInstance.request(error.config);
-        }
-        return Promise.reject(error);
-      },
-    );
-  }
-
-  private isTokenExpireError = (error: AxiosError): boolean => {
-    return (
-      !!error.response &&
-      error.response.status === 401 &&
-      error.response.statusText === 'jwt expired'
-    );
-  }
-
-  private refreshTokens = async () => {
-    try {
-      const refreshToken = localStorage.getItem('RefreshToken');
-
-      const response: AxiosResponse<ILogin> = await axios.patch(
-        `/api/auth/refresh/${refreshToken}`,
-      );
-      store.dispatch(setAuthData(response.data));
-
-      const { AccessToken } = response.data;
-      return AccessToken;
-    } catch (err) {
-      if (this.isTokenExpireError(err)) {
-        return store.dispatch(clearAuthData());
+      const { user } = store.getState().oidc;
+      if (user) {
+        const accessToken = user.access_token;
+        const headers = {
+          ...config.headers,
+          Authorization: `Bearer ${accessToken}`,
+        };
+        return { ...config, headers };
       }
-      throw err;
-    }
+      return config;
+    });
   }
 
   private registerErrorHandler = () => {
@@ -85,7 +46,7 @@ class SendRequestHelper {
               ? `${message}: ${validationMessage}`
               : message,
           };
-          store.dispatch(addNotification(notification));
+          addNotification(notification)(store.dispatch);
         }
         throw error;
       },

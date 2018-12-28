@@ -9,10 +9,12 @@ import { Link } from 'react-router-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { ROLES } from '../../../redux/modules/auth/constants';
+import { ROLES } from '../../../redux/modules/oidc/constants';
 import { ConnectProps } from './ConnectContainer';
 import { StylesProps } from './StylesContainer';
 import logo from '../../../assets/images/logo.svg';
+import PersonIcon from '@material-ui/icons/Person';
+import userManager from '../../../utils/oidcUserManager';
 
 interface IProps extends ConnectProps, StylesProps {}
 
@@ -39,9 +41,8 @@ class HeaderBar extends React.Component<IProps, IState> {
 
   private handleLogoutClick = () => {
     this.handleClose();
-    const refreshToken: string = localStorage.getItem('RefreshToken') || '';
 
-    this.props.logout(refreshToken);
+    userManager.signoutRedirect();
   }
 
   private handleClose = () => {
@@ -49,6 +50,8 @@ class HeaderBar extends React.Component<IProps, IState> {
   }
 
   public renderUserProfile = () => {
+    const { user, classes } = this.props;
+
     return (
       <React.Fragment>
         <Grid item sm={4} xs={12}>
@@ -59,13 +62,10 @@ class HeaderBar extends React.Component<IProps, IState> {
             alignItems="center"
             onClick={this.handleProfileClick}
           >
-            <div
-              className={this.props.classes.hover}
-              onClick={this.handleProfileClick}
-            >
+            <div className={classes.hover} onClick={this.handleProfileClick}>
               <Typography variant="subtitle1" className="header-bar-username">
-                {this.props.user &&
-                  `${this.props.user.FirstName} ${this.props.user.LastName}`}
+                {user &&
+                  `${user.profile.given_name} ${user.profile.family_name}`}
               </Typography>
               <div
                 ref={div => {
@@ -73,17 +73,20 @@ class HeaderBar extends React.Component<IProps, IState> {
                 }}
                 style={{ display: 'inline-block' }}
               >
-                <Avatar
-                  alt="Username"
-                  src={(this.props.user && this.props.user.PhotoUrl) || ''}
-                />
+                {user && user.profile.PhotoUrl ? (
+                  <Avatar alt="Username" src={user.profile.PhotoUrl} />
+                ) : (
+                  <Avatar>
+                    <PersonIcon />
+                  </Avatar>
+                )}
               </div>
             </div>
           </Grid>
         </Grid>
         <Menu
           id="simple-menu"
-          className={this.props.classes.menuDown}
+          className={classes.menuDown}
           anchorEl={this.state.anchorEl}
           anchorOrigin={{
             vertical: 'top',
@@ -106,7 +109,7 @@ class HeaderBar extends React.Component<IProps, IState> {
     const UserProfile = this.props.user ? this.renderUserProfile() : null;
     const justify = this.props.user ? 'flex-end' : 'center';
     const link =
-      this.props.user && this.props.user.Role === ROLES.UNIT_MANAGER
+      this.props.user && this.props.user.profile.role === ROLES.UNIT_MANAGER
         ? '/employees'
         : '/employee';
 

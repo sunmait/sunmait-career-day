@@ -167,7 +167,7 @@ function handleUpdateInterviewDate(
 }
 
 export interface IEmployee {
-  id: number;
+  id: string;
   Role: string;
   LastName: string;
   FirstName: string;
@@ -201,8 +201,8 @@ export interface IObjectiveById {
   Title: string;
   Description: string;
   CareerDayId: number;
-  EmployeeId: number;
-  UnitManagerId: number;
+  EmployeeId: string;
+  UnitManagerId: string;
 }
 
 export interface IEmployeesState {
@@ -213,14 +213,14 @@ export interface IEmployeesState {
 }
 
 export interface ICareerDay {
-  EmployeeId: number;
-  UnitManagerId: number;
+  EmployeeId: string;
+  UnitManagerId: string;
   InterviewDate: Date;
 }
 
 export interface IArchiveCareerDay {
   id: number;
-  UnitManagerId: number;
+  UnitManagerId: string;
 }
 
 export interface IUpdateObjectiveManager {
@@ -237,8 +237,8 @@ export interface IUpdateObjectiveEmployee {
 export interface IUpdateInterviewDate {
   id: number;
   date: Date;
-  EmployeeId: number;
-  UnitManagerId: number;
+  EmployeeId: string;
+  UnitManagerId: string;
 }
 
 export interface IEmployeesAction {

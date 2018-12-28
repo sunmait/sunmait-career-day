@@ -1,8 +1,10 @@
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import promise from 'redux-promise-middleware';
 import thunk, { ThunkDispatch, ThunkAction } from 'redux-thunk';
+import { loadUser } from 'redux-oidc';
 import rootReducer, { IStore, IAction } from './rootReducer';
+import userManager from '../utils/oidcUserManager';
 
 interface IThunkExtraParams {}
 
@@ -12,7 +14,10 @@ export type GetState = () => IStore;
 
 export type Dispatch = ThunkDispatch<IStore, IThunkExtraParams, IAction>;
 
-export default createStore(
+const store: Store<IStore, IAction> = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(promise(), thunk)),
 );
+loadUser(store, userManager);
+
+export default store;

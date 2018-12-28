@@ -21,7 +21,7 @@ export const getEmployeesList = () => async (dispatch: Dispatch) => {
   });
 };
 
-export const getCareerDayOfEmployee = (employeeId: number) => async (
+export const getCareerDayOfEmployee = (employeeId: IEmployee['id']) => async (
   dispatch: Dispatch,
 ) => {
   const res = await sendRequestHelper.get<ICareerDayOfEmployee[]>(
@@ -33,7 +33,7 @@ export const getCareerDayOfEmployee = (employeeId: number) => async (
   });
 };
 
-export const getSelectedCareerDay = (careerDayId: number) => async (
+export const getSelectedCareerDay = (careerDayId: ICareerDayOfEmployee['id']) => async (
   dispatch: Dispatch,
 ) => {
   const res = await sendRequestHelper.get<ICareerDayOfEmployee>(
@@ -45,7 +45,7 @@ export const getSelectedCareerDay = (careerDayId: number) => async (
   });
 };
 
-export const getActiveCareerDay = (employeeId: number) => async (
+export const getActiveCareerDay = (employeeId: IEmployee['id']) => async (
   dispatch: Dispatch,
 ) => {
   const res = await sendRequestHelper.get<ICareerDayOfEmployee>(
@@ -57,7 +57,7 @@ export const getActiveCareerDay = (employeeId: number) => async (
   });
 };
 
-export const getSelectedEmployee = (employeeId: number) => async (
+export const getSelectedEmployee = (employeeId: IEmployee['id']) => async (
   dispatch: Dispatch,
 ) => {
   const res = await sendRequestHelper.get<IEmployee>(
