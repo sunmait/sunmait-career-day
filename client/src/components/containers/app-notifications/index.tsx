@@ -1,4 +1,4 @@
 import AppNotifications from './AppNotifications';
-import ConnectContainer from './ConnectContainer';
+import ConnectContainer from './AppNotificationsContainer';
 
 export default ConnectContainer(AppNotifications);

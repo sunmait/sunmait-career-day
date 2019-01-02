@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import DatetimeList from '../datetime-list/index';
 import Objective from '../objective/index';
 import backgroundColorHelper from '../../../helper/backgroundColorHelper';
-import { ConnectProps } from './ConnectContainer';
+import { ConnectProps } from './CareerDayForEmployeePageContainer';
 import { StylesProps } from './StylesContainer';
 
 interface IProps extends ConnectProps, StylesProps {}

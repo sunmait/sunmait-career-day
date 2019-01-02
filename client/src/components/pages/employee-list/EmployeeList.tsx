@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import Header from '../../common/header';
 import Avatar from '@material-ui/core/Avatar';
 import backgroundColorHelper from '../../helper/backgroundColorHelper';
-import { ConnectProps } from './ConnectContainer';
+import { ConnectProps } from './EmployeeListContainer';
 import { StylesProps } from './StylesContainer';
 
 interface IProps extends StylesProps, ConnectProps {}

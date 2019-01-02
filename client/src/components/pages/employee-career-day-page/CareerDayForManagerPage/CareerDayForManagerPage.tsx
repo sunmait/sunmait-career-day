@@ -16,7 +16,7 @@ import ConfirmationPopup from '../../../common/popups/confirmation-popup/index';
 import ControlledTooltips from '../../../common/controlled-tooltips/index';
 import EditDatetimePopup from '../popups/update-date-popup/index';
 import DatetimeList from '../datetime-list/index';
-import { ConnectProps } from './ConnectContainer';
+import { ConnectProps } from './CareerDayForManagerPageContainer';
 import { StylesProps } from './StylesContainer';
 
 interface IProps extends ConnectProps, StylesProps {

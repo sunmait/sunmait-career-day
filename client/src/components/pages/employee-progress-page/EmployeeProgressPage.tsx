@@ -19,7 +19,7 @@ import ConfirmationPopup from '../../common/popups/confirmation-popup';
 import IconStatus from '../../common/icon-status/icon-status-career-day';
 import backgroundColorHelper from '../../helper/backgroundColorHelper';
 import Typography from '@material-ui/core/Typography';
-import { ConnectProps } from './ConnectContainer';
+import { ConnectProps } from './EmployeeProgressPageContainer';
 import { StylesProps } from './StylesContainer';
 
 interface IMatchParams {

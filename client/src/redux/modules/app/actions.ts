@@ -23,3 +23,8 @@ export const deleteNotification = () => (dispatch: Dispatch) => {
     type: APP_ACTIONS.DELETE_NOTIFICATION,
   });
 };
+export const deleteNotificationA = (dispatch: Dispatch) => {
+  dispatch({
+    type: APP_ACTIONS.DELETE_NOTIFICATION,
+  });
+};
