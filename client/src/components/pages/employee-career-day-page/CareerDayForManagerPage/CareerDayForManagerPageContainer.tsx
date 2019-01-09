@@ -1,5 +1,4 @@
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect, ResolveThunks } from 'react-redux';
 import { IStore } from '../../../../redux/rootReducer';
 import {
   getSelectedCareerDay,
@@ -10,7 +9,6 @@ import {
   updateInterviewDate,
   getSelectedEmployee,
 } from '../../../../redux/modules/employees/actions';
-import { Dispatch } from '../../../../redux/store';
 
 const mapStateToProps = (state: IStore) => ({
   user: state.oidc.user,
@@ -18,21 +16,18 @@ const mapStateToProps = (state: IStore) => ({
   selectedEmployee: state.employees.selectedEmployee,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) =>
-  bindActionCreators(
-    {
-      getSelectedCareerDay,
-      addObjective,
-      updateObjectiveManager,
-      archiveCareerDay,
-      deleteObjective,
-      updateInterviewDate,
-      getSelectedEmployee,
-    },
-    dispatch,
-  );
+const mapDispatchToProps = {
+  getSelectedCareerDay,
+  addObjective,
+  updateObjectiveManager,
+  archiveCareerDay,
+  deleteObjective,
+  updateInterviewDate,
+  getSelectedEmployee,
+};
 
-export type ConnectProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+export type ConnectProps = ReturnType<typeof mapStateToProps> &
+  ResolveThunks<typeof mapDispatchToProps>;
 
 export default connect(
   mapStateToProps,

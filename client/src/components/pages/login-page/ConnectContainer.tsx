@@ -1,4 +1,4 @@
-import { connect } from 'react-redux';
+import { connect, ResolveThunks } from 'react-redux';
 import { IStore } from '../../../redux/rootReducer';
 
 const mapStateToProps = (state: IStore) => ({
@@ -8,7 +8,7 @@ const mapStateToProps = (state: IStore) => ({
 const mapDispatchToProps = {};
 
 export type ConnectProps = ReturnType<typeof mapStateToProps> &
-  typeof mapDispatchToProps;
+  ResolveThunks<typeof mapDispatchToProps>;
 
 export default connect(
   mapStateToProps,
