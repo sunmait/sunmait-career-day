@@ -1,16 +1,20 @@
 import CareerDayEntity from '../../Data/Entities/CareerDayEntity';
 import ObjectiveEntity from '../../Data/Entities/ObjectiveEntity';
-import { IUserDecodedFromToken } from '../helpers/index';
+import { IUserEntity } from '../../API/providers';
 
 export interface IObjectiveService {
-  getObjectivesByCareerDayId(CareerDayId: number, user: IUserDecodedFromToken): Promise<CareerDayEntity>;
-  addObjective(data: any, user: IUserDecodedFromToken): Promise<ObjectiveEntity>;
+  getObjectivesByCareerDayId(CareerDayId: number): Promise<CareerDayEntity>;
+  addObjective(data: any): Promise<ObjectiveEntity>;
   updateObjectiveManager(
     id: number,
     title: string,
     description: string,
-    user: IUserDecodedFromToken,
+    user: IUserEntity,
   ): Promise<ObjectiveEntity>;
-  updateObjectiveEmployee(id: number, progress: number, user: IUserDecodedFromToken): Promise<ObjectiveEntity>;
-  deleteObjective(id: number, user: IUserDecodedFromToken): Promise<void>;
+  updateObjectiveEmployee(
+    id: number,
+    progress: number,
+    user: IUserEntity,
+  ): Promise<ObjectiveEntity>;
+  deleteObjective(id: number, user: IUserEntity): Promise<void>;
 }

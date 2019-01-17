@@ -16,10 +16,10 @@ export default class StatusEntity extends Model<StatusEntity> {
   @AutoIncrement
   @AllowNull(false)
   @Column(DataType.INTEGER)
-  public id: number;
+  public id!: number;
 
   @Unique
   @AllowNull(false)
   @Column(DataType.STRING)
-  public Status: string;
+  public Status!: string;
 }

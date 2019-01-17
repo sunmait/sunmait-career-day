@@ -5,9 +5,9 @@ import { IErrorResponse } from './IErrorResponse';
 
 function ErrorHandler(
   err: IErrorAPIWithMessage,
-  req: express.Request,
+  _req: express.Request,
   res: express.Response,
-  next: express.NextFunction,
+  _next: express.NextFunction,
 ) {
   const code = err.status || 500;
 

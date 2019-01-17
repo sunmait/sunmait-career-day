@@ -3,7 +3,7 @@ import {
   CareerDayRepository,
   ObjectiveRepository,
   StatusRepository,
-} from '../../../Data/Repositories/Impl/index';
+} from '../../../Data/Repositories/Impl';
 import {
   ICareerDayRepository,
   IObjectiveRepository,

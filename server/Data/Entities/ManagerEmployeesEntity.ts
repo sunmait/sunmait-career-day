@@ -15,11 +15,11 @@ export default class ManagerEmployeesEntity extends Model<
   @PrimaryKey
   @AllowNull(false)
   @Column(DataType.UUID)
-  public UnitManagerId: string;
+  public UnitManagerId!: string;
 
   @PrimaryKey
   @Unique
   @AllowNull(false)
   @Column(DataType.UUID)
-  public EmployeeId: string;
+  public EmployeeId!: string;
 }

@@ -7,9 +7,10 @@
     "removeComments": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["node_modules/@types"],
+    "strict": true
   },
   "include": ["API/**/*.ts", "Data/**/*.ts", "Domain/**/*.ts"],
   "exclude": ["node_modules"]

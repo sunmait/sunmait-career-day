@@ -3,7 +3,7 @@ import {
   ICareerDayService,
   IObjectiveService,
   IMailerService,
-} from './../../../Domain/Services/index';
+} from './../../../Domain/Services';
 import {
   CareerDayService,
   ObjectiveService,

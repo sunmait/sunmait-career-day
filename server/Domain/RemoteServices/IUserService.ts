@@ -1,8 +1,8 @@
-import { IUserEntity } from '../helpers';
 import CareerDayEntity from '../../Data/Entities/CareerDayEntity';
+import { IUserEntity } from '../../API/providers';
 
 export interface IUserEntityWithActiveCareerDay extends IUserEntity {
-  ActiveCareerDay: CareerDayEntity;
+  ActiveCareerDay?: CareerDayEntity;
 }
 
 export interface IUserService {

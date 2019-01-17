@@ -1,7 +1,8 @@
 import { injectable, inject } from 'inversify';
 import { IUserService, IUserEntityWithActiveCareerDay } from '../IUserService';
-import { UserRoles, IUserEntity } from '../../helpers';
+import { UserRoles } from '../../helpers';
 import { ICareerDayRepository } from '../../../Data/Repositories';
+import { IUserEntity } from '../../../API/providers';
 
 @injectable()
 export class UserServise implements IUserService {
@@ -14,19 +15,19 @@ export class UserServise implements IUserService {
   }
 
   public async getEmployees(
-    userId: IUserEntity['id'],
+    _userId: IUserEntity['id'],
   ): Promise<IUserEntityWithActiveCareerDay[]> {
     // TODO: Change to real request
     const employees: IUserEntity[] = [
       {
         email: 'user0@sunmait.com',
         id: '02d1437c-4c60-4109-9c9a-473bb36e74bb',
-        role: 'employee' as UserRoles,
+        role: UserRoles.EMPLOYEE,
       },
       {
         email: 'user1@sunmait.com',
         id: 'c64e0924-d531-421d-a415-f717ac91fbfa',
-        role: 'employee' as UserRoles,
+        role: UserRoles.EMPLOYEE,
       },
     ];
     const employeesIds = employees.map(employee => employee.id);
@@ -44,7 +45,7 @@ export class UserServise implements IUserService {
   public async selectedEmployee(_id: IUserEntity['id']): Promise<IUserEntity> {
     return {
       id: 'employee.id',
-      role: 'employee',
+      role: UserRoles.EMPLOYEE,
       email: 'email',
     } as IUserEntity;
   }

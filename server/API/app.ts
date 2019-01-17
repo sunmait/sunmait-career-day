@@ -15,13 +15,21 @@ import {
   ValidationErrorHandler,
 } from './middlewares/ErrorHandlers';
 
+import { AuthProvider } from './providers';
+
 const dbContext = container.get<DbContext>('DbContext');
 
 dbContext
   .connect()
   .then(() => {
     // create server
-    const server = new InversifyExpressServer(container);
+    const server = new InversifyExpressServer(
+      container,
+      null,
+      null,
+      null,
+      AuthProvider,
+    );
 
     server.setConfig(application => {
       application.use(bodyParser.urlencoded({ extended: false }));
@@ -30,7 +38,11 @@ dbContext
 
     const app = server.build();
 
-    const STATIC_PATH = path.join(__dirname, 'public', process.env.NODE_ENV);
+    const STATIC_PATH = path.join(
+      __dirname,
+      'public',
+      process.env.NODE_ENV || 'development',
+    );
     app.use(express.static(STATIC_PATH));
 
     app.get(

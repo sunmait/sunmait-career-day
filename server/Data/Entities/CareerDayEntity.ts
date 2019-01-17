@@ -23,40 +23,40 @@ export default class CareerDayEntity extends Model<CareerDayEntity> {
   @AllowNull(false)
   @AutoIncrement
   @Column(DataType.INTEGER)
-  public id: number;
+  public id!: number;
 
   @IsDate
   @IsAfter('2018-01-01')
   @AllowNull(false)
   @CreatedAt
   @Column(DataType.DATE)
-  public CreatedAt: Date;
+  public CreatedAt!: Date;
 
   @IsDate
   @IsAfter('2018-01-01')
   @AllowNull(false)
   @UpdatedAt
   @Column(DataType.DATE)
-  public UpdatedAt: Date;
+  public UpdatedAt!: Date;
 
   @Default(false)
   @Column(DataType.BOOLEAN)
-  public Archived: boolean;
+  public Archived!: boolean;
 
   @AllowNull(false)
   @Column(DataType.UUID)
-  public EmployeeId: string;
+  public EmployeeId!: string;
 
   @AllowNull(false)
   @Column(DataType.UUID)
-  public UnitManagerId: string;
+  public UnitManagerId!: string;
 
   @IsDate
   @IsAfter('2018-01-01')
   @AllowNull(false)
   @Column(DataType.DATE)
-  public InterviewDate: Date;
+  public InterviewDate!: Date;
 
   @HasMany(() => ObjectiveEntity)
-  public Objectives: ObjectiveEntity[];
+  public Objectives!: ObjectiveEntity[];
 }

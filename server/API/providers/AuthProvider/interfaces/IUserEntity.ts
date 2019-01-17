@@ -1,4 +1,4 @@
-import { UserRoles } from './UserRoles';
+import { UserRoles } from '../../../../Domain/helpers';
 
 export interface IUserEntity {
   id: string;

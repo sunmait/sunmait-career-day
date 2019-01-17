@@ -12,5 +12,9 @@
     "password": "1q2w3e1q2w3e"
   },
   "secretKey": "asdaasd",
-  "hostname": "http://localhost:3000"
+  "hostname": "http://localhost:3000",
+  "identityServer": {
+    "host": "http://localhost:5000",
+    "clientId": "time_sunmait"
+  }
 }

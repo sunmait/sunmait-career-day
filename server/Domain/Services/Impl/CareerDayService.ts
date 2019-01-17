@@ -3,7 +3,7 @@ import { ICareerDayService } from '../ICareerDayService';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 import { ICareerDayRepository } from '../../../Data/Repositories/index';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
-import { IUserDecodedFromToken, UserRoles } from '../../helpers/index';
+import { IUserEntity } from '../../../API/providers';
 
 @injectable()
 export class CareerDayService implements ICareerDayService {
@@ -17,128 +17,84 @@ export class CareerDayService implements ICareerDayService {
 
   public async getCareerDaysByEmployeeId(
     EmployeeId: string,
-    user: IUserDecodedFromToken,
   ): Promise<CareerDayEntity[]> {
-    if (user.role === UserRoles.MANAGER) {
-      return this._careerDayRepository.findAll({
-        where: { EmployeeId },
-        order: [['CreatedAt', 'DESC']],
-      });
-    } else {
-      throw { status: 403 };
-    }
+    return this._careerDayRepository.findAll({
+      where: { EmployeeId },
+      order: [['CreatedAt', 'DESC']],
+    });
+  }
+
+  public async getCareerDayById(id: number): Promise<CareerDayEntity> {
+    return this._careerDayRepository.findById(id);
   }
 
   public async getActiveCareerDay(
     EmployeeId: string,
-    user: IUserDecodedFromToken,
   ): Promise<CareerDayEntity> {
-    if (user.role === UserRoles.EMPLOYEE && user.id === EmployeeId) {
-      return this._careerDayRepository.findOne({
-        where: { EmployeeId, Archived: false },
-        include: ObjectiveEntity,
-      });
-    } else {
-      throw { status: 403 };
-    }
+    return this._careerDayRepository.findOne({
+      where: { EmployeeId, Archived: false },
+      include: ObjectiveEntity,
+    });
   }
 
   public async addCareerDay(
-    data: any,
-    user: IUserDecodedFromToken,
+    data: Partial<CareerDayEntity>,
   ): Promise<CareerDayEntity> {
-    if (user.role === UserRoles.MANAGER && user.id === data.UnitManagerId) {
-      const activeCareerDay = await this._careerDayRepository.findAll({
-        where: { EmployeeId: data.EmployeeId, Archived: false },
-      });
+    const careerDay = new CareerDayEntity(data);
 
-      if (!activeCareerDay[0]) {
-        const careerDay = new CareerDayEntity(data);
-
-        return this._careerDayRepository.create(careerDay);
-      } else {
-        throw { status: 403 };
-      }
-    } else {
-      throw { status: 403 };
-    }
+    return this._careerDayRepository.create(careerDay);
   }
 
-  public async deleteCareerDay(
-    id: number,
-    user: IUserDecodedFromToken,
-  ): Promise<void> {
-    if (user.role === UserRoles.MANAGER) {
-      const careerDay = await this._careerDayRepository.findById(id);
-
-      if (careerDay && careerDay.UnitManagerId === user.id) {
-        if (careerDay.Archived) {
-          await this._careerDayRepository.remove({ where: { id } });
-        } else {
-          throw { status: 403 };
-        }
-      } else {
-        throw { status: 404 };
-      }
-    } else {
-      throw { status: 403 };
-    }
+  public async deleteCareerDay(id: number): Promise<boolean> {
+    return this._careerDayRepository.remove({ where: { id } });
   }
 
   public async archiveCareerDay(
     id: number,
-    user: IUserDecodedFromToken,
+    user: IUserEntity,
   ): Promise<CareerDayEntity> {
-    if (user.role === UserRoles.MANAGER) {
-      const careerDay = (await this._careerDayRepository.findAll({
-        where: { id },
-        include: ObjectiveEntity,
-      }))[0];
+    const careerDay = await this._careerDayRepository.findOne({
+      where: { id },
+      include: ObjectiveEntity,
+    });
 
-      if (
-        careerDay &&
-        careerDay.UnitManagerId === user.id &&
-        careerDay.InterviewDate.getTime() - Date.now() <= 0
-      ) {
-        careerDay.Archived = true;
-        careerDay.Objectives.forEach(item => {
-          item.StatusId = 3;
-          return item;
-        });
+    if (
+      careerDay &&
+      careerDay.UnitManagerId === user.id &&
+      careerDay.InterviewDate.getTime() - Date.now() <= 0
+    ) {
+      careerDay.Archived = true;
+      careerDay.Objectives.forEach(item => {
+        item.StatusId = 3;
+        return item;
+      });
 
-        return this._careerDayRepository.update(careerDay);
-      }
-      throw { status: 403 };
-    } else {
-      throw { status: 403 };
+      return this._careerDayRepository.update(careerDay);
     }
+    throw { status: 403 };
   }
 
   public async updateCareerDayDate(
     id: number,
     date: string,
     employeeId: string,
-    user: IUserDecodedFromToken,
+    user: IUserEntity,
   ): Promise<CareerDayEntity> {
-    if (user.role === UserRoles.MANAGER) {
-      const careerDay = await this._careerDayRepository.findById(id);
+    const careerDay = await this._careerDayRepository.findById(id);
 
-      if (
-        careerDay &&
-        careerDay.UnitManagerId === user.id &&
-        !careerDay.Archived
-      ) {
-        if (employeeId === careerDay.EmployeeId) {
-          careerDay.InterviewDate = new Date(date);
+    if (!careerDay) {
+      throw { status: 404 };
+    }
 
-          return this._careerDayRepository.update(careerDay);
-        }
-        throw { status: 403 };
-      } else {
-        throw { status: 404 };
-      }
-    } else {
+    if (
+      careerDay.UnitManagerId !== user.id ||
+      careerDay.Archived ||
+      employeeId !== careerDay.EmployeeId
+    ) {
       throw { status: 403 };
     }
+
+    careerDay.InterviewDate = new Date(date);
+    return this._careerDayRepository.update(careerDay);
   }
 }

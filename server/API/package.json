@@ -8,13 +8,15 @@
   },
   "main": "app.js",
   "dependencies": {
+    "@types/config": "0.0.34",
     "body-parser": "^1.18.2",
     "config": "^1.29.4",
     "debug": "^2.2.0",
     "express": "^4.14.0",
     "inversify": "^4.9.0",
-    "inversify-express-utils": "^5.2.0",
+    "inversify-express-utils": "^6.3.2",
     "jsonwebtoken": "^8.2.0",
+    "openid-client": "^2.4.5",
     "reflect-metadata": "^0.1.12"
   },
   "devDependencies": {
