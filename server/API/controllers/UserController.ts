@@ -45,6 +45,10 @@ export class UserController extends BaseHttpController {
     @requestParam('id') id: string,
     @response() res: express.Response,
   ): Promise<void> {
-    res.json(await this._userService.selectedEmployee(id));
+    const selectedEmployee = await this._userService.selectedEmployee(id);
+    if (!selectedEmployee) {
+      throw { status: 404 };
+    }
+    res.json(selectedEmployee);
   }
 }

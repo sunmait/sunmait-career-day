@@ -6,7 +6,7 @@ export interface IUserEntityWithActiveCareerDay extends IUserEntity {
 }
 
 export interface IUserService {
-  selectedEmployee(id: IUserEntity['id']): Promise<IUserEntity>;
+  selectedEmployee(id: IUserEntity['id']): Promise<IUserEntity | null>;
   getEmployees(
     managerId: IUserEntity['id'],
   ): Promise<IUserEntityWithActiveCareerDay[]>;

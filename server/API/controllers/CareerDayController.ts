@@ -80,7 +80,7 @@ export class CareerDayController extends BaseHttpController {
     const activeCareerDay = await this._careerDayService.getActiveCareerDay(
       body.EmployeeId,
     );
-    if (!activeCareerDay) {
+    if (activeCareerDay) {
       throw { status: 403 };
     }
 

@@ -10,7 +10,7 @@ export class Principal implements interfaces.Principal {
   }
 
   public isAuthenticated(): Promise<boolean> {
-    return Promise.resolve(true);
+    return Promise.resolve(!!this.details);
   }
 
   public isResourceOwner(): Promise<boolean> {
@@ -18,10 +18,10 @@ export class Principal implements interfaces.Principal {
   }
 
   public isInRole(role: UserRoles): Promise<boolean> {
-    return Promise.resolve(this.details.role === role);
+    return Promise.resolve(this.details.Role === role);
   }
 
   public isInRoles(roles: UserRoles[]): boolean {
-    return roles.indexOf(this.details.role) !== -1;
+    return roles.indexOf(this.details.Role) !== -1;
   }
 }

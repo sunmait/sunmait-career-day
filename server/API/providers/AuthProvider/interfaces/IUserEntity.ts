@@ -2,6 +2,8 @@ import { UserRoles } from '../../../../Domain/helpers';
 
 export interface IUserEntity {
   id: string;
-  role: UserRoles;
-  email: string;
+  Role: UserRoles;
+  Email: string;
+  FirstName: string;
+  LastName: string;
 }

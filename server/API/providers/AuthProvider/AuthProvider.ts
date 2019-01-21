@@ -12,17 +12,23 @@ export class AuthProvider implements interfaces.AuthProvider {
   public async getUser(
     req: express.Request,
     _res: express.Response,
-    _next: express.NextFunction,
+    next: express.NextFunction,
   ): Promise<interfaces.Principal> {
-    const authorizationHeader = req.get('Authorization') || '';
-    const [type = null, token = null] = authorizationHeader.split(' ');
+    try {
+      const authorizationHeader = req.get('Authorization') || '';
+      const [type = null, token = null] = authorizationHeader.split(' ');
 
-    if (!type || !token || type !== 'Bearer') {
-      throw { status: 401, message: 'jwt expired' };
+      if (!type || !token || type !== 'Bearer') {
+        next({ status: 401, message: 'Invalid token' });
+        return new Principal(null as any);
+      }
+
+      const user = await this._identityClientProvider.getUserInfo(token);
+      const principal = new Principal(user);
+      return principal;
+    } catch (err) {
+      next({ status: 401, message: err.message });
+      return new Principal(null as any);
     }
-
-    const user = await this._identityClientProvider.getUserInfo(token);
-    const principal = new Principal(user);
-    return principal;
   }
 }

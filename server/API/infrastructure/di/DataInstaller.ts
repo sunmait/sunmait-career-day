@@ -3,15 +3,18 @@ import {
   CareerDayRepository,
   ObjectiveRepository,
   StatusRepository,
+  ManagerEmployeesRepository,
 } from '../../../Data/Repositories/Impl';
 import {
   ICareerDayRepository,
   IObjectiveRepository,
   IStatusRepository,
-} from '../../../Data/Repositories/index';
+  IManagerEmployeesRepository,
+} from '../../../Data/Repositories';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
 import StatusEntity from '../../../Data/Entities/StatusEntity';
+import ManagerEmployeesEntity from '../../../Data/Entities/ManagerEmployeesEntity';
 
 import { DbContext } from '../../../Data/DbContext';
 
@@ -26,6 +29,9 @@ export class DataInstaller extends InstallerBase {
     this.container
       .bind<IStatusRepository>('StatusRepository')
       .toConstantValue(new StatusRepository(StatusEntity));
+    this.container
+      .bind<IManagerEmployeesRepository>('ManagerEmployeesRepository')
+      .toConstantValue(new ManagerEmployeesRepository(ManagerEmployeesEntity));
     this.container
       .bind<DbContext>('DbContext')
       .to(DbContext)

@@ -1,38 +1,37 @@
 import { injectable, inject } from 'inversify';
 import { IUserService, IUserEntityWithActiveCareerDay } from '../IUserService';
-import { UserRoles } from '../../helpers';
-import { ICareerDayRepository } from '../../../Data/Repositories';
-import { IUserEntity } from '../../../API/providers';
+import {
+  ICareerDayRepository,
+  IManagerEmployeesRepository,
+} from '../../../Data/Repositories';
+import { IUserEntity, IIdentityClientProvider } from '../../../API/providers';
 
 @injectable()
 export class UserServise implements IUserService {
-  private readonly _careerDayRepository: ICareerDayRepository;
-
   constructor(
-    @inject('CareerDayRepository') careerDayRepository: ICareerDayRepository,
-  ) {
-    this._careerDayRepository = careerDayRepository;
-  }
+    @inject('CareerDayRepository')
+    private readonly _careerDayRepository: ICareerDayRepository,
+    @inject('IdentityClientProvider')
+    private readonly _identityClientProvider: IIdentityClientProvider,
+    @inject('ManagerEmployeesRepository')
+    private readonly _managerEmployeesRepository: IManagerEmployeesRepository,
+  ) {}
 
   public async getEmployees(
-    _userId: IUserEntity['id'],
+    managerId: IUserEntity['id'],
   ): Promise<IUserEntityWithActiveCareerDay[]> {
-    // TODO: Change to real request
-    const employees: IUserEntity[] = [
-      {
-        email: 'user0@sunmait.com',
-        id: '02d1437c-4c60-4109-9c9a-473bb36e74bb',
-        role: UserRoles.EMPLOYEE,
-      },
-      {
-        email: 'user1@sunmait.com',
-        id: 'c64e0924-d531-421d-a415-f717ac91fbfa',
-        role: UserRoles.EMPLOYEE,
-      },
-    ];
-    const employeesIds = employees.map(employee => employee.id);
+    const managerEmployees = await this._managerEmployeesRepository.findAll({
+      where: { UnitManagerId: managerId },
+    });
+    const employeesIds = managerEmployees.map(employee => employee.EmployeeId);
+
+    const users = await this._identityClientProvider.getAllUsers();
+    const employees = users.filter(
+      user => employeesIds.indexOf(user.id) !== -1,
+    );
+
     const employeesCareerDays = await this._careerDayRepository.findAll({
-      where: { id: { $in: employeesIds }, Archived: false },
+      where: { EmployeeId: { $in: employeesIds }, Archived: false },
     });
     return employees.map(employee => {
       const activeCareerDay = employeesCareerDays.find(
@@ -42,11 +41,10 @@ export class UserServise implements IUserService {
     });
   }
 
-  public async selectedEmployee(_id: IUserEntity['id']): Promise<IUserEntity> {
-    return {
-      id: 'employee.id',
-      role: UserRoles.EMPLOYEE,
-      email: 'email',
-    } as IUserEntity;
+  public async selectedEmployee(
+    id: IUserEntity['id'],
+  ): Promise<IUserEntity | null> {
+    const users = await this._identityClientProvider.getAllUsers();
+    return users.find(user => user.id === id) || null;
   }
 }
