@@ -9,6 +9,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import PersonIcon from '@material-ui/icons/Person';
 import Header from '../../common/header';
 import Avatar from '@material-ui/core/Avatar';
 import backgroundColorHelper from '../../helper/backgroundColorHelper';
@@ -55,7 +56,13 @@ class EmployeeList extends React.Component<IProps, IState> {
         className={classes.disableLinkStyle}
       >
         <ListItem dense button>
-          <Avatar alt={item.LastName} src={item.PhotoUrl} />
+          {item.PhotoUrl ? (
+            <Avatar alt={item.LastName} src={item.PhotoUrl} />
+          ) : (
+            <Avatar>
+              <PersonIcon />
+            </Avatar>
+          )}
           <ListItemText
             primary={`${item.FirstName} ${item.LastName}`}
             secondary={`Career day: ${this.formatActiveCareerDayDate(

@@ -65,6 +65,6 @@ dbContext
     app.use(ValidationErrorHandler);
     app.use(ErrorHandler);
 
-    app.listen(3000);
+    app.listen(3010);
   })
   .catch(err => console.error(err));

@@ -15,6 +15,6 @@
   "hostname": "http://localhost:3000",
   "identityServer": {
     "host": "http://localhost:5000",
-    "clientId": "time_sunmait"
+    "clientId": "careerday_sunmait"
   }
 }

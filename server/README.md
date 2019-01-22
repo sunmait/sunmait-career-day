@@ -56,3 +56,21 @@ To start the server run
 ```sh
 npm start
 ```
+
+### Configuration to run in Docker
+
+#### Development
+
+To start the server in the docker container, you must correctly specify the **database configuration** in `API/config/default.json` and `migrations/config/config.json`.
+
+By default, database config ​​should be equal to:
+
+```json
+"username": "root",
+"password": "my_password",
+"database": "sunmait_career_days_development",
+"host": "sunmait-career-day-devdb",
+"port": "3306"
+```
+
+These values ​​you can find in the `docker/docker-compose.dev.yml` file.

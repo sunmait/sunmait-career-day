@@ -4,16 +4,16 @@ The "Sunmait career day" project is needed to improve the skills of employees. Y
 
 ### Technologies
 
-* [TypeScript]
-* [React]
-* [Redux]
-* [NodeJS]
-* [Express]
-* [MySQL]
-* [Sequelize]
-* [Jest]
-* [Cypress]
-* [Cucumber]
+- [TypeScript]
+- [React]
+- [Redux]
+- [NodeJS]
+- [Express]
+- [MySQL]
+- [Sequelize]
+- [Jest]
+- [Cypress]
+- [Cucumber]
 
 ### Installation
 
@@ -32,6 +32,8 @@ Next you need to run server, to do this read readme file in 'server' folder.
 
 To run project in the Docker you need to install Docker and docker-compose
 
+Then you need to configure the server and client to work in the Docker container. Configuration instructions can be found in [server](server/README.md#configuration-to-run-in-docker) and [client](client/README.md#configuration-to-run-in-docker) README files.
+
 After that you can run following scripts from the project root folder.
 
 ```sh
@@ -43,13 +45,13 @@ npm run build-dev   # Rebuild and start project in development mode
 
 ---
 
-[TypeScript]: https://www.typescriptlang.org/
-[React]: https://reactjs.org/
-[Redux]: https://redux.js.org/
-[NodeJS]: https://nodejs.org/
-[Express]: https://expressjs.com/
-[MySQL]: https://www.mysql.com/
-[Sequelize]: http://docs.sequelizejs.com/
-[Jest]: https://facebook.github.io/jest/
-[Cypress]: https://www.cypress.io/
-[Cucumber]: https://cucumber.io/
+[typescript]: https://www.typescriptlang.org/
+[react]: https://reactjs.org/
+[redux]: https://redux.js.org/
+[nodejs]: https://nodejs.org/
+[express]: https://expressjs.com/
+[mysql]: https://www.mysql.com/
+[sequelize]: http://docs.sequelizejs.com/
+[jest]: https://facebook.github.io/jest/
+[cypress]: https://www.cypress.io/
+[cucumber]: https://cucumber.io/
