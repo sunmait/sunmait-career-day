@@ -1,0 +1,11 @@
+{
+  "extends": ["airbnb", "plugin:cypress/recommended"],
+  "plugins": ["cypress"],
+  "env": {
+    "cypress/globals": true
+  },
+  "rules": {
+    "spaced-comment": ["error", "always", { "markers": ["/"] }],
+    "import/no-extraneous-dependencies": 0
+  }
+}

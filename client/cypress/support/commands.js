@@ -25,28 +25,53 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 const userCredentials = {
-  'unit manager': {
-    email: 'stasevich@mail.com',
-    password: 'qwerty',
+  UnitManager: {
+    userName: 'pdziashchenia',
+    password: 'password0',
+    firstname: 'Pavel',
+    lastname: 'Dziashchenia',
   },
-  employee: {
-    email: 'pupkin@mail.com',
-    password: 'qwerty',
+  Employee: {
+    userName: 'ashimkov',
+    password: 'password0',
+    firstname: 'Andrey',
+    lastname: 'Shimkov',
   },
 };
 
-Cypress.Commands.add('login', role => {
-  return cy
-    .visit(`http://localhost:3001/login`)
-    .get(`input[name=email]`)
-    .type(userCredentials[role].email)
-    .get(`input[name=password]`)
-    .type(userCredentials[role].password)
-    .get('button')
-    .contains(`Login`)
-    .click();
+/**
+ * Command to login as manager or employee
+ */
+Cypress.Commands.add('login', role => cy
+  .visit('http://localhost:3011/login')
+  .get('input[name=Username]')
+  .type(userCredentials[role].userName)
+  .get('input[name=Password]')
+  .type(userCredentials[role].password)
+  .get('button')
+  .contains('Login')
+  .click());
+
+/**
+ * Command to check user name
+ */
+Cypress.Commands.add('getUserFullName', (role) => {
+  const user = userCredentials[role];
+  return `${user.firstname} ${user.lastname}`;
 });
 
+/**
+ * Command to reset database
+ */
 Cypress.Commands.add('resetDB', () => {
   cy.exec('cd ../server && npm run seed:undo && npm run seed');
+});
+
+/**
+ * Command to reset application data (localStorage, cookie, sessionStorage)
+ */
+Cypress.Commands.add('resetApplicatonData', () => {
+  cy.clearCookies();
+  cy.clearLocalStorage();
+  window.sessionStorage.clear();
 });
