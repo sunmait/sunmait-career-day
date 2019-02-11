@@ -11,6 +11,10 @@ services:
         NODE_ENV: development
     volumes:
       - ../server/:/sunmait-career-day/server/
+      - /sunmait-career-day/server/node_modules
+      - /sunmait-career-day/server/API/node_modules
+      - /sunmait-career-day/server/Data/node_modules
+      - /sunmait-career-day/server/Domain/node_modules
     network_mode: host
     depends_on:
       - sunmait-career-day-devdb
@@ -39,6 +43,7 @@ services:
     command: bash -c "cd ../client && npm run start"
     volumes:
       - ../client/:/sunmait-career-day/client/
+      - /sunmait-career-day/client/node_modules
     network_mode: host
     depends_on:
       - sunmait-career-day-dev
