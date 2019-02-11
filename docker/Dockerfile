@@ -16,8 +16,10 @@ RUN npm install
 COPY client/. .
 
 # Build client and move builded files to server
-RUN npm run build
-RUN mkdir -p "/sunmait-career-day/server/API/public/${NODE_ENV}" && cp -R ./build/* "/sunmait-career-day/server/API/public/${NODE_ENV}"
+RUN if [ "$NODE_ENV" = "production" ]; then npm run build; fi
+RUN if [ "$NODE_ENV" = "production" ]; \
+  then mkdir -p "/sunmait-career-day/server/API/public/${NODE_ENV}" && \
+  cp -R ./build/* "/sunmait-career-day/server/API/public/${NODE_ENV}"; fi
 
 # Go to server directory
 WORKDIR /sunmait-career-day/server
