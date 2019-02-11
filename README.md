@@ -9,7 +9,7 @@ The "Sunmait career day" project is needed to improve the skills of employees. Y
 - [Redux]
 - [NodeJS]
 - [Express]
-- [MySQL]
+- [PostgreSQL]
 - [Sequelize]
 - [Jest]
 - [Cypress]
@@ -50,7 +50,7 @@ npm run build-dev   # Rebuild and start project in development mode
 [redux]: https://redux.js.org/
 [nodejs]: https://nodejs.org/
 [express]: https://expressjs.com/
-[mysql]: https://www.mysql.com/
+[postgresql]: https://www.postgresql.org/
 [sequelize]: http://docs.sequelizejs.com/
 [jest]: https://facebook.github.io/jest/
 [cypress]: https://www.cypress.io/

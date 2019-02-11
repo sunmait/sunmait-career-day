@@ -14,7 +14,8 @@
     "seed": "cd ./migrations && ../node_modules/.bin/sequelize db:seed:all",
     "seed:undo": "cd ./migrations && ../node_modules/.bin/sequelize db:seed:undo:all",
     "migrate": "cd ./migrations && ../node_modules/.bin/sequelize db:migrate",
-    "migrate:undo": "cd ./migrations && ../node_modules/.bin/sequelize db:migrate:undo:all"
+    "migrate:undo": "cd ./migrations && ../node_modules/.bin/sequelize db:migrate:undo:all",
+    "migrate-and-seed": "npm run migrate && npm run seed"
   },
   "description": "Sunmait.Boilerplate",
   "author": {
@@ -31,7 +32,8 @@
     "typescript": "^3.2.2"
   },
   "dependencies": {
-    "mysql2": "^1.5.3",
+    "pg": "^7.8.0",
+    "pg-hstore": "^2.3.2",
     "sequelize": "^4.37.10",
     "sequelize-cli": "^4.0.0"
   }

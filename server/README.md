@@ -2,7 +2,7 @@
 
 ### Installation
 
-You need to have MySQL running on your local machine. MySQL server config file located in:
+You need to have PostgreSQL running on your local machine. PostgreSQL server config file located in:
 
 ```sh
 /API/config/default.example

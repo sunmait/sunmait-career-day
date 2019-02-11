@@ -1,11 +1,11 @@
 {
   "database": {
-    "dialect": "mysql",
+    "dialect": "postgres",
     "database": "sunmait_career_days",
     "username": "root",
     "password": "my_password",
     "host": "sunmait-career-day-db",
-    "port": "3306"
+    "port": 5432
   },
   "email": {
     "username": "denis.zhidis@gmail.com",

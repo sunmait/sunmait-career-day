@@ -1,6 +1,6 @@
 {
   "database": {
-    "dialect": "mysql",
+    "dialect": "postgres",
     "database": "sunmait_career_days_development",
     "username": <YOUR USERNAME>,
     "password": <YOUR PASSWORD>,

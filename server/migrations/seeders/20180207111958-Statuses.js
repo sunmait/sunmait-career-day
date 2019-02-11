@@ -6,15 +6,12 @@ module.exports = {
       'Statuses',
       [
         {
-          id: 1,
           Status: 'In Progress',
         },
         {
-          id: 2,
           Status: 'Active',
         },
         {
-          id: 3,
           Status: 'Done',
         },
       ],
