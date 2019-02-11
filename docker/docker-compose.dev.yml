@@ -20,18 +20,18 @@ services:
       - sunmait-career-day-devdb
 
   sunmait-career-day-devdb:
-    image: mysql:5.6
+    image: postgres:11.1
     environment:
-      MYSQL_DATABASE: sunmait_career_days_development
-      MYSQL_ROOT_PASSWORD: my_password
+      POSTGRES_DB: sunmait_career_days_development
+      POSTGRES_PASSWORD: my_password
     ports:
-      - 3306:3306
+      - 5432:5432
     container_name: sunmait-career-day-devdb
     network_mode: host
 
   sunmait-career-day-seed:
     image: sunmait-career-day-dev:latest
-    command: ./wait-for-db.sh sunmait-career-day-devdb:3306 -- npm run migrate && npm run seed
+    command: ./wait-for-db.sh sunmait-career-day-devdb:5432 -- npm run migrate-and-seed
     network_mode: host
     depends_on:
       - sunmait-career-day-devdb

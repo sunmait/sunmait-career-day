@@ -6,7 +6,6 @@ module.exports = {
       'CareerDays',
       [
         {
-          id: 1,
           Archived: true,
           EmployeeId: '02d1437c-4c60-4109-9c9a-473bb36e74bb',
           UnitManagerId: '05323518-63cb-4fcc-b5e2-aae56b89fec5',
@@ -15,7 +14,6 @@ module.exports = {
           UpdatedAt: new Date('November 21, 2017 11:41:33'),
         },
         {
-          id: 2,
           Archived: true,
           EmployeeId: '02d1437c-4c60-4109-9c9a-473bb36e74bb',
           UnitManagerId: '05323518-63cb-4fcc-b5e2-aae56b89fec5',
@@ -24,7 +22,6 @@ module.exports = {
           UpdatedAt: new Date('December 21, 2017 11:41:33'),
         },
         {
-          id: 3,
           Archived: true,
           EmployeeId: '02d1437c-4c60-4109-9c9a-473bb36e74bb',
           UnitManagerId: '05323518-63cb-4fcc-b5e2-aae56b89fec5',
@@ -33,7 +30,6 @@ module.exports = {
           UpdatedAt: new Date('November 21, 2018 11:41:33'),
         },
         {
-          id: 4,
           Archived: false,
           EmployeeId: '02d1437c-4c60-4109-9c9a-473bb36e74bb',
           UnitManagerId: '05323518-63cb-4fcc-b5e2-aae56b89fec5',

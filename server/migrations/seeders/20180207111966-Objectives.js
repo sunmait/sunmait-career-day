@@ -6,7 +6,6 @@ module.exports = {
       'Objectives',
       [
         {
-          id: 1,
           Title: 'test',
           Description:
             'Suspendisse libero magna, luctus quis augue eu, finibus placerat sem. Cras laoreet erat vitae varius placerat. Mauris sodales purus orci, eget imperdiet nunc dictum quis. Phasellus ornare arcu orci, nec luctus tortor faucibus sit amet.',
@@ -17,7 +16,6 @@ module.exports = {
           UpdatedAt: new Date('November 1, 2017 16:41:56'),
         },
         {
-          id: 2,
           Title: 'test',
           Description:
             'Suspendisse libero magna, luctus quis augue eu, finibus placerat sem. Cras laoreet erat vitae varius placerat. Mauris sodales purus orci, eget imperdiet nunc dictum quis. Phasellus ornare arcu orci, nec luctus tortor faucibus sit amet.',
@@ -28,7 +26,6 @@ module.exports = {
           UpdatedAt: new Date('November 1, 2017 16:41:56'),
         },
         {
-          id: 3,
           Title: 'test',
           Description:
             'Suspendisse libero magna, luctus quis augue eu, finibus placerat sem. Cras laoreet erat vitae varius placerat. Mauris sodales purus orci, eget imperdiet nunc dictum quis. Phasellus ornare arcu orci, nec luctus tortor faucibus sit amet.',
@@ -39,7 +36,6 @@ module.exports = {
           UpdatedAt: new Date('December 18, 2017 16:41:56'),
         },
         {
-          id: 4,
           Title: 'test',
           Description:
             'Suspendisse libero magna, luctus quis augue eu, finibus placerat sem. Cras laoreet erat vitae varius placerat. Mauris sodales purus orci, eget imperdiet nunc dictum quis. Phasellus ornare arcu orci, nec luctus tortor faucibus sit amet.',
@@ -50,7 +46,6 @@ module.exports = {
           UpdatedAt: new Date('December 18, 2017 16:41:56'),
         },
         {
-          id: 5,
           Title: 'test',
           Description:
             'Suspendisse libero magna, luctus quis augue eu, finibus placerat sem. Cras laoreet erat vitae varius placerat. Mauris sodales purus orci, eget imperdiet nunc dictum quis. Phasellus ornare arcu orci, nec luctus tortor faucibus sit amet.',
@@ -61,7 +56,6 @@ module.exports = {
           UpdatedAt: new Date('December 18, 2017 16:41:56'),
         },
         {
-          id: 6,
           Title: 'test',
           Description:
             'Suspendisse libero magna, luctus quis augue eu, finibus placerat sem. Cras laoreet erat vitae varius placerat. Mauris sodales purus orci, eget imperdiet nunc dictum quis. Phasellus ornare arcu orci, nec luctus tortor faucibus sit amet.',
@@ -73,7 +67,6 @@ module.exports = {
         },
 
         {
-          id: 7,
           Title: 'objective 1',
           Description:
             'Suspendisse libero magna, luctus quis augue eu, finibus placerat sem. Cras laoreet erat vitae varius placerat. Mauris sodales purus orci, eget imperdiet nunc dictum quis. Phasellus ornare arcu orci, nec luctus tortor faucibus sit amet.',
@@ -84,7 +77,6 @@ module.exports = {
           UpdatedAt: new Date('February 1, 2018 16:41:56'),
         },
         {
-          id: 8,
           Title: 'objective 2',
           Description:
             'Suspendisse libero magna, luctus quis augue eu, finibus placerat sem. Cras laoreet erat vitae varius placerat. Mauris sodales purus orci, eget imperdiet nunc dictum quis. Phasellus ornare arcu orci, nec luctus tortor faucibus sit amet.',
@@ -95,7 +87,6 @@ module.exports = {
           UpdatedAt: new Date('February 1, 2018 16:41:56'),
         },
         {
-          id: 9,
           Title: 'objective 3',
           Description:
             'Suspendisse libero magna, luctus quis augue eu, finibus placerat sem. Cras laoreet erat vitae varius placerat. Mauris sodales purus orci, eget imperdiet nunc dictum quis. Phasellus ornare arcu orci, nec luctus tortor faucibus sit amet.',
@@ -106,7 +97,6 @@ module.exports = {
           UpdatedAt: new Date('February 1, 2018 16:41:56'),
         },
         {
-          id: 10,
           Title: 'objective 3',
           Description:
             'Suspendisse libero magna, luctus quis augue eu, finibus placerat sem. Cras laoreet erat vitae varius placerat. Mauris sodales purus orci, eget imperdiet nunc dictum quis. Phasellus ornare arcu orci, nec luctus tortor faucibus sit amet.',
