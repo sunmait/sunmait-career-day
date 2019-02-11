@@ -11,8 +11,7 @@ services:
         NODE_ENV: development
     volumes:
       - ../server/:/sunmait-career-day/server/
-    networks:
-      - career-day-network
+    network_mode: host
     depends_on:
       - sunmait-career-day-devdb
 
@@ -24,29 +23,22 @@ services:
     ports:
       - 3306:3306
     container_name: sunmait-career-day-devdb
-    networks:
-      - career-day-network
+    network_mode: host
 
   sunmait-career-day-seed:
     image: sunmait-career-day-dev:latest
     command: ./wait-for-db.sh sunmait-career-day-devdb:3306 -- npm run migrate && npm run seed
-    networks:
-      - career-day-network
+    network_mode: host
     depends_on:
       - sunmait-career-day-devdb
 
   sunmait-career-day-client-dev-server:
     image: sunmait-career-day-dev:latest
     ports:
-      - 3001:3001
-    command: bash -c "cd ../client && env PORT=3001 npm run start"
+      - 3011:3011
+    command: bash -c "cd ../client && npm run start"
     volumes:
       - ../client/:/sunmait-career-day/client/
-    networks:
-      - career-day-network
+    network_mode: host
     depends_on:
       - sunmait-career-day-dev
-
-networks:
-  career-day-network:
-    driver: bridge
