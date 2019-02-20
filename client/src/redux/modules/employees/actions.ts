@@ -17,6 +17,11 @@ export const getEmployeesList = () => ({
   type: EMPLOYEES_LIST.GET_EMPLOYEES_LIST,
 });
 
+export const getEmployeesListSucces = (employeelist: IEmployee) => ({
+  type: EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS,
+  payload: employeelist,
+});
+
 export const getCareerDayOfEmployee = (employeeId: IEmployee['id']) => async (
   dispatch: Dispatch,
 ) => {
