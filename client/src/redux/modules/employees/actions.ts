@@ -13,14 +13,6 @@ import {
 } from './reducer';
 import sendRequestHelper from '../../../components/helper/API/sendRequestHelper';
 
-export const getEmployeesList = () => async (dispatch: Dispatch) => {
-  const res = await sendRequestHelper.get<IEmployee[]>('/api/users/employees');
-  return dispatch({
-    type: EMPLOYEES_LIST.GET_EMPLOYEES_LIST,
-    payload: res.data,
-  });
-};
-
 export const getCareerDayOfEmployee = (employeeId: IEmployee['id']) => async (
   dispatch: Dispatch,
 ) => {
