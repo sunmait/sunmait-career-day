@@ -69,7 +69,7 @@
       }
     }
   },
-  "proxy":"http://34.76.182.59:3000/",
+  "proxy": "http://localhost:3010/",
   "browserslist": [
     ">0.2%",
     "not dead",

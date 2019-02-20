@@ -8,7 +8,7 @@ import rootReducer, { IStore, IAction } from './rootReducer';
 import userManager from '../utils/oidcUserManager';
 import rootSaga from './rootSaga';
 
-interface IThunkExtraParams {}
+interface IThunkExtraParams { }
 
 export type Action<R> = ThunkAction<R, IStore, IThunkExtraParams, IAction>;
 
@@ -23,6 +23,5 @@ const store: Store<IStore, IAction> = createStore(
 );
 sagaMiddleware.run(rootSaga);
 loadUser(store, userManager);
-
 
 export default store;
