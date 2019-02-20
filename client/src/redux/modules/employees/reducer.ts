@@ -13,7 +13,7 @@ export default function(
   { type, payload }: IEmployeesAction,
 ) {
   switch (type) {
-    case EMPLOYEES_LIST.GET_EMPLOYEES_LIST:
+    case EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS:
       return handleGetEmployeesList(state, payload);
 
     case EMPLOYEES_LIST.GET_CAREER_DAYS:

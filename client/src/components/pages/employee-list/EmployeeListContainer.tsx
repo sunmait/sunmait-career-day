@@ -1,4 +1,4 @@
-import { connect, ResolveThunks } from 'react-redux';
+import { connect } from 'react-redux';
 import { IStore } from '../../../redux/rootReducer';
 import { getEmployeesList } from '../../../redux/modules/employees/actions';
 
@@ -11,7 +11,7 @@ const mapDispatchToProps = {
 };
 
 export type ConnectProps = ReturnType<typeof mapStateToProps> &
-  ResolveThunks<typeof mapDispatchToProps>;
+  typeof mapDispatchToProps;
 
 export default connect(
   mapStateToProps,
