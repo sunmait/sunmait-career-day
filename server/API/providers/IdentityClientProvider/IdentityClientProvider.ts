@@ -45,7 +45,19 @@ export class IdentityClientProvider implements IIdentityClientProvider {
 
   public async getUserInfo(accessToken: string): Promise<IUserEntity> {
     const key = await this.getPublicKey();
-    const userInfo = jwt.verify(accessToken, key) as any;
+    let userInfo;
+    try {
+      userInfo = jwt.verify(accessToken, key) as any;
+    } catch (error) {
+      const isTokenInvalid = error.message === 'invalid signature';
+      if (isTokenInvalid) {
+        await this.refreshKeyStore();
+        const newKey = await this.getPublicKey();
+        userInfo = jwt.verify(accessToken, newKey) as any;
+      } else {
+        throw error;
+      }
+    }
     return {
       id: userInfo.id,
       Role: userInfo.role,
@@ -53,5 +65,10 @@ export class IdentityClientProvider implements IIdentityClientProvider {
       LastName: userInfo.family_name,
       FirstName: userInfo.given_name,
     };
+  }
+
+  private async refreshKeyStore(): Promise<void> {
+    const issuer = await this.ssoIssuer;
+    await issuer.keystore(true);
   }
 }

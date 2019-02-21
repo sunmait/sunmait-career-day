@@ -20,4 +20,8 @@ const userManagerConfig = {
 
 const userManager = createUserManager(userManagerConfig);
 
+userManager.events.addUserSignedOut(() => {
+  userManager.signinRedirect({ data: { redirectUrl: '/' } });
+});
+
 export default userManager;
