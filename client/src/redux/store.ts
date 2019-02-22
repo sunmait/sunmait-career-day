@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import promise from 'redux-promise-middleware';
 import thunk, { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { loadUser } from 'redux-oidc';
-import createSagaMiddleware from 'redux-saga'
+import createSagaMiddleware from 'redux-saga';
 import rootReducer, { IStore, IAction } from './rootReducer';
 import userManager from '../utils/oidcUserManager';
 import rootSaga from './rootSaga';

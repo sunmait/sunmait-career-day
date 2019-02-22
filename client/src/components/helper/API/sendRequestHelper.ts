@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError } from 'axios';
+import axios, { AxiosInstance, AxiosError, AxiosResponse } from 'axios';
 import CONFIG from './config';
 import store from '../../../redux/store';
 import { addNotification } from '../../../redux/modules/app/actions';
@@ -35,24 +35,17 @@ class SendRequestHelper {
       response => response,
       (error: AxiosError) => {
         if (error.response) {
-          const { message, code, errors = {} } = error.response.data;
-          const validationMessage = Object.keys(errors).reduce(
-            (result, key) => `${result}\n${errors[key]}`,
-            '',
-          );
+          const errorMessage = this.getErrorMessage(error.response);
           const notification = {
-            status: code,
-            message: validationMessage
-              ? `${message}: ${validationMessage}`
-              : message,
+            status: error.response.data.code,
+            message: errorMessage,
           };
-          addNotification(notification)(store.dispatch);
+          store.dispatch(addNotification(notification));
         }
         throw error;
       },
     );
   }
-
   public get = <T>(url: string, params?: any) => {
     return this.axiosInstance.get<T>(url, {
       params,
@@ -69,6 +62,22 @@ class SendRequestHelper {
 
   public patch = <T>(url: string, data?: any) => {
     return this.axiosInstance.patch<T>(url, data);
+  }
+
+  private getErrorMessage = (response: AxiosResponse<any>) => {
+    const { code, message, errors = {} } = response.data;
+    let result: string;
+    if (code === 403) {
+      result = 'You don\'t have access to this action';
+    } else if (code === 401) {
+      result = 'You should be authorized for this action';
+    } else if (code === 404) {
+      result = 'This item is not found';
+    } else {
+      const validationMessage = Object.keys(errors).reduce((acc, key) => `${acc}\n${errors[key]}`, '');
+      result = validationMessage ? `${message}: ${validationMessage}` : message;
+    }
+    return result;
   }
 }
 
