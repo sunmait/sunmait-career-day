@@ -60,7 +60,6 @@ class HeaderBar extends React.Component<IProps, IState> {
             spacing={0}
             justify="flex-end"
             alignItems="center"
-            onClick={this.handleProfileClick}
           >
             <div className={classes.hover} onClick={this.handleProfileClick}>
               <Typography variant="subtitle1" className="header-bar-username">
