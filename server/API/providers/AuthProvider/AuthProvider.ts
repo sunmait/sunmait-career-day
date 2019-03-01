@@ -19,7 +19,6 @@ export class AuthProvider implements interfaces.AuthProvider {
       const [type = null, token = null] = authorizationHeader.split(' ');
 
       if (!type || !token || type !== 'Bearer') {
-        next({ status: 401, message: 'Invalid token' });
         return new Principal(null as any);
       }
 

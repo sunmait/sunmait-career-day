@@ -3,7 +3,7 @@ services:
   sunmait-career-day:
     image: sunmait-career-day
     ports:
-      - 3000:3000
+      - 3010:3010
     build:
       context: ../
       dockerfile: docker/Dockerfile

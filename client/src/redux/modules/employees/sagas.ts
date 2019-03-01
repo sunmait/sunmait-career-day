@@ -10,12 +10,11 @@ import {
 } from './actions'
 
 export function* watchGetEmployeesList() {
-    yield takeEvery(EMPLOYEES_LIST.GET_EMPLOYEES_LIST,
-        getEmployeesList);
+  yield takeEvery(EMPLOYEES_LIST.GET_EMPLOYEES_LIST, getEmployeesList);
 }
 
 function* getEmployeesList() {
-    const res = yield sendRequestHelper.get<IEmployee[]>('/api/users/employees');
+    const res = yield call(sendRequestHelper.get,'/api/users/employees');
     yield put(getEmployeesListSuccess(res.data));
 };
 

@@ -1,16 +1,15 @@
+import { ActionType } from 'typesafe-actions';
 import APP_ACTIONS from './actionConstants';
+import * as actions from './actions';
 
 const defaultState: IAppState = {
   notification: null,
 };
 
-export default function(
-  state: IAppState = defaultState,
-  { type, payload }: IAppAction,
-) {
-  switch (type) {
+export default function(state: IAppState = defaultState, action: ActionType<typeof actions>) {
+  switch (action.type) {
     case APP_ACTIONS.ADD_NOTIFICATION:
-      return handleAddNotification(state, payload);
+      return handleAddNotification(state, action.payload);
     case APP_ACTIONS.DELETE_NOTIFICATION:
       return handleDeleteNotification(state);
 
@@ -19,10 +18,7 @@ export default function(
   }
 }
 
-const handleAddNotification = (
-  state: IAppState,
-  notification: INotification,
-) => {
+const handleAddNotification = (state: IAppState, notification: INotification) => {
   return {
     ...state,
     notification,
@@ -38,15 +34,10 @@ const handleDeleteNotification = (state: IAppState) => {
 };
 
 export interface INotification {
-  status: number;
-  message: string;
+  readonly status: number;
+  readonly message: string;
 }
 
 export interface IAppState {
-  notification: null | INotification;
-}
-
-export interface IAppAction {
-  type: APP_ACTIONS;
-  payload?: any;
+  readonly notification: null | INotification;
 }
