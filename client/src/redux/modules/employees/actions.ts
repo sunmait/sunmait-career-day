@@ -12,39 +12,19 @@ import {
   IObjective,
 } from './reducer';
 import sendRequestHelper from '../../../components/helper/API/sendRequestHelper';
+import { action } from 'typesafe-actions';
 
-export const getEmployeesList = () => ({
-  type: EMPLOYEES_LIST.GET_EMPLOYEES_LIST,
-});
+export const getEmployeesList = () => action(EMPLOYEES_LIST.GET_EMPLOYEES_LIST);
 
-export const getEmployeesListSuccess = (employeeList: IEmployee[]) => ({
-  type: EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS,
-  payload: employeeList,
-});
+export const getEmployeesListSuccess = (employeeList: IEmployee[]) => action(EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS, employeeList);
 
-export const getCareerDayOfEmployee = (employeeId: IEmployee['id']) => async (
-  dispatch: Dispatch,
-) => {
-  const res = await sendRequestHelper.get<ICareerDayOfEmployee[]>(
-    `/api/career-days/${employeeId}`,
-  );
-  return dispatch({
-    type: EMPLOYEES_LIST.GET_CAREER_DAYS,
-    payload: res.data,
-  });
-};
+export const getCareerDayOfEmployeeSuccess = (employeeId: IEmployee['id'])  => action(EMPLOYEES_LIST.GET_CAREER_DAYS_SUCCESS, employeeId);
 
-export const getSelectedCareerDay = (careerDayId: ICareerDayOfEmployee['id']) => async (
-  dispatch: Dispatch,
-) => {
-  const res = await sendRequestHelper.get<ICareerDayOfEmployee>(
-    `/api/objectives/${careerDayId}`,
-  );
-  return dispatch({
-    type: EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY,
-    payload: res.data,
-  });
-};
+export const getCareerDayOfEmployee = (employeeId: IEmployee['id'])  => action(EMPLOYEES_LIST.GET_CAREER_DAYS, employeeId);
+
+export const getSelectedCareerDay = (careerDayId: ICareerDayOfEmployee['id']) => action(EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY, careerDayId);
+
+export const getSelectedCareerDaySuccess = (careerDayId: ICareerDayOfEmployee['id']) => action(EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY_SUCCESS, careerDayId);
 
 export const getActiveCareerDay = (employeeId: IEmployee['id']) => async (
   dispatch: Dispatch,
@@ -58,17 +38,9 @@ export const getActiveCareerDay = (employeeId: IEmployee['id']) => async (
   });
 };
 
-export const getSelectedEmployee = (employeeId: IEmployee['id']) => async (
-  dispatch: Dispatch,
-) => {
-  const res = await sendRequestHelper.get<IEmployee>(
-    `/api/users/selected-employee/${employeeId}`,
-  );
-  return dispatch({
-    type: EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE,
-    payload: res.data,
-  });
-};
+export const getSelectedEmployee = (employeeId: IEmployee['id']) => action(EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE, employeeId);
+
+export const getSelectedEmployeeSuccess = (employeeId: IEmployee['id']) => action(EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE_SUCCESS, employeeId);
 
 export const addCareerDay = (careerDay: ICareerDay) => async (
   dispatch: Dispatch,

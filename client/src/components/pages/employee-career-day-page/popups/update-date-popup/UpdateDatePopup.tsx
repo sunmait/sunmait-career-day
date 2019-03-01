@@ -9,6 +9,12 @@ import { StylesProps } from './StylesContainer';
 import { IUpdateInterviewDate } from '../../../../../redux/modules/employees/reducer';
 import DialogActions from '@material-ui/core/DialogActions';
 
+import * as Picker from 'material-ui-pickers';
+import EventIcon from '@material-ui/icons/Event';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+
+
 interface IProps extends StylesProps {
   handleClosePopup: () => void;
   open: boolean;
@@ -49,6 +55,7 @@ class DatetimePopup extends React.Component<IProps, IState> {
 
   public render() {
     const { classes } = this.props;
+    const { interviewDate } = this.state;
 
     return (
       <Dialog open={this.props.open} onClose={this.handleClosePopup}>
@@ -58,6 +65,16 @@ class DatetimePopup extends React.Component<IProps, IState> {
             <DatePicker
               handleChangeDate={this.handleChangeDate}
               displayedDate={this.props.interviewDate}
+            />
+            <Picker.DatePicker
+              clearable
+              leftArrowIcon={<KeyboardArrowLeft />}
+              rightArrowIcon={<KeyboardArrowRight />}
+              keyboardIcon={<EventIcon />}
+              value={interviewDate}
+              onChange={this.handleChangeDate}
+              animateYearScrolling={false}
+              minDate={new Date()}
             />
           </Typography>
         </DialogContent>
