@@ -40,7 +40,7 @@ export class UserController extends BaseHttpController {
    * Select employee
    */
   @httpGet('/selected-employee/:id')
-  @authorize({ roles: [UserRoles.MANAGER] })
+  @authorize()
   private async selectedEmployee(
     @requestParam('id') id: string,
     @response() res: express.Response,
