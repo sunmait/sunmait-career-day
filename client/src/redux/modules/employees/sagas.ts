@@ -1,23 +1,13 @@
-import { fork, take, put } from 'redux-saga/effects'
-
+import { put, call } from 'redux-saga/effects'
+import { takeEvery } from '../../customEffect/customEffect'
 import EMPLOYEES_LIST from './actionConstants';
 import sendRequestHelper from '../../../components/helper/API/sendRequestHelper';
 import { IEmployee, ICareerDayOfEmployee } from '../employees/reducer';
-import { IUserProfile } from '../oidc/reducer'
 import {
     getEmployeesListSuccess,
     getActiveCareerDaySuccess,
     getSelectedCareerDaySuccess
 } from './actions'
-
-const takeEvery = (patternOrChannel: string, saga: any, ...args: Array<any>) => fork(
-    function* () {
-        while (true) {
-            const action = yield take(patternOrChannel);
-            yield fork(saga, ...args.concat(action.payload));
-        }
-    }
-);
 
 export function* watchGetEmployeesList() {
     yield takeEvery(EMPLOYEES_LIST.GET_EMPLOYEES_LIST,
@@ -35,10 +25,9 @@ export function* watchGetActiveCareerDay() {
 }
 
 function* getActiveCareerDay(employeeId: IEmployee['id']) {
-    const res = yield sendRequestHelper.get<ICareerDayOfEmployee>(
-        `/api/career-days/active-day/${employeeId}`,
-    );
-    const managerResponse = yield sendRequestHelper.get<IUserProfile>(
+    const res = yield call(sendRequestHelper.get,
+        `/api/career-days/active-day/${employeeId}`);
+    const managerResponse = yield call(sendRequestHelper.get,
         `api/users/selected-employee/${res.data.UnitManagerId}`);
     res.data.ManagerFirstName = managerResponse.data.FirstName;
     res.data.ManagerLastName = managerResponse.data.LastName;
@@ -52,10 +41,10 @@ export function* watchGetSelectedCareerDay() {
 }
 
 function* getSelectedCareerDay(careerDayId: ICareerDayOfEmployee['id']) {
-    const res = yield sendRequestHelper.get<ICareerDayOfEmployee>(
-        `/api/objectives/${careerDayId}`,
-    );
-    const managerResponse = yield sendRequestHelper.get<IUserProfile>(
+    const res = yield call(sendRequestHelper.get,
+        `/api/objectives/${careerDayId}`);
+
+    const managerResponse = yield call(sendRequestHelper.get,
         `/api/users/selected-employee/${res.data.UnitManagerId}`);
     res.data.ManagerFirstName = managerResponse.data.FirstName;
     res.data.ManagerLastName = managerResponse.data.LastName;
