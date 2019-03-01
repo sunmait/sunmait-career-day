@@ -19,10 +19,10 @@ export default function(
     case EMPLOYEES_LIST.GET_CAREER_DAYS:
       return handleGetCareerDaysOfEmployee(state, payload);
 
-    case EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY:
+    case EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY_SUCCESS:
       return handleGetActiveCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY:
+    case EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY_SUCCESS:
       return handleGetSelectedCareerDay(state, payload);
 
     case EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE:
@@ -184,6 +184,8 @@ export interface ICareerDayOfEmployee {
   CreatedAt: Date;
   UpdatedAt: Date;
   Objectives: null | IObjective[];
+  ManagerFirstName: string,
+  ManagerLastName: string,
 }
 
 export interface IObjective {
