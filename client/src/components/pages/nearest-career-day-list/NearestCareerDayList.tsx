@@ -3,74 +3,74 @@ import { Link } from 'react-router-dom';
 import {
   IEmployee,
   ICareerDay,
+  ICareerDayOfEmployee
 } from '../../../redux/modules/employees/reducer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import PersonIcon from '@material-ui/icons/Person';
 import Header from '../../common/header';
-import Avatar from '@material-ui/core/Avatar';
+import IconStatus from '../../common/icon-status/icon-status-career-day';
 import backgroundColorHelper from '../../helper/backgroundColorHelper';
-import { ConnectProps } from './EmployeeListContainer';
-import { StylesProps } from './StylesContainer';
+import { ConnectProps } from './NearestCareerDayListContainer';
+import { StylesProps } from '../employee-list/StylesContainer';
 
 interface IProps extends StylesProps, ConnectProps { }
 
-
-class EmployeeList extends React.Component<IProps> {
+class NearestCareerDayList extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props);
   }
 
   public componentDidMount() {
     this.props.getEmployeesList();
+    this.props.getNearestCareerDay();
   }
 
-  private formatActiveCareerDayDate = (activeCareerDay: ICareerDay | null) => {
-    if (!activeCareerDay) {
+  private formatNearestCareerDayDate = (nearestCareerDay: ICareerDay | null) => {
+    if (!nearestCareerDay) {
       return 'no career day';
     }
-    return new Date(activeCareerDay.InterviewDate).toLocaleString('en', {
+    return new Date(nearestCareerDay.InterviewDate).toLocaleString('en', {
       month: 'long',
       day: '2-digit',
-      year: 'numeric',
     });
   }
 
-  private renderEmployeeProfile = () => {
-    const { employees, classes } = this.props;
-    if (!employees) {
+  private renderNearestCareerDay = () => {
+    const { nearestCareerDay, classes, employees } = this.props;
+    if (!nearestCareerDay || !employees) {
       return null;
     }
-
-    return employees.map((item: IEmployee) => (
+    return nearestCareerDay.map((item: ICareerDayOfEmployee) => (
       <Link
-        key={item.id}
         to={{
-          pathname: `/employees/${item.id}`,
-          state: { employee: item },
+          pathname: `/employees/${item.EmployeeId}/career-day/${item.id}`,
+          state: { nearestCareerDay: item }
         }}
         className={classes.disableLinkStyle}
       >
         <ListItem dense button>
-          {item.PhotoUrl ? (
-            <Avatar alt={item.LastName} src={item.PhotoUrl} />
-          ) : (
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            )}
+          <IconStatus isArchived={item.Archived} />
           <ListItemText
-            primary={`${item.FirstName} ${item.LastName}`}
-            secondary={`Career day: ${this.formatActiveCareerDayDate(
-              item.ActiveCareerDay,
+            primary={this.getFirstLastNames(employees, item.EmployeeId)}
+            secondary={`Interview Date: ${this.formatNearestCareerDayDate(
+              item
             )}`}
           />
         </ListItem>
       </Link>
-    ));
+    )
+    )
+  }
+
+  private getFirstLastNames = (employees: IEmployee[], EmployeeId: string) => {
+    return employees.map(employee => {
+      if (EmployeeId === employee.id) {
+        return `${employee.FirstName} ${employee.LastName}`;
+      };
+    })
   }
 
   public render() {
@@ -81,7 +81,7 @@ class EmployeeList extends React.Component<IProps> {
     return (
       <div>
         <Grid container spacing={0} justify="center">
-          <Header title='List Of Employees' />
+          <Header title='List of Nearest Career Day' />
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="center">
               <Link
@@ -90,7 +90,7 @@ class EmployeeList extends React.Component<IProps> {
                 }}
                 className={classes.disableLinkStyle}
               >
-                <ListItem button divider disabled >
+                <ListItem button divider  >
                   <ListItemText
                     primary='Employees'
                   />
@@ -100,23 +100,19 @@ class EmployeeList extends React.Component<IProps> {
               <Link
                 to={{
                   pathname: `/nearest-career-day`,
-                  state: {},
                 }}
                 className={classes.disableLinkStyle}
               >
-                <ListItem button divider >
+                <ListItem button divider disabled >
                   <ListItemText
                     primary='Nearest Career Days'
                   />
                 </ListItem>
               </Link>
-
-
               <div className={classes.root}>
                 <Paper elevation={1}>
                   <List>
-                    {this.props.employees
-                      && this.renderEmployeeProfile()}
+                    {this.renderNearestCareerDay()}
                   </List>
                 </Paper>
               </div>
@@ -128,4 +124,4 @@ class EmployeeList extends React.Component<IProps> {
   }
 }
 
-export default EmployeeList;
+export default NearestCareerDayList;
