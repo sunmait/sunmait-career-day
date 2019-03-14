@@ -14,4 +14,5 @@ export interface ICareerDayService {
   archiveCareerDay(id: number, user: IUserEntity): Promise<CareerDayEntity>;
   getActiveCareerDay(EmployeeId: string): Promise<CareerDayEntity>;
   getCareerDayById(id: number): Promise<CareerDayEntity>;
+  getNearestCareerDay(): Promise<CareerDayEntity[]>;
 }
