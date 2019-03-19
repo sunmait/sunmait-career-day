@@ -24,22 +24,6 @@ export class CareerDayService implements ICareerDayService {
     });
   }
 
-  public async getNearestCareerDay(
-  ): Promise<CareerDayEntity[]> {
-    const allCareerDay = await this._careerDayRepository.findAll({
-      where: {},
-    });
-    const nearestCareerDay = allCareerDay.filter(careerDay =>
-      allCareerDay.every(selfCareerDay =>
-        !(careerDay.EmployeeId ===
-          selfCareerDay.EmployeeId &&
-          careerDay.InterviewDate > selfCareerDay.InterviewDate),
-      ),
-    );
-
-    return nearestCareerDay;
-  }
-
   public async getCareerDayById(id: number): Promise<CareerDayEntity> {
     return this._careerDayRepository.findById(id);
   }

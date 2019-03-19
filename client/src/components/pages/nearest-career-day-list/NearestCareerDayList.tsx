@@ -24,7 +24,6 @@ class NearestCareerDayList extends React.Component<IProps> {
   }
 
   public componentDidMount() {
-    this.props.getEmployeesList();
     this.props.getNearestCareerDay();
   }
 
@@ -45,6 +44,7 @@ class NearestCareerDayList extends React.Component<IProps> {
     }
     return nearestCareerDay.map((item: ICareerDayOfEmployee) => (
       <Link
+        key={item.id}
         to={{
           pathname: `/employees/${item.EmployeeId}/career-day/${item.id}`,
           state: { nearestCareerDay: item }
@@ -81,7 +81,7 @@ class NearestCareerDayList extends React.Component<IProps> {
     return (
       <div>
         <Grid container spacing={0} justify="center">
-          <Header title='List of Nearest Career Day' />
+          <Header title='List of Nearest Career Days' />
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="center">
               <Link
