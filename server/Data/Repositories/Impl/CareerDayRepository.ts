@@ -13,9 +13,9 @@ export class CareerDayRepository extends RepositoryBase<CareerDayEntity>
     UnitManagerId: string,
   ): Promise<CareerDayEntity[]> {
     const nearestCareerDay = await this.findAll({
+      attributes: ['EmployeeId', [Sequelize.fn('min', Sequelize.col('InterviewDate')), 'InterviewDate']],
       where: { UnitManagerId },
-      group: [['EmployeeId']],
-      order: Sequelize.fn('min', Sequelize.col('InterviewDate')),
+      group: ['EmployeeId'],
     });
 
     return nearestCareerDay;

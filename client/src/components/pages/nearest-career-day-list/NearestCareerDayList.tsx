@@ -15,6 +15,7 @@ import IconStatus from '../../common/icon-status/icon-status-career-day';
 import backgroundColorHelper from '../../helper/backgroundColorHelper';
 import { ConnectProps } from './NearestCareerDayListContainer';
 import { StylesProps } from '../employee-list/StylesContainer';
+import ButtonLink from './../../common/button-link';
 
 interface IProps extends StylesProps, ConnectProps { }
 
@@ -84,31 +85,18 @@ class NearestCareerDayList extends React.Component<IProps> {
           <Header title='List of Nearest Career Days' />
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="center">
-              <Link
-                to={{
-                  pathname: `/employees`,
-                }}
-                className={classes.disableLinkStyle}
-              >
-                <ListItem button divider  >
-                  <ListItemText
-                    primary='Employees'
-                  />
-                </ListItem>
-              </Link>
-
-              <Link
-                to={{
-                  pathname: `/nearest-career-day`,
-                }}
-                className={classes.disableLinkStyle}
-              >
-                <ListItem button divider disabled >
-                  <ListItemText
-                    primary='Nearest Career Days'
-                  />
-                </ListItem>
-              </Link>
+              <ButtonLink
+                to={`/employees`}
+                classes={classes}
+                primary='Employees'
+                isDisabled={false}
+              />
+              <ButtonLink
+                to={`/nearest-career-day`}
+                classes={classes}
+                primary='Nearest Career Days'
+                isDisabled={true}
+              />
               <div className={classes.root}>
                 <Paper elevation={1}>
                   <List>

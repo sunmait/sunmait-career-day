@@ -15,6 +15,7 @@ import Avatar from '@material-ui/core/Avatar';
 import backgroundColorHelper from '../../helper/backgroundColorHelper';
 import { ConnectProps } from './EmployeeListContainer';
 import { StylesProps } from './StylesContainer';
+import ButtonLink from './../../common/button-link';
 
 interface IProps extends StylesProps, ConnectProps { }
 
@@ -84,34 +85,18 @@ class EmployeeList extends React.Component<IProps> {
           <Header title='List Of Employees' />
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="center">
-              <Link
-                to={{
-                  pathname: `/employees`,
-                }}
-                className={classes.disableLinkStyle}
-              >
-                <ListItem button divider disabled >
-                  <ListItemText
-                    primary='Employees'
-                  />
-                </ListItem>
-              </Link>
-
-              <Link
-                to={{
-                  pathname: `/nearest-career-day`,
-                  state: {},
-                }}
-                className={classes.disableLinkStyle}
-              >
-                <ListItem button divider >
-                  <ListItemText
-                    primary='Nearest Career Days'
-                  />
-                </ListItem>
-              </Link>
-
-
+              <ButtonLink
+                to={`/employees`}
+                classes={classes}
+                primary='Employees'
+                isDisabled={true}
+              />
+              <ButtonLink
+                to={`/nearest-career-day`}
+                classes={classes}
+                primary='Nearest Career Days'
+                isDisabled={false}
+              />
               <div className={classes.root}>
                 <Paper elevation={1}>
                   <List>
