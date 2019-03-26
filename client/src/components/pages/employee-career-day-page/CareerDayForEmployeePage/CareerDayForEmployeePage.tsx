@@ -12,10 +12,11 @@ import Objective from '../objective/index';
 import backgroundColorHelper from '../../../helper/backgroundColorHelper';
 import { ConnectProps } from './CareerDayForEmployeePageContainer';
 import { StylesProps } from './StylesContainer';
+import Loader from '../../../common/loader';
 
-interface IProps extends ConnectProps, StylesProps {}
+interface IProps extends ConnectProps, StylesProps { }
 
-interface IState {}
+interface IState { }
 
 class CareerDayForEmployeePage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -61,37 +62,41 @@ class CareerDayForEmployeePage extends React.Component<IProps, IState> {
 
   public render() {
     const { classes, activeCareerDay, user } = this.props;
-
-    backgroundColorHelper();
-    return (
-      <div>
-        <Grid container justify="center" spacing={0}>
-          <Header
-            title={
-              (user &&
-                `${user.profile.given_name} ${
+    const { loadCarreerDayForEmployee } = this.props;
+    if (loadCarreerDayForEmployee === true) {
+      return <Loader />;
+    } else {
+      backgroundColorHelper();
+      return (
+        <div>
+          <Grid container justify="center" spacing={0}>
+            <Header
+              title={
+                (user &&
+                  `${user.profile.given_name} ${
                   user.profile.family_name
-                }'s career day`) ||
-              'Career day'
-            }
-          />
-          <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
-            <Grid container justify="center">
-              <div className={classes.datetime}>
-                {activeCareerDay &&
-                  activeCareerDay.CreatedAt && (
-                    <DatetimeList selectedCareerDay={activeCareerDay} />
-                  )}
-              </div>
-            </Grid>
+                  }'s career day`) ||
+                'Career day'
+              }
+            />
+            <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
+              <Grid container justify="center">
+                <div className={classes.datetime}>
+                  {activeCareerDay &&
+                    activeCareerDay.CreatedAt && (
+                      <DatetimeList selectedCareerDay={activeCareerDay} />
+                    )}
+                </div>
+              </Grid>
 
-            <Grid container justify="center">
-              <div className={classes.root}>{this.renderObjectives()}</div>
+              <Grid container justify="center">
+                <div className={classes.root}>{this.renderObjectives()}</div>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </div>
-    );
+        </div>
+      );
+    }
   }
 }
 

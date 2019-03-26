@@ -12,31 +12,51 @@ import {
   IObjective,
 } from './reducer';
 import sendRequestHelper from '../../../components/helper/API/sendRequestHelper';
-import { action } from 'typesafe-actions';
+import { action } from 'typesafe-actions'
 
-export const getEmployeesList = () => action(EMPLOYEES_LIST.GET_EMPLOYEES_LIST);
+export const getEmployeesList = () => action(
+  EMPLOYEES_LIST.GET_EMPLOYEES_LIST
+);
 
-export const getEmployeesListSuccess = (employeeList: IEmployee[]) => action(EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS, employeeList);
+export const getEmployeesListSuccess = (employeelist: IEmployee[]) => action(
+  EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS,
+  employeelist,
+);
 
-export const getCareerDayOfEmployeeSuccess = (employeeId: IEmployee['id'])  => action(EMPLOYEES_LIST.GET_CAREER_DAYS_SUCCESS, employeeId);
+export const getCareerDayOfEmployeeSuccess = (employeeId: IEmployee['id']) => action(EMPLOYEES_LIST.GET_CAREER_DAYS_SUCCESS, employeeId);
 
-export const getCareerDayOfEmployee = (employeeId: IEmployee['id'])  => action(EMPLOYEES_LIST.GET_CAREER_DAYS, employeeId);
+export const getCareerDayOfEmployee = (employeeId: IEmployee['id']) => action(EMPLOYEES_LIST.GET_CAREER_DAYS, employeeId);
 
-export const getSelectedCareerDay = (careerDayId: ICareerDayOfEmployee['id']) => action(EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY, careerDayId);
+export const getSelectedCareerDay = (careerDayId: ICareerDayOfEmployee['id']) => action(
+  EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY,
+  careerDayId
+);
 
-export const getSelectedCareerDaySuccess = (careerDayId: ICareerDayOfEmployee['id']) => action(EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY_SUCCESS, careerDayId);
-
-export const getActiveCareerDay = (employeeId: IEmployee['id']) => async (
-  dispatch: Dispatch,
-) => {
-  const res = await sendRequestHelper.get<ICareerDayOfEmployee>(
-    `/api/career-days/active-day/${employeeId}`,
+export const loadSelectedCareerDay = (loadSelectedCareerDay: boolean) =>
+  action(EMPLOYEES_LIST.LOAD_SELECTED_CAREER_DAY,
+    loadSelectedCareerDay,
   );
-  return dispatch({
-    type: EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY,
-    payload: res.data,
-  });
-};
+
+export const loadCarreerDayForEmployee = (loadCarreerDayForEmployee: boolean) =>
+  action(EMPLOYEES_LIST.LOAD_CAREER_DAY_FOR_EMPLOYEE, loadCarreerDayForEmployee);
+
+export const loadEmployeesList = (loadEmployeesList: boolean) =>
+  action(EMPLOYEES_LIST.LOAD_EMPLOYEES_LIST, loadEmployeesList);
+
+export const getSelectedCareerDaySuccess = (careerDay: ICareerDayOfEmployee) => action(
+  EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY_SUCCESS,
+  careerDay
+);
+
+export const getActiveCareerDay = (employeeId: IEmployee['id']) => action(
+  EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY,
+  employeeId,
+);
+
+export const getActiveCareerDaySuccess = (careerDay: ICareerDayOfEmployee) => action(
+  EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY_SUCCESS,
+  careerDay,
+);
 
 export const getSelectedEmployee = (employeeId: IEmployee['id']) => action(EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE, employeeId);
 

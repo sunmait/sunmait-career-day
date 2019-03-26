@@ -4,6 +4,7 @@ import { getEmployeesList } from '../../../redux/modules/employees/actions';
 
 const mapStateToProps = (state: IStore) => ({
   employees: state.employees.employees,
+  loadEmployeesList: state.employees.loadEmployeesList
 });
 
 const mapDispatchToProps = {

@@ -6,26 +6,38 @@ const defaultState: IEmployeesState = {
   careerDays: null,
   selectedCareerDay: null,
   selectedEmployee: null,
+  loadCarreerDayForEmployee: false,
+  loadEmployeesList: false,
+  loadSelectedCareerDay: false,
 };
 
-export default function(
+export default function (
   state: IEmployeesState = defaultState,
   { type, payload }: IEmployeesAction,
 ) {
   switch (type) {
+    case EMPLOYEES_LIST.LOAD_CAREER_DAY_FOR_EMPLOYEE:
+      return loadCarreerDayForEmployee(state, payload);
+
+    case EMPLOYEES_LIST.LOAD_SELECTED_CAREER_DAY:
+      return loadSelectedCareerDay(state, payload);  
+
+    case EMPLOYEES_LIST.LOAD_EMPLOYEES_LIST:
+      return loadEmployeesList(state, payload);
+
     case EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS:
       return handleGetEmployeesList(state, payload);
 
-    case EMPLOYEES_LIST.GET_CAREER_DAYS:
+    case EMPLOYEES_LIST.GET_CAREER_DAYS_SUCCESS:
       return handleGetCareerDaysOfEmployee(state, payload);
 
-    case EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY:
+    case EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY_SUCCESS:
       return handleGetActiveCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY:
+    case EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY_SUCCESS:
       return handleGetSelectedCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE:
+    case EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE_SUCCESS:
       return handleGetSelectedEmployee(state, payload);
 
     case EMPLOYEES_LIST.ADD_CAREER_DAY:
@@ -54,6 +66,36 @@ export default function(
 
     default:
       return state;
+  }
+}
+
+function loadSelectedCareerDay(
+  state: IEmployeesState,
+  loadSelectedCareerDay: boolean,
+) {
+  return {
+    ...state,
+    loadSelectedCareerDay
+  }
+}
+
+function loadEmployeesList(
+  state: IEmployeesState,
+  loadEmployeesList: boolean,
+) {
+  return {
+    ...state,
+    loadEmployeesList
+  }
+}
+
+function loadCarreerDayForEmployee(
+  state: IEmployeesState,
+  loadCarreerDayForEmployee: boolean,
+) {
+  return {
+    ...state,
+    loadCarreerDayForEmployee
   }
 }
 
@@ -184,6 +226,8 @@ export interface ICareerDayOfEmployee {
   CreatedAt: Date;
   UpdatedAt: Date;
   Objectives: null | IObjective[];
+  ManagerFirstName: string,
+  ManagerLastName: string,
 }
 
 export interface IObjective {
@@ -210,6 +254,9 @@ export interface IEmployeesState {
   careerDays: null | ICareerDayOfEmployee[];
   selectedCareerDay: null | ICareerDayOfEmployee;
   selectedEmployee: null | IEmployee;
+  loadCarreerDayForEmployee: boolean;
+  loadEmployeesList: boolean;
+  loadSelectedCareerDay: boolean;
 }
 
 export interface ICareerDay {

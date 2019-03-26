@@ -3,6 +3,7 @@ import { IStore } from '../../../redux/rootReducer';
 
 const mapStateToProps = (state: IStore) => ({
   isLoadingUser: state.oidc.isLoadingUser,
+  // isLoadingCareerDayForEmployee: state.oidc.isLoadingCareerDayForEmployee,
 });
 
 const mapDispatchToProps = {};

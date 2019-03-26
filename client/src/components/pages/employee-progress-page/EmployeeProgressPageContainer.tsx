@@ -11,6 +11,7 @@ const mapStateToProps = (state: IStore) => ({
   user: state.oidc.user,
   careerDays: state.employees.careerDays,
   selectedEmployee: state.employees.selectedEmployee,
+  loadCarreerDayForEmployee: state.employees.loadCarreerDayForEmployee,
 });
 
 const mapDispatchToProps = {
@@ -21,7 +22,7 @@ const mapDispatchToProps = {
 };
 
 export type ConnectProps = ReturnType<typeof mapStateToProps> &
-  ResolveThunks<typeof mapDispatchToProps>;
+ResolveThunks<typeof mapDispatchToProps>;
 
 export default connect(
   mapStateToProps,

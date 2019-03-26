@@ -15,6 +15,8 @@ import Avatar from '@material-ui/core/Avatar';
 import backgroundColorHelper from '../../helper/backgroundColorHelper';
 import { ConnectProps } from './EmployeeListContainer';
 import { StylesProps } from './StylesContainer';
+import Loader from '../../common/loader';
+
 
 interface IProps extends StylesProps, ConnectProps {}
 
@@ -75,10 +77,11 @@ class EmployeeList extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { classes } = this.props;
-
+    const { classes, loadEmployeesList } = this.props;
+    if (loadEmployeesList === true) {
+      return <Loader />;
+    } else {
     backgroundColorHelper();
-
     return (
       <div>
         <Grid container spacing={0} justify="center">
@@ -97,7 +100,7 @@ class EmployeeList extends React.Component<IProps, IState> {
         </Grid>
       </div>
     );
-  }
+  }}
 }
 
 export default EmployeeList;

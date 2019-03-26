@@ -21,6 +21,7 @@ import backgroundColorHelper from '../../helper/backgroundColorHelper';
 import Typography from '@material-ui/core/Typography';
 import { ConnectProps } from './EmployeeProgressPageContainer';
 import { StylesProps } from './StylesContainer';
+import Loader from '../../common/loader';
 
 interface IMatchParams {
   userId: string;
@@ -157,78 +158,80 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { classes } = this.props;
-
-    backgroundColorHelper();
-
-    return (
-      <div>
-        <Grid container justify="center" spacing={0}>
-          {this.props.selectedEmployee && (
-            <Header
-              title={`${this.props.selectedEmployee.FirstName} ${
-                this.props.selectedEmployee.LastName
-              }'s progress days`}
-            />
-          )}
-          <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
-            <Grid
-              container
-              justify="flex-end"
-              spacing={8}
-              className={classes.navigation}
-            >
-              <Grid item>
-                <ControlledTooltips
-                  title="Employee already has active career day"
-                  isDisabled={this.isActiveButton()}
-                  tooltip={
-                    <Button
-                      disabled={this.isActiveButton()}
-                      variant="contained"
-                      color="primary"
-                      name="add-career-day"
-                      onClick={() => this.togglePopupState('isOpenAddPopup')}
-                    >
-                      Add career day
+    const { classes, loadCarreerDayForEmployee } = this.props;
+    if (loadCarreerDayForEmployee === true) {
+      return <Loader />
+    } else {
+      backgroundColorHelper();
+      return (
+        <div>
+          <Grid container justify="center" spacing={0}>
+            {this.props.selectedEmployee && (
+              <Header
+                title={`${this.props.selectedEmployee.FirstName} ${
+                  this.props.selectedEmployee.LastName
+                  }'s progress days`}
+              />
+            )}
+            <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
+              <Grid
+                container
+                justify="flex-end"
+                spacing={8}
+                className={classes.navigation}
+              >
+                <Grid item>
+                  <ControlledTooltips
+                    title="Employee already has active career day"
+                    isDisabled={this.isActiveButton()}
+                    tooltip={
+                      <Button
+                        disabled={this.isActiveButton()}
+                        variant="contained"
+                        color="primary"
+                        name="add-career-day"
+                        onClick={() => this.togglePopupState('isOpenAddPopup')}
+                      >
+                        Add career day
                     </Button>
-                  }
-                />
+                    }
+                  />
+                </Grid>
               </Grid>
-            </Grid>
 
-            <Grid container justify="center" spacing={0}>
-              <Grid item className={classes.root}>
-                <Paper elevation={1}>
-                  <List>
-                    {this.props.careerDays && this.renderHistoryOfProgress()}
-                  </List>
-                </Paper>
+              <Grid container justify="center" spacing={0}>
+                <Grid item className={classes.root}>
+                  <Paper elevation={1}>
+                    <List>
+                      {this.props.careerDays && this.renderHistoryOfProgress()}
+                    </List>
+                  </Paper>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        {this.state.isOpenAddPopup && (
-          <AddCareerDayPopup
-            handleClosePopup={() => this.togglePopupState('isOpenAddPopup')}
-            handleAddCareerDay={this.handleAddCareerDay}
-            open={this.state.isOpenAddPopup}
-          />
-        )}
-        {this.state.isOpenDeletePopup && (
-          <ConfirmationPopup
-            handleClosePopup={() => this.togglePopupState('isOpenDeletePopup')}
-            handleConfirm={this.handleDeleteCareerDay}
-            open={this.state.isOpenDeletePopup}
-            title={'Remove this career day?'}
-            description={
-              'Also, along with the career day, the objectives that belong to this will be removed!'
-            }
-            confirmTitle={'Delete the day'}
-          />
-        )}
-      </div>
-    );
+          {this.state.isOpenAddPopup && (
+            <AddCareerDayPopup
+              handleClosePopup={() => this.togglePopupState('isOpenAddPopup')}
+              handleAddCareerDay={this.handleAddCareerDay}
+              open={this.state.isOpenAddPopup}
+            />
+          )}
+          {this.state.isOpenDeletePopup && (
+            <ConfirmationPopup
+              handleClosePopup={() => this.togglePopupState('isOpenDeletePopup')}
+              handleConfirm={this.handleDeleteCareerDay}
+              open={this.state.isOpenDeletePopup}
+              title={'Remove this career day?'}
+              description={
+                'Also, along with the career day, the objectives that belong to this will be removed!'
+              }
+              confirmTitle={'Delete the day'}
+            />
+          )}
+        </div>
+      );
+    } 
   }
 }
 
