@@ -46,7 +46,8 @@ export class CareerDayService implements ICareerDayService {
           Archived: careerDay.Archived,
           id: careerDay.id,
         };
-      } throw { status: 404 };
+      }
+      throw { status: 404 };
     });
   }
 
