@@ -9,7 +9,7 @@ export class CareerDayRepository extends RepositoryBase<CareerDayEntity>
     super(careerDayEntity);
   }
 
-  public async getNearestCareerDay(
+  public async getNearestCareerDays(
     UnitManagerId: string,
   ): Promise<CareerDayEntity[]> {
     const queryRequest = `SELECT *
