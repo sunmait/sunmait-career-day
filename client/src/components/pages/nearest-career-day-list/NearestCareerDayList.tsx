@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  IEmployee,
   ICareerDay,
-  ICareerDayOfEmployee
+  INearestCareerDay
 } from '../../../redux/modules/employees/reducer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -39,11 +38,11 @@ class NearestCareerDayList extends React.Component<IProps> {
   }
 
   private renderNearestCareerDay = () => {
-    const { nearestCareerDay, classes, employees } = this.props;
-    if (!nearestCareerDay || !employees) {
+    const { nearestCareerDay, classes } = this.props;
+    if (!nearestCareerDay) {
       return null;
     }
-    return nearestCareerDay.map((item: ICareerDayOfEmployee) => (
+    return nearestCareerDay.map((item: INearestCareerDay) => (
       <Link
         key={item.id}
         to={{
@@ -55,7 +54,7 @@ class NearestCareerDayList extends React.Component<IProps> {
         <ListItem dense button>
           <IconStatus isArchived={item.Archived} />
           <ListItemText
-            primary={this.getFirstLastNames(employees, item.EmployeeId)}
+            primary={item.FirstName + ` ` + item.LastName}
             secondary={`Interview Date: ${this.formatNearestCareerDayDate(
               item
             )}`}
@@ -66,14 +65,6 @@ class NearestCareerDayList extends React.Component<IProps> {
     )
   }
 
-  private getFirstLastNames = (employees: IEmployee[], EmployeeId: string) => {
-    return employees.map(employee => {
-      if (EmployeeId === employee.id) {
-        return `${employee.FirstName} ${employee.LastName}`;
-      };
-    })
-  }
-
   public render() {
     const { classes } = this.props;
 
@@ -82,7 +73,7 @@ class NearestCareerDayList extends React.Component<IProps> {
     return (
       <div>
         <Grid container spacing={0} justify="center">
-          <Header title='List of Nearest Career Days' />
+          <Header title='List Of Nearest Career Days' />
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
             <Grid container justify="center">
               <ButtonLink

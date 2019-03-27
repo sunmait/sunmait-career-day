@@ -98,7 +98,7 @@ function handleGetSelectedEmployee(
 
 function handleGetNearestCareerDay(
   state: IEmployeesState,
-  nearestCareerDay: ICareerDayOfEmployee[]
+  nearestCareerDay: INearestCareerDay[]
 ) {
   return { ...state, nearestCareerDay }
 }
@@ -199,6 +199,16 @@ export interface ICareerDayOfEmployee {
   ManagerLastName: string,
 }
 
+export interface INearestCareerDay {
+  id: number;
+  Archived: boolean;
+  EmployeeId: string;
+  UnitManagerId: string;
+  InterviewDate: Date;
+  FirstName: string,
+  LastName: string,
+}
+
 export interface IObjective {
   id: number;
   Title: string;
@@ -223,7 +233,7 @@ export interface IEmployeesState {
   careerDays: null | ICareerDayOfEmployee[];
   selectedCareerDay: null | ICareerDayOfEmployee;
   selectedEmployee: null | IEmployee;
-  nearestCareerDay: null | ICareerDayOfEmployee[];
+  nearestCareerDay: null | INearestCareerDay[];
 }
 
 export interface ICareerDay {

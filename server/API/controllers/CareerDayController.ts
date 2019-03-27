@@ -13,7 +13,6 @@ import {
 import { inject } from 'inversify';
 
 import { ICareerDayService } from './../../Domain/Services';
-import {ICareerDayRepository} from './../../Data/Repositories';
 import { authorize } from '../decorators';
 import { Principal } from '../providers';
 import CareerDayEntity from '../../Data/Entities/CareerDayEntity';
@@ -27,8 +26,6 @@ export class CareerDayController extends BaseHttpController {
   constructor(
     @inject('CareerDayService')
     private readonly _careerDayService: ICareerDayService,
-    @inject('CareerDayRepository')
-    private readonly _careerDayRepository: ICareerDayRepository,
   ) {
     super();
   }
@@ -39,7 +36,8 @@ export class CareerDayController extends BaseHttpController {
     @response() res: express.Response,
   ): Promise<void> {
     const unitManagerId: string = this.httpContext.user.details.id;
-    res.json(await this._careerDayRepository.getNearestCareerDay(unitManagerId));
+    const nearestCareerDay = await this._careerDayService.getNearestCareerDay(unitManagerId);
+    res.json(nearestCareerDay);
   }
 
   /**
