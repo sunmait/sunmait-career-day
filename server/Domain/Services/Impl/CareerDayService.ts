@@ -4,6 +4,8 @@ import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 import { ICareerDayRepository } from '../../../Data/Repositories/index';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
 import { IUserEntity } from '../../../API/providers';
+import { INearestCareerDay } from '../../../Data/Interfaces/INearestCareerDay';
+import { IIdentityClientProvider } from '../../../API/providers';
 
 @injectable()
 export class CareerDayService implements ICareerDayService {
@@ -11,6 +13,8 @@ export class CareerDayService implements ICareerDayService {
 
   constructor(
     @inject('CareerDayRepository') careerDayRepository: ICareerDayRepository,
+    @inject('IdentityClientProvider')
+    private readonly _identityClientProvider: IIdentityClientProvider,
   ) {
     this._careerDayRepository = careerDayRepository;
   }
@@ -26,6 +30,25 @@ export class CareerDayService implements ICareerDayService {
 
   public async getCareerDayById(id: number): Promise<CareerDayEntity> {
     return this._careerDayRepository.findById(id);
+  }
+
+  public async getNearestCareerDays(UnitManagerId: string): Promise<INearestCareerDay[]> {
+    const nearestCareerDays = await this._careerDayRepository.getNearestCareerDays(UnitManagerId);
+    const users = await this._identityClientProvider.getAllUsers();
+    return nearestCareerDays.map(careerDay => {
+      const user = users.find(employee => employee.id === careerDay.EmployeeId);
+      if (user) {
+        return {
+          FirstName: user.FirstName,
+          LastName: user.LastName,
+          EmployeeId: careerDay.EmployeeId,
+          InterviewDate: careerDay.InterviewDate,
+          Archived: careerDay.Archived,
+          id: careerDay.id,
+        };
+      }
+      throw { status: 404 };
+    });
   }
 
   public async getActiveCareerDay(

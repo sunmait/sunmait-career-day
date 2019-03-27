@@ -6,6 +6,7 @@ import ErrorRoute from '../custom-routes/ErrorRoute';
 import EmployeeProgressPageContainer from '../../pages/employee-progress-page';
 import MainPageContainer from '../../pages/main-page';
 import CareerDayPageContainer from '../../pages/employee-career-day-page';
+import NearestCareerDayListPageContainer from '../../pages/nearest-career-day-list';
 import EmployeesListPageContainer from '../../pages/employee-list';
 import NotFoundPage from '../../common/error-pages/NotFoundPage';
 import InternalServerErrorPage from '../../common/error-pages/InternalServerErrorPage';
@@ -40,6 +41,13 @@ const AppRoutes = (props: IProps) => {
           user={user}
           path="/callback"
           component={LoginCallbackPage}
+        />
+        <PrivateRoute
+          exact
+          user={user}
+          allowedRoles={[ROLES.UNIT_MANAGER]}
+          path="/nearest-career-day"
+          component={NearestCareerDayListPageContainer}
         />
         <PrivateRoute
           exact

@@ -6,9 +6,10 @@ const defaultState: IEmployeesState = {
   careerDays: null,
   selectedCareerDay: null,
   selectedEmployee: null,
+  nearestCareerDays: null,
 };
 
-export default function(
+export default function (
   state: IEmployeesState = defaultState,
   { type, payload }: IEmployeesAction,
 ) {
@@ -27,6 +28,9 @@ export default function(
 
     case EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE:
       return handleGetSelectedEmployee(state, payload);
+
+    case EMPLOYEES_LIST.GET_NEAREST_CAREER_DAYS_SUCCESS:
+      return handleGetNearestCareerDays(state, payload);
 
     case EMPLOYEES_LIST.ADD_CAREER_DAY:
       return handleAddCareerDay(state, payload);
@@ -90,6 +94,13 @@ function handleGetSelectedEmployee(
   selectedEmployee: IEmployee,
 ) {
   return { ...state, selectedEmployee };
+}
+
+function handleGetNearestCareerDays(
+  state: IEmployeesState,
+  nearestCareerDays: INearestCareerDay[]
+) {
+  return { ...state, nearestCareerDays }
 }
 
 function handleAddCareerDay(
@@ -188,6 +199,16 @@ export interface ICareerDayOfEmployee {
   ManagerLastName: string,
 }
 
+export interface INearestCareerDay {
+  id: number;
+  Archived: boolean;
+  EmployeeId: string;
+  UnitManagerId: string;
+  InterviewDate: Date;
+  FirstName: string,
+  LastName: string,
+}
+
 export interface IObjective {
   id: number;
   Title: string;
@@ -212,6 +233,7 @@ export interface IEmployeesState {
   careerDays: null | ICareerDayOfEmployee[];
   selectedCareerDay: null | ICareerDayOfEmployee;
   selectedEmployee: null | IEmployee;
+  nearestCareerDays: null | INearestCareerDay[];
 }
 
 export interface ICareerDay {

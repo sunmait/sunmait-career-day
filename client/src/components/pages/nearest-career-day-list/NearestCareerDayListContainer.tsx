@@ -1,15 +1,15 @@
 import { connect } from 'react-redux';
 import { IStore } from '../../../redux/rootReducer';
 import {
-  getEmployeesList,
+  getNearestCareerDays
 } from '../../../redux/modules/employees/actions';
 
 const mapStateToProps = (state: IStore) => ({
-  employees: state.employees.employees,
+  nearestCareerDays: state.employees.nearestCareerDays
 });
 
 const mapDispatchToProps = {
-  getEmployeesList
+  getNearestCareerDays
 };
 
 export type ConnectProps = ReturnType<typeof mapStateToProps> &

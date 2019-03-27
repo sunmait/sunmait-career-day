@@ -18,6 +18,15 @@ export const getEmployeesList = () => action(
   EMPLOYEES_LIST.GET_EMPLOYEES_LIST
 );
 
+export const getNearestCareerDays = () => action(
+  EMPLOYEES_LIST.GET_NEAREST_CAREER_DAYS,
+);
+
+export const getNearestCareerDaysSuccess = (nearestCareerDays: ICareerDayOfEmployee[]) => action(
+  EMPLOYEES_LIST.GET_NEAREST_CAREER_DAYS_SUCCESS,
+  nearestCareerDays
+);
+
 export const getEmployeesListSuccess = (employeelist: IEmployee[]) => action(
   EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS,
   employeelist,
@@ -37,8 +46,8 @@ export const getCareerDayOfEmployee = (employeeId: IEmployee['id']) => async (
 
 
 export const getSelectedCareerDay = (careerDayId: ICareerDayOfEmployee['id']) => action(
-   EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY,
-   careerDayId
+  EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY,
+  careerDayId
 );
 export const getSelectedCareerDaySuccess = (careerDay: ICareerDayOfEmployee) => action(
   EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY_SUCCESS,
