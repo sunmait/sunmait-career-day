@@ -23,8 +23,8 @@ export class CareerDayRepository extends RepositoryBase<CareerDayEntity>
     JOIN "CareerDays" AS "careerDay" ON "careerDay"."EmployeeId" = "min_dates"."EmployeeId"
     AND "min_dates"."InterviewDate" = "careerDay"."InterviewDate";`;
 
-    const nearestCareerDay = await this.dbContext.query(queryRequest,
+    const nearestCareerDays = await this.dbContext.query(queryRequest,
       { model: CareerDayEntity });
-    return nearestCareerDay;
+    return nearestCareerDays;
   }
 }

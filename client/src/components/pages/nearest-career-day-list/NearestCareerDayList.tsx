@@ -24,7 +24,7 @@ class NearestCareerDayList extends React.Component<IProps> {
   }
 
   public componentDidMount() {
-    this.props.getNearestCareerDay();
+    this.props.getNearestCareerDays();
   }
 
   private formatNearestCareerDayDate = (nearestCareerDay: ICareerDay | null) => {
@@ -38,11 +38,11 @@ class NearestCareerDayList extends React.Component<IProps> {
   }
 
   private renderNearestCareerDay = () => {
-    const { nearestCareerDay, classes } = this.props;
-    if (!nearestCareerDay) {
+    const { nearestCareerDays, classes } = this.props;
+    if (!nearestCareerDays) {
       return null;
     }
-    return nearestCareerDay.map((item: INearestCareerDay) => (
+    return nearestCareerDays.map((item: INearestCareerDay) => (
       <Link
         key={item.id}
         to={{

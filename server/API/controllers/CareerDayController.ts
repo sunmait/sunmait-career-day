@@ -36,8 +36,8 @@ export class CareerDayController extends BaseHttpController {
     @response() res: express.Response,
   ): Promise<void> {
     const unitManagerId: string = this.httpContext.user.details.id;
-    const nearestCareerDay = await this._careerDayService.getNearestCareerDay(unitManagerId);
-    res.json(nearestCareerDay);
+    const nearestCareerDays = await this._careerDayService.getNearestCareerDay(unitManagerId);
+    res.json(nearestCareerDays);
   }
 
   /**

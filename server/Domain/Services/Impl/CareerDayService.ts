@@ -33,9 +33,9 @@ export class CareerDayService implements ICareerDayService {
   }
 
   public async getNearestCareerDay(UnitManagerId: string): Promise<INearestCareerDay[]> {
-    const nearestCareerDay = await this._careerDayRepository.getNearestCareerDay(UnitManagerId);
+    const nearestCareerDays = await this._careerDayRepository.getNearestCareerDay(UnitManagerId);
     const users = await this._identityClientProvider.getAllUsers();
-    return nearestCareerDay.map(careerDay => {
+    return nearestCareerDays.map(careerDay => {
       const user = users.find(employee => employee.id === careerDay.EmployeeId);
       if (user) {
         return {

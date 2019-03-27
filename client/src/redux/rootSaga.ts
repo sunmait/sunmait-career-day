@@ -4,7 +4,7 @@ import {
     watchGetEmployeesList,
     watchGetActiveCareerDay,
     watchGetSelectedCareerDay,
-    watchGetNearestCareerDay
+    watchGetNearestCareerDays
 } from './modules/employees/sagas'
 
 export default function* rootSaga() {
@@ -12,6 +12,6 @@ export default function* rootSaga() {
         watchGetEmployeesList(),
         watchGetActiveCareerDay(),
         watchGetSelectedCareerDay(),
-        watchGetNearestCareerDay(),
+        watchGetNearestCareerDays(),
     ]);
 };
