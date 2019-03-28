@@ -16,7 +16,6 @@ import logo from "../../../assets/images/logo.svg";
 import PersonIcon from "@material-ui/icons/Person";
 import userManager from "../../../utils/oidcUserManager";
 import { withRouter, RouteComponentProps } from "react-router";
-// import { matchPath } from "react-router";
 
 
 interface IProps extends ConnectProps, StylesProps, RouteComponentProps {}
