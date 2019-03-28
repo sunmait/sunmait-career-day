@@ -18,6 +18,15 @@ export const getEmployeesList = () => action(
   EMPLOYEES_LIST.GET_EMPLOYEES_LIST
 );
 
+export const getNearestCareerDays = () => action(
+  EMPLOYEES_LIST.GET_NEAREST_CAREER_DAYS,
+);
+
+export const getNearestCareerDaysSuccess = (nearestCareerDays: ICareerDayOfEmployee[]) => action(
+  EMPLOYEES_LIST.GET_NEAREST_CAREER_DAYS_SUCCESS,
+  nearestCareerDays
+);
+
 export const getEmployeesListSuccess = (employeelist: IEmployee[]) => action(
   EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS,
   employeelist,

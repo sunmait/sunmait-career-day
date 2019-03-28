@@ -30,6 +30,16 @@ export class CareerDayController extends BaseHttpController {
     super();
   }
 
+  @httpGet('/nearest-career-days')
+  @authorize({ roles: [UserRoles.MANAGER] })
+  private async getNearestCareerDays(
+    @response() res: express.Response,
+  ): Promise<void> {
+    const unitManagerId: string = this.httpContext.user.details.id;
+    const nearestCareerDays = await this._careerDayService.getNearestCareerDays(unitManagerId);
+    res.json(nearestCareerDays);
+  }
+
   /**
    * Get employee career days
    */

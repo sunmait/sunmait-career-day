@@ -21,8 +21,12 @@ import { DbContext } from '../../../Data/DbContext';
 export class DataInstaller extends InstallerBase {
   public install(): void {
     this.container
+      .bind<DbContext>('DbContext')
+      .to(DbContext)
+      .inSingletonScope();
+    this.container
       .bind<ICareerDayRepository>('CareerDayRepository')
-      .toConstantValue(new CareerDayRepository(CareerDayEntity));
+      .toConstantValue(new CareerDayRepository(CareerDayEntity, this.container.get<DbContext>('DbContext')));
     this.container
       .bind<IObjectiveRepository>('ObjectiveRepository')
       .toConstantValue(new ObjectiveRepository(ObjectiveEntity));
@@ -32,9 +36,5 @@ export class DataInstaller extends InstallerBase {
     this.container
       .bind<IManagerEmployeesRepository>('ManagerEmployeesRepository')
       .toConstantValue(new ManagerEmployeesRepository(ManagerEmployeesEntity));
-    this.container
-      .bind<DbContext>('DbContext')
-      .to(DbContext)
-      .inSingletonScope();
   }
 }

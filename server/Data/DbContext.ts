@@ -61,4 +61,8 @@ export class DbContext {
   public async connect(): Promise<void> {
     await this._sequelize.sync();
   }
+
+  public async query(query: string, options?: any) {
+    return this._sequelize.query(query, options);
+  }
 }

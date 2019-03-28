@@ -12,12 +12,13 @@ import {
   getActiveCareerDaySuccess,
   getSelectedCareerDaySuccess,
   getCareerDayOfEmployeeSuccess,
-  getSelectedEmployeeSuccess
+  getSelectedEmployeeSuccess,
+    getNearestCareerDaysSuccess,
 } from './actions'
 
 
 export function* watchGetEmployeesList() {
-  yield takeEvery(EMPLOYEES_LIST.GET_EMPLOYEES_LIST, getEmployeesList);
+    yield takeEvery(EMPLOYEES_LIST.GET_EMPLOYEES_LIST, getEmployeesList);
 }
 
 function* getEmployeesList() {
@@ -78,3 +79,15 @@ function* getSelectedCareerDay(careerDayId: ICareerDayOfEmployee['id']) {
   yield put(getSelectedCareerDaySuccess(res.data));
   yield put(loadSelectedCareerDay(false));
 };
+
+export function* watchGetNearestCareerDays() {
+    yield takeEvery(EMPLOYEES_LIST.GET_NEAREST_CAREER_DAYS,
+        getNearestCareerDays)
+}
+
+function* getNearestCareerDays() {
+    const res = yield call(sendRequestHelper.get,
+        `/api/career-days/nearest-career-days`);
+
+    yield put(getNearestCareerDaysSuccess(res.data));
+}

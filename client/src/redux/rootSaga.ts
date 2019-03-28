@@ -1,10 +1,12 @@
 import { all } from 'redux-saga/effects'
+
 import { 
     watchGetEmployeesList,
     watchGetActiveCareerDay,
     watchGetSelectedCareerDay,
     watchGetCareerDayOfEmployee,
-    watchgetSelectedEmployee
+    watchgetSelectedEmployee,
+    watchGetNearestCareerDays
  } from './modules/employees/sagas'
 
 export default function* rootSaga() {
@@ -14,5 +16,6 @@ export default function* rootSaga() {
         watchGetSelectedCareerDay(),
         watchgetSelectedEmployee(),
         watchGetActiveCareerDay(),
+        watchGetNearestCareerDays(),
     ]);
 };

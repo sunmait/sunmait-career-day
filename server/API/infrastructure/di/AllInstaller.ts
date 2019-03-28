@@ -12,7 +12,7 @@ export class AllInstaller extends InstallerBase {
     const providersInstaller = new ProvidersInstaller(this.container);
 
     domainInstaller.install();
-    dataInstaller.install();
     providersInstaller.install();
+    dataInstaller.install();
   }
 }
