@@ -15,6 +15,7 @@ import { ConnectProps } from './ConnectContainer';
 import LoginPage from '../../pages/login-page';
 import LoginCallbackPage from '../../pages/login-callback-page';
 import { ROLES } from '../../../redux/modules/oidc/constants';
+import ManageEmployeesPage from '../../pages/manage-employees-page'
 
 interface IProps extends ConnectProps {}
 
@@ -62,6 +63,13 @@ const AppRoutes = (props: IProps) => {
           allowedRoles={[ROLES.EMPLOYEE]}
           path="/employee"
           component={CareerDayPageContainer}
+        />
+        <PrivateRoute
+          exact
+          user={user}
+          allowedRoles={[ROLES.UNIT_MANAGER]}
+          path="/employees/manage"
+          component={ManageEmployeesPage}
         />
         <PrivateRoute
           exact

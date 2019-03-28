@@ -24,4 +24,5 @@ userManager.events.addUserSignedOut(() => {
   userManager.signinRedirect({ data: { redirectUrl: '/' } });
 });
 
+
 export default userManager;
