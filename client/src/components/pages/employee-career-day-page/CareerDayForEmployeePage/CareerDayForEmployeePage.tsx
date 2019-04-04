@@ -65,39 +65,39 @@ class CareerDayForEmployeePage extends React.Component<IProps, IState> {
     const { loadCarreerDayForEmployee } = this.props;
     if (loadCarreerDayForEmployee === true) {
       return <Loader />;
-    } else {
-      backgroundColorHelper();
-      return (
-        <div>
-          <Grid container justify="center" spacing={0}>
-            <Header
-              title={
-                (user &&
-                  `${user.profile.given_name} ${
-                  user.profile.family_name
-                  }'s career day`) ||
-                'Career day'
-              }
-            />
-            <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
-              <Grid container justify="center">
-                <div className={classes.datetime}>
-                  {activeCareerDay &&
-                    activeCareerDay.CreatedAt && (
-                      <DatetimeList selectedCareerDay={activeCareerDay} />
-                    )}
-                </div>
-              </Grid>
+    }
+    backgroundColorHelper();
+    return (
+      <div>
+        <Grid container justify="center" spacing={0}>
+          <Header
+            title={
+              (user &&
+                `${user.profile.given_name} ${
+                user.profile.family_name
+                }'s career day`) ||
+              'Career day'
+            }
+          />
+          <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
+            <Grid container justify="center">
+              <div className={classes.datetime}>
+                {activeCareerDay &&
+                  activeCareerDay.CreatedAt && (
+                    <DatetimeList selectedCareerDay={activeCareerDay} />
+                  )}
+              </div>
+            </Grid>
 
-              <Grid container justify="center">
-                <div className={classes.root}>{this.renderObjectives()}</div>
-              </Grid>
+            <Grid container justify="center">
+              <div className={classes.root}>{this.renderObjectives()}</div>
             </Grid>
           </Grid>
-        </div>
-      );
-    }
+        </Grid>
+      </div>
+    );
   }
 }
+
 
 export default CareerDayForEmployeePage;

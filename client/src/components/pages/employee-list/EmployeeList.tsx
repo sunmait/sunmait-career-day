@@ -18,9 +18,7 @@ import { StylesProps } from './StylesContainer';
 import Loader from '../../common/loader';
 import ButtonLink from './../../common/button-link';
 
-
 interface IProps extends StylesProps, ConnectProps { }
-
 
 class EmployeeList extends React.Component<IProps> {
   constructor(props: IProps) {
@@ -50,6 +48,7 @@ class EmployeeList extends React.Component<IProps> {
 
     return employees.map((item: IEmployee) => (
       <Link
+        id='link'
         key={item.id}
         to={{
           pathname: `/employees/${item.id}`,
@@ -80,7 +79,7 @@ class EmployeeList extends React.Component<IProps> {
     const { classes, loadEmployeesList } = this.props;
     if (loadEmployeesList === true) {
       return <Loader />;
-    } else {
+    }
     backgroundColorHelper();
     return (
       <div>
@@ -113,7 +112,8 @@ class EmployeeList extends React.Component<IProps> {
         </Grid>
       </div>
     );
-  }}
+  }
 }
+
 
 export default EmployeeList;
