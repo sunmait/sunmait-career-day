@@ -48,7 +48,6 @@ class EmployeeList extends React.Component<IProps> {
 
     return employees.map((item: IEmployee) => (
       <Link
-        id='link'
         key={item.id}
         to={{
           pathname: `/employees/${item.id}`,
