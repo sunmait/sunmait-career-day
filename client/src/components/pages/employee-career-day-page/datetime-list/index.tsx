@@ -9,6 +9,7 @@ import WorkIcon from '@material-ui/icons/Work';
 import BookIcon from '@material-ui/icons/Book';
 import { toStandardFormat } from '../../../helper/dateTimeHelper';
 import { ICareerDayOfEmployee } from '../../../../redux/modules/employees/reducer';
+import Person from '@material-ui/icons/Person';	
 
 interface IProps {
   selectedCareerDay: ICareerDayOfEmployee;
@@ -43,6 +44,16 @@ const DatetimeList = (props: IProps) => {
           <ListItemText
             primary="Interview Date"
             secondary={toStandardFormat(props.selectedCareerDay.InterviewDate)}
+          />
+        </ListItem>
+        <ListItem>
+          <Avatar>
+            <Person />
+          </Avatar>
+          <ListItemText
+            primary="Manager Info"
+            secondary={`${props.selectedCareerDay.ManagerFirstName}	
+            ${props.selectedCareerDay.ManagerLastName} `}
           />
         </ListItem>
       </List>
