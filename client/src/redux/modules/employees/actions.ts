@@ -27,6 +27,16 @@ export const getNearestCareerDaysSuccess = (nearestCareerDays: ICareerDayOfEmplo
   nearestCareerDays
 );
 
+export const completeObjectiveManager = (objectiveId: number) => action(
+  EMPLOYEES_LIST.COMPLETE_OBJECTIVE_MANAGER,
+  objectiveId,
+)
+
+export const completeObjectiveManagerSuccess = (objectiveId: number) => action(
+  EMPLOYEES_LIST.COMPLETE_OBJECTIVE_MANAGER_SUCCESS,
+  objectiveId,
+);
+
 export const getEmployeesListSuccess = (employeelist: IEmployee[]) => action(
   EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS,
   employeelist,

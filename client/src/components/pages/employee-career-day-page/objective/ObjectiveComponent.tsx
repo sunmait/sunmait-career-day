@@ -32,6 +32,7 @@ interface IProps extends StylesProps {
     e: React.MouseEvent<HTMLElement>,
     objectiveId: number,
   ) => void;
+  completeObjectiveManager?: (objectiveId: number) => void;
 }
 
 interface IState {
@@ -83,6 +84,13 @@ class Objective extends React.Component<IProps, IState> {
         stateKeys
       >;
       this.setState(newState);
+  }
+  private handleCompleteObjectiveManager = () => {
+    const {objective, completeObjectiveManager} =  this.props;
+    if (completeObjectiveManager){
+      completeObjectiveManager(objective.id);
+    }
+    this.setState({ isEdited: false, Progress: 100});
   }
 
   private handleChangeValueEmployee = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -136,7 +144,7 @@ class Objective extends React.Component<IProps, IState> {
     }
     return '';
   }
-
+  // private completeObjectiveManager() => {}
   private formInputPanel = () => {
     return (
       <ExpansionPanel>
@@ -158,6 +166,13 @@ class Objective extends React.Component<IProps, IState> {
                   value={this.state.Description}
                   handleChangeValue={this.handleChangeValue}
                 />,
+                <Button
+                key={5}
+                color="secondary"
+                onClick={this.handleCompleteObjectiveManager}
+                > 
+                  Complete
+                </Button>
               ]
             ) : ([
               <FormInput
@@ -176,6 +191,7 @@ class Objective extends React.Component<IProps, IState> {
               />
             ])}
             <Button
+              key={6}
               color="primary"
               disabled={
                 this.state.Title.length === 0 ||
@@ -270,9 +286,11 @@ class Objective extends React.Component<IProps, IState> {
   private renderObjectiveOptions = () => {
     return (
       <React.Fragment>
+        {this.props.objective.Progress < 1 ? (
         <IconButton onClick={this.handleEditObjective}>
           <Edit />
         </IconButton>
+        ): null}
         {this.props.userRole === 'manager' ? (
           <IconButton onClick={this.handleDeleteObjective}>
             <Delete />

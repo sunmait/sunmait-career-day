@@ -18,4 +18,8 @@ export interface IObjectiveService {
     user: IUserEntity,
   ): Promise<ObjectiveEntity>;
   deleteObjective(id: number, user: IUserEntity): Promise<void>;
+  completeObjectivemanager(
+    id: number,
+    user: IUserEntity,
+  ): Promise<ObjectiveEntity>;
 }

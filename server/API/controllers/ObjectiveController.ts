@@ -85,6 +85,26 @@ export class ObjectiveController extends BaseHttpController {
   }
 
   /**
+   * Complete objective from manager
+   * id: objective
+   */
+  @httpPatch('/complete/:id')
+  @authorize({ roles: [UserRoles.MANAGER] })
+  private async completeObjectiveManager(
+    @requestParam('id') id: number,
+    @response() res: express.Response,
+  ): Promise<void> {
+    const user = this.httpContext.user as Principal;
+
+    res.json(
+      await this._objectiveService.completeObjectivemanager(
+        id,
+        user.details,
+      ),
+    );
+  }
+
+  /**
    * Update objective from employee
    * id: objective
    */

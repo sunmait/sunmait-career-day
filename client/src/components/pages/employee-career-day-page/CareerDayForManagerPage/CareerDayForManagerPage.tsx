@@ -133,6 +133,7 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
         archived={selectedCareerDay.Archived}
         handleSaveObjective={this.handleSaveObjective}
         handleDeleteObjective={this.handleClickOnDeleteButton}
+        completeObjectiveManager={this.props.completeObjectiveManager}
       />
     ));
   }

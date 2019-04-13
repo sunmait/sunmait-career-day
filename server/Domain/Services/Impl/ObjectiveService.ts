@@ -32,7 +32,7 @@ export class ObjectiveService implements IObjectiveService {
   ): Promise<CareerDayEntity> {
     return this._careerDayRepository.findOne({
       where: { id: CareerDayId },
-      include: [{ model: ObjectiveEntity, include: [ProgressObjectiveEntity] } ],
+      include: [{ model: ObjectiveEntity, include: [ProgressObjectiveEntity] }],
     });
   }
 
@@ -73,6 +73,35 @@ export class ObjectiveService implements IObjectiveService {
         return this._objectiveRepository.findOne({
           where: { id },
           include: ProgressObjectiveEntity,
+        });
+      } else {
+        throw { status: 403 };
+      }
+    } else {
+      throw { status: 404 };
+    }
+  }
+
+  public async completeObjectivemanager(
+    id: number,
+    user: IUserEntity,
+  ): Promise<ObjectiveEntity> {
+    const objective = await this._objectiveRepository.findOne({
+      where: { id },
+      include: CareerDayEntity,
+    });
+
+    if (objective && objective.CareerDay) {
+      if (!objective.CareerDay.Archived &&
+        objective.CareerDay.UnitManagerId === user.id
+      ) {
+        objective.Progress = 1;
+        objective.StatusId = ObjectiveStatuses.DONE;
+
+        await this._objectiveRepository.update(objective);
+        return this._objectiveRepository.findOne({
+          where: { id },
+          include: CareerDayEntity,
         });
       } else {
         throw { status: 403 };
