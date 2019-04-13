@@ -3,3 +3,4 @@ export * from './ICareerDayRepository';
 export * from './IObjectiveRepository';
 export * from './IStatusRepository';
 export * from './IManagerEmployeesRepository';
+export * from './IProgressObjectiveRepository';

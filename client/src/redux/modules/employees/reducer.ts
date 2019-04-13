@@ -218,6 +218,7 @@ export interface IObjective {
   Progress: number;
   CreatedAt: Date;
   UpdatedAt: Date;
+  ProgressObjective: null | IProgressObjectve[];
 }
 
 export interface IObjectiveById {
@@ -255,7 +256,7 @@ export interface IUpdateObjectiveManager {
 
 export interface IUpdateObjectiveEmployee {
   id: number;
-  progress: number;
+  progress: IProgressObjectve;
 }
 
 export interface IUpdateInterviewDate {
@@ -268,4 +269,11 @@ export interface IUpdateInterviewDate {
 export interface IEmployeesAction {
   type: EMPLOYEES_LIST;
   payload?: any;
+}
+
+export interface IProgressObjectve{
+  id?: number;
+  ObjectiveId: number;
+  Progress: number;
+  Description: string;
 }
