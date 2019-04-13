@@ -56,6 +56,9 @@ export default function (
     case EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME:
       return handleUpdateInterviewDate(state, payload);
 
+    case EMPLOYEES_LIST.COMPLETE_OBJECTIVE_MANAGER_SUCCESS:
+      return handleUpdateObjective(state, payload);
+
     default:
       return state;
   }
@@ -153,7 +156,6 @@ function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
   if (!selectedCareerDay) {
     return state;
   }
-
   const updatedSelectedCareerDay = {
     ...selectedCareerDay,
     Objectives: (selectedCareerDay.Objectives || []).reduce(
@@ -218,6 +220,7 @@ export interface IObjective {
   Progress: number;
   CreatedAt: Date;
   UpdatedAt: Date;
+  ProgressObjective: null | IProgressObjectve[];
 }
 
 export interface IObjectiveById {
@@ -255,7 +258,7 @@ export interface IUpdateObjectiveManager {
 
 export interface IUpdateObjectiveEmployee {
   id: number;
-  progress: number;
+  progress: IProgressObjectve;
 }
 
 export interface IUpdateInterviewDate {
@@ -269,3 +272,11 @@ export interface IEmployeesAction {
   type: EMPLOYEES_LIST;
   payload?: any;
 }
+
+export interface IProgressObjectve{
+  id?: number;
+  ObjectiveId: number;
+  Progress: number;
+  Description: string;
+}
+

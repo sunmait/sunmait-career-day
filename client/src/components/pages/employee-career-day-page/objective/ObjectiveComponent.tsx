@@ -16,6 +16,7 @@ import {
   IObjective,
   IUpdateObjectiveEmployee,
   IUpdateObjectiveManager,
+  IProgressObjectve,
 } from '../../../../redux/modules/employees/reducer';
 import { StylesProps } from './StylesContainer';
 import { ROLES } from '../../../../redux/modules/oidc/constants';
@@ -31,6 +32,7 @@ interface IProps extends StylesProps {
     e: React.MouseEvent<HTMLElement>,
     objectiveId: number,
   ) => void;
+  completeObjectiveManager?: (objectiveId: number) => void;
 }
 
 interface IState {
@@ -38,6 +40,9 @@ interface IState {
   Title: string;
   Description: string;
   Progress: number;
+  nextProgress: number;
+  nextDescription: string;
+  ProgressObjective: null | IProgressObjectve[];
 }
 
 type stateKeys = keyof IState;
@@ -50,6 +55,9 @@ class Objective extends React.Component<IProps, IState> {
       Title: this.props.objective.Title,
       Description: this.props.objective.Description,
       Progress: Math.floor(this.props.objective.Progress * 100),
+      nextProgress: 0,
+      nextDescription: "",
+      ProgressObjective: this.props.objective.ProgressObjective,
     };
   }
 
@@ -71,11 +79,37 @@ class Objective extends React.Component<IProps, IState> {
 
   private handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const propName = e.target.name as stateKeys;
-    const newState = { [propName as any]: e.target.value } as Pick<
-      IState,
-      stateKeys
-    >;
-    this.setState(newState);
+      const newState = { [propName as any]: e.target.value } as Pick<
+        IState,
+        stateKeys
+      >;
+      this.setState(newState);
+  }
+  private handleCompleteObjectiveManager = () => {
+    const {objective, completeObjectiveManager} =  this.props;
+    if (completeObjectiveManager){
+      completeObjectiveManager(objective.id);
+    }
+    this.setState({ isEdited: false, Progress: 100});
+  }
+
+  private handleChangeValueEmployee = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const propName = e.target.name as stateKeys;
+    if (propName === 'Progress') {
+      const newState = { ['nextProgress' as any]: e.target.value } as Pick<
+        IState,
+        stateKeys
+      >;
+
+      this.setState(newState);
+    } else if (propName === 'Description') {
+      const newState = { ['nextDescription' as any]: e.target.value } as Pick<
+        IState,
+        stateKeys
+      >;
+
+      this.setState(newState);
+    }
   }
 
   private saveObjectiveClick = () => {
@@ -88,25 +122,29 @@ class Objective extends React.Component<IProps, IState> {
       });
     } else {
       handleSaveObjective({
-        progress: Number(this.state.Progress) / 100,
+        progress: {
+          Progress: Number(this.state.nextProgress) / 100,
+          Description: this.state.nextDescription,
+          ObjectiveId: objective.id,
+        },
         id: objective.id,
       });
     }
 
-    this.setState({ isEdited: false });
+    this.setState({ isEdited: false, Progress: Number(this.state.Progress) + Number(this.state.nextProgress) });
   }
 
   private setNumberProgress = () => {
-    const progress = this.state.Progress;
+    const { Progress, nextProgress } = this.state;
 
-    if (progress <= 100 && progress >= 0) {
-      if (Number.isInteger(parseFloat(`${progress}`))) {
-        return progress;
+    if (Number(nextProgress) + Progress <= 100 && nextProgress >= 1) {
+      if (Number.isInteger(parseFloat(`${nextProgress}`))) {
+        return nextProgress;
       }
     }
     return '';
   }
-
+  // private completeObjectiveManager() => {}
   private formInputPanel = () => {
     return (
       <ExpansionPanel>
@@ -128,16 +166,32 @@ class Objective extends React.Component<IProps, IState> {
                   value={this.state.Description}
                   handleChangeValue={this.handleChangeValue}
                 />,
+                <Button
+                key={5}
+                color="secondary"
+                onClick={this.handleCompleteObjectiveManager}
+                > 
+                  Complete
+                </Button>
               ]
-            ) : (
+            ) : ([
               <FormInput
+                key={3}
                 label={'Progress'}
                 maxLength={3}
                 value={this.setNumberProgress()}
-                handleChangeValue={this.handleChangeValue}
+                handleChangeValue={this.handleChangeValueEmployee}
+              />,
+              <FormInput
+                key={4}
+                label={'Description'}
+                maxLength={255}
+                value={this.state.nextDescription}
+                handleChangeValue={this.handleChangeValueEmployee}
               />
-            )}
+            ])}
             <Button
+              key={6}
               color="primary"
               disabled={
                 this.state.Title.length === 0 ||
@@ -152,6 +206,38 @@ class Objective extends React.Component<IProps, IState> {
         </ExpansionPanelSummary>
       </ExpansionPanel>
     );
+  }
+
+  private progressObjectivePanel = () => {
+    if (this.props.objective.ProgressObjective
+      && this.props.objective.ProgressObjective.length) {
+      return (
+        <ExpansionPanel>
+          <ExpansionPanelSummary>
+            Patrial progress
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails className={this.props.classes.details}>
+            {this.props.objective.ProgressObjective.map(progress => {
+              return this.renderProgressObjective(progress);
+            })}
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+      )
+    }
+  }
+
+  private renderProgressObjective = (progress: IProgressObjectve) => {
+    return (
+      <ExpansionPanel key={progress.id}>
+        <ExpansionPanelSummary>
+          {progress.Progress * 100}%
+      </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          {progress.Description}
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    )
+
   }
 
   private objectivePanelDetails = () => {
@@ -190,6 +276,9 @@ class Objective extends React.Component<IProps, IState> {
             {this.props.objective.Description}
           </Typography>
         </Grid>
+        <Grid item xs={12}>
+          {this.progressObjectivePanel()}
+        </Grid>
       </Grid>
     );
   }
@@ -197,9 +286,11 @@ class Objective extends React.Component<IProps, IState> {
   private renderObjectiveOptions = () => {
     return (
       <React.Fragment>
+        {this.props.objective.Progress < 1 ? (
         <IconButton onClick={this.handleEditObjective}>
           <Edit />
         </IconButton>
+        ): null}
         {this.props.userRole === 'manager' ? (
           <IconButton onClick={this.handleDeleteObjective}>
             <Delete />

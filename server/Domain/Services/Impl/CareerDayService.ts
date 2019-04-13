@@ -3,6 +3,7 @@ import { ICareerDayService } from '../ICareerDayService';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 import { ICareerDayRepository } from '../../../Data/Repositories/index';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
+import ProgressObjectiveEntity from '../../../Data/Entities/ProgressObjectiveEntity';
 import { IUserEntity } from '../../../API/providers';
 import { INearestCareerDay } from '../../../Data/Interfaces/INearestCareerDay';
 import { IIdentityClientProvider } from '../../../API/providers';
@@ -56,7 +57,7 @@ export class CareerDayService implements ICareerDayService {
   ): Promise<CareerDayEntity> {
     return this._careerDayRepository.findOne({
       where: { EmployeeId, Archived: false },
-      include: ObjectiveEntity,
+      include: [{ model: ObjectiveEntity, include: [ProgressObjectiveEntity] } ],
     });
   }
 

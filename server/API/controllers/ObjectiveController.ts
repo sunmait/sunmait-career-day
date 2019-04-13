@@ -25,7 +25,6 @@ import { Principal } from './../providers';
 export class ObjectiveController extends BaseHttpController {
   @inject('ObjectiveService')
   private readonly _objectiveService!: IObjectiveService;
-
   @inject('CareerDayService')
   private readonly _careerDayService!: ICareerDayService;
 
@@ -86,6 +85,26 @@ export class ObjectiveController extends BaseHttpController {
   }
 
   /**
+   * Complete objective from manager
+   * id: objective
+   */
+  @httpPatch('/complete/:id')
+  @authorize({ roles: [UserRoles.MANAGER] })
+  private async completeObjectiveManager(
+    @requestParam('id') id: number,
+    @response() res: express.Response,
+  ): Promise<void> {
+    const user = this.httpContext.user as Principal;
+
+    res.json(
+      await this._objectiveService.completeObjectivemanager(
+        id,
+        user.details,
+      ),
+    );
+  }
+
+  /**
    * Update objective from employee
    * id: objective
    */
@@ -97,7 +116,6 @@ export class ObjectiveController extends BaseHttpController {
     @response() res: express.Response,
   ): Promise<void> {
     const user = this.httpContext.user as Principal;
-
     res.json(
       await this._objectiveService.updateObjectiveEmployee(
         id,

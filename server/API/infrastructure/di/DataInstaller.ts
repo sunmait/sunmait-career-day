@@ -4,17 +4,20 @@ import {
   ObjectiveRepository,
   StatusRepository,
   ManagerEmployeesRepository,
+  PprogresObjectiveRepository,
 } from '../../../Data/Repositories/Impl';
 import {
   ICareerDayRepository,
   IObjectiveRepository,
   IStatusRepository,
   IManagerEmployeesRepository,
+  IProgressObjectiveRepository,
 } from '../../../Data/Repositories';
 import CareerDayEntity from '../../../Data/Entities/CareerDayEntity';
 import ObjectiveEntity from '../../../Data/Entities/ObjectiveEntity';
 import StatusEntity from '../../../Data/Entities/StatusEntity';
 import ManagerEmployeesEntity from '../../../Data/Entities/ManagerEmployeesEntity';
+import ProgressObjectiveEntity from '../../../Data/Entities/ProgressObjectiveEntity';
 
 import { DbContext } from '../../../Data/DbContext';
 
@@ -36,5 +39,8 @@ export class DataInstaller extends InstallerBase {
     this.container
       .bind<IManagerEmployeesRepository>('ManagerEmployeesRepository')
       .toConstantValue(new ManagerEmployeesRepository(ManagerEmployeesEntity));
+    this.container
+      .bind<IProgressObjectiveRepository>('ProgressObjectiveRepository')
+      .toConstantValue(new PprogresObjectiveRepository(ProgressObjectiveEntity));
   }
 }

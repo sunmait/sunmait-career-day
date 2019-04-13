@@ -8,6 +8,7 @@ import {
   archiveCareerDay,
   updateInterviewDate,
   getSelectedEmployee,
+  completeObjectiveManager,
 } from '../../../../redux/modules/employees/actions';
 
 const mapStateToProps = (state: IStore) => ({
@@ -24,6 +25,7 @@ const mapDispatchToProps = {
   deleteObjective,
   updateInterviewDate,
   getSelectedEmployee,
+  completeObjectiveManager,
 };
 
 export type ConnectProps = ReturnType<typeof mapStateToProps> &

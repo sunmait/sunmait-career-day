@@ -2,12 +2,16 @@ import { put, call } from 'redux-saga/effects'
 import { takeEvery } from '../../customEffect/customEffect'
 import EMPLOYEES_LIST from './actionConstants';
 import sendRequestHelper from '../../../components/helper/API/sendRequestHelper';
-import { IEmployee, ICareerDayOfEmployee } from '../employees/reducer';
+import {
+    IEmployee,
+    ICareerDayOfEmployee,
+     } from '../employees/reducer';
 import {
     getEmployeesListSuccess,
     getActiveCareerDaySuccess,
     getSelectedCareerDaySuccess,
     getNearestCareerDaysSuccess,
+    completeObjectiveManagerSuccess,
 } from './actions'
 
 export function* watchGetEmployeesList() {
@@ -54,7 +58,7 @@ function* getSelectedCareerDay(careerDayId: ICareerDayOfEmployee['id']) {
 
 export function* watchGetNearestCareerDays() {
     yield takeEvery(EMPLOYEES_LIST.GET_NEAREST_CAREER_DAYS,
-        getNearestCareerDays)
+        getNearestCareerDays);
 }
 
 function* getNearestCareerDays() {
@@ -62,4 +66,17 @@ function* getNearestCareerDays() {
         `/api/career-days/nearest-career-days`);
 
     yield put(getNearestCareerDaysSuccess(res.data));
+}
+
+export function* watchCompleteObjectiveManager(){
+    yield takeEvery(EMPLOYEES_LIST.COMPLETE_OBJECTIVE_MANAGER,
+        completeObjectiveManager);
+}
+
+function* completeObjectiveManager(objectiveId: number) {
+
+    const res = yield call(sendRequestHelper.patch,
+        `/api/objectives/complete/${objectiveId}`,);
+
+    yield put(completeObjectiveManagerSuccess(res.data));
 }

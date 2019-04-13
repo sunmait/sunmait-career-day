@@ -19,6 +19,9 @@ const styles = (theme: Theme) => ({
   paddingObjective: {
     paddingRight: '0px !important',
   },
+  details: {
+    display: 'block',
+  }
 });
 
 export type StylesProps = WithStyles<typeof styles>;
