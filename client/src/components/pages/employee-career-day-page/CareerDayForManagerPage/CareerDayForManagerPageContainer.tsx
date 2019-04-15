@@ -14,6 +14,8 @@ const mapStateToProps = (state: IStore) => ({
   user: state.oidc.user,
   selectedCareerDay: state.employees.selectedCareerDay,
   selectedEmployee: state.employees.selectedEmployee,
+  loadCarreerDayForEmployee: state.employees.loadCarreerDayForEmployee,
+  loadSelectedCareerDay: state.employees.loadSelectedCareerDay,
 });
 
 const mapDispatchToProps = {

@@ -32,23 +32,26 @@ export const getEmployeesListSuccess = (employeelist: IEmployee[]) => action(
   employeelist,
 );
 
-export const getCareerDayOfEmployee = (employeeId: IEmployee['id']) => async (
-  dispatch: Dispatch,
-) => {
-  const res = await sendRequestHelper.get<ICareerDayOfEmployee[]>(
-    `/api/career-days/${employeeId}`,
-  );
-  return dispatch({
-    type: EMPLOYEES_LIST.GET_CAREER_DAYS,
-    payload: res.data,
-  });
-};
+export const getCareerDayOfEmployeeSuccess = (employeeId: IEmployee['id']) => action(EMPLOYEES_LIST.GET_CAREER_DAYS_SUCCESS, employeeId);
 
+export const getCareerDayOfEmployee = (employeeId: IEmployee['id']) => action(EMPLOYEES_LIST.GET_CAREER_DAYS, employeeId);
 
 export const getSelectedCareerDay = (careerDayId: ICareerDayOfEmployee['id']) => action(
   EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY,
   careerDayId
 );
+
+export const loadSelectedCareerDay = (loadSelectedCareerDay: boolean) =>
+  action(EMPLOYEES_LIST.LOAD_SELECTED_CAREER_DAY,
+    loadSelectedCareerDay,
+  );
+
+export const loadCarreerDayForEmployee = (loadCarreerDayForEmployee: boolean) =>
+  action(EMPLOYEES_LIST.LOAD_CAREER_DAY_FOR_EMPLOYEE, loadCarreerDayForEmployee);
+
+export const loadEmployeesList = (loadEmployeesList: boolean) =>
+  action(EMPLOYEES_LIST.LOAD_EMPLOYEES_LIST, loadEmployeesList);
+
 export const getSelectedCareerDaySuccess = (careerDay: ICareerDayOfEmployee) => action(
   EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY_SUCCESS,
   careerDay
@@ -64,17 +67,9 @@ export const getActiveCareerDaySuccess = (careerDay: ICareerDayOfEmployee) => ac
   careerDay,
 );
 
-export const getSelectedEmployee = (employeeId: IEmployee['id']) => async (
-  dispatch: Dispatch,
-) => {
-  const res = await sendRequestHelper.get<IEmployee>(
-    `/api/users/selected-employee/${employeeId}`,
-  );
-  return dispatch({
-    type: EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE,
-    payload: res.data,
-  });
-};
+export const getSelectedEmployee = (employeeId: IEmployee['id']) => action(EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE, employeeId);
+
+export const getSelectedEmployeeSuccess = (employeeId: IEmployee['id']) => action(EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE_SUCCESS, employeeId);
 
 export const addCareerDay = (careerDay: ICareerDay) => async (
   dispatch: Dispatch,

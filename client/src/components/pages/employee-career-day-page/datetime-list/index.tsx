@@ -7,9 +7,9 @@ import Avatar from '@material-ui/core/Avatar';
 import TimeLine from '@material-ui/icons/Timeline';
 import WorkIcon from '@material-ui/icons/Work';
 import BookIcon from '@material-ui/icons/Book';
-import Person from '@material-ui/icons/Person';
 import { toStandardFormat } from '../../../helper/dateTimeHelper';
 import { ICareerDayOfEmployee } from '../../../../redux/modules/employees/reducer';
+import Person from '@material-ui/icons/Person';	
 
 interface IProps {
   selectedCareerDay: ICareerDayOfEmployee;
@@ -52,7 +52,7 @@ const DatetimeList = (props: IProps) => {
           </Avatar>
           <ListItemText
             primary="Manager Info"
-            secondary={`${props.selectedCareerDay.ManagerFirstName}
+            secondary={`${props.selectedCareerDay.ManagerFirstName}	
             ${props.selectedCareerDay.ManagerLastName} `}
           />
         </ListItem>

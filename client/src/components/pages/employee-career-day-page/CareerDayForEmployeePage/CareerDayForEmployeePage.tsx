@@ -12,10 +12,11 @@ import Objective from '../objective/index';
 import backgroundColorHelper from '../../../helper/backgroundColorHelper';
 import { ConnectProps } from './CareerDayForEmployeePageContainer';
 import { StylesProps } from './StylesContainer';
+import Loader from '../../../common/loader';
 
-interface IProps extends ConnectProps, StylesProps {}
+interface IProps extends ConnectProps, StylesProps { }
 
-interface IState {}
+interface IState { }
 
 class CareerDayForEmployeePage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
@@ -61,7 +62,10 @@ class CareerDayForEmployeePage extends React.Component<IProps, IState> {
 
   public render() {
     const { classes, activeCareerDay, user } = this.props;
-
+    const { loadCarreerDayForEmployee } = this.props;
+    if (loadCarreerDayForEmployee === true) {
+      return <Loader />;
+    }
     backgroundColorHelper();
     return (
       <div>
@@ -70,7 +74,7 @@ class CareerDayForEmployeePage extends React.Component<IProps, IState> {
             title={
               (user &&
                 `${user.profile.given_name} ${
-                  user.profile.family_name
+                user.profile.family_name
                 }'s career day`) ||
               'Career day'
             }
@@ -94,5 +98,6 @@ class CareerDayForEmployeePage extends React.Component<IProps, IState> {
     );
   }
 }
+
 
 export default CareerDayForEmployeePage;

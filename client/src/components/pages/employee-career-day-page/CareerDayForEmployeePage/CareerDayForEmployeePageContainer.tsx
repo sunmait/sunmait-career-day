@@ -8,6 +8,7 @@ import {
 const mapStateToProps = (state: IStore) => ({
   user: state.oidc.user,
   activeCareerDay: state.employees.selectedCareerDay,
+  loadCarreerDayForEmployee: state.employees.loadCarreerDayForEmployee,
 });
 
 const mapDispatchToProps = {

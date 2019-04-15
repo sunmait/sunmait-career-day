@@ -18,6 +18,7 @@ import EditDatetimePopup from '../popups/update-date-popup/index';
 import DatetimeList from '../datetime-list/index';
 import { ConnectProps } from './CareerDayForManagerPageContainer';
 import { StylesProps } from './StylesContainer';
+import Loader from '../../../common/loader';
 
 interface IProps extends ConnectProps, StylesProps {
   careerDayId: number;
@@ -166,7 +167,6 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
         ? this.props.selectedCareerDay.Archived
         : true;
     }
-
     return true;
   }
 
@@ -190,8 +190,10 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { classes } = this.props;
-
+    const { classes, loadSelectedCareerDay } = this.props;
+    if (loadSelectedCareerDay === true) {
+      return <Loader />;
+    }
     backgroundColorHelper();
     return (
       <div>
@@ -199,7 +201,7 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
           <Header
             title={`${this.props.selectedEmployee &&
               this.props.selectedEmployee.FirstName} ${this.props
-              .selectedEmployee &&
+                .selectedEmployee &&
               this.props.selectedEmployee.LastName}'s career day`}
           />
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
@@ -332,5 +334,6 @@ class CareerDayForManagerPage extends React.Component<IProps, IState> {
     );
   }
 }
+
 
 export default CareerDayForManagerPage;
