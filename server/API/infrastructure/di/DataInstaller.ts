@@ -4,7 +4,7 @@ import {
   ObjectiveRepository,
   StatusRepository,
   ManagerEmployeesRepository,
-  PprogresObjectiveRepository,
+  ProgresObjectiveRepository,
 } from '../../../Data/Repositories/Impl';
 import {
   ICareerDayRepository,
@@ -41,6 +41,6 @@ export class DataInstaller extends InstallerBase {
       .toConstantValue(new ManagerEmployeesRepository(ManagerEmployeesEntity));
     this.container
       .bind<IProgressObjectiveRepository>('ProgressObjectiveRepository')
-      .toConstantValue(new PprogresObjectiveRepository(ProgressObjectiveEntity));
+      .toConstantValue(new ProgresObjectiveRepository(ProgressObjectiveEntity));
   }
 }

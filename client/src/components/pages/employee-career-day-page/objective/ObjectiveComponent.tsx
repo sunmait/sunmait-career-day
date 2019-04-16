@@ -9,8 +9,6 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import IconStatus from '../../../common/icon-status/icon-status-objective';
-import FormInput from '../../../common/form-input';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import {
   IObjective,
@@ -20,6 +18,9 @@ import {
 } from '../../../../redux/modules/employees/reducer';
 import { StylesProps } from './StylesContainer';
 import { ROLES } from '../../../../redux/modules/oidc/constants';
+import { ListItemText, ListItem } from '@material-ui/core';
+import ProgressObjectiveForEmployee from '../progress-objective-for-employee'
+import ProgressObjectiveForManager from '../progress-objective-for-manager';
 
 interface IProps extends StylesProps {
   objective: IObjective;
@@ -36,27 +37,13 @@ interface IProps extends StylesProps {
 
 interface IState {
   isEdited: boolean;
-  Title: string;
-  Description: string;
-  Progress: number;
-  nextProgress: number;
-  nextDescription: string;
-  ProgressObjective: null | IProgressObjectve[];
 }
-
-type stateKeys = keyof IState;
 
 class Objective extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
       isEdited: false,
-      Title: this.props.objective.Title,
-      Description: this.props.objective.Description,
-      Progress: Math.floor(this.props.objective.Progress * 100),
-      nextProgress: 0,
-      nextDescription: "",
-      ProgressObjective: this.props.objective.ProgressObjective,
     };
   }
 
@@ -76,116 +63,26 @@ class Objective extends React.Component<IProps, IState> {
     handleDeleteObjective(e, this.props.objective.id);
   }
 
-  private handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const propName = e.target.name as stateKeys;
-      const newState = { [propName as any]: e.target.value } as Pick<
-        IState,
-        stateKeys
-      >;
-      this.setState(newState);
-  }
-
-  private handleChangeValueEmployee = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const propName = e.target.name as stateKeys;
-    if (propName === 'Progress') {
-      const newState = { ['nextProgress' as any]: e.target.value } as Pick<
-        IState,
-        stateKeys
-      >;
-
-      this.setState(newState);
-    } else if (propName === 'Description') {
-      const newState = { ['nextDescription' as any]: e.target.value } as Pick<
-        IState,
-        stateKeys
-      >;
-
-      this.setState(newState);
-    }
-  }
-
-  private saveObjectiveClick = () => {
-    const { handleSaveObjective, userRole, objective } = this.props;
-    if (userRole === ROLES.UNIT_MANAGER) {
-      handleSaveObjective({
-        title: this.state.Title,
-        description: this.state.Description,
-        id: objective.id,
-      });
-    } else {
-      handleSaveObjective({
-        progress: {
-          Progress: Number(this.state.nextProgress) / 100,
-          Description: this.state.nextDescription,
-          ObjectiveId: objective.id,
-        },
-        id: objective.id,
-      });
-    }
-
-    this.setState({ isEdited: false, Progress: Number(this.state.Progress) + Number(this.state.nextProgress) });
-  }
-
-  private setNumberProgress = () => {
-    const { Progress, nextProgress } = this.state;
-
-    if (Number(nextProgress) + Progress <= 100 && nextProgress >= 1) {
-      if (Number.isInteger(parseFloat(`${nextProgress}`))) {
-        return nextProgress;
-      }
-    }
-    return '';
-  }
-
   private formInputPanel = () => {
     return (
       <ExpansionPanel>
         <ExpansionPanelSummary>
-          <div className={this.props.classes.alignFrom}>
-            {this.props.userRole === 'manager' ? (
+          <div className={this.props.classes.alignFrom} >
+            {this.props.userRole === ROLES.UNIT_MANAGER ? (
               [
-                <FormInput
-                  key={1}
-                  label={'Title'}
-                  maxLength={50}
-                  value={this.state.Title}
-                  handleChangeValue={this.handleChangeValue}
-                />,
-                <FormInput
-                  key={2}
-                  label={'Description'}
-                  maxLength={255}
-                  value={this.state.Description}
-                  handleChangeValue={this.handleChangeValue}
-                />,
+                <ProgressObjectiveForManager
+                  handleSaveObjective={this.props.handleSaveObjective}
+                  objective={this.props.objective}
+                  handleEditObjective={this.handleEditObjective}
+                />
               ]
             ) : ([
-              <FormInput
-                key={3}
-                label={'Progress'}
-                maxLength={3}
-                value={this.setNumberProgress()}
-                handleChangeValue={this.handleChangeValueEmployee}
-              />,
-              <FormInput
-                key={4}
-                label={'Description'}
-                maxLength={255}
-                value={this.state.nextDescription}
-                handleChangeValue={this.handleChangeValueEmployee}
+              <ProgressObjectiveForEmployee
+                handleSaveObjective={this.props.handleSaveObjective}
+                objective={this.props.objective}
+                handleEditObjective={this.handleEditObjective}
               />
             ])}
-            <Button
-              color="primary"
-              disabled={
-                this.state.Title.length === 0 ||
-                this.state.Description.length === 0 ||
-                this.state.Progress.toString().length === 0
-              }
-              onClick={this.saveObjectiveClick}
-            >
-              Save
-            </Button>
           </div>
         </ExpansionPanelSummary>
       </ExpansionPanel>
@@ -201,9 +98,9 @@ class Objective extends React.Component<IProps, IState> {
             Patrial progress
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={this.props.classes.details}>
-            {this.props.objective.ProgressObjective.map(progress => {
-              return this.renderProgressObjective(progress);
-            })}
+              {this.props.objective.ProgressObjective.map(progress => {
+                return this.renderProgressObjective(progress);
+              })}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       )
@@ -212,16 +109,13 @@ class Objective extends React.Component<IProps, IState> {
 
   private renderProgressObjective = (progress: IProgressObjectve) => {
     return (
-      <ExpansionPanel key={progress.id}>
-        <ExpansionPanelSummary>
-          {progress.Progress * 100}%
-      </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          {progress.Description}
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+      <ListItem divider button key={progress.id}>
+        <ListItemText
+          primary={progress.Progress * 100 + '%'}
+          secondary={progress.Description}
+        />
+      </ListItem>
     )
-
   }
 
   private objectivePanelDetails = () => {
@@ -252,7 +146,7 @@ class Objective extends React.Component<IProps, IState> {
         </Grid>
         <Grid item xs={12}>
           <Typography color="textSecondary" align="right">
-            {`Progress: ${Number(this.state.Progress)}/100`}
+            {`Progress: ${Number(this.props.objective.Progress)*100}/100`}
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -273,7 +167,7 @@ class Objective extends React.Component<IProps, IState> {
         <IconButton onClick={this.handleEditObjective}>
           <Edit />
         </IconButton>
-        {this.props.userRole === 'manager' ? (
+        {this.props.userRole === ROLES.UNIT_MANAGER ? (
           <IconButton onClick={this.handleDeleteObjective}>
             <Delete />
           </IconButton>
