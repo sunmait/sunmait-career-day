@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { StylesProps } from '../objective/StylesContainer';
+import React, { useState } from 'react';
+import { StylesProps } from './StylesContainer';
 import FormInput from '../../../common/form-input';
 import Button from '@material-ui/core/Button';
 import {
@@ -17,35 +17,14 @@ interface IProps extends StylesProps {
   ) => void;
 }
 
-interface IState {
-  Description: string;
-  Progress: number;
-}
+const ProgressObjectiveForEmployee = (props: IProps) => {
 
-type stateKeys = keyof IState;
+  const [Progress, setProgress] = useState("");
+  const [Description, setDescription] = useState("");
 
-class ProgressObjectiveForEmployee extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      Progress: 0,
-      Description: "",
-    };
-  }
-
-  private handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const propName = e.target.name as stateKeys;
-    const newState = { [propName as any]: e.target.value } as Pick<
-      IState,
-      stateKeys
-    >;
-    this.setState(newState);
-  }
-
-  private setNumberProgress = () => {
-    const { Progress } = this.state;
-    
-    if (Number(Progress) + this.props.objective.Progress*100 <= 100 && Progress >= 1) {
+  const setNumberProgress = (Progress: string) => {
+    console.log(Number(Progress));
+    if (Number(Progress) + props.objective.Progress * 100 <= 100 && Number(Progress) >= 1) {
       if (Number.isInteger(parseFloat(`${Progress}`))) {
         return Progress;
       }
@@ -53,53 +32,61 @@ class ProgressObjectiveForEmployee extends React.Component<IProps, IState> {
     return '';
   }
 
-  private saveObjectiveClick = () => {
-    const { handleSaveObjective, objective } = this.props;
+  const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const propName = e.target.name;
+    if (propName === "Description") {
+      setDescription(e.target.value);
+    } else if (propName === "Progress") {
+      setProgress(setNumberProgress(e.target.value));
+    }
+  }
+
+  const saveObjectiveClick = () => {
+    const { handleSaveObjective, objective } = props;
 
     handleSaveObjective({
       progress: {
-        Progress: Number(this.state.Progress) / 100,
-        Description: this.state.Description,
+        Progress: Number(Progress) / 100,
+        Description: Description,
         ObjectiveId: objective.id,
       },
       id: objective.id,
     });
-
   }
 
-  public render() {
-    return ([
+  return (
+    <div className={props.classes.alignFrom}>
       <FormInput
         key={3}
         label={'Progress'}
         maxLength={3}
-        value={this.setNumberProgress()}
-        handleChangeValue={this.handleChangeValue}
-      />,
+        value={Progress}
+        handleChangeValue={handleChangeValue}
+      />
       <FormInput
         key={4}
         label={'Description'}
         maxLength={255}
-        value={this.state.Description}
-        handleChangeValue={this.handleChangeValue}
-      />,
+        value={Description}
+        handleChangeValue={handleChangeValue}
+      />
       <Button
         color="primary"
         disabled={
-          this.state.Description.length === 0 ||
-          this.state.Progress.toString().length === 0
+          Description.length === 0 ||
+          Progress.length === 0
         }
         onClick={
           (e) => {
-            this.saveObjectiveClick();
-            this.props.handleEditObjective(e);
+            saveObjectiveClick();
+            props.handleEditObjective(e);
           }
         }
       >
         Save
       </Button>
-    ])
-  }
+    </div>
+  )
 }
 
 export default ProgressObjectiveForEmployee;

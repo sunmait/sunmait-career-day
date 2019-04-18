@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { StylesProps } from '../objective/StylesContainer';
 import FormInput from '../../../common/form-input';
 import Button from '@material-ui/core/Button';
@@ -17,75 +17,64 @@ interface IProps extends StylesProps {
   ) => void;
 }
 
-interface IState {
-  Description: string;
-  Title: string;
-}
+const ProgressObjectiveForManager = (props: IProps) => {
 
-type stateKeys = keyof IState;
+  const [Title, setTitle] = useState("");
+  const [Description, setDescription] = useState("");
 
-class ProgressObjectiveForManager extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      Title: this.props.objective.Title,
-      Description: this.props.objective.Description,
-    };
+  const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const propName = e.target.name;
+    if (propName === "Description") {
+      setDescription(e.target.value);
+    } else if (propName === "Title") {
+      setTitle(e.target.value);
+    }
+
   }
 
-  private handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const propName = e.target.name as stateKeys;
-    const newState = { [propName as any]: e.target.value } as Pick<
-      IState,
-      stateKeys
-    >;
-    this.setState(newState);
-  }
-
-  private saveObjectiveClick = () => {
-    const { handleSaveObjective, objective } = this.props;
+  const saveObjectiveClick = () => {
+    const { handleSaveObjective, objective } = props;
 
     handleSaveObjective({
-      title: this.state.Title,
-      description: this.state.Description,
+      title: Title,
+      description: Description,
       id: objective.id,
     });
-
   }
 
-  public render() {
-    return ([
+  return (
+    <div className={props.classes.alignFrom}>
       <FormInput
         key={1}
         label={'Title'}
         maxLength={50}
-        value={this.state.Title}
-        handleChangeValue={this.handleChangeValue}
-      />,
+        value={Title}
+        handleChangeValue={handleChangeValue}
+      />
       <FormInput
         key={2}
         label={'Description'}
         maxLength={255}
-        value={this.state.Description}
-        handleChangeValue={this.handleChangeValue}
-      />,
+        value={Description}
+        handleChangeValue={handleChangeValue}
+      />
       <Button
         color="primary"
         disabled={
-          this.state.Description.length === 0 ||
-          this.state.Title.length === 0
+          Description.length === 0 ||
+          Title.length === 0
         }
         onClick={
           (e) => {
-            this.saveObjectiveClick();
-            this.props.handleEditObjective(e);
+            saveObjectiveClick();
+            props.handleEditObjective(e);
           }
         }
       >
         Save
       </Button>
-    ])
-  }
+    </div>
+  )
 }
 
 export default ProgressObjectiveForManager;

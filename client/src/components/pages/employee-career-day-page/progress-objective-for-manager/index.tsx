@@ -1,4 +1,4 @@
 import ProgressObjectiveForManager from "./ProgressObjectiveForManager";
-import StylesContainer from '../objective/StylesContainer';
+import StylesContainer from './StylesContainer';
 
 export default StylesContainer(ProgressObjectiveForManager);

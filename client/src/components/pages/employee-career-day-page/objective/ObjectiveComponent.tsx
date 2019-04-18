@@ -19,7 +19,7 @@ import {
 import { StylesProps } from './StylesContainer';
 import { ROLES } from '../../../../redux/modules/oidc/constants';
 import { ListItemText, ListItem } from '@material-ui/core';
-import ProgressObjectiveForEmployee from '../progress-objective-for-employee'
+import ProgressObjectiveForEmployee from '../progress-objective-for-employee/'
 import ProgressObjectiveForManager from '../progress-objective-for-manager';
 
 interface IProps extends StylesProps {
@@ -69,20 +69,19 @@ class Objective extends React.Component<IProps, IState> {
         <ExpansionPanelSummary>
           <div className={this.props.classes.alignFrom} >
             {this.props.userRole === ROLES.UNIT_MANAGER ? (
-              [
                 <ProgressObjectiveForManager
+                  classes={this.props.classes}
                   handleSaveObjective={this.props.handleSaveObjective}
                   objective={this.props.objective}
                   handleEditObjective={this.handleEditObjective}
                 />
-              ]
-            ) : ([
-              <ProgressObjectiveForEmployee
-                handleSaveObjective={this.props.handleSaveObjective}
-                objective={this.props.objective}
-                handleEditObjective={this.handleEditObjective}
-              />
-            ])}
+            ) : <ProgressObjectiveForEmployee
+                  classes={this.props.classes}
+                  objective={this.props.objective}
+                  handleSaveObjective={this.props.handleSaveObjective}
+                  handleEditObjective={this.handleEditObjective}
+                />
+            }
           </div>
         </ExpansionPanelSummary>
       </ExpansionPanel>
