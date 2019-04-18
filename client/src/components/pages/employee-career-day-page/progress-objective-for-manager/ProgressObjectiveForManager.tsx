@@ -19,8 +19,8 @@ interface IProps extends StylesProps {
 
 const ProgressObjectiveForManager = (props: IProps) => {
 
-  const [Title, setTitle] = useState("");
-  const [Description, setDescription] = useState("");
+  const [Title, setTitle] = useState(props.objective.Title);
+  const [Description, setDescription] = useState(props.objective.Description);
 
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const propName = e.target.name;
