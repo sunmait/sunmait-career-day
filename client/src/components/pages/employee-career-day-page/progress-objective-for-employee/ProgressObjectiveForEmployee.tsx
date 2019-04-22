@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { StylesProps } from './StylesContainer';
 import FormInput from '../../../common/form-input';
 import Button from '@material-ui/core/Button';
@@ -19,35 +19,42 @@ interface IProps extends StylesProps {
 
 const ProgressObjectiveForEmployee = (props: IProps) => {
 
-  const [Progress, setProgress] = useState("");
-  const [Description, setDescription] = useState("");
+  const [progress, setProgress] = useState("");
+  const [description, setDescription] = useState("");
 
-  const setNumberProgress = (Progress: string) => {
-    console.log(Number(Progress));
-    if (Number(Progress) + props.objective.Progress * 100 <= 100 && Number(Progress) >= 1) {
-      if (Number.isInteger(parseFloat(`${Progress}`))) {
-        return Progress;
+
+
+  const memoizedSetProgress = useCallback(
+    e => {
+      const setNumberProgress = (progress: string) => {
+        if (Number(progress) + props.objective.Progress * 100 <= 100 &&
+          Number(progress) >= 1) {
+          if (Number.isInteger(parseFloat(`${progress}`))) {
+            return progress;
+          }
+        }
+        return '';
       }
-    }
-    return '';
-  }
+      setProgress(setNumberProgress(e.target.value))
+    },
+    [],
+  );
 
-  const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const propName = e.target.name;
-    if (propName === "Description") {
-      setDescription(e.target.value);
-    } else if (propName === "Progress") {
-      setProgress(setNumberProgress(e.target.value));
-    }
-  }
+  const memoizedOnClick = useCallback(
+    e => {
+      saveObjectiveClick();
+      props.handleEditObjective(e);
+    },
+    [progress, description],
+  );
 
   const saveObjectiveClick = () => {
     const { handleSaveObjective, objective } = props;
 
     handleSaveObjective({
       progress: {
-        Progress: Number(Progress) / 100,
-        Description: Description,
+        Progress: Number(progress) / 100,
+        Description: description,
         ObjectiveId: objective.id,
       },
       id: objective.id,
@@ -60,28 +67,23 @@ const ProgressObjectiveForEmployee = (props: IProps) => {
         key={3}
         label={'Progress'}
         maxLength={3}
-        value={Progress}
-        handleChangeValue={handleChangeValue}
+        value={progress}
+        handleChangeValue={memoizedSetProgress}
       />
       <FormInput
         key={4}
         label={'Description'}
         maxLength={255}
-        value={Description}
-        handleChangeValue={handleChangeValue}
+        value={description}
+        handleChangeValue={e => setDescription(e.target.value)}
       />
       <Button
         color="primary"
         disabled={
-          Description.length === 0 ||
-          Progress.length === 0
+          description.length === 0 ||
+          progress.length === 0
         }
-        onClick={
-          (e) => {
-            saveObjectiveClick();
-            props.handleEditObjective(e);
-          }
-        }
+        onClick={memoizedOnClick}
       >
         Save
       </Button>
