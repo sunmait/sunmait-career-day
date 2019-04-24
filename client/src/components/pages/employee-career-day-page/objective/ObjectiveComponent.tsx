@@ -110,7 +110,7 @@ class Objective extends React.Component<IProps, IState> {
     return (
       <ListItem divider button key={progress.id}>
         <ListItemText
-          primary={progress.Progress * 100 + '%'}
+          primary={(progress.Progress * 100).toFixed(0) + '%'}
           secondary={progress.Description}
         />
       </ListItem>
@@ -145,7 +145,7 @@ class Objective extends React.Component<IProps, IState> {
         </Grid>
         <Grid item xs={12}>
           <Typography color="textSecondary" align="right">
-            {`Progress: ${Number(this.props.objective.Progress)*100}/100`}
+            {`Progress: ${(Number(this.props.objective.Progress)*100).toFixed(0)}/100`}
           </Typography>
         </Grid>
         <Grid item xs={12}>

@@ -52,15 +52,18 @@ export class ObjectiveService implements IObjectiveService {
       include: CareerDayEntity,
     });
 
-    if (objective && objective.CareerDay) {
+    if (objective.CareerDay && objective &&
+      await this.getSumObjectiveProgress(id) +
+      progress.Progress <= ObjectiveProgress.COMPLETED
+    ) {
       const progressObjective = new ProgressObjectiveEntity(progress);
       this._progressObjectiveReository.create(progressObjective);
       if (
         !objective.CareerDay.Archived &&
         objective.CareerDay.EmployeeId === user.id
       ) {
-        objective.Progress += progress.Progress;
 
+        objective.Progress = await this.getSumObjectiveProgress(id) + progress.Progress;
         if (objective.Progress === ObjectiveProgress.NOT_STARTED) {
           objective.StatusId = ObjectiveStatuses.ACTIVE;
         } else if (objective.Progress === ObjectiveProgress.COMPLETED) {
@@ -93,7 +96,8 @@ export class ObjectiveService implements IObjectiveService {
       include: CareerDayEntity,
     });
 
-    if (objective && objective.CareerDay) {
+    if (objective && objective.CareerDay
+      && objective.Progress !== ObjectiveProgress.COMPLETED) {
       if (
         !objective.CareerDay.Archived &&
         objective.CareerDay.UnitManagerId === user.id
@@ -132,5 +136,15 @@ export class ObjectiveService implements IObjectiveService {
     } else {
       throw { status: 404 };
     }
+  }
+
+  private async getSumObjectiveProgress(id: number): Promise<number> {
+    const progressObjectives = await this._progressObjectiveReository.findAll({
+      where: { ObjectiveId: id },
+    });
+
+    return progressObjectives.reduce(
+      (accumulator, progressObjective) => accumulator + progressObjective.Progress,
+        0);
   }
 }
