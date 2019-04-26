@@ -18,4 +18,5 @@ export interface IObjectiveService {
     user: IUserEntity,
   ): Promise<ObjectiveEntity>;
   deleteObjective(id: number, user: IUserEntity): Promise<void>;
+  addProgressInCareerDay(careerDay: CareerDayEntity): Promise<CareerDayEntity>;
 }

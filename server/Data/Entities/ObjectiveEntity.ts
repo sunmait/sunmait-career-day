@@ -53,10 +53,6 @@ export default class ObjectiveEntity extends Model<ObjectiveEntity> {
   @Column(DataType.STRING)
   public Description!: string;
 
-  @Max(1)
-  @Min(0)
-  @Default(0)
-  @Column(DataType.FLOAT)
   public Progress!: number;
 
   @AllowNull(false)

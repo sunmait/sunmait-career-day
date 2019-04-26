@@ -30,16 +30,19 @@ export class ObjectiveService implements IObjectiveService {
   public async getObjectivesByCareerDayId(
     CareerDayId: number,
   ): Promise<CareerDayEntity> {
-    return this._careerDayRepository.findOne({
+    const careerDay = await this._careerDayRepository.findOne({
       where: { id: CareerDayId },
-      include: [{ model: ObjectiveEntity, include: [ProgressObjectiveEntity] } ],
+      include: [{ model: ObjectiveEntity, include: [ProgressObjectiveEntity] }],
     });
+
+    return this.addProgressInCareerDay(careerDay);
   }
 
   public async addObjective(data: any): Promise<ObjectiveEntity> {
     const objective = new ObjectiveEntity(data);
+    const createdObjective = await this._objectiveRepository.create(objective);
 
-    return this._objectiveRepository.create(objective);
+    return this.addProgress(createdObjective);
   }
 
   public async updateObjectiveEmployee(
@@ -52,9 +55,11 @@ export class ObjectiveService implements IObjectiveService {
       include: CareerDayEntity,
     });
 
-    if (objective.CareerDay && objective &&
-      await this.getSumObjectiveProgress(id) +
-      progress.Progress <= ObjectiveProgress.COMPLETED
+    objective.Progress = await this.getSumObjectiveProgress(id);
+    if (
+      objective &&
+      objective.CareerDay &&
+      objective.Progress + progress.Progress <= ObjectiveProgress.COMPLETED
     ) {
       const progressObjective = new ProgressObjectiveEntity(progress);
       this._progressObjectiveReository.create(progressObjective);
@@ -73,10 +78,13 @@ export class ObjectiveService implements IObjectiveService {
         }
 
         await this._objectiveRepository.update(objective);
-        return this._objectiveRepository.findOne({
+        const updatedObjective = await this._objectiveRepository.findOne({
           where: { id },
           include: ProgressObjectiveEntity,
         });
+
+        return (await this.addProgress(updatedObjective))
+          .dataValues as ObjectiveEntity;
       } else {
         throw { status: 403 };
       }
@@ -106,10 +114,13 @@ export class ObjectiveService implements IObjectiveService {
         objective.Description = description;
 
         await this._objectiveRepository.update(objective);
-        return this._objectiveRepository.findOne({
+        const updatedObjective = await this._objectiveRepository.findOne({
           where: { id },
           include: ProgressObjectiveEntity,
         });
+
+        return (await this.addProgress(updatedObjective))
+          .dataValues as ObjectiveEntity;
       } else {
         throw { status: 403 };
       }
@@ -143,8 +154,33 @@ export class ObjectiveService implements IObjectiveService {
       where: { ObjectiveId: id },
     });
 
-    return progressObjectives.reduce(
-      (accumulator, progressObjective) => accumulator + progressObjective.Progress,
+    if (progressObjectives) {
+      return progressObjectives.reduce(
+        (accumulator, progressObjective) => accumulator + progressObjective.Progress,
         0);
+    } else {
+      throw { status: 404 };
+    }
+  }
+
+  private async addProgress(objective: ObjectiveEntity): Promise<ObjectiveEntity> {
+    objective.dataValues = objective.get({ plain: true });
+    objective.dataValues.Progress = await this.getSumObjectiveProgress(objective.id);
+
+    return objective;
+  }
+
+  public async addProgressInCareerDay(careerDay: CareerDayEntity): Promise<CareerDayEntity> {
+    if (careerDay && careerDay.Objectives) {
+      const objectives = await Promise.all(careerDay.Objectives
+        .map(async objective => (await this.addProgress(objective))
+          .dataValues as ObjectiveEntity,
+        ));
+
+      careerDay.dataValues.Objectives = objectives;
+      return careerDay.dataValues as CareerDayEntity;
+    } else {
+      return careerDay;
+    }
   }
 }

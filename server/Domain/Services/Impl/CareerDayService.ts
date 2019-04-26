@@ -7,12 +7,15 @@ import ProgressObjectiveEntity from '../../../Data/Entities/ProgressObjectiveEnt
 import { IUserEntity } from '../../../API/providers';
 import { INearestCareerDay } from '../../../Data/Interfaces/INearestCareerDay';
 import { IIdentityClientProvider } from '../../../API/providers';
+import { IObjectiveService } from '../IObjectiveService';
 
 @injectable()
 export class CareerDayService implements ICareerDayService {
   private readonly _careerDayRepository: ICareerDayRepository;
 
   constructor(
+    @inject('ObjectiveService')
+    private readonly _objectiveService: IObjectiveService,
     @inject('CareerDayRepository') careerDayRepository: ICareerDayRepository,
     @inject('IdentityClientProvider')
     private readonly _identityClientProvider: IIdentityClientProvider,
@@ -55,10 +58,12 @@ export class CareerDayService implements ICareerDayService {
   public async getActiveCareerDay(
     EmployeeId: string,
   ): Promise<CareerDayEntity> {
-    return this._careerDayRepository.findOne({
+    const careerDay = await this._careerDayRepository.findOne({
       where: { EmployeeId, Archived: false },
-      include: [{ model: ObjectiveEntity, include: [ProgressObjectiveEntity] } ],
+      include: [{ model: ObjectiveEntity, include: [ProgressObjectiveEntity] }],
     });
+
+    return this._objectiveService.addProgressInCareerDay(careerDay);
   }
 
   public async addCareerDay(
@@ -93,7 +98,8 @@ export class CareerDayService implements ICareerDayService {
         return item;
       });
 
-      return this._careerDayRepository.update(careerDay);
+      const archivedCareerDay = await this._careerDayRepository.update(careerDay);
+      return this._objectiveService.addProgressInCareerDay(archivedCareerDay);
     }
     throw { status: 403 };
   }
