@@ -16,11 +16,12 @@ import {
   BelongsTo,
   AutoIncrement,
   Default,
+  HasMany,
 } from 'sequelize-typescript';
 
 import CareerDayEntity from './CareerDayEntity';
 import StatusEntity from './StatusEntity';
-
+import ProgressObjectiveEntity from './ProgressObjectiveEntity';
 @Table({ tableName: 'Objectives' })
 export default class ObjectiveEntity extends Model<ObjectiveEntity> {
   @Unique
@@ -52,10 +53,6 @@ export default class ObjectiveEntity extends Model<ObjectiveEntity> {
   @Column(DataType.STRING)
   public Description!: string;
 
-  @Max(1)
-  @Min(0)
-  @Default(0)
-  @Column(DataType.FLOAT)
   public Progress!: number;
 
   @AllowNull(false)
@@ -68,6 +65,9 @@ export default class ObjectiveEntity extends Model<ObjectiveEntity> {
   @ForeignKey(() => CareerDayEntity)
   @Column(DataType.INTEGER)
   public CareerDayId!: number;
+
+  @HasMany(() => ProgressObjectiveEntity)
+  public ProgressObjective!: ProgressObjectiveEntity[];
 
   @BelongsTo(() => StatusEntity)
   public Status!: StatusEntity;
