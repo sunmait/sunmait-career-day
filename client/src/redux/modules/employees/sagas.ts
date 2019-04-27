@@ -5,6 +5,8 @@ import sendRequestHelper from '../../../components/helper/API/sendRequestHelper'
 import { IEmployee, ICareerDayOfEmployee } from '../employees/reducer';
 import {
     getEmployeesListSuccess,
+    getFreeEmployeesListSuccess,
+    updateFreeEmployeesListSuccess,
     getActiveCareerDaySuccess,
     getSelectedCareerDaySuccess,
     getNearestCareerDaysSuccess,
@@ -17,6 +19,24 @@ export function* watchGetEmployeesList() {
 function* getEmployeesList() {
     const res = yield call(sendRequestHelper.get, '/api/users/employees');
     yield put(getEmployeesListSuccess(res.data));
+};
+
+export function* watchGetFreeEmployeesList() {
+    yield takeEvery(EMPLOYEES_LIST.GET_FREE_EMPLOYEES_LIST, getFreeEmployeesList);
+}
+
+function* getFreeEmployeesList() {
+    const res = yield call(sendRequestHelper.get, '/api/users/manageEmployees/');
+    yield put(getFreeEmployeesListSuccess(res.data));
+};
+
+export function* watchUpdateFreeEmployeesList() {
+    yield takeEvery(EMPLOYEES_LIST.UPDATE_FREE_EMPLOYEES_LIST, updateFreeEmployeesList);
+}
+
+function* updateFreeEmployeesList(id: string) {
+    const res = yield call(sendRequestHelper.get, `/api/users/updateManageEmployees/${id}`);
+    yield put(updateFreeEmployeesListSuccess(res.data));
 };
 
 export function* watchGetActiveCareerDay() {

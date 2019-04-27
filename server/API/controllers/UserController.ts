@@ -32,7 +32,6 @@ export class UserController extends BaseHttpController {
   @authorize({ roles: [UserRoles.MANAGER] })
   private async getEmployees(@response() res: express.Response): Promise<void> {
     const user = this.httpContext.user as Principal;
-
     res.json(await this._userService.getEmployees(user.details.id));
   }
 
@@ -51,4 +50,33 @@ export class UserController extends BaseHttpController {
     }
     res.json(selectedEmployee);
   }
+
+  @httpGet('/manageEmployees')
+  @authorize({ roles: [UserRoles.MANAGER] })
+  private async getAllFreeUsers(
+    @response() res: express.Response,
+    ): Promise<void> {
+      const user = this.httpContext.user as Principal;
+      const selectedUsers = await this._userService.getAllFreeUsers(user.details.id);
+      if (!selectedUsers) {
+        throw { status: 404 };
+      }
+      res.json(selectedUsers);
+  }
+
+  @httpGet('/updateManageEmployees/:id')
+  @authorize({ roles: [UserRoles.MANAGER] })
+  private async updateAllFreeUsers(
+    @requestParam('id') employeeId: string,
+    @response() res: express.Response,
+    ): Promise<void> {
+      const user = this.httpContext.user as Principal;
+      await this._userService.updateManagedUsers(employeeId, user.details.id);
+      const selectedUsers = await this._userService.getAllFreeUsers(user.details.id);
+      if (!selectedUsers) {
+        throw { status: 404 };
+      }
+      res.json(selectedUsers);
+  }
+
 }

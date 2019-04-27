@@ -1,13 +1,17 @@
 import { connect } from 'react-redux';
 import { IStore } from '../../../redux/rootReducer';
-import { getEmployeesList } from '../../../redux/modules/employees/actions';
+import { 
+  getFreeEmployeesList,
+  updateFreeEmployeesList,
+ } from '../../../redux/modules/employees/actions';
 
 const mapStateToProps = (state: IStore) => ({
-  employees: state.employees.employees,
+  freeEmployees: state.employees.freeEmployees,
 });
 
 const mapDispatchToProps = {
-  getEmployeesList
+  getFreeEmployeesList,
+  updateFreeEmployeesList,
 };
 
 export type ConnectProps = ReturnType<typeof mapStateToProps> &

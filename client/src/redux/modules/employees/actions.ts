@@ -18,6 +18,15 @@ export const getEmployeesList = () => action(
   EMPLOYEES_LIST.GET_EMPLOYEES_LIST
 );
 
+export const getFreeEmployeesList = () => action(
+  EMPLOYEES_LIST.GET_FREE_EMPLOYEES_LIST,
+);
+
+export const updateFreeEmployeesList = (id: string) => action(
+  EMPLOYEES_LIST.UPDATE_FREE_EMPLOYEES_LIST,
+  id,
+);
+
 export const getNearestCareerDays = () => action(
   EMPLOYEES_LIST.GET_NEAREST_CAREER_DAYS,
 );
@@ -28,9 +37,20 @@ export const getNearestCareerDaysSuccess = (nearestCareerDays: ICareerDayOfEmplo
 );
 
 export const getEmployeesListSuccess = (employeelist: IEmployee[]) => action(
-  EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS,
+  EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS, 
   employeelist,
 );
+
+export const getFreeEmployeesListSuccess = (freeEmployeesList: IEmployee[]) => action(
+  EMPLOYEES_LIST.GET_FREE_EMPLOYEES_LIST_SUCCESS, 
+  freeEmployeesList,
+);
+
+export const updateFreeEmployeesListSuccess = (freeEmployeesList: IEmployee[]) => action(
+  EMPLOYEES_LIST.UPDATE_FREE_EMPLOYEES_LIST_SUCCESS, 
+  freeEmployeesList,
+);
+
 
 export const getCareerDayOfEmployee = (employeeId: IEmployee['id']) => async (
   dispatch: Dispatch,
@@ -49,6 +69,7 @@ export const getSelectedCareerDay = (careerDayId: ICareerDayOfEmployee['id']) =>
   EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY,
   careerDayId
 );
+
 export const getSelectedCareerDaySuccess = (careerDay: ICareerDayOfEmployee) => action(
   EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY_SUCCESS,
   careerDay
@@ -75,6 +96,7 @@ export const getSelectedEmployee = (employeeId: IEmployee['id']) => async (
     payload: res.data,
   });
 };
+
 
 export const addCareerDay = (careerDay: ICareerDay) => async (
   dispatch: Dispatch,

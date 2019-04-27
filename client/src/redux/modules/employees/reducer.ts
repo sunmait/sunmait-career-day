@@ -3,6 +3,7 @@ import EMPLOYEES_LIST from './actionConstants';
 
 const defaultState: IEmployeesState = {
   employees: null,
+  freeEmployees: null,
   careerDays: null,
   selectedCareerDay: null,
   selectedEmployee: null,
@@ -22,6 +23,12 @@ export default function (
 
     case EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY_SUCCESS:
       return handleGetActiveCareerDay(state, payload);
+
+    case EMPLOYEES_LIST.GET_FREE_EMPLOYEES_LIST_SUCCESS:
+      return handleGetFreeEmployeesList(state, payload);
+
+    case EMPLOYEES_LIST.UPDATE_FREE_EMPLOYEES_LIST_SUCCESS:
+      return handleUpdateFreeEmployeesList(state, payload);
 
     case EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY_SUCCESS:
       return handleGetSelectedCareerDay(state, payload);
@@ -87,6 +94,20 @@ function handleGetActiveCareerDay(
   selectedCareerDay: ICareerDayOfEmployee,
 ) {
   return { ...state, selectedCareerDay };
+}
+
+function handleGetFreeEmployeesList(
+  state: IEmployeesState,
+  freeEmployees: IEmployee[],
+) {
+  return { ...state, freeEmployees };
+}
+
+function handleUpdateFreeEmployeesList(
+  state: IEmployeesState,
+  freeEmployees: IEmployee[],
+) {
+  return { ...state, freeEmployees };
 }
 
 function handleGetSelectedEmployee(
@@ -184,6 +205,7 @@ export interface IEmployee {
   FirstName: string;
   PhotoUrl: string;
   ActiveCareerDay: ICareerDay | null;
+  assigned?: boolean;
 }
 
 export interface ICareerDayOfEmployee {
@@ -229,6 +251,7 @@ export interface IObjectiveById {
 }
 
 export interface IEmployeesState {
+  freeEmployees: null | IEmployee[];
   employees: null | IEmployee[];
   careerDays: null | ICareerDayOfEmployee[];
   selectedCareerDay: null | ICareerDayOfEmployee;
