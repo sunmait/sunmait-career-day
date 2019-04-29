@@ -21,6 +21,7 @@ import backgroundColorHelper from '../../helper/backgroundColorHelper';
 import Typography from '@material-ui/core/Typography';
 import { ConnectProps } from './EmployeeProgressPageContainer';
 import { StylesProps } from './StylesContainer';
+import Loader from '../../common/loader';
 
 interface IMatchParams {
   userId: string;
@@ -157,10 +158,11 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const { classes } = this.props;
-
+    const { classes, loadCarreerDayForEmployee } = this.props;
+    if (loadCarreerDayForEmployee === true) {
+      return <Loader />
+    }
     backgroundColorHelper();
-
     return (
       <div>
         <Grid container justify="center" spacing={0}>
@@ -168,7 +170,7 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
             <Header
               title={`${this.props.selectedEmployee.FirstName} ${
                 this.props.selectedEmployee.LastName
-              }'s progress days`}
+                }'s progress days`}
             />
           )}
           <Grid item xs={11} sm={8} md={5} lg={4} xl={3}>
@@ -231,5 +233,6 @@ class EmployeeProgressPage extends React.Component<IProps, IState> {
     );
   }
 }
+
 
 export default EmployeeProgressPage;

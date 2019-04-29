@@ -6,6 +6,7 @@ import {
 
 const mapStateToProps = (state: IStore) => ({
   employees: state.employees.employees,
+  loadEmployeesList: state.employees.loadEmployeesList
 });
 
 const mapDispatchToProps = {
