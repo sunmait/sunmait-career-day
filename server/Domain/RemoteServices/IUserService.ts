@@ -9,7 +9,7 @@ export interface IUserEntityWithActiveCareerDay extends IUserEntity {
 export interface IUserService {
   selectedEmployee(id: IUserEntity['id']): Promise<IUserEntity | null>;
   getAllFreeUsers(id: IUserEntity['id']): Promise<IUserEntity[] | null>;
-  updateManagedUsers(
+  updateAssign(
     id: ManagerEmployeesEntity['EmployeeId'],
     managerId: ManagerEmployeesEntity['UnitManagerId'],
   ): Promise<void>;

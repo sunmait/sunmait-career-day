@@ -1,13 +1,12 @@
-
 import { ActionType } from 'typesafe-actions';
 import { combineReducers } from 'redux';
 import { IAction } from './rootReducer';
-import employees, { IEmployeesState, IEmployeesAction } from './modules/employees/reducer';
-import app, { IAppState } from './modules/app/reducer';
-import oidc, { IOidcState } from './modules/oidc/reducer';
+import employees, { IEmployeesAction } from './modules/employees/reducer';
+import app from './modules/app/reducer';
+import oidc from './modules/oidc/reducer';
 import * as appActions from './modules/app/actions';
 
-const rootReducer = combineReducers<IStore>({
+const rootReducer = combineReducers({
   app,
   employees,
   oidc,
@@ -15,10 +14,6 @@ const rootReducer = combineReducers<IStore>({
 
 export default rootReducer;
 
-export interface IStore {
-  app: IAppState;
-  employees: IEmployeesState;
-  oidc: IOidcState;
-}
+export type IStore = ReturnType<typeof rootReducer>;
 
 export type IAction = IEmployeesAction | ActionType<typeof appActions>;

@@ -16,4 +16,4 @@ const styles = (theme: Theme) => ({
 
 export type StylesProps = WithStyles<typeof styles>;
 
-export default withStyles(styles);
+export const StylesContainer = withStyles(styles);

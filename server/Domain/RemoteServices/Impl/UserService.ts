@@ -65,7 +65,7 @@ export class UserServise implements IUserService {
     return freeUsers;
   }
 
-  public async updateManagedUsers(
+  public async updateAssign(
     employeeId: ManagerEmployeesEntity['EmployeeId'],
     managerId: ManagerEmployeesEntity['UnitManagerId'],
   ): Promise<void> {

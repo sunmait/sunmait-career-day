@@ -1,5 +1,5 @@
 import { IObjective } from './reducer';
-import EMPLOYEES_LIST from './actionConstants';
+import EMPLOYEES_ACTION_TYPES from './actionConstants';
 
 const defaultState: IEmployeesState = {
   employees: null,
@@ -13,66 +13,66 @@ const defaultState: IEmployeesState = {
   nearestCareerDays: null,
 };
 
-export default function (
+export default function(
   state: IEmployeesState = defaultState,
   { type, payload }: IEmployeesAction,
 ) {
   switch (type) {
-    case EMPLOYEES_LIST.LOAD_CAREER_DAY_FOR_EMPLOYEE:
+    case EMPLOYEES_ACTION_TYPES.LOAD_CAREER_DAY_FOR_EMPLOYEE:
       return loadCarreerDayForEmployee(state, payload);
 
-    case EMPLOYEES_LIST.LOAD_SELECTED_CAREER_DAY:
-      return loadSelectedCareerDay(state, payload);  
+    case EMPLOYEES_ACTION_TYPES.LOAD_SELECTED_CAREER_DAY:
+      return loadSelectedCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.LOAD_EMPLOYEES_LIST:
+    case EMPLOYEES_ACTION_TYPES.LOAD_EMPLOYEES_LIST:
       return loadEmployeesList(state, payload);
 
-    case EMPLOYEES_LIST.GET_EMPLOYEES_LIST_SUCCESS:
+    case EMPLOYEES_ACTION_TYPES.GET_EMPLOYEES_LIST_SUCCESS:
       return handleGetEmployeesList(state, payload);
 
-    case EMPLOYEES_LIST.GET_CAREER_DAYS_SUCCESS:
+    case EMPLOYEES_ACTION_TYPES.GET_CAREER_DAYS_SUCCESS:
       return handleGetCareerDaysOfEmployee(state, payload);
 
-    case EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY_SUCCESS:
+    case EMPLOYEES_ACTION_TYPES.GET_ACTIVE_CAREER_DAY_SUCCESS:
       return handleGetActiveCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.GET_FREE_EMPLOYEES_LIST_SUCCESS:
+    case EMPLOYEES_ACTION_TYPES.GET_FREE_EMPLOYEES_LIST_SUCCESS:
       return handleGetFreeEmployeesList(state, payload);
 
-    case EMPLOYEES_LIST.UPDATE_FREE_EMPLOYEES_LIST_SUCCESS:
+    case EMPLOYEES_ACTION_TYPES.UPDATE_FREE_EMPLOYEES_LIST_SUCCESS:
       return handleUpdateFreeEmployeesList(state, payload);
 
-    case EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY_SUCCESS:
+    case EMPLOYEES_ACTION_TYPES.GET_SELECTED_CAREER_DAY_SUCCESS:
       return handleGetSelectedCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE_SUCCESS:
+    case EMPLOYEES_ACTION_TYPES.GET_SELECTED_EMPLOYEE_SUCCESS:
       return handleGetSelectedEmployee(state, payload);
 
-    case EMPLOYEES_LIST.GET_NEAREST_CAREER_DAYS_SUCCESS:
+    case EMPLOYEES_ACTION_TYPES.GET_NEAREST_CAREER_DAYS_SUCCESS:
       return handleGetNearestCareerDays(state, payload);
 
-    case EMPLOYEES_LIST.ADD_CAREER_DAY:
+    case EMPLOYEES_ACTION_TYPES.ADD_CAREER_DAY:
       return handleAddCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.ADD_OBJECTIVE:
+    case EMPLOYEES_ACTION_TYPES.ADD_OBJECTIVE:
       return handleAddObjective(state, payload);
 
-    case EMPLOYEES_LIST.DELETE_CAREER_DAY:
+    case EMPLOYEES_ACTION_TYPES.DELETE_CAREER_DAY:
       return handleDeleteCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.UPDATE_OBJECTIVE_MANAGER:
+    case EMPLOYEES_ACTION_TYPES.UPDATE_OBJECTIVE_MANAGER:
       return handleUpdateObjective(state, payload);
 
-    case EMPLOYEES_LIST.UPDATE_OBJECTIVE_EMPLOYEE:
+    case EMPLOYEES_ACTION_TYPES.UPDATE_OBJECTIVE_EMPLOYEE:
       return handleUpdateObjective(state, payload);
 
-    case EMPLOYEES_LIST.DELETE_OBJECTIVE:
+    case EMPLOYEES_ACTION_TYPES.DELETE_OBJECTIVE:
       return handleDeleteObjective(state, payload);
 
-    case EMPLOYEES_LIST.ARCHIVE_CAREER_DAY:
+    case EMPLOYEES_ACTION_TYPES.ARCHIVE_CAREER_DAY:
       return handleArchiveCareerDay(state, payload);
 
-    case EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME:
+    case EMPLOYEES_ACTION_TYPES.UPDATE_INTERVIEW_DATETIME:
       return handleUpdateInterviewDate(state, payload);
 
     default:
@@ -80,47 +80,32 @@ export default function (
   }
 }
 
-function loadSelectedCareerDay(
-  state: IEmployeesState,
-  loadSelectedCareerDay: boolean,
-) {
+function loadSelectedCareerDay(state: IEmployeesState, loadSelectedCareerDay: boolean) {
   return {
     ...state,
-    loadSelectedCareerDay
-  }
+    loadSelectedCareerDay,
+  };
 }
 
-function loadEmployeesList(
-  state: IEmployeesState,
-  loadEmployeesList: boolean,
-) {
+function loadEmployeesList(state: IEmployeesState, loadEmployeesList: boolean) {
   return {
     ...state,
-    loadEmployeesList
-  }
+    loadEmployeesList,
+  };
 }
 
-function loadCarreerDayForEmployee(
-  state: IEmployeesState,
-  loadCarreerDayForEmployee: boolean,
-) {
+function loadCarreerDayForEmployee(state: IEmployeesState, loadCarreerDayForEmployee: boolean) {
   return {
     ...state,
-    loadCarreerDayForEmployee
-  }
+    loadCarreerDayForEmployee,
+  };
 }
 
-function handleGetEmployeesList(
-  state: IEmployeesState,
-  employees: IEmployee[],
-) {
+function handleGetEmployeesList(state: IEmployeesState, employees: IEmployee[]) {
   return { ...state, employees };
 }
 
-function handleGetCareerDaysOfEmployee(
-  state: IEmployeesState,
-  careerDays: ICareerDayOfEmployee[],
-) {
+function handleGetCareerDaysOfEmployee(state: IEmployeesState, careerDays: ICareerDayOfEmployee[]) {
   return { ...state, careerDays };
 }
 
@@ -131,69 +116,46 @@ function handleGetSelectedCareerDay(
   return { ...state, selectedCareerDay };
 }
 
-function handleGetActiveCareerDay(
-  state: IEmployeesState,
-  selectedCareerDay: ICareerDayOfEmployee,
-) {
+function handleGetActiveCareerDay(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
   return { ...state, selectedCareerDay };
 }
 
-function handleGetFreeEmployeesList(
-  state: IEmployeesState,
-  freeEmployees: IEmployee[],
-) {
+function handleGetFreeEmployeesList(state: IEmployeesState, freeEmployees: IEmployee[]) {
   return { ...state, freeEmployees };
 }
 
-function handleUpdateFreeEmployeesList(
-  state: IEmployeesState,
-  freeEmployees: IEmployee[],
-) {
+function handleUpdateFreeEmployeesList(state: IEmployeesState, freeEmployees: IEmployee[]) {
   return { ...state, freeEmployees };
 }
 
-function handleGetSelectedEmployee(
-  state: IEmployeesState,
-  selectedEmployee: IEmployee,
-) {
+function handleGetSelectedEmployee(state: IEmployeesState, selectedEmployee: IEmployee) {
   return { ...state, selectedEmployee };
 }
 
 function handleGetNearestCareerDays(
   state: IEmployeesState,
-  nearestCareerDays: INearestCareerDay[]
+  nearestCareerDays: INearestCareerDay[],
 ) {
-  return { ...state, nearestCareerDays }
+  return { ...state, nearestCareerDays };
 }
 
-function handleAddCareerDay(
-  state: IEmployeesState,
-  newCareerDay: ICareerDayOfEmployee,
-) {
+function handleAddCareerDay(state: IEmployeesState, newCareerDay: ICareerDayOfEmployee) {
   const careerDays = state.careerDays || [];
   return { ...state, careerDays: [newCareerDay, ...careerDays] };
 }
 
-function handleAddObjective(
-  state: IEmployeesState,
-  selectedCareerDay: ICareerDayOfEmployee,
-) {
+function handleAddObjective(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
   return { ...state, selectedCareerDay };
 }
 
 function handleDeleteCareerDay(state: IEmployeesState, careerDayId: number) {
   const careerDays = state.careerDays || [];
-  const newCareerDaysList = careerDays.filter(
-    careerDay => careerDay.id !== careerDayId,
-  );
+  const newCareerDaysList = careerDays.filter(careerDay => careerDay.id !== careerDayId);
 
   return { ...state, careerDays: newCareerDaysList };
 }
 
-function handleDeleteObjective(
-  state: IEmployeesState,
-  selectedCareerDay: ICareerDayOfEmployee,
-) {
+function handleDeleteObjective(state: IEmployeesState, selectedCareerDay: ICareerDayOfEmployee) {
   return { ...state, selectedCareerDay };
 }
 
@@ -219,15 +181,12 @@ function handleUpdateObjective(state: IEmployeesState, objective: IObjective) {
 
   const updatedSelectedCareerDay = {
     ...selectedCareerDay,
-    Objectives: (selectedCareerDay.Objectives || []).reduce(
-      (result: IObjective[], item) => {
-        if (item.id === objective.id) {
-          return [...result, objective];
-        }
-        return [...result, item];
-      },
-      [],
-    ),
+    Objectives: (selectedCareerDay.Objectives || []).reduce((result: IObjective[], item) => {
+      if (item.id === objective.id) {
+        return [...result, objective];
+      }
+      return [...result, item];
+    }, []),
   };
 
   return { ...state, selectedCareerDay: updatedSelectedCareerDay };
@@ -259,8 +218,8 @@ export interface ICareerDayOfEmployee {
   CreatedAt: Date;
   UpdatedAt: Date;
   Objectives: null | IObjective[];
-  ManagerFirstName: string,
-  ManagerLastName: string,
+  ManagerFirstName: string;
+  ManagerLastName: string;
 }
 
 export interface INearestCareerDay {
@@ -269,8 +228,8 @@ export interface INearestCareerDay {
   EmployeeId: string;
   UnitManagerId: string;
   InterviewDate: Date;
-  FirstName: string,
-  LastName: string,
+  FirstName: string;
+  LastName: string;
 }
 
 export interface IObjective {
@@ -334,6 +293,6 @@ export interface IUpdateInterviewDate {
 }
 
 export interface IEmployeesAction {
-  type: EMPLOYEES_LIST;
+  type: EMPLOYEES_ACTION_TYPES;
   payload?: any;
 }

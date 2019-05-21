@@ -1,6 +1,6 @@
 import { put, call } from 'redux-saga/effects'
 import { takeEvery } from '../../customEffect/customEffect'
-import EMPLOYEES_LIST from './actionConstants';
+import EMPLOYEES_ACTION_TYPES from './actionConstants';
 import sendRequestHelper from '../../../components/helper/API/sendRequestHelper';
 import { IEmployee, ICareerDayOfEmployee } from '../employees/reducer';
 
@@ -20,7 +20,7 @@ import {
 
 
 export function* watchGetEmployeesList() {
-    yield takeEvery(EMPLOYEES_LIST.GET_EMPLOYEES_LIST, getEmployeesList);
+    yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_EMPLOYEES_LIST, getEmployeesList);
 }
 
 function* getEmployeesList() {
@@ -31,7 +31,7 @@ function* getEmployeesList() {
 };
 
 export function* watchGetFreeEmployeesList() {
-    yield takeEvery(EMPLOYEES_LIST.GET_FREE_EMPLOYEES_LIST, getFreeEmployeesList);
+    yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_FREE_EMPLOYEES_LIST, getFreeEmployeesList);
 }
 
 function* getFreeEmployeesList() {
@@ -40,21 +40,21 @@ function* getFreeEmployeesList() {
 };
 
 export function* watchUpdateFreeEmployeesList() {
-    yield takeEvery(EMPLOYEES_LIST.UPDATE_FREE_EMPLOYEES_LIST, updateFreeEmployeesList);
+    yield takeEvery(EMPLOYEES_ACTION_TYPES.UPDATE_FREE_EMPLOYEES_LIST, updateFreeEmployeesListSaga);
 }
 
-function* updateFreeEmployeesList(id: string) {
-    const res = yield call(sendRequestHelper.get, `/api/users/updateManageEmployees/${id}`);
+function* updateFreeEmployeesListSaga(id: string) {
+    const res = yield call(sendRequestHelper.get, `/api/users/assign/${id}`);
     yield put(updateFreeEmployeesListSuccess(res.data));
 };
 
 export function* watchGetActiveCareerDay() {
-  yield takeEvery(EMPLOYEES_LIST.GET_ACTIVE_CAREER_DAY,
+  yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_ACTIVE_CAREER_DAY,
     getActiveCareerDay);
 }
 
 export function* watchGetCareerDayOfEmployee() {
-  yield takeEvery(EMPLOYEES_LIST.GET_CAREER_DAYS, getCareerDayOfEmployee);
+  yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_CAREER_DAYS, getCareerDayOfEmployee);
 }
 
 function* getCareerDayOfEmployee(employeeId: IEmployee) {
@@ -65,7 +65,7 @@ function* getCareerDayOfEmployee(employeeId: IEmployee) {
 }
 
 export function* watchgetSelectedEmployee() {
-  yield takeEvery(EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE, getSelectedEmployee);
+  yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_SELECTED_EMPLOYEE, getSelectedEmployee);
 }
 
 function* getSelectedEmployee(employeeId: IEmployee['id']) {
@@ -84,7 +84,7 @@ function* getActiveCareerDay(employeeId: IEmployee['id']) {
 };
 
 export function* watchGetSelectedCareerDay() {
-  yield takeEvery(EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY,
+  yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_SELECTED_CAREER_DAY,
     getSelectedCareerDay);
 }
 
@@ -101,7 +101,7 @@ function* getSelectedCareerDay(careerDayId: ICareerDayOfEmployee['id']) {
 };
 
 export function* watchGetNearestCareerDays() {
-    yield takeEvery(EMPLOYEES_LIST.GET_NEAREST_CAREER_DAYS,
+    yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_NEAREST_CAREER_DAYS,
         getNearestCareerDays)
 }
 

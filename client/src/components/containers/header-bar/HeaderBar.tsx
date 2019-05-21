@@ -1,22 +1,21 @@
-import "../../../assets/styles/headerBar.scss";
+import * as React from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import { Link } from 'react-router-dom';
+import Avatar from '@material-ui/core/Avatar';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import PersonIcon from '@material-ui/icons/Person';
+import { withRouter, RouteComponentProps } from 'react-router';
 
-import * as React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import { Link } from "react-router-dom";
-import Avatar from "@material-ui/core/Avatar";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { ROLES } from "../../../redux/modules/oidc/constants";
-import { ConnectProps } from "./ConnectContainer";
-import { StylesProps } from "./StylesContainer";
-import logo from "../../../assets/images/logo.svg";
-import PersonIcon from "@material-ui/icons/Person";
-import userManager from "../../../utils/oidcUserManager";
-import { withRouter, RouteComponentProps } from "react-router";
-
+import { ROLES } from '../../../redux/modules/oidc/constants';
+import { ConnectProps } from './ConnectContainer';
+import { StylesProps } from './StylesContainer';
+import logo from '../../../assets/images/logo.svg';
+import userManager from '../../../utils/oidcUserManager';
+import '../../../assets/styles/headerBar.scss';
 
 interface IProps extends ConnectProps, StylesProps, RouteComponentProps {}
 
@@ -35,7 +34,6 @@ class HeaderBar extends React.Component<IProps, IState> {
     };
   }
 
-
   private menuRef: HTMLElement | null;
 
   private handleProfileClick = () => {
@@ -52,8 +50,8 @@ class HeaderBar extends React.Component<IProps, IState> {
   };
 
   public renderUserProfile = () => {
-    const { user, classes } = this.props;
-    let onManagePage:boolean = this.props.history.location.pathname === "/employees/manage";
+    const { user, classes, history } = this.props;
+    let onManagePage: boolean = history.location.pathname === '/employees/manage';
 
     return (
       <React.Fragment>
@@ -61,14 +59,13 @@ class HeaderBar extends React.Component<IProps, IState> {
           <Grid container spacing={0} justify="flex-end" alignItems="center">
             <div className={classes.hover} onClick={this.handleProfileClick}>
               <Typography variant="subtitle1" className="header-bar-username">
-                {user &&
-                  `${user.profile.given_name} ${user.profile.family_name}`}
+                {user && `${user.profile.given_name} ${user.profile.family_name}`}
               </Typography>
               <div
                 ref={div => {
                   this.menuRef = div;
                 }}
-                style={{ display: "inline-block" }}
+                style={{ display: 'inline-block' }}
               >
                 {user && user.profile.PhotoUrl ? (
                   <Avatar alt="Username" src={user.profile.PhotoUrl} />
@@ -86,21 +83,18 @@ class HeaderBar extends React.Component<IProps, IState> {
           className={classes.menuDown}
           anchorEl={this.state.anchorEl}
           anchorOrigin={{
-            vertical: "top",
-            horizontal: "right"
+            vertical: 'top',
+            horizontal: 'right',
           }}
           transformOrigin={{
-            vertical: "top",
-            horizontal: "right"
+            vertical: 'top',
+            horizontal: 'right',
           }}
           open={Boolean(this.state.anchorEl)}
           onClose={this.handleClose}
         >
-          { (onManagePage===false) &&(user && user.profile.role === ROLES.UNIT_MANAGER) ? (
-            <Link
-              className={classes.textDecoration}
-              to="/employees/manage"
-            >
+          {onManagePage === false && (user && user.profile.role === ROLES.UNIT_MANAGER) ? (
+            <Link className={classes.textDecoration} to="/employees/manage">
               <MenuItem onClick={this.handleClose}>ManageEmployees</MenuItem>
             </Link>
           ) : null}
@@ -111,24 +105,16 @@ class HeaderBar extends React.Component<IProps, IState> {
   };
 
   public render() {
-    
-    const UserProfile = this.props.user ? this.renderUserProfile() : null;
-    const justify = this.props.user ? "flex-end" : "center";
-    const link =
-      this.props.user && this.props.user.profile.role === ROLES.UNIT_MANAGER
-        ? "/employees"
-        : "/employee";
+    const { user } = this.props;
+    const UserProfile = user ? this.renderUserProfile() : null;
+    const justify = user ? 'flex-end' : 'center';
+    const link = user && user.profile.role === ROLES.UNIT_MANAGER ? '/employees' : '/employee';
     return (
       <Grid item xs={12} id="header-bar">
         <AppBar position="static" color="default">
           <Toolbar>
             <Grid container spacing={8} justify={justify} alignItems="center">
-              <Grid
-                item
-                sm={4}
-                xs={12}
-                className={this.props.user ? "hide-on-mobile" : ""}
-              >
+              <Grid item sm={4} xs={12} className={user ? 'hide-on-mobile' : ''}>
                 <Link to={link} className="header-bar-link">
                   <img className="header-bar-image" src={logo} />
                 </Link>

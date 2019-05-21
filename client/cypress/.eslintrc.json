@@ -6,7 +6,6 @@
   },
   "rules": {
     "spaced-comment": ["error", "always", { "markers": ["/"] }],
-    "import/no-extraneous-dependencies": 0,
-    "linebreak-style": 0
+    "import/no-extraneous-dependencies": 0
   }
 }

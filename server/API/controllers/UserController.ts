@@ -64,14 +64,14 @@ export class UserController extends BaseHttpController {
       res.json(selectedUsers);
   }
 
-  @httpGet('/updateManageEmployees/:id')
+  @httpGet('/assign/:id')
   @authorize({ roles: [UserRoles.MANAGER] })
   private async updateAllFreeUsers(
     @requestParam('id') employeeId: string,
     @response() res: express.Response,
     ): Promise<void> {
       const user = this.httpContext.user as Principal;
-      await this._userService.updateManagedUsers(employeeId, user.details.id);
+      await this._userService.updateAssign(employeeId, user.details.id);
       const selectedUsers = await this._userService.getAllFreeUsers(user.details.id);
       if (!selectedUsers) {
         throw { status: 404 };

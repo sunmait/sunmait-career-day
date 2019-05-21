@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Switch, Redirect } from 'react-router-dom';
+
 import PrivateRoute from '../custom-routes/PrivateRoute';
 import DisabledForAuthorizedUserRoute from '../custom-routes/DisabledForAuthorizedUserRoute';
 import ErrorRoute from '../custom-routes/ErrorRoute';
@@ -15,7 +16,7 @@ import { ConnectProps } from './ConnectContainer';
 import LoginPage from '../../pages/login-page';
 import LoginCallbackPage from '../../pages/login-callback-page';
 import { ROLES } from '../../../redux/modules/oidc/constants';
-import ManageEmployeesPage from '../../pages/manage-employees-page'
+import { ManageEmployeesPage } from '../../pages/manage-employees-page';
 
 interface IProps extends ConnectProps {}
 

@@ -4,9 +4,10 @@ import {
   getFreeEmployeesList,
   updateFreeEmployeesList,
  } from '../../../redux/modules/employees/actions';
+ import { getFreeEmployeesSelector } from '../../../redux/modules/employees/selectors'
 
 const mapStateToProps = (state: IStore) => ({
-  freeEmployees: state.employees.freeEmployees,
+  freeEmployees: getFreeEmployeesSelector(state),
 });
 
 const mapDispatchToProps = {
@@ -17,7 +18,7 @@ const mapDispatchToProps = {
 export type ConnectProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps;
 
-export default connect(
+export const ConnectContainer = connect(
   mapStateToProps,
   mapDispatchToProps,
 );
