@@ -48,7 +48,7 @@ export class UserServise implements IUserService {
     const users = await this._identityClientProvider.getAllUsers();
     return users.find(user => user.id === id) || null;
   }
-  // get all users which you can assign/unassign
+
   public async getAllFreeUsers(
     managerId: IUserEntity['id'],
   ): Promise<IUserEntity[]> {

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Header from '../../common/header';
 import { ConnectProps } from './ManageListContainer';
 import { StylesProps } from './StylesContainer';
@@ -17,32 +17,29 @@ import Button from "@material-ui/core/Button";
 
 interface IProps extends StylesProps, ConnectProps { }
 
-class ManageEmployeesList extends React.Component<IProps>{
-  constructor(props: IProps) {
-    super(props);
+
+const ManageEmployeesList= (props: IProps) => {
+
+  useEffect(() => {
+    props.getFreeEmployeesList();
+  });
+ 
+  const unAssignUsers = (user:IEmployee) => {
+    props.updateFreeEmployeesList(user.id);
   }
 
-
-  public componentDidMount() {
-    this.props.getFreeEmployeesList();
+  const assignUsers = (user:IEmployee) => {
+    props.updateFreeEmployeesList(user.id);
   }
 
-  private unAssignUsers = (user:IEmployee) => {
-    this.props.updateFreeEmployeesList(user.id);
-  }
-
-  private AssignUsers = (user:IEmployee) => {
-    this.props.updateFreeEmployeesList(user.id);
-  }
-
-  private renderEmployeeProfile = () => {
-    const { freeEmployees } = this.props;
+  const renderEmployeeProfile = () => {
+    const { freeEmployees } = props;
     if (!freeEmployees) {
       return null;
     }
 
     return freeEmployees.map((item: IEmployee) => (
-      <ListItem dense >
+      <ListItem dense key={item.id} >
         {item.PhotoUrl ? (
           <Avatar alt={item.LastName} src={item.PhotoUrl} />
         ) : (
@@ -56,22 +53,21 @@ class ManageEmployeesList extends React.Component<IProps>{
         {item.assigned ? (
           <Button
             onClick={() =>{
-              this.unAssignUsers(item);
+              unAssignUsers(item);
             }
             }> unAssign</Button>
         ) : (
-            <Button
-              onClick={() =>{
-                this.AssignUsers(item);
-              }
-              }> Assign</Button>
+          <Button
+            onClick={() =>{
+              assignUsers(item);
+            }
+            }> Assign</Button>
           )}
       </ListItem>
     ));
   }
 
-  public render() {
-    const { classes } = this.props;
+    const { classes } = props;
 
     backgroundColorHelper();
 
@@ -84,7 +80,7 @@ class ManageEmployeesList extends React.Component<IProps>{
               <div className={classes.root}>
                 <Paper elevation={1}>
                   <List>
-                    {this.props.freeEmployees && this.renderEmployeeProfile()}
+                    {props.freeEmployees && renderEmployeeProfile()}
                   </List>
                 </Paper>
               </div>
@@ -94,7 +90,7 @@ class ManageEmployeesList extends React.Component<IProps>{
       </div>
     );
   }
-}
+
 
 
 export default ManageEmployeesList;

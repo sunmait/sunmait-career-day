@@ -23,7 +23,6 @@ interface IProps extends ConnectProps, StylesProps, RouteComponentProps {}
 interface IState {
   anchorEl: any;
   open: boolean;
-  match: boolean;
 }
 
 class HeaderBar extends React.Component<IProps, IState> {
@@ -33,7 +32,6 @@ class HeaderBar extends React.Component<IProps, IState> {
     this.state = {
       anchorEl: null,
       open: true,
-      match: false
     };
   }
 
@@ -55,12 +53,8 @@ class HeaderBar extends React.Component<IProps, IState> {
 
   public renderUserProfile = () => {
     const { user, classes } = this.props;
-    let onManagePage:boolean=false;
-    if (this.props.history.location.pathname === "/employees/manage"){
-       onManagePage=true;
-    }else{
-       onManagePage=false;
-    }
+    let onManagePage:boolean = this.props.history.location.pathname === "/employees/manage";
+
     return (
       <React.Fragment>
         <Grid item sm={4} xs={12}>
@@ -104,10 +98,7 @@ class HeaderBar extends React.Component<IProps, IState> {
         >
           { (onManagePage===false) &&(user && user.profile.role === ROLES.UNIT_MANAGER) ? (
             <Link
-              style={{
-                 textDecoration: "none",
-                 outline: "none" 
-                }}
+              className={classes.textDecoration}
               to="/employees/manage"
             >
               <MenuItem onClick={this.handleClose}>ManageEmployees</MenuItem>

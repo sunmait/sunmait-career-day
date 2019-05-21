@@ -5,13 +5,8 @@ import sendRequestHelper from '../../../components/helper/API/sendRequestHelper'
 import { IEmployee, ICareerDayOfEmployee } from '../employees/reducer';
 
 import {
-<<<<<<< HEAD
-    getEmployeesListSuccess,
-    getFreeEmployeesListSuccess,
-    updateFreeEmployeesListSuccess,
-    getActiveCareerDaySuccess,
-    getSelectedCareerDaySuccess,
-=======
+  getFreeEmployeesListSuccess,
+  updateFreeEmployeesListSuccess,
   loadSelectedCareerDay,
   loadCarreerDayForEmployee,
   loadEmployeesList,
@@ -20,7 +15,6 @@ import {
   getSelectedCareerDaySuccess,
   getCareerDayOfEmployeeSuccess,
   getSelectedEmployeeSuccess,
->>>>>>> master
     getNearestCareerDaysSuccess,
 } from './actions'
 

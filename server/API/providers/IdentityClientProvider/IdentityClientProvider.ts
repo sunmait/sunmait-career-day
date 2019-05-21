@@ -35,7 +35,7 @@ export class IdentityClientProvider implements IIdentityClientProvider {
       LastName: user.lastName,
       FirstName: user.firstName,
       Role: user.roles,
-      }));
+    }));
   }
 
   private async getPublicKey(): Promise<string> {

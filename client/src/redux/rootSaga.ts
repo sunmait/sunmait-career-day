@@ -14,13 +14,10 @@ import {
 export default function* rootSaga() {
     yield all([
         watchGetEmployeesList(),
-<<<<<<< HEAD
         watchGetFreeEmployeesList(),
         watchUpdateFreeEmployeesList(),
         watchGetActiveCareerDay(),
-=======
         watchGetCareerDayOfEmployee(),
->>>>>>> master
         watchGetSelectedCareerDay(),
         watchgetSelectedEmployee(),
         watchGetActiveCareerDay(),

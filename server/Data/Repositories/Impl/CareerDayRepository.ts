@@ -3,7 +3,7 @@ import CareerDayEntity from '../../Entities/CareerDayEntity';
 import { RepositoryBase } from './RepositoryBase';
 import { DbContext } from '../../DbContext';
 
-export class CareerDayRepository extends RepositoryBase<CareerDayEntity>
+export class CareerDayRepository extends RepositoryBase<CareerDayEntity, number>
   implements ICareerDayRepository {
   constructor(careerDayEntity: typeof CareerDayEntity, private dbContext: DbContext) {
     super(careerDayEntity);

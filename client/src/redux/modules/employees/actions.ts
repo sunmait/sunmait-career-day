@@ -41,7 +41,7 @@ export const getEmployeesListSuccess = (employeelist: IEmployee[]) => action(
   employeelist,
 );
 
-<<<<<<< HEAD
+
 export const getFreeEmployeesListSuccess = (freeEmployeesList: IEmployee[]) => action(
   EMPLOYEES_LIST.GET_FREE_EMPLOYEES_LIST_SUCCESS, 
   freeEmployeesList,
@@ -53,20 +53,8 @@ export const updateFreeEmployeesListSuccess = (freeEmployeesList: IEmployee[]) =
 );
 
 
-export const getCareerDayOfEmployee = (employeeId: IEmployee['id']) => async (
-  dispatch: Dispatch,
-) => {
-  const res = await sendRequestHelper.get<ICareerDayOfEmployee[]>(
-    `/api/career-days/${employeeId}`,
-  );
-  return dispatch({
-    type: EMPLOYEES_LIST.GET_CAREER_DAYS,
-    payload: res.data,
-  });
-};
-=======
 export const getCareerDayOfEmployeeSuccess = (employeeId: IEmployee['id']) => action(EMPLOYEES_LIST.GET_CAREER_DAYS_SUCCESS, employeeId);
->>>>>>> master
+
 
 export const getCareerDayOfEmployee = (employeeId: IEmployee['id']) => action(EMPLOYEES_LIST.GET_CAREER_DAYS, employeeId);
 
@@ -75,8 +63,7 @@ export const getSelectedCareerDay = (careerDayId: ICareerDayOfEmployee['id']) =>
   careerDayId
 );
 
-<<<<<<< HEAD
-=======
+
 export const loadSelectedCareerDay = (loadSelectedCareerDay: boolean) =>
   action(EMPLOYEES_LIST.LOAD_SELECTED_CAREER_DAY,
     loadSelectedCareerDay,
@@ -88,7 +75,7 @@ export const loadCarreerDayForEmployee = (loadCarreerDayForEmployee: boolean) =>
 export const loadEmployeesList = (loadEmployeesList: boolean) =>
   action(EMPLOYEES_LIST.LOAD_EMPLOYEES_LIST, loadEmployeesList);
 
->>>>>>> master
+
 export const getSelectedCareerDaySuccess = (careerDay: ICareerDayOfEmployee) => action(
   EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY_SUCCESS,
   careerDay

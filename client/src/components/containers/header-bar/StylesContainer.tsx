@@ -13,6 +13,10 @@ const styles = {
   menuDown: {
     marginTop: 50,
   },
+  textDecoration: {
+    textDecoration: "none",
+    outline: "none" 
+  }
 };
 
 export type StylesProps = WithStyles<typeof styles>;
