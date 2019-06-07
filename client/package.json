@@ -17,8 +17,8 @@
     "node-sass": "^4.9.4",
     "oidc-client": "^1.6.1",
     "query-string": "^6.2.0",
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
@@ -27,7 +27,8 @@
     "redux-promise-middleware": "^5.1.1",
     "redux-saga": "^1.0.1",
     "redux-thunk": "^2.3.0",
-    "typesafe-actions": "^3.1.0"
+    "typesafe-actions": "^3.1.0",
+    "reselect": "^4.0.0"
   },
   "engines": {
     "node": ">=4.5.0"

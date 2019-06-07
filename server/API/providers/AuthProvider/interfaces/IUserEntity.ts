@@ -6,4 +6,5 @@ export interface IUserEntity {
   Email: string;
   FirstName: string;
   LastName: string;
+  assigned ?: boolean;
 }

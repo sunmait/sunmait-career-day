@@ -1,5 +1,5 @@
-export interface IRepository<T> {
-  findById(id: number, options?: any): Promise<T>;
+export interface IRepository<T, TKey> {
+  findById(id: TKey, options?: any): Promise<T>;
 
   findAll(filter: any, options?: any): Promise<T[]>;
 

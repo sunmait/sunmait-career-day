@@ -1,4 +1,4 @@
-import EMPLOYEES_LIST from '../../../../../redux/modules/employees/actionConstants';
+import EMPLOYEES_ACTION_TYPES from '../../../../../redux/modules/employees/actionConstants';
 import * as actions from '../../../../../redux/modules/employees/actions';
 import axios from 'axios';
 import sendRequest from '../../../../../components/helper/authRequest';
@@ -37,7 +37,7 @@ describe('employees action', () => {
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          return expect(type).toEqual(EMPLOYEES_LIST.GET_EMPLOYEES_LIST);
+          return expect(type).toEqual(EMPLOYEES_ACTION_TYPES.GET_EMPLOYEES_LIST);
         });
     });
   });
@@ -65,7 +65,7 @@ describe('employees action', () => {
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          return expect(type).toEqual(EMPLOYEES_LIST.GET_CAREER_DAYS);
+          return expect(type).toEqual(EMPLOYEES_ACTION_TYPES.GET_CAREER_DAYS);
         });
     });
   });
@@ -93,7 +93,7 @@ describe('employees action', () => {
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          return expect(type).toEqual(EMPLOYEES_LIST.GET_SELECTED_CAREER_DAY);
+          return expect(type).toEqual(EMPLOYEES_ACTION_TYPES.GET_SELECTED_CAREER_DAY);
         });
     });
   });
@@ -109,7 +109,7 @@ describe('employees action', () => {
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          expect(type).toEqual(EMPLOYEES_LIST.GET_SELECTED_EMPLOYEE);
+          expect(type).toEqual(EMPLOYEES_ACTION_TYPES.GET_SELECTED_EMPLOYEE);
         });
     });
   });
@@ -141,7 +141,7 @@ describe('employees action', () => {
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          return expect(type).toEqual(EMPLOYEES_LIST.ADD_CAREER_DAY);
+          return expect(type).toEqual(EMPLOYEES_ACTION_TYPES.ADD_CAREER_DAY);
         });
     });
   });
@@ -182,7 +182,7 @@ describe('employees action', () => {
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          return expect(type).toEqual(EMPLOYEES_LIST.ADD_OBJECTIVE);
+          return expect(type).toEqual(EMPLOYEES_ACTION_TYPES.ADD_OBJECTIVE);
         });
     });
   });
@@ -210,7 +210,7 @@ describe('employees action', () => {
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          return expect(type).toEqual(EMPLOYEES_LIST.DELETE_CAREER_DAY);
+          return expect(type).toEqual(EMPLOYEES_ACTION_TYPES.DELETE_CAREER_DAY);
         });
     });
   });
@@ -242,7 +242,7 @@ describe('employees action', () => {
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          return expect(type).toEqual(EMPLOYEES_LIST.UPDATE_OBJECTIVE_MANAGER);
+          return expect(type).toEqual(EMPLOYEES_ACTION_TYPES.UPDATE_OBJECTIVE_MANAGER);
         });
     });
   });
@@ -267,9 +267,7 @@ describe('employees action', () => {
         .then(() => {
           const expectedUrl = sendRequest.mock.calls[0][1];
 
-          return expect(expectedUrl).toBe(
-            `/api/career-days/update-date/${careerDay.id}`,
-          );
+          return expect(expectedUrl).toBe(`/api/career-days/update-date/${careerDay.id}`);
         });
     });
 
@@ -282,7 +280,7 @@ describe('employees action', () => {
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          return expect(type).toEqual(EMPLOYEES_LIST.UPDATE_INTERVIEW_DATETIME);
+          return expect(type).toEqual(EMPLOYEES_ACTION_TYPES.UPDATE_INTERVIEW_DATETIME);
         });
     });
   });
@@ -301,9 +299,7 @@ describe('employees action', () => {
         .then(() => {
           const expectedUrl = sendRequest.mock.calls[0][1];
 
-          return expect(expectedUrl).toBe(
-            `/api/career-days/archive/${careerDay.id}`,
-          );
+          return expect(expectedUrl).toBe(`/api/career-days/archive/${careerDay.id}`);
         });
     });
 
@@ -315,7 +311,7 @@ describe('employees action', () => {
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          return expect(type).toEqual(EMPLOYEES_LIST.ARCHIVE_CAREER_DAY);
+          return expect(type).toEqual(EMPLOYEES_ACTION_TYPES.ARCHIVE_CAREER_DAY);
         });
     });
   });
@@ -351,7 +347,7 @@ describe('employees action', () => {
         .then(() => {
           const type = dispatchSpy.mock.calls[0][0].type;
 
-          return expect(type).toEqual(EMPLOYEES_LIST.DELETE_OBJECTIVE);
+          return expect(type).toEqual(EMPLOYEES_ACTION_TYPES.DELETE_OBJECTIVE);
         });
     });
   });

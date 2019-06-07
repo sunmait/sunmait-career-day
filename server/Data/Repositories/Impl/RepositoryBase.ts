@@ -3,14 +3,14 @@ import { IRepository } from '../index';
 import { Model } from 'sequelize-typescript';
 
 @injectable()
-export class RepositoryBase<TEntity extends Model<any>> implements IRepository<TEntity> {
+export class RepositoryBase<TEntity extends Model<any>, TKey> implements IRepository<TEntity, TKey> {
   private _entityType: any;
 
   constructor(entityType: any) {
     this._entityType = entityType;
   }
 
-  public async findById(id: number, options: any = {}): Promise<TEntity> {
+  public async findById(id: TKey, options: any = {}): Promise<TEntity> {
     return this._entityType.findById(id, options);
   }
   public async findAll(filter: any, options: any = {}): Promise<TEntity[]> {

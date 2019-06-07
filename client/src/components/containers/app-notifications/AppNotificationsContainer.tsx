@@ -6,6 +6,7 @@ const mapStateToProps = (state: IStore) => ({
   notification: state.app.notification,
 });
 
+
 const mapDispatchToProps = {
   deleteNotification,
 };

@@ -34,6 +34,7 @@ export class IdentityClientProvider implements IIdentityClientProvider {
       id: user.id,
       LastName: user.lastName,
       FirstName: user.firstName,
+      Role: user.roles,
     }));
   }
 
