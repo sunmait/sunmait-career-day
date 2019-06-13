@@ -15,5 +15,6 @@ export interface IUserService {
   ): Promise<void>;
   getEmployees(
     managerId: IUserEntity['id'],
+    filter?: boolean,
   ): Promise<IUserEntityWithActiveCareerDay[]>;
 }

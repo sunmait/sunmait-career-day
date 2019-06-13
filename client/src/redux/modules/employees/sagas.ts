@@ -1,5 +1,5 @@
-import { put, call } from 'redux-saga/effects'
-import { takeEvery } from '../../customEffect/customEffect'
+import { put, call } from 'redux-saga/effects';
+import { takeEvery } from '../../customEffect/customEffect';
 import EMPLOYEES_ACTION_TYPES from './actionConstants';
 import sendRequestHelper from '../../../components/helper/API/sendRequestHelper';
 import { IEmployee, ICareerDayOfEmployee } from '../employees/reducer';
@@ -15,42 +15,42 @@ import {
   getSelectedCareerDaySuccess,
   getCareerDayOfEmployeeSuccess,
   getSelectedEmployeeSuccess,
-    getNearestCareerDaysSuccess,
-} from './actions'
-
+  getNearestCareerDaysSuccess,
+} from './actions';
 
 export function* watchGetEmployeesList() {
-    yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_EMPLOYEES_LIST, getEmployeesList);
+  yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_EMPLOYEES_LIST, getEmployeesList);
 }
 
-function* getEmployeesList() {
+function* getEmployeesList(filterNoCareerDay?: boolean) {
   yield put(loadEmployeesList(true));
-  const res = yield call(sendRequestHelper.get, '/api/users/employees');
+  console.log("asdasd");
+  const res = yield call(sendRequestHelper.get, `/api/users/employees?filterNoCareerDay=${filterNoCareerDay}`);
+  console.log("asd");
   yield put(getEmployeesListSuccess(res.data));
   yield put(loadEmployeesList(false));
-};
+}
 
 export function* watchGetFreeEmployeesList() {
-    yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_FREE_EMPLOYEES_LIST, getFreeEmployeesList);
+  yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_FREE_EMPLOYEES_LIST, getFreeEmployeesList);
 }
 
 function* getFreeEmployeesList() {
-    const res = yield call(sendRequestHelper.get, '/api/users/manageEmployees/');
-    yield put(getFreeEmployeesListSuccess(res.data));
-};
+  const res = yield call(sendRequestHelper.get, '/api/users/manageEmployees/');
+  yield put(getFreeEmployeesListSuccess(res.data));
+}
 
 export function* watchUpdateFreeEmployeesList() {
-    yield takeEvery(EMPLOYEES_ACTION_TYPES.UPDATE_FREE_EMPLOYEES_LIST, updateFreeEmployeesListSaga);
+  yield takeEvery(EMPLOYEES_ACTION_TYPES.UPDATE_FREE_EMPLOYEES_LIST, updateFreeEmployeesListSaga);
 }
 
 function* updateFreeEmployeesListSaga(id: string) {
-    const res = yield call(sendRequestHelper.get, `/api/users/assign/${id}`);
-    yield put(updateFreeEmployeesListSuccess(res.data));
-};
+  const res = yield call(sendRequestHelper.get, `/api/users/assign/${id}`);
+  yield put(updateFreeEmployeesListSuccess(res.data));
+}
 
 export function* watchGetActiveCareerDay() {
-  yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_ACTIVE_CAREER_DAY,
-    getActiveCareerDay);
+  yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_ACTIVE_CAREER_DAY, getActiveCareerDay);
 }
 
 export function* watchGetCareerDayOfEmployee() {
@@ -74,40 +74,39 @@ function* getSelectedEmployee(employeeId: IEmployee['id']) {
 }
 
 function* getActiveCareerDay(employeeId: IEmployee['id']) {
-  const res = yield call(sendRequestHelper.get,
-    `/api/career-days/active-day/${employeeId}`);
-  const managerResponse = yield call(sendRequestHelper.get,
-    `api/users/selected-employee/${res.data.UnitManagerId}`);
+  const res = yield call(sendRequestHelper.get, `/api/career-days/active-day/${employeeId}`);
+  const managerResponse = yield call(
+    sendRequestHelper.get,
+    `api/users/selected-employee/${res.data.UnitManagerId}`,
+  );
   res.data.ManagerFirstName = managerResponse.data.FirstName;
   res.data.ManagerLastName = managerResponse.data.LastName;
   yield put(getActiveCareerDaySuccess(res.data));
-};
+}
 
 export function* watchGetSelectedCareerDay() {
-  yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_SELECTED_CAREER_DAY,
-    getSelectedCareerDay);
+  yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_SELECTED_CAREER_DAY, getSelectedCareerDay);
 }
 
 function* getSelectedCareerDay(careerDayId: ICareerDayOfEmployee['id']) {
   yield put(loadSelectedCareerDay(true));
-  const res = yield call(sendRequestHelper.get,
-    `/api/objectives/${careerDayId}`);
-  const managerResponse = yield call(sendRequestHelper.get,
-    `/api/users/selected-employee/${res.data.UnitManagerId}`);
+  const res = yield call(sendRequestHelper.get, `/api/objectives/${careerDayId}`);
+  const managerResponse = yield call(
+    sendRequestHelper.get,
+    `/api/users/selected-employee/${res.data.UnitManagerId}`,
+  );
   res.data.ManagerFirstName = managerResponse.data.FirstName;
   res.data.ManagerLastName = managerResponse.data.LastName;
   yield put(getSelectedCareerDaySuccess(res.data));
   yield put(loadSelectedCareerDay(false));
-};
+}
 
 export function* watchGetNearestCareerDays() {
-    yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_NEAREST_CAREER_DAYS,
-        getNearestCareerDays)
+  yield takeEvery(EMPLOYEES_ACTION_TYPES.GET_NEAREST_CAREER_DAYS, getNearestCareerDays);
 }
 
 function* getNearestCareerDays() {
-    const res = yield call(sendRequestHelper.get,
-        `/api/career-days/nearest-career-days`);
+  const res = yield call(sendRequestHelper.get, `/api/career-days/nearest-career-days`);
 
-    yield put(getNearestCareerDaysSuccess(res.data));
+  yield put(getNearestCareerDaysSuccess(res.data));
 }

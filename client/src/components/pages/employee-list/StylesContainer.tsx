@@ -7,6 +7,11 @@ const styles = (theme: Theme) => ({
     marginTop: 20,
     marginBottom: 20,
   },
+  checkbox: {
+    width: '100%',
+    marginBottom: -20,
+    marginLeft: 5,
+  },
   disableLinkStyle: {
     textDecoration: 'none',
     color: 'black',

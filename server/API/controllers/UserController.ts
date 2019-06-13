@@ -5,6 +5,7 @@ import {
   response,
   requestParam,
   BaseHttpController,
+  queryParam,
 } from 'inversify-express-utils';
 import { inject } from 'inversify';
 import { IUserService } from '../../Domain/RemoteServices';
@@ -30,9 +31,11 @@ export class UserController extends BaseHttpController {
    */
   @httpGet('/employees')
   @authorize({ roles: [UserRoles.MANAGER] })
-  private async getEmployees(@response() res: express.Response): Promise<void> {
+  private async getEmployees(
+    @queryParam("filterNoCareerDay") filter: boolean,
+    @response() res: express.Response): Promise<void> {
     const user = this.httpContext.user as Principal;
-    res.json(await this._userService.getEmployees(user.details.id));
+    res.json(await this._userService.getEmployees(user.details.id, filter));
   }
 
   /**

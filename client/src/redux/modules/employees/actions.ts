@@ -14,7 +14,8 @@ import {
 import sendRequestHelper from '../../../components/helper/API/sendRequestHelper';
 import { action } from 'typesafe-actions';
 
-export const getEmployeesList = () => action(EMPLOYEES_ACTION_TYPES.GET_EMPLOYEES_LIST);
+export const getEmployeesList = (filterNoCareerDay?: boolean) =>
+  action(EMPLOYEES_ACTION_TYPES.GET_EMPLOYEES_LIST, filterNoCareerDay);
 
 export const getFreeEmployeesList = () => action(EMPLOYEES_ACTION_TYPES.GET_FREE_EMPLOYEES_LIST);
 

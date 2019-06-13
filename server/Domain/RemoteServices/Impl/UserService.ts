@@ -1,9 +1,6 @@
 import { injectable, inject } from 'inversify';
 import { IUserService, IUserEntityWithActiveCareerDay } from '../IUserService';
-import {
-  ICareerDayRepository,
-  IManagerEmployeesRepository,
-} from '../../../Data/Repositories';
+import { ICareerDayRepository, IManagerEmployeesRepository } from '../../../Data/Repositories';
 import { IUserEntity, IIdentityClientProvider } from '../../../API/providers';
 import ManagerEmployeesEntity from '../../../Data/Entities/ManagerEmployeesEntity';
 
@@ -16,10 +13,11 @@ export class UserServise implements IUserService {
     private readonly _identityClientProvider: IIdentityClientProvider,
     @inject('ManagerEmployeesRepository')
     private readonly _managerEmployeesRepository: IManagerEmployeesRepository,
-  ) { }
+  ) {}
 
   public async getEmployees(
     managerId: IUserEntity['id'],
+    filterNoCareerDay?: boolean,
   ): Promise<IUserEntityWithActiveCareerDay[]> {
     const managerEmployees = await this._managerEmployeesRepository.findAll({
       where: { UnitManagerId: managerId },
@@ -27,31 +25,35 @@ export class UserServise implements IUserService {
     const employeesIds = managerEmployees.map(employee => employee.EmployeeId);
 
     const users = await this._identityClientProvider.getAllUsers();
-    const employees = users.filter(
-      user => employeesIds.indexOf(user.id) !== -1,
-    );
+    const employees = users.filter(user => employeesIds.indexOf(user.id) !== -1);
 
     const employeesCareerDays = await this._careerDayRepository.findAll({
       where: { EmployeeId: { $in: employeesIds }, Archived: false },
     });
+    if (filterNoCareerDay) {
+      console.log(filterNoCareerDay)
+      return employees.map(employee => {
+        const activeCareerDay = employeesCareerDays.find(
+          careerDay => careerDay.EmployeeId === employee.id,
+        );
+        return { ...employee, ActiveCareerDay: activeCareerDay };
+      });
+    } else {
+      console.log(filterNoCareerDay)
     return employees.map(employee => {
       const activeCareerDay = employeesCareerDays.find(
         careerDay => careerDay.EmployeeId === employee.id,
       );
       return { ...employee, ActiveCareerDay: activeCareerDay };
-    });
+    })};
   }
 
-  public async selectedEmployee(
-    id: IUserEntity['id'],
-  ): Promise<IUserEntity | null> {
+  public async selectedEmployee(id: IUserEntity['id']): Promise<IUserEntity | null> {
     const users = await this._identityClientProvider.getAllUsers();
     return users.find(user => user.id === id) || null;
   }
 
-  public async getAllFreeUsers(
-    managerId: IUserEntity['id'],
-  ): Promise<IUserEntity[]> {
+  public async getAllFreeUsers(managerId: IUserEntity['id']): Promise<IUserEntity[]> {
     const users = await this._identityClientProvider.getAllUsers();
     const allUsers = users.filter(user => user.id !== managerId);
     const managerEmployees = await this._managerEmployeesRepository.findAll({
@@ -61,7 +63,8 @@ export class UserServise implements IUserService {
     const commonUsers = allUsers.filter(user => user.Role[0] !== 'manager');
     const freeUsers = commonUsers.map(user => ({
       ...user,
-      assigned: employeesIds.includes(user.id)}));
+      assigned: employeesIds.includes(user.id),
+    }));
     return freeUsers;
   }
 
@@ -73,9 +76,13 @@ export class UserServise implements IUserService {
       where: { UnitManagerId: managerId, EmployeeId: employeeId },
     });
     const managerEmployeesEntity = new ManagerEmployeesEntity({
-       UnitManagerId: managerId, EmployeeId: employeeId } as ManagerEmployeesEntity);
-    (managerEmployees === null)
+      UnitManagerId: managerId,
+      EmployeeId: employeeId,
+    } as ManagerEmployeesEntity);
+    managerEmployees === null
       ? this._managerEmployeesRepository.create(managerEmployeesEntity)
-      : this._managerEmployeesRepository.remove({ where: {UnitManagerId: managerId, EmployeeId: employeeId }});
+      : this._managerEmployeesRepository.remove({
+          where: { UnitManagerId: managerId, EmployeeId: employeeId },
+        });
   }
 }
