@@ -17,8 +17,6 @@ tests/cases/perf/*
 !tests/cases/webharness/compilerToString.js
 test-args.txt
 ~*.docx
-\#*\#
-.\#*
 tests/baselines/local/*
 tests/baselines/local.old/*
 tests/services/baselines/local/*
@@ -43,7 +41,6 @@ tests/webhost/*.d.ts
 tests/webhost/webtsc.js
 tests/cases//*.js
 tests/cases//*.js.map
-*.config
 scripts/debug.bat
 scripts/run.bat
 scripts/word2md.js
@@ -68,7 +65,6 @@ internal/
 .idea
 yarn-error.log
 .parallelperf.*
-tests/cases/user/*/package-lock.json
 tests/cases/user/*/node_modules/
 tests/cases/user/*//*.js
 tests/cases/user/*//*.js.map
@@ -77,11 +73,6 @@ tests/cases/user/*//*.d.ts
 !tests/cases/user/bignumber.js/
 !tests/cases/user/discord.js/
 tests/baselines/reference/dt
-server/**/*.js
-server/**/*.js.map
 !server/migrations/**/*.js
-server/API/config/default.json
-server/API/config/production.json
-server/migrations/config/config.json
-server/package-lock.json
 client/.env
+server/.env

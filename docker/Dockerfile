@@ -1,5 +1,5 @@
 # Use latest node image
-FROM node:latest
+FROM node:12.18.1
 
 # Get build enviroment (production or development). Default is `production`
 ARG NODE_ENV=production
@@ -10,6 +10,7 @@ WORKDIR /sunmait-career-day/client
 
 # Install client dependencies
 COPY client/package*.json ./
+RUN apt-get update || : && apt-get install python -y
 RUN npm install
 
 # Copy client files

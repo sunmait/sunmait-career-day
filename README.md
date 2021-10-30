@@ -15,9 +15,12 @@ The "Sunmait career day" project is needed to improve the skills of employees. Y
 - [Cypress]
 - [Cucumber]
 
-### Installation
+### Prerequisites
+1. Install Nodejs v12.18.1
+2. Install Python 2.7
+3. Install Docker and Docker Compose
 
-To run project locally you need to install nodejs >=v8.11.1
+### Installation
 
 After node installation clone project, you need to build client app. For that move to 'client' folder and run
 
