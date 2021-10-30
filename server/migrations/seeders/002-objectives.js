@@ -1,9 +1,12 @@
 'use strict';
 
+const TABLE_NAME = 'Objectives';
+const SCHEMA_NAME = process.env.DB_SCHEMA;
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'Objectives',
+      { tableName: TABLE_NAME, schema: SCHEMA_NAME },
       [
         {
           Title: 'test',
@@ -107,11 +110,15 @@ module.exports = {
           UpdatedAt: new Date('February 1, 2018 16:41:56'),
         },
       ],
-      {},
+      {}
     );
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('Objectives', null, {});
+    return queryInterface.bulkDelete(
+      { tableName: TABLE_NAME, schema: SCHEMA_NAME },
+      null,
+      {}
+    );
   },
 };

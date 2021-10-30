@@ -129,7 +129,7 @@ describe('employeesReducer', () => {
           selectedCareerDay: null,
           selectedEmployee: null,
         },
-        initAction,
+        initAction
       );
 
       expect(changedState).toEqual({
@@ -155,7 +155,7 @@ describe('employeesReducer', () => {
           selectedCareerDay: null,
           selectedEmployee: null,
         },
-        initAction,
+        initAction
       );
 
       expect(changedState).toEqual({
@@ -182,7 +182,7 @@ describe('employeesReducer', () => {
           selectedCareerDay: null,
           selectedEmployee: null,
         },
-        initAction,
+        initAction
       );
 
       expect(changedState).toEqual({
@@ -208,7 +208,7 @@ describe('employeesReducer', () => {
           selectedCareerDay: careerDayOfEmployee,
           selectedEmployee: null,
         },
-        initAction,
+        initAction
       );
 
       expect(changedState).toEqual({
@@ -234,7 +234,7 @@ describe('employeesReducer', () => {
           selectedCareerDay: careerDayOfEmployee,
           selectedEmployee: null,
         },
-        initAction,
+        initAction
       );
 
       expect(changedState).toEqual({
@@ -269,7 +269,7 @@ describe('employeesReducer', () => {
           selectedCareerDay: careerDayOfEmployee,
           selectedEmployee: null,
         },
-        initAction,
+        initAction
       );
 
       expect(changedState).toEqual({
@@ -295,7 +295,7 @@ describe('employeesReducer', () => {
           selectedCareerDay: careerDayOfEmployee,
           selectedEmployee: null,
         },
-        initAction,
+        initAction
       );
 
       expect(changedState).toEqual({

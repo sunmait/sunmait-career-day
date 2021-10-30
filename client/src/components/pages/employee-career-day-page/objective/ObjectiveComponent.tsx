@@ -25,11 +25,11 @@ interface IProps extends StylesProps {
   userRole: string;
   archived?: boolean;
   handleSaveObjective: (
-    objective: IUpdateObjectiveEmployee | IUpdateObjectiveManager,
+    objective: IUpdateObjectiveEmployee | IUpdateObjectiveManager
   ) => void;
   handleDeleteObjective?: (
     e: React.MouseEvent<HTMLElement>,
-    objectiveId: number,
+    objectiveId: number
   ) => void;
 }
 
@@ -57,7 +57,7 @@ class Objective extends React.Component<IProps, IState> {
     e.preventDefault();
 
     this.setState({ isEdited: !this.state.isEdited });
-  }
+  };
 
   private handleDeleteObjective = (e: React.MouseEvent<HTMLElement>) => {
     const { handleDeleteObjective } = this.props;
@@ -67,7 +67,7 @@ class Objective extends React.Component<IProps, IState> {
 
     e.stopPropagation();
     handleDeleteObjective(e, this.props.objective.id);
-  }
+  };
 
   private handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     const propName = e.target.name as stateKeys;
@@ -76,7 +76,7 @@ class Objective extends React.Component<IProps, IState> {
       stateKeys
     >;
     this.setState(newState);
-  }
+  };
 
   private saveObjectiveClick = () => {
     const { handleSaveObjective, userRole, objective } = this.props;
@@ -94,7 +94,7 @@ class Objective extends React.Component<IProps, IState> {
     }
 
     this.setState({ isEdited: false });
-  }
+  };
 
   private setNumberProgress = () => {
     const progress = this.state.Progress;
@@ -105,7 +105,7 @@ class Objective extends React.Component<IProps, IState> {
       }
     }
     return '';
-  }
+  };
 
   private formInputPanel = () => {
     return (
@@ -152,7 +152,7 @@ class Objective extends React.Component<IProps, IState> {
         </ExpansionPanelSummary>
       </ExpansionPanel>
     );
-  }
+  };
 
   private objectivePanelDetails = () => {
     const format = 'DD.MM.YYYY';
@@ -162,14 +162,14 @@ class Objective extends React.Component<IProps, IState> {
         <Grid item xs={6}>
           <Typography color="textSecondary">
             {`Created at: ${moment(this.props.objective.CreatedAt).format(
-              format,
+              format
             )}`}
           </Typography>
         </Grid>
         <Grid item xs={6}>
           <Typography color="textSecondary" align="right">
             {`Updated at: ${moment(this.props.objective.UpdatedAt).format(
-              format,
+              format
             )}`}
           </Typography>
         </Grid>
@@ -192,7 +192,7 @@ class Objective extends React.Component<IProps, IState> {
         </Grid>
       </Grid>
     );
-  }
+  };
 
   private renderObjectiveOptions = () => {
     return (
@@ -207,7 +207,7 @@ class Objective extends React.Component<IProps, IState> {
         ) : null}
       </React.Fragment>
     );
-  }
+  };
 
   private renderObjectivePanel = () => {
     return (
@@ -230,7 +230,7 @@ class Objective extends React.Component<IProps, IState> {
         </ExpansionPanelDetails>
       </ExpansionPanel>
     );
-  }
+  };
 
   public render() {
     return this.state.isEdited

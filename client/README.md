@@ -8,8 +8,6 @@ Installation dependencies:
 
 ```sh
 npm install
-# or
-yarn
 ```
 
 ### Configuration

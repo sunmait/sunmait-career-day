@@ -1,9 +1,12 @@
 'use strict';
 
+const TABLE_NAME = 'ManagerEmployees';
+const SCHEMA_NAME = process.env.DB_SCHEMA;
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'ManagerEmployees',
+      { tableName: TABLE_NAME, schema: SCHEMA_NAME },
       [
         {
           UnitManagerId: '05323518-63cb-4fcc-b5e2-aae56b89fec5',
@@ -14,11 +17,15 @@ module.exports = {
           EmployeeId: 'c64e0924-d531-421d-a415-f717ac91fbfa',
         },
       ],
-      {},
+      {}
     );
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('ManagerEmployees', null, {});
+    return queryInterface.bulkDelete(
+      { tableName: TABLE_NAME, schema: SCHEMA_NAME },
+      null,
+      {}
+    );
   },
 };

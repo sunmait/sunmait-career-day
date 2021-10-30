@@ -1,9 +1,12 @@
 'use strict';
 
+const TABLE_NAME = 'CareerDays';
+const SCHEMA_NAME = process.env.DB_SCHEMA;
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'CareerDays',
+      { tableName: TABLE_NAME, schema: SCHEMA_NAME },
       [
         {
           Archived: true,
@@ -38,11 +41,15 @@ module.exports = {
           UpdatedAt: new Date('February 21, 2018 11:41:33'),
         },
       ],
-      {},
+      {}
     );
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('CareerDays', null, {});
+    return queryInterface.bulkDelete(
+      { tableName: TABLE_NAME, schema: SCHEMA_NAME },
+      null,
+      {}
+    );
   },
 };

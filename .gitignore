@@ -85,3 +85,4 @@ server/API/config/production.json
 server/migrations/config/config.json
 server/package-lock.json
 client/.env
+server/.env

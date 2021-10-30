@@ -9,9 +9,7 @@ import {
 } from 'sequelize-typescript';
 
 @Table({ tableName: 'ManagerEmployees' })
-export default class ManagerEmployeesEntity extends Model<
-  ManagerEmployeesEntity
-> {
+export default class ManagerEmployeesEntity extends Model<ManagerEmployeesEntity> {
   @PrimaryKey
   @AllowNull(false)
   @Column(DataType.UUID)
