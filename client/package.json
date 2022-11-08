@@ -45,7 +45,7 @@
     "cypress-cucumber-preprocessor": "^1.11.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-cypress": "^2.2.0",
-    "react-scripts": "^2.1.5",
+    "react-scripts": "^5.0.1",
     "ts-jest": "^23.10.4",
     "tslint": "^5.11.0",
     "tslint-loader": "^3.5.4",
