@@ -15,7 +15,7 @@
     "express": "^4.14.0",
     "inversify": "^4.9.0",
     "inversify-express-utils": "^6.3.2",
-    "jsonwebtoken": "^8.2.0",
+    "jsonwebtoken": "^9.0.0",
     "openid-client": "^2.4.5",
     "reflect-metadata": "^0.1.12"
   },
